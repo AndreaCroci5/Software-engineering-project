@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am40;
+package it.polimi.ingsw.am40.FXexamples;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -6,4 +6,6 @@ module it.polimi.ingsw.am40 {
 
     opens it.polimi.ingsw.am40 to javafx.fxml;
     exports it.polimi.ingsw.am40;
+    exports it.polimi.ingsw.am40.FXexamples;
+    opens it.polimi.ingsw.am40.FXexamples to javafx.fxml;
 }
