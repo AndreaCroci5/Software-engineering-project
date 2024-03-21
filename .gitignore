@@ -1,5 +1,5 @@
 target/
-!.mvn/wrapper/maven-wrapper.jar
+!AM40/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -39,3 +39,6 @@ build/
 
 ### INGSW Project###
 .idea/
+mvnw.cmd
+mvnw
+.mvn/
