@@ -27,7 +27,7 @@ public class Player {
     private String nickname;
     /**Updated score totaled in time*/
     private int score;
-    /**Numberso of total aim done (private and public).
+    /**Number of total aim done (private and public).
      *Under draw condition, the player with the highest number of aims done wins.*/
     private int numOfAimDone;
 
@@ -46,7 +46,7 @@ public class Player {
     //CONSTRUCTOR METHOD
 
     /**
-     * Constructor for Player class, which create and initializes the attributes for a new player.
+     * Constructor for Player class, which creates and initializes the attributes for a new player.
      * The parameters which are not taken in input are set on default value
      * @param nickname Nickname of the player (usually received from controller)
      * @param game as reference of Game in which the player is playing
