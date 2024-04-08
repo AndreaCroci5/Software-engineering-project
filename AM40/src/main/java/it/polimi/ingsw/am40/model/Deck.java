@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am40.model;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 public class Deck<T> {
 
@@ -9,10 +8,7 @@ public class Deck<T> {
      */
     private Deque<T> cards;
 
-    // TO DO
-    public Deck(Deque<T> cards) {
-        this.cards = cards;
-    }
+    // Constructor TO DO
 
     // TO DO
     public void iniResourceDeck() {
@@ -57,7 +53,13 @@ public class Deck<T> {
         cards.addLast(cardToAppend);
     }
 
-    // TO DO
+    /**
+     * This method performs a shuffle on the deck
+     */
     public void shuffle() {
+        List<T> temp = new ArrayList<>(List.copyOf(cards));
+        Collections.shuffle(temp);
+        cards.clear();
+        cards.addAll(temp);
     }
 }
