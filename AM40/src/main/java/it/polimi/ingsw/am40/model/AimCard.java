@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.model;
 
+import java.util.List;
+
 /**
  * The AimCard class defines the aim cards, which indicate the private and public
  * aims for the players in the game.
@@ -21,22 +23,28 @@ public class AimCard extends Card{
      */
     private final AimChecker checker;
 
+    private List<CardElements> checkResources;
 
+    private final String rotation;
 
     //CONSTRUCTOR METHOD
 
     /**
      * Constructor for Aim Card, which create and initializes the attributes for a new aim card.
      *
-     * @param cardID  Identification number of the card
-     * @param points Number of points printed on the card
-     * @param checker as reference of the strategy pattern AimChecker (statically AimChecker,
-     *                dynamically of the specific class which implements Checker)
+     * @param cardID         Identification number of the card
+     * @param points         Number of points printed on the card
+     * @param checkResources
+     * @param checker        as reference of the strategy pattern AimChecker (statically AimChecker,
+     *                       dynamically of the specific class which implements Checker)
+     * @param rotation
      */
-    public AimCard(int cardID, int points, AimChecker checker) {
+    public AimCard(int cardID, int points, List<CardElements> checkResources, AimChecker checker, String rotation) {
         super(cardID);
         this.points = points;
         this.checker = checker;
+        this.checkResources.addAll(checkResources);
+        this.rotation = rotation;
     }
 
 
@@ -56,5 +64,13 @@ public class AimCard extends Card{
      */
     public AimChecker getChecker() {
         return this.checker;
+    }
+
+    public List<CardElements> getCheckResources() {
+        return this.checkResources;
+    }
+
+    public String getRotation(){
+        return this.rotation;
     }
 }

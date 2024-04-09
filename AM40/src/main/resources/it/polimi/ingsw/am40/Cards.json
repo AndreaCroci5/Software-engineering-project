@@ -1,0 +1,1513 @@
+[
+  {
+    "collection": "FUNGI_RESOURCE",
+    "cardID": 1,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "FUNGI",
+      "EMPTY",
+      "FUNGI",
+      "NONE"
+    ]
+  },
+  {
+    "collection": "FUNGI_RESOURCE",
+    "cardID": 2,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "FUNGI",
+      "FUNGI",
+      "NONE",
+      "EMPTY"
+    ]
+  },
+  {
+    "collection": "FUNGI_RESOURCE",
+    "cardID": 3,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "FUNGI",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "FUNGI_RESOURCE",
+    "cardID": 4,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "NONE",
+      "FUNGI",
+      "EMPTY",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "FUNGI_RESOURCE",
+    "cardID": 5,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "NONE",
+      "QUILL",
+      "PLANT",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "FUNGI_RESOURCE",
+    "cardID": 6,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "INKWELL",
+      "FUNGI",
+      "NONE",
+      "ANIMAL"
+    ]
+  },
+  {
+    "collection": "FUNGI_RESOURCE",
+    "cardID": 7,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "FUNGI",
+      "INSECT",
+      "MANUSCRIPT",
+      "EMPTY"
+    ]
+  },
+  {
+    "collection": "FUNGI_GOLD_1",
+    "cardID": 8,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "EMPTY",
+      "FUNGI",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "FUNGI_GOLD_1",
+    "cardID": 9,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "FUNGI",
+      "NONE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "FUNGI_GOLD_1",
+    "cardID": 10,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "FUNGI",
+      "EMPTY"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "PLANT_RESOURCE",
+    "cardID": 11,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "PLANT",
+      "EMPTY",
+      "PLANT",
+      "NONE"
+    ]
+  },
+  {
+    "collection": "PLANT_RESOURCE",
+    "cardID": 12,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "PLANT",
+      "PLANT",
+      "NONE",
+      "EMPTY"
+    ]
+  },
+  {
+    "collection": "PLANT_RESOURCE",
+    "cardID": 13,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "PLANT",
+      "PLANT"
+    ]
+  },
+  {
+    "collection": "PLANT_RESOURCE",
+    "cardID": 14,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "NONE",
+      "PLANT",
+      "EMPTY",
+      "PLANT"
+    ]
+  },
+  {
+    "collection": "PLANT_RESOURCE",
+    "cardID": 15,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "NONE",
+      "INSECT",
+      "QUILL",
+      "PLANT"
+    ]
+  },
+  {
+    "collection": "PLANT_RESOURCE",
+    "cardID": 16,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "FUNGI",
+      "PLANT",
+      "NONE",
+      "INKWELL"
+    ]
+  },
+  {
+    "collection": "PLANT_RESOURCE",
+    "cardID": 17,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "MANUSCRIPT",
+      "NONE",
+      "PLANT",
+      "ANIMAL"
+    ]
+  },
+  {
+    "collection": "PLANT_GOLD_1",
+    "cardID": 18,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "PLANT",
+      "NONE"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "PLANT_GOLD_1",
+    "cardID": 19,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "PLANT"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "PLANT_GOLD_1",
+    "cardID": 20,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "NONE",
+      "PLANT",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "ANIMAL_RESOURCE",
+    "cardID": 21,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "ANIMAL",
+      "ANIMAL",
+      "EMPTY",
+      "NONE"
+    ]
+  },
+  {
+    "collection": "ANIMAL_RESOURCE",
+    "cardID": 22,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "ANIMAL",
+      "ANIMAL"
+    ]
+  },
+  {
+    "collection": "ANIMAL_RESOURCE",
+    "cardID": 23,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "ANIMAL",
+      "NONE",
+      "ANIMAL",
+      "EMPTY"
+    ]
+  },
+  {
+    "collection": "ANIMAL_RESOURCE",
+    "cardID": 24,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "EMPTY",
+      "ANIMAL",
+      "NONE",
+      "ANIMAL"
+    ]
+  },
+  {
+    "collection": "ANIMAL_RESOURCE",
+    "cardID": 25,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "NONE",
+      "INSECT",
+      "INKWELL",
+      "ANIMAL"
+    ]
+  },
+  {
+    "collection": "ANIMAL_RESOURCE",
+    "cardID": 26,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "PLANT",
+      "ANIMAL",
+      "NONE",
+      "MANUSCRIPT"
+    ]
+  },
+  {
+    "collection": "ANIMAL_RESOURCE",
+    "cardID": 27,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "QUILL",
+      "NONE",
+      "ANIMAL",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "ANIMAL_GOLD_1",
+    "cardID": 28,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "ANIMAL",
+      "EMPTY"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "ANIMAL_GOLD_1",
+    "cardID": 29,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "EMPTY",
+      "ANIMAL"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "ANIMAL_GOLD_1",
+    "cardID": 30,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "EMPTY",
+      "ANIMAL",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "INSECT_RESOURCE",
+    "cardID": 31,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "INSECT",
+      "INSECT",
+      "EMPTY",
+      "NONE"
+    ]
+  },
+  {
+    "collection": "INSECT_RESOURCE",
+    "cardID": 32,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "INSECT",
+      "INSECT"
+    ]
+  },
+  {
+    "collection": "INSECT_RESOURCE",
+    "cardID": 33,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "INSECT",
+      "NONE",
+      "INSECT",
+      "EMPTY"
+    ]
+  },
+  {
+    "collection": "INSECT_RESOURCE",
+    "cardID": 34,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "INSECT",
+      "NONE",
+      "INSECT"
+    ]
+  },
+  {
+    "collection": "INSECT_RESOURCE",
+    "cardID": 35,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "NONE",
+      "QUILL",
+      "ANIMAL",
+      "INSECT"
+    ]
+  },
+  {
+    "collection": "INSECTL_RESOURCE",
+    "cardID": 36,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "MANUSCRIPT",
+      "INSECT",
+      "NONE",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "INSECT_RESOURCE",
+    "cardID": 37,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "INSECT",
+      "PLANT",
+      "INKWELL",
+      "NONE"
+    ]
+  },
+  {
+    "collection": "INSECT_GOLD_1",
+    "cardID": 38,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "INSECT",
+      "NONE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "INSECT_GOLD_1",
+    "cardID": 39,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "INSECT"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "INSECT_GOLD_1",
+    "cardID": 40,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "NONE",
+      "INSECT",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 1
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 41,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "EMPTY",
+      "QUILL"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "ANIMAL"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "QUILL"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 42,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "NONE",
+      "INKWELL",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "PLANT"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "INKWELL"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 43,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "MANUSCRIPT",
+      "EMPTY",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "INSECT"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "MANUSCRIPT"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 44,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "ANIMAL"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 45,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "PLANT"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 46,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "INSECT"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 47,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "INKWELL",
+      "NONE"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 48,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "QUILL",
+      "EMPTY",
+      "NONE",
+      "NONE"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 49,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "NONE",
+      "MANUSCRIPT",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "FUNGI_GOLD_2",
+    "cardID": 50,
+    "cardElement": "FUNGI",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 5,
+    "requires": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "FUNGI",
+      "FUNGI"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 51,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "QUILL",
+      "EMPTY",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "INSECT"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "QUILL"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 52,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "MANUSCIPT",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "FUNGI"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "MANUSCRIPT"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 53,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "INKWELL",
+      "EMPTY"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "ANIMAL"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "INKWELL"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 54,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "PLANT",
+      "INSECT"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 55,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "PLANT",
+      "ANIMAL"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 56,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "PLANT",
+      "FUNGI"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 57,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "QUILL",
+      "NONE"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "PLANT"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 58,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "MANUSCRIPT",
+      "EMPTY",
+      "NONE",
+      "NONE"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "PLANT"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 59,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "NONE",
+      "INKWELL",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "PLANT"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "PLANT_GOLD_2",
+    "cardID": 60,
+    "cardElement": "PLANT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "NONE"
+    ],
+    "scorePoints": 5,
+    "requires": [
+      "PLANT",
+      "PLANT",
+      "PLANT",
+      "PLANT",
+      "PLANT"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 61,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "INKWELL",
+      "EMPTY",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "INSECT"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "INKWELL"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 62,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "EMPTY",
+      "MANUSCRIPT"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "PLANT"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "MANUSCRIPT"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 63,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "QUILL",
+      "EMPTY"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "FUNGI"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "QUILL"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 64,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL",
+      "INSECT"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 65,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL",
+      "FUNGI"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 66,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL",
+      "PLANT"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 67,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "MANUSCRIPT",
+      "NONE"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 68,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "EMPTY",
+      "INKWELL",
+      "NONE",
+      "NONE"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 69,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "NONE",
+      "QUILL"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "ANIMAL_GOLD_2",
+    "cardID": 70,
+    "cardElement": "ANIMAL",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 5,
+    "requires": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 71,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "NONE",
+      "QUILL",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "PLANT"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "QUILL"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 72,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "MANUSCRIPT",
+      "EMPTY"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "ANIMAL"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "MANUSCRIPT"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 73,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "NONE",
+      "EMPTY",
+      "EMPTY",
+      "INKWELL"
+    ],
+    "scorePoints": 1,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "FUNGI"
+    ],
+    "scoreType": "ObjectScoreType",
+    "objectScoreType": "INKWELL"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 74,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "INSECT",
+      "ANIMAL"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 75,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "INSECT",
+      "PLANT"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 76,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "NONE",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "scorePoints": 2,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "INSECT",
+      "FUNGI"
+    ],
+    "scoreType": "CoverageScoreType"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 77,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "INKWELL",
+      "NONE",
+      "EMPTY",
+      "NONE"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "INSECT"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 78,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "MANUSCRIPT",
+      "NONE",
+      "NONE"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "INSECT"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 79,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "NONE",
+      "NONE",
+      "QUILL",
+      "EMPTY"
+    ],
+    "scorePoints": 3,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "INSECT"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "INSECT_GOLD_2",
+    "cardID": 80,
+    "cardElement": "INSECT",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "NONE"
+    ],
+    "scorePoints": 5,
+    "requires": [
+      "INSECT",
+      "INSECT",
+      "INSECT",
+      "INSECT",
+      "INSECT"
+    ],
+    "scoreType": "NormalScoreType"
+  },
+  {
+    "collection": "STARTING",
+    "cardID": 81,
+    "cardElement": "NONE",
+    "frontEdgeResources": [
+      "EMPTY",
+      "PLANT",
+      "INSECT",
+      "EMPTY"
+    ],
+    "backEdgeResources": [
+      "FUNGI",
+      "PLANT",
+      "INSECT",
+      "ANIMAL"
+    ],
+    "startingResource": [
+      "INSECT"
+    ]
+  },
+  {
+    "collection": "STARTING",
+    "cardID": 82,
+    "cardElement": "NONE",
+    "frontEdgeResources": [
+      "ANIMAL",
+      "EMPTY",
+      "EMPTY",
+      "FUNGI"
+    ],
+    "backEdgeResources": [
+      "PLANT",
+      "ANIMAL",
+      "FUNGI",
+      "INSECT"
+    ],
+    "startingResource": [
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "STARTING",
+    "cardID": 83,
+    "cardElement": "NONE",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backEdgeResources": [
+      "INSECT",
+      "ANIMAL",
+      "FUNGI",
+      "PLANT"
+    ],
+    "startingResource": [
+      "PLANT",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "STARTING",
+    "cardID": 84,
+    "cardElement": "NONE",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    "backEdgeResources": [
+      "PLANT",
+      "INSECT",
+      "ANIMAL",
+      "FUNGI"
+    ],
+    "startingResource": [
+      "ANIMAL",
+      "INSECT"
+    ]
+  },
+  {
+    "collection": "STARTING",
+    "cardID": 85,
+    "cardElement": "NONE",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "NONE"
+    ],
+    "backEdgeResources": [
+      "INSECT",
+      "FUNGI",
+      "PLANT",
+      "ANIMAL"
+    ],
+    "startingResource": [
+      "ANIMAL",
+      "INSECT",
+      "PLANT"
+    ]
+  },
+  {
+    "collection": "STARTING",
+    "cardID": 86,
+    "cardElement": "NONE",
+    "frontEdgeResources": [
+      "EMPTY",
+      "EMPTY",
+      "NONE",
+      "NONE"
+    ],
+    "backEdgeResources": [
+      "FUNGI",
+      "ANIMAL",
+      "PLANT",
+      "INSECT"
+    ],
+    "startingResource": [
+      "PLANT",
+      "ANIMAL",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 87,
+    "points": 2,
+    "checker": "AimCheckerDiagonalPattern",
+    "rotation": "y",
+    "checkResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 88,
+    "points": 2,
+    "checker": "AimCheckerDiagonalPattern",
+    "rotation": "x",
+    "checkResources": [
+      "PLANT",
+      "PLANT",
+      "PLANT"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 89,
+    "points": 2,
+    "checker": "AimCheckerDiagonalPattern",
+    "rotation": "y",
+    "checkResources": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 90,
+    "points": 2,
+    "checker": "AimCheckerDiagonalPattern",
+    "rotation": "x",
+    "checkResources": [
+      "INSECT",
+      "INSECT",
+      "INSECT"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 91,
+    "points": 3,
+    "checker": "AimCheckerLPattern",
+    "rotation": "-x",
+    "checkResources": [
+      "PLANT",
+      "FUNGI",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 92,
+    "points": 3,
+    "checker": "AimCheckerLPattern",
+    "rotation": "y",
+    "checkResources": [
+      "INSECT",
+      "PLANT",
+      "PLANT"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 93,
+    "points": 3,
+    "checker": "AimCheckerLPattern",
+    "rotation": "-y",
+    "checkResources": [
+      "FUNGI",
+      "ANIMAL",
+      "ANIMAL"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 94,
+    "points": 3,
+    "checker": "AimCheckerLPattern",
+    "rotation": "x",
+    "checkResources": [
+      "ANIMAL",
+      "INSECT",
+      "INSECT"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 95,
+    "points": 2,
+    "checker": "AimCheckerResource",
+    "checkResources": [
+      "FUNGI",
+      "FUNGI",
+      "FUNGI"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 96,
+    "points": 2,
+    "checker": "AimCheckerResource",
+    "checkResources": [
+      "PLANT",
+      "PLANT",
+      "PLANT"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 97,
+    "points": 2,
+    "checker": "AimCheckerResource",
+    "checkResources": [
+      "ANIMAL",
+      "ANIMAL",
+      "ANIMAL"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 98,
+    "points": 2,
+    "checker": "AimCheckerResource",
+    "checkResources": [
+      "INSECT",
+      "INSECT",
+      "INSECT"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 99,
+    "points": 3,
+    "checker": "AimCheckerResource",
+    "checkResources": [
+      "QUILL",
+      "INKWELL",
+      "MANUSCRIPT"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 100,
+    "points": 2,
+    "checker": "AimCheckerResource",
+    "checkResources": [
+      "MANUSCRIPT",
+      "MANUSCRIPT"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 101,
+    "points": 2,
+    "checker": "AimCheckerResource",
+    "checkResources": [
+      "INKWELL",
+      "INKWELL"
+    ]
+  },
+  {
+    "collection": "AIM",
+    "cardID": 102,
+    "points": 2,
+    "checker": "AimCheckerResource",
+    "checkResources": [
+      "QUILL",
+      "QUILL"
+    ]
+  }
+]

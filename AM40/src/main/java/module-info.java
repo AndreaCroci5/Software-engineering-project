@@ -3,6 +3,7 @@ module it.polimi.ingsw.am40 {
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
+    requires json.simple;
 
     opens it.polimi.ingsw.am40 to javafx.fxml;
     exports it.polimi.ingsw.am40;
