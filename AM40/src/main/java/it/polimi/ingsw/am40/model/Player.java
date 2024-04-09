@@ -31,13 +31,17 @@ public class Player {
      *Under draw condition, the player with the highest number of aims done wins.*/
     private int numOfAimDone;
 
-
     //FLAG ATTRIBUTES
 
     /**Flag which indicates if the player is online, available in the game*/
     private boolean isOnline;
     /**Flag which indicates if the player was the first to play, basing on the order*/
     private boolean startingPlayer;
+
+    /**
+     * Flag which indicates if the player is currently playing the round
+     */
+    private boolean isCurrentlyPlaying;
 
 
 
@@ -62,6 +66,7 @@ public class Player {
         this.privateBoard = new PrivateBoard();
         this.token = new Token();
         this.privateAim = privateAim;
+        this.isCurrentlyPlaying = false;
     }
 
 
@@ -131,6 +136,13 @@ public class Player {
         return startingPlayer;
     }
 
+    /**
+     * Getter for isCurrentlyPlaying
+     * @return true if the player is the one that is playing the round, false otherwise
+     */
+    public boolean isCurrentlyPlaying() {
+        return isCurrentlyPlaying;
+    }
 
     //SETTER METHODS
 
@@ -196,6 +208,13 @@ public class Player {
         this.numOfAimDone++;
     }
 
+    /**
+     * Setter for isCurrently Playing
+     * @param currentlyPlaying is the player we want to set as current so the one that has to play this turn
+     */
+    public void setCurrentlyPlaying(boolean currentlyPlaying) {
+        isCurrentlyPlaying = currentlyPlaying;
+    }
 
     //PRIVATE METHODS
 

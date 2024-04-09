@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //Author of the notes: Andrea
 //TODO Add the getPlayersColors() method
@@ -68,8 +69,59 @@ public class Game {
         this.remainingRounds = remainingRounds;
     }
 
-
     //PUBLIC METHODS
 
+    /**
+     * This method checks if one of the player reached 20 points or if the decks are empty
+     * in order to start the end game
+     * @return true if the decks are empty or a player has more than 20 points, false otherwise
+     */
+    public boolean checkEndGame() {
+        // checks if someone have 20 or more points
+        for (Player player : players) {
+            if (player.getScore() >= 20) {
+                return true;
+            }
+        }
 
+        // checks if the decks are empty return true if they are, false otherwise
+        return commonBoard.deckEmptinessCheck();
+    }
+
+    /**
+     * This method select the player that has more points than the others
+     * In case of draw select all the players that have more points than the others
+     * @return a list of player that could have from one to four players
+     */
+    public List<Player> selectWinner() {
+        List<Player> temp = new ArrayList<>();
+        for (Player player : players) {
+            if (temp.isEmpty()) {
+                temp.add(player);
+            } else if (player.getScore() > temp.getFirst().getScore()) {
+                temp.clear();
+                temp.add(player);
+            } else if (player.getScore() == temp.getFirst().getScore()) {
+                temp.add(player);
+            }
+        }
+        return temp;
+    }
+
+    /**
+     * This method calculates how many rounds are left after we start the end game procedure
+     */
+    public void calculateRemainingRounds() {
+        int res;
+        int index = 0; // the index of the current player that is playing the round
+        for (Player player : players) {
+            if (player.isCurrentlyPlaying()) {
+                index = players.indexOf(player);
+            }
+        }
+        res = 4 + (3 - index); // 4 for the last rounds, (3-index) for finishing the current round
+        // 3-index means the distance between the current player and the one that started
+
+        setRemainingRounds(res);
+    }
 }

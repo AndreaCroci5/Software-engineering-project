@@ -42,6 +42,9 @@ public class CommonBoard {
 
     // Constructor TO DO
 
+
+    // Getter methods
+
     /**
      * Getter method for the AimCard deck
      * @return a reference to AimCardDeck
@@ -97,6 +100,9 @@ public class CommonBoard {
     public ArrayList<AimCard> getPlateAimCard() {
         return plateAimCard;
     }
+
+
+    // Public methods
 
     /**
      * Initialization of the CommonBoard by loading the decks, shuffle them and adding the cards on the plates
