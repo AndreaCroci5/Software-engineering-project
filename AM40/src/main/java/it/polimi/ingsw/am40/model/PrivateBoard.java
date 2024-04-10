@@ -120,7 +120,28 @@ public class PrivateBoard {
         }
     }
 
+    /**
+     * This method simulates the placing action performed by a player by adding the card chosen from the handDeck to
+     * cardGrid and setting the cardFace to the right orientation and the Coordinates position
+     * @param card is the card chosen by a player to be placed
+     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * @param cardFace is the orientation of the card chosen by a player
+     */
+    public void placing(ResourceCard card, Coordinates coordinates, CardFace cardFace) {
+        card.setFace(cardFace);
+        card.setCoordinates(coordinates);
+        this.cardGrid.add(card);
+    }
 
+    /**
+     * This method serves as a mean to inform the Player on how many points he gained by placing a Card on the cardGrid
+     * @return the amount of points that the last Card gives after being placed
+     * Note: if a ResourceCard is placed and has no scorePoints shown, the increase of the score will be 0
+     */
+    public int refreshPoints() {
+        ResourceCard lastCardAdded = this.cardGrid.get(this.cardGrid.size()-1);
+        return lastCardAdded.calculateScore();
+    }
     //PRIVATE METHODS
 
     //      checkPlacing related methods
