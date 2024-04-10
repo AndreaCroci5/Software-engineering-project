@@ -140,7 +140,7 @@ public class PrivateBoard {
      */
     public int refreshPoints() {
         ResourceCard lastCardAdded = this.cardGrid.get(this.cardGrid.size()-1);
-        return lastCardAdded.calculateScore();
+        return lastCardAdded.calculateScore(this.elementsCounter);
     }
     //PRIVATE METHODS
 

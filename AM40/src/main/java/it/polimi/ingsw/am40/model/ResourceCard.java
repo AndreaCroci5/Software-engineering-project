@@ -333,6 +333,15 @@ public class ResourceCard extends Card{
     }
 
     /**
+     * This method serves as a mean to increase Player's score after a Card is placed
+     * @param elementsCounter is the Map of every element on a Player's PrivateBoard's cardGrid
+     * @return the amount of points given by a card to increase the score
+     */
+    public int calculateScore(Map<CardElements, Integer> elementsCounter){
+        return this.scoreType.calculate((ArrayList<EdgeState>) this.edgeCoverage, elementsCounter, this.scorePoints, this.objectScoreTypeElement);
+    }
+
+    /**
      * This method checks if a card can be placed
      * @param elementsCounter Map of the actual elements of the player
      * @return true because a ResourceCard can always be placed
