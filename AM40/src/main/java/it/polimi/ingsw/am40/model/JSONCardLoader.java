@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am40.model;
 
+import it.polimi.ingsw.am40.model.scoreStrategy.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

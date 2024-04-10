@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.model;
 
+import it.polimi.ingsw.am40.model.scoreStrategy.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
