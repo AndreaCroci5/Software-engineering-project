@@ -341,13 +341,5 @@ public class ResourceCard extends Card{
         return true;
     }
 
-    /**
-     * This method checks if a card can be placed
-     * @param elementsCounter Map of the actual elements of the player
-     * @return true because a ResourceCard can always be placed
-     */
-    public boolean isPlaceableAccordingRequests(Map<CardElements, Integer> elementsCounter){
-        return true;
-    }
 }
 
