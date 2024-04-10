@@ -142,6 +142,46 @@ public class PrivateBoard {
         ResourceCard lastCardAdded = this.cardGrid.get(this.cardGrid.size()-1);
         return lastCardAdded.calculateScore(this.elementsCounter);
     }
+
+    /**
+     * This method refresh the elementsCounter attribute by removing the elements covered by the last card positioned and
+     * adding the elements present on the last card edges if CardFace is FRONT, otherwise the resource on the centre if
+     * the CardFace is BACK
+     */
+    public void refreshElementsCounter(){
+        //Pivot Card
+        ResourceCard tmp = this.cardGrid.get(this.cardGrid.size()-1);
+        //Creation of a Map withAdjacent Coordinates
+        Map<Integer, Coordinates> adjacentCoordinates = findAdjacentCoordinatesForRefreshing(tmp);
+        //Removal of covered elements
+        for (int i=0; i<4; i++) {
+            if (tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN) {
+                for (ResourceCard c : this.cardGrid){
+                    if (adjacentCoordinates.get(i).equals(c.getCoordinates())) {
+                        if(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i) != CardElements.EMPTY){
+                            int lastElementAmount = this.elementsCounter.get(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i));
+                            this.elementsCounter.replace(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i), --lastElementAmount);
+                        }
+                    }
+                }
+            }
+        }
+        //Adding the elements of the new Card
+        if (tmp.getCardFace() == CardFace.FRONT) {
+            for (int i=0; i<4; i++) {
+                if(tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN) {
+                    if(tmp.getFrontEdgeResources().get(i) != CardElements.EMPTY){
+                        int lastElementAmount = this.elementsCounter.get(tmp.getFrontEdgeResources().get(i));
+                        this.elementsCounter.replace(tmp.getFrontEdgeResources().get(i), ++lastElementAmount);
+                    }
+                }
+            }
+        } else {
+            int lastElementAmount = this.elementsCounter.get(tmp.getCardElement());
+            this.elementsCounter.replace(tmp.getCardElement(), ++lastElementAmount);
+        }
+    }
+
     //PRIVATE METHODS
 
     //      checkPlacing related methods
@@ -260,5 +300,25 @@ public class PrivateBoard {
             }
         }
         return adjacentCards;
+    }
+
+    // refreshElementsCounter related methods
+
+    /**
+     * This method creates a Map of adjacentCoordinates of a card placed.
+     * The Key represents through the Coordinates value the position of the nearby Cards:
+     * (0)Top-Left (1)Top-Right (2)Bottom-Left (3)Bottom-Right
+     * @param card is the Card used as pivot
+     * @return a Map of adjacentCoordinates
+     */
+    private Map<Integer, Coordinates> findAdjacentCoordinatesForRefreshing(ResourceCard card){
+        int pivotX = card.getCoordinates().getX();
+        int pivotY = card.getCoordinates().getY();
+        Map<Integer, Coordinates> adjacentCoordinates = new HashMap<>();
+        adjacentCoordinates.put(0, new Coordinates(pivotX-1, pivotY));
+        adjacentCoordinates.put(1, new Coordinates(pivotX,pivotY+1));
+        adjacentCoordinates.put(2, new Coordinates(pivotX,pivotY-1));
+        adjacentCoordinates.put(3, new Coordinates(pivotX+1, pivotY));
+        return adjacentCoordinates;
     }
 }
