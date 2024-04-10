@@ -182,6 +182,35 @@ public class PrivateBoard {
         }
     }
 
+    /**
+     * This method refreshes the placingCoordinates Arraylist after a Card is placed.
+     * There are two phases: the first where the Coordinates of the last added Card to the cardGrid are removed,
+     * the second phase consists in adding the new Coordinates available only if the Edges State of the last added Card are FREE
+     */
+    public void refreshPlacingCoordinates(){
+        //Remove the coordinates from placingCoordinates of the last Card placed
+        ResourceCard pivot = this.cardGrid.get(this.cardGrid.size()-1);
+        for (Coordinates c: this.placingCoordinates) {
+            if(c.equals(pivot.getCoordinates()))
+                this.placingCoordinates.remove(c);
+        }
+        //Refresh by adding the new Coordinates
+        //Creates the adjacentCoordinates
+        Map<Integer, Coordinates> adjacentCoordinates = findAdjacentCoordinatesForRefreshing(pivot);
+        //Check if the new coordinates are already present in placingCoordinates
+        for(Coordinates c : this.placingCoordinates) {
+            for (int i=0; i<4; i++) {
+                if(adjacentCoordinates.get(i).equals(c))
+                    adjacentCoordinates.remove(i);
+            }
+        }
+        //Add the new coordinates only if the EdgesState are Free
+        for(int i=0; i<4; i++){
+            if (pivot.getEdgeCoverage().get(i) == EdgeState.FREE)
+                this.placingCoordinates.add(adjacentCoordinates.get(i));
+        }
+    }
+
     //PRIVATE METHODS
 
     //      checkPlacing related methods
