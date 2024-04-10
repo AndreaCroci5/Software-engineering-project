@@ -103,4 +103,141 @@ public class PrivateBoard {
         }
     }
 
+    /**
+     * This method checks if a card can be placed on a player's cardGrid in his PrivateBoard after a Player choose: a card,
+     * the coordinates of the placement and the CardFace orientation.
+     * If a Card is a GoldResourceCard type and CardFace is set to front, it checks the requirements
+     * @param card is the card chosen by a player to be placed
+     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * @param cardFace is the orientation of the card chosen by a player
+     * @return true if a card can be placed, false otherwise
+     */
+    public boolean checkPlacing(ResourceCard card, Coordinates coordinates, CardFace cardFace) {
+        if (checkCoordinates(coordinates) && checkGoldResourceCardRequirements(card, cardFace)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    //PRIVATE METHODS
+
+    //      checkPlacing related methods
+
+    /**
+     * This method checks if a GoldCard is being placed with CardFace == FRONT, in that case it checks if the requirements
+     * on a GoldResourceCard are satisfied. On the other hand, if the orientation is BACK the check is skipped by returning true
+     * @param card is the card chosen by a player to be placed
+     * @param cardFace is the orientation of the card chosen by a player
+     * @return true if the card satisfy the condition or his CardFace is BACK, false if the requirements are not satisfied
+     */
+    private boolean checkGoldResourceCardRequirements(ResourceCard card, CardFace cardFace){
+        if(cardFace == CardFace.FRONT){
+            return card.isPlaceableAccordingRequests(this.elementsCounter);
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * This method checks if a card can be placed by looking for a correspondence of its coordinates with a coordinate in
+     * placingCoordinates ArrayList and if this Card covers multiple edges belonging to Cards already placed
+     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * @return true if the placing position satisfy all the conditions illustrated, false otherwise
+     */
+    private boolean checkCoordinates(Coordinates coordinates){
+        if (checkCoordinatesAvailability(coordinates) && checkMultiplePlacing(coordinates)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //      checkCoordinates related methods
+
+    /**
+     * This method checks if the given coordinates are present in placingCoordinates ArrayList
+     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * @return true if there is a coordinate with the same x and y in the placingCoordinates ArrayList
+     */
+    private boolean checkCoordinatesAvailability(Coordinates coordinates){
+        for (Coordinates current: this.placingCoordinates) {
+            if (current.equals(coordinates)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method checks if a Card that's being placed in a certain position given by the coordinats could potentially
+     * cover multiple edges belonging to adjacent cards.
+     * Starting with the adjacent coordinates, it gets the corresponding cards already placed (if they exist),
+     * then proceeds to check the edges
+     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * @return true if a card covers multiple edges of adjacent cards in a legal way, false otherwise
+     */
+    private boolean checkMultiplePlacing(Coordinates coordinates){
+        ArrayList<Coordinates> adjacentCoordinates = createAdjacentCoordinatesForPlacing(coordinates);
+        Map<ResourceCard, Integer> adjacentCards = fromAdjacentCoordinatesToCardsForPlacing(adjacentCoordinates);
+        return checkAdjacentEdges(adjacentCards);
+    }
+
+    //      checkMultiplePlacing related methods
+    //Checker
+
+    /**
+     * This method checks on every potential adjacentCard of a Card that's chosen to be placed.
+     * For every adjacent Card it checks if the edge that could be potentially covered is FREE.
+     * The index of the potentially covered edges are Symmetrical to the Map Value of the adjacentCards:
+     * for example a Top-Left AdjacentCard needs a check on his Bottom-Right EdgeState,
+     * a Top-Right AdjacentCard needs a check on his Bottom-Left EdgeState,
+     * @param adjacentCards is the Map of the adjacentCards
+     * @return true if a card covers only FREE EdgeStates, false otherwise
+     */
+    private boolean checkAdjacentEdges(Map<ResourceCard, Integer> adjacentCards) {
+        EdgeState tmp;
+        for (Map.Entry<ResourceCard, Integer> entry : adjacentCards.entrySet()) {
+            tmp = entry.getKey().getEdgeCoverage().get(entry.getValue());
+            if(tmp == EdgeState.HIDDEN || tmp == EdgeState.TAKEN)
+                return false;
+        }
+        return true;
+    }
+
+    //Factory: From Coordinates to Cards
+
+    /**
+     * This method creates an ArrayList of adjacentCoordinates by using, as a pivot, the coordinates chosen
+     * during the placing phase by a Player.
+     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * @return the four adjacent coordinate in this order: (0)Bottom-Right (1)Bottom-Left (2)Top-Right (3)Top-Left
+     */
+    private ArrayList<Coordinates> createAdjacentCoordinatesForPlacing(Coordinates coordinates){
+        ArrayList<Coordinates> adjacentCoordinates = new ArrayList<>();
+        int x = coordinates.getX();
+        int y = coordinates.getY();
+        adjacentCoordinates.add(new Coordinates(x+1, y));
+        adjacentCoordinates.add(new Coordinates(x, y-1));
+        adjacentCoordinates.add(new Coordinates(x, y+1));
+        adjacentCoordinates.add(new Coordinates(x-1, y));
+        return adjacentCoordinates;
+    }
+
+    /**
+     * This method search in a Player's PrivateBoard's CardGrid if there is a Card placed in each of the adjacentCoordinates
+     * and then returns a Map of the cards found with their Map Value corresponding to the index of the adjacentCoordinate
+     * @param adjacentCoordinates is the ArrayList of the four adjacentCoordinates of the Card that's chosen to be placed
+     * @return a Map of adjacentCards found in the cardGrid as Map Key , with their Map Value corresponding to the index of the adjacentCoordinate
+     */
+    private Map<ResourceCard, Integer> fromAdjacentCoordinatesToCardsForPlacing(ArrayList<Coordinates> adjacentCoordinates){
+        Map<ResourceCard, Integer> adjacentCards = new HashMap<>();
+        for (int i=0; i<4; i++){
+            for (ResourceCard card : this.cardGrid) {
+                if (adjacentCoordinates.get(i).equals(card.getCoordinates())) {
+                    adjacentCards.put(card, i);
+                }
+            }
+        }
+        return adjacentCards;
+    }
 }
