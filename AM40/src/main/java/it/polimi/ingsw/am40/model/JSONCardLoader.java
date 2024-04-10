@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
 
+import static it.polimi.ingsw.am40.model.CardElements.NONE;
+
 
 /**
  * The JSONCardLoader class import the decks from the JSON file "Cards"
@@ -194,12 +196,14 @@ public class JSONCardLoader {
         }
 
         ScoreType scoreType;
+        CardElements objectScoreTypeElement = NONE;
         switch ((String) cardObj.get("scoreType")){
             case "NormalScoreType":
                 scoreType = new NormalScoreType();
                 break;
             case "ObjectScoreType":
                 scoreType = new ObjectScoreType();
+                objectScoreTypeElement = (CardElements) cardObj.get("ObjectScoreType");
                 break;
             case "CoverageScoreType":
                 scoreType = new CoverageScoreType();
@@ -208,7 +212,7 @@ public class JSONCardLoader {
             default:
                 throw new IllegalStateException("Unexpected value: " + (String) cardObj.get("scoreType"));
         }
-        return new GoldResourceCard(cardID, cardElement, frontEdgeResources, scorePoints, requires, scoreType);
+        return new GoldResourceCard(cardID, cardElement, frontEdgeResources, scorePoints, requires, scoreType, objectScoreTypeElement);
 
     }
 

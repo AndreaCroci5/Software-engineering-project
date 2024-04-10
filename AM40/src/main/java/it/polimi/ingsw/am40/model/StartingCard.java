@@ -124,6 +124,8 @@ public class StartingCard extends ResourceCard{
                         tmp = elementsMap.get(MANUSCRIPT);
                         elementsMap.replace(MANUSCRIPT, tmp, ++tmp);
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -157,6 +159,8 @@ public class StartingCard extends ResourceCard{
                     case MANUSCRIPT:
                         tmp = elementsMap.get(MANUSCRIPT);
                         elementsMap.replace(MANUSCRIPT, tmp, ++tmp);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -192,6 +196,8 @@ public class StartingCard extends ResourceCard{
                     case MANUSCRIPT:
                         tmp = elementsMap.get(MANUSCRIPT);
                         elementsMap.replace(MANUSCRIPT, tmp, ++tmp);
+                        break;
+                    default:
                         break;
                 }
             }

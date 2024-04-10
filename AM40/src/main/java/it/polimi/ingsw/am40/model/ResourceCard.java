@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.model;
 
+import it.polimi.ingsw.am40.model.scoreStrategy.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +57,11 @@ public class ResourceCard extends Card{
      */
     private ScoreType scoreType;
 
+    /**
+     * Type of element needed to verify object type score
+     */
+    private CardElements objectScoreTypeElement;
+
 
     //EDGE ATTRIBUTES
 
@@ -86,6 +93,8 @@ public class ResourceCard extends Card{
         super(cardID);
 
         this.cardElement = cardElement;
+
+        this.objectScoreTypeElement = NONE;
 
         this.frontEdgeResources = new ArrayList<>();
         this.frontEdgeResources.addAll(frontEdgeResources);
@@ -123,6 +132,8 @@ public class ResourceCard extends Card{
         super(cardID);
 
         this.cardElement = cardElement;
+
+        this.objectScoreTypeElement = NONE;
 
         this.frontEdgeResources = new ArrayList<>();
         this.frontEdgeResources.addAll(frontEdgeResources);
@@ -198,6 +209,15 @@ public class ResourceCard extends Card{
         return this.scoreType;
     }
 
+    /**
+     * Getter for object score type element
+     * @return the type of element for object score type
+     */
+    public CardElements getObjectScoreTypeElement() {
+        return objectScoreTypeElement;
+    }
+
+
     //SETTER METHODS
 
     /**
@@ -240,6 +260,13 @@ public class ResourceCard extends Card{
      */
     public void setScoreType(ScoreType scoreType) {
         this.scoreType = scoreType;
+    }
+
+    /**
+     * Setter for score type object element
+     */
+    public void setObjectScoreTypeElement(CardElements objectScoreTypeElement) {
+        this.objectScoreTypeElement = objectScoreTypeElement;
     }
 
 
@@ -297,10 +324,19 @@ public class ResourceCard extends Card{
                     tmp = elementsMap.get(MANUSCRIPT);
                     elementsMap.replace(MANUSCRIPT, tmp , ++tmp);
                     break;
+                default:
+                    break;
             }
         }
 
         return elementsMap;
+    }
+
+
+    //TO MODIFY
+
+    public int calculateScore(){
+        return this.scoreType.calculate((ArrayList<EdgeState>) this.edgeCoverage, this.countCardElements(), this.scorePoints, this.objectScoreTypeElement);
     }
 
 }

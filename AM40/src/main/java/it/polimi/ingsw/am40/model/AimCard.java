@@ -23,8 +23,20 @@ public class AimCard extends Card{
      */
     private final AimChecker checker;
 
+    /**
+     * List of resource order for the pattern check.
+     * For L pattern, the first element of the list is always the one of the "short" side of the L
+     */
     private List<CardElements> checkResources;
 
+    /**
+     * Rotation is a String which indicates where the pattern are oriented.
+     * "x": in the x axes direction (about -45 degrees in polar coordinates)
+     * "-x": in the x axes direction (negative verse) (about -135 degrees in polar coordinates)
+     * "y": in the y axes direction (about 45 degrees in polar coordinates)
+     * "-y": in the y axes direction (negative verse) (about 135 degrees in polar coordinates)
+     * null: if not used
+     */
     private final String rotation;
 
     //CONSTRUCTOR METHOD
@@ -37,7 +49,7 @@ public class AimCard extends Card{
      * @param checkResources
      * @param checker        as reference of the strategy pattern AimChecker (statically AimChecker,
      *                       dynamically of the specific class which implements Checker)
-     * @param rotation
+     * @param rotation       string which indicate the rotation of the pattern
      */
     public AimCard(int cardID, int points, List<CardElements> checkResources, AimChecker checker, String rotation) {
         super(cardID);

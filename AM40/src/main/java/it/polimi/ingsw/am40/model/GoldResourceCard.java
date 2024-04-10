@@ -33,18 +33,21 @@ public class GoldResourceCard extends ResourceCard{
      * This constructor takes also the score points attribute.
      * This constructor is usually used by the card loader from JSON file
      *
-     * @param cardID             Identification number of the card
-     * @param cardElement        Element of the card
-     * @param frontEdgeResources List of the front edges element ((1) top-left, (2) top-right, (3) bottom-left, (4) bottom-right)
-     * @param scorePoints        Points of the card
-     * @param requires           List of elements required for card placing
-     * @param scoreType     as reference of the strategy pattern ScoreType (statically ScoreType,
-     *                      dynamically of the specific class which implements calculate)
+     * @param cardID                 Identification number of the card
+     * @param cardElement            Element of the card
+     * @param frontEdgeResources     List of the front edges element ((1) top-left, (2) top-right, (3) bottom-left, (4) bottom-right)
+     * @param scorePoints            Points of the card
+     * @param requires               List of elements required for card placing
+     * @param scoreType              as reference of the strategy pattern ScoreType (statically ScoreType,
+     *                               dynamically of the specific class which implements calculate)
+     * @param objectScoreTypeElement If score type is "object", then for some cards you need
      */
-    public GoldResourceCard(int cardID, CardElements cardElement, List<CardElements> frontEdgeResources, int scorePoints, List<CardElements> requires, ScoreType scoreType) {
+    public GoldResourceCard(int cardID, CardElements cardElement, List<CardElements> frontEdgeResources, int scorePoints, List<CardElements> requires, ScoreType scoreType, CardElements objectScoreTypeElement) {
         super(cardID, cardElement, frontEdgeResources, scorePoints);
 
         this.setScoreType(scoreType);
+
+        this.setObjectScoreTypeElement(objectScoreTypeElement);
 
         this.requires = new ArrayList<>();
             this.requires.addAll(requires);
@@ -120,6 +123,9 @@ public class GoldResourceCard extends ResourceCard{
                     tmpMapCopy.replace(MANUSCRIPT, --tmp);
                     if(tmpMapCopy.get(MANUSCRIPT) < 0)
                         return false;
+                    break;
+
+                case EMPTY, NONE:
                     break;
             }
         }
