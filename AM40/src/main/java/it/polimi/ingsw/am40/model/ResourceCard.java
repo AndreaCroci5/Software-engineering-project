@@ -332,11 +332,13 @@ public class ResourceCard extends Card{
         return elementsMap;
     }
 
-
-    //TO MODIFY
-
-    public int calculateScore(){
-        return this.scoreType.calculate((ArrayList<EdgeState>) this.edgeCoverage, this.countCardElements(), this.scorePoints, this.objectScoreTypeElement);
+    /**
+     * This method checks if a card can be placed
+     * @param elementsCounter Map of the actual elements of the player
+     * @return true because a ResourceCard can always be placed
+     */
+    public boolean isPlaceableAccordingRequests(Map<CardElements, Integer> elementsCounter){
+        return true;
     }
 
 }

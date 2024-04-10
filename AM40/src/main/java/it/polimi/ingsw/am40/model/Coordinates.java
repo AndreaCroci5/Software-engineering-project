@@ -42,4 +42,29 @@ public class Coordinates {
     public void setY(int y){
         this.y = y;
     }
+
+    //EQUALS AND HASHCODE OVERRIDE
+
+    /**
+     * Override of equals method in order to ease Card place checking operations
+     * @param o is the object to compare with the one who calls this method
+     * @return true if two coordinates has the same value of x and y, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coordinates otherCoordinates = (Coordinates) o;
+
+        return x == otherCoordinates.x && y == otherCoordinates.y;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        return result;
+    }
 }

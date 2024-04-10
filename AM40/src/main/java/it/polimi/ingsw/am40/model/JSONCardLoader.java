@@ -213,7 +213,7 @@ public class JSONCardLoader {
             default:
                 throw new IllegalStateException("Unexpected value: " + (String) cardObj.get("scoreType"));
         }
-        return new GoldResourceCard(cardID, cardElement, frontEdgeResources, scorePoints, requires, scoreType, objectScoreTypeElement);
+        return new GoldResourceCard(cardID, cardElement, frontEdgeResources, scorePoints, requires, scoreType);
 
     }
 

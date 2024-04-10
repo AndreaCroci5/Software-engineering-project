@@ -46,7 +46,7 @@ public class AimCard extends Card{
      *
      * @param cardID         Identification number of the card
      * @param points         Number of points printed on the card
-     * @param checkResources
+     * @param checkResources List of elements of the cards for pattern checking
      * @param checker        as reference of the strategy pattern AimChecker (statically AimChecker,
      *                       dynamically of the specific class which implements Checker)
      * @param rotation       string which indicate the rotation of the pattern
@@ -55,7 +55,7 @@ public class AimCard extends Card{
         super(cardID);
         this.points = points;
         this.checker = checker;
-        this.checkResources.addAll(checkResources);
+        this.checkResources = checkResources;
         this.rotation = rotation;
     }
 
