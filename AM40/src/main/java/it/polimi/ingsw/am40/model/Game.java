@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 //Author of the notes: Andrea
@@ -12,7 +13,7 @@ import java.util.List;
 
 /**
  * The Game class is the entry point from the controller and manages the correct flow of the game.
- * His first role is to initialize and set up everything in order to plau.
+ * His first role is to initialize and set up everything in order to play.
  * Then the Game class works as a bridge from all the Players to the CommonBoard,
  * in order to ease the cards passing through the boards during a Player turn.
  * Lastly once the end game phase is triggered, it calculates the number of the remaining rounds
@@ -123,5 +124,67 @@ public class Game {
         // 3-index means the distance between the current player and the one that started
 
         setRemainingRounds(res);
+    }
+
+    /**
+     * This method execute the starting game flow of the game.
+     * 1st) It loads the cards from JSON
+     * 2nd) It creates a new common board and initialises it
+     * 3rd) It creates the players with their own private board
+     * 4th) It decides the player order and the first player (starting player)
+     * 5th) It calls the methods for the first run
+     * @param nicknames List of player nicknames from controller
+     */
+    public void startGame(List<String> nicknames){
+
+        //1st) It loads the cards from JSON
+        //2nd) It creates a new common board and initialises it
+        JSONCardLoader cardLoader = new JSONCardLoader();
+        this.commonBoard = new CommonBoard(cardLoader.loadCards());
+        this.commonBoard.iniCommonBoard();
+
+        //3rd) It creates the players with their own private board
+        for (String n : nicknames) {
+            this.players.add(new Player(n, this));
+        }
+
+        //4th) It decides the player order and the first player (starting player)
+        this.decidePlayerOrder();
+        //5th) It calls the methods for the first run
+        this.playFirstRound();
+    }
+
+    //TO CHECK (MESSAGES)
+    /**
+     * This method calls other sub-methods to play the first round of the game
+     */
+    private void playFirstRound() {
+        for (Player p : this.players) {
+            /*
+            p.chooseInitialColor()
+            p.choosePrivateAim()
+            p.chooseInitialCardFacing()
+            */
+            for (int i = 0; i < 2; i++) {
+                p.getPrivateBoard()
+                        .getHandDeck()
+                        .add(this.commonBoard.getResourceDeck().
+                                pickFromTop());
+            }
+
+            p.getPrivateBoard()
+                    .getHandDeck()
+                    .add(this.commonBoard.getGoldenResourceDeck()
+                            .pickFromTop());
+
+        }
+    }
+
+    /**
+     * This method decides the player order and sets the first player as starting player
+     */
+    private void decidePlayerOrder() {
+        Collections.shuffle(this.players);
+        this.players.getFirst().setStartingPlayerTrue();
     }
 }

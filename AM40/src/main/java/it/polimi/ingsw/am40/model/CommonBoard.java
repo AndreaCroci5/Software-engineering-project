@@ -3,6 +3,7 @@ package it.polimi.ingsw.am40.model;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 public class CommonBoard {
     /**
@@ -40,7 +41,58 @@ public class CommonBoard {
      */
     private ArrayList<AimCard> plateAimCard;
 
-    // Constructor TO DO
+
+    // Constructor
+
+    /**
+     * First constructor for common board.
+     * It gets nothing in input, and it creates new empty decks and empty plates
+     */
+    public CommonBoard(){
+        this.resourceDeck = new Deck<>();
+        this.goldenResourceDeck = new Deck<>();
+        this.startingDeck = new Deck<>();
+        this.aimDeck = new Deck<>();
+
+        this.plateResourceCard = new ArrayList<>();
+        this.plateGoldenResourceCard = new ArrayList<>();
+        this.plateAimCard = new ArrayList<>();
+    }
+
+    /**
+     * Second constructor for common board.
+     * It gets a list of four decks ((1st) resource, (2nd) gold, (3rd) starting, (4th) aim) and creates empty plates
+     * @param decks
+     */
+    public CommonBoard(List<Deck<? extends Card>> decks){
+        this.resourceDeck = (Deck<ResourceCard>) decks.get(0);
+        this.goldenResourceDeck = (Deck<GoldResourceCard>) decks.get(1);
+        this.startingDeck = (Deck<StartingCard>) decks.get(2);
+        this.aimDeck = (Deck<AimCard>) decks.get(3);
+
+        this.plateResourceCard = new ArrayList<>();
+        this.plateGoldenResourceCard = new ArrayList<>();
+        this.plateAimCard = new ArrayList<>();
+    }
+
+    /**
+     * Third constructor for common board.
+     * It gets the four decks in input and creates empty decks
+     * @param resDeck Deck of resource cards
+     * @param goldResDeck Deck of golden resource cards
+     * @param startDeck Deck of starting cards
+     * @param aimDeck Deck of aim cards
+     */
+    public CommonBoard(Deck<ResourceCard> resDeck, Deck<GoldResourceCard> goldResDeck, Deck<StartingCard> startDeck, Deck<AimCard> aimDeck){
+        this.resourceDeck = resDeck;
+        this.goldenResourceDeck = goldResDeck;
+        this.startingDeck = startDeck;
+        this.aimDeck = aimDeck;
+
+        this.plateResourceCard = new ArrayList<>();
+        this.plateGoldenResourceCard = new ArrayList<>();
+        this.plateAimCard = new ArrayList<>();
+    }
 
 
     // Getter methods
@@ -108,20 +160,10 @@ public class CommonBoard {
      * Initialization of the CommonBoard by loading the decks, shuffle them and adding the cards on the plates
      */
     public void iniCommonBoard() {
-        // Resource deck
-        resourceDeck.iniResourceDeck();
+
         resourceDeck.shuffle();
-
-        // Aim deck
-        aimDeck.iniAimDeck();
-        aimDeck.shuffle();
-
-        // Gold deck
-        goldenResourceDeck.iniGoldenResourceDeck();
         goldenResourceDeck.shuffle();
-
-        // Starting deck
-        startingDeck.iniStartingDeck();
+        aimDeck.shuffle();
         startingDeck.shuffle();
 
         // Adding the two cards on the plates
@@ -184,4 +226,5 @@ public class CommonBoard {
         }
         plateGoldenResourceCard.set(selection, goldenResourceDeck.pickFromTop());
     }
+
 }

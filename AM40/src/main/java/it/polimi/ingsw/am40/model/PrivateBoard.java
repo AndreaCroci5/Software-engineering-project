@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static it.polimi.ingsw.am40.model.CardElements.*;
+
 //Author of the notes: Andrea
 //TODO Add the constructor once the JSON is ready
 //FIXME Once the Cards are pushed on the Repo fix references and Card Classes
@@ -31,6 +33,29 @@ public class PrivateBoard {
     private ArrayList<Coordinates> placingCoordinates;
     /**Reference to a Dictionary where the amount of every CardElement that a Player possess is counted*/
     private Map<CardElements, Integer> elementsCounter;
+
+
+
+    //CONSTRUCTOR METHOD
+
+    /**
+     * Constructor for private board.
+     *
+     */
+    public PrivateBoard(){
+        this.cardGrid = new ArrayList<>();
+        this.handDeck = new ArrayList<>();
+        this.placingCoordinates = new ArrayList<>();
+        this.elementsCounter = new HashMap<>();
+
+        this.elementsCounter.put(FUNGI, 0);
+        this.elementsCounter.put(PLANT, 0);
+        this.elementsCounter.put(ANIMAL, 0);
+        this.elementsCounter.put(INSECT, 0);
+        this.elementsCounter.put(INKWELL, 0);
+        this.elementsCounter.put(QUILL, 0);
+        this.elementsCounter.put(MANUSCRIPT, 0);
+    }
 
 
     //GETTER METHODS
@@ -350,4 +375,6 @@ public class PrivateBoard {
         adjacentCoordinates.put(3, new Coordinates(pivotX+1, pivotY));
         return adjacentCoordinates;
     }
+
+
 }

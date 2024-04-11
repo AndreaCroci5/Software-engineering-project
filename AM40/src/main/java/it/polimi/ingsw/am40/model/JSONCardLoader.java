@@ -59,51 +59,48 @@ public class JSONCardLoader {
 
 
                     //Resource Cards loading
-                if ((Objects.equals(cardCollection, "FUNGI_RESOURCE")) ||
-                        (Objects.equals(cardCollection, "PLANT_RESOURCE")) ||
-                        (Objects.equals(cardCollection, "ANIMAL_RESOURCE")) ||
-                        (Objects.equals(cardCollection, "INSECT_RESOURCE"))) {
+                switch (cardCollection) {
+                    case "FUNGI_RESOURCE", "PLANT_RESOURCE", "ANIMAL_RESOURCE", "INSECT_RESOURCE" -> {
 
-                    ResourceCard c = loadResourceCard(cardObj, cardID, 0);
-                    resourceCardDeck.appendToBottom(c);
+                        ResourceCard c = loadResourceCard(cardObj, cardID, 0);
+                        resourceCardDeck.appendToBottom(c);
 
 
-                    //Resource Cards loading with score points
-                } else if ((Objects.equals(cardCollection, "FUNGI_GOLD_1")) ||
-                        (Objects.equals(cardCollection, "PLANT_GOLD_1")) ||
-                        (Objects.equals(cardCollection, "ANIMAL_GOLD_1")) ||
-                        (Objects.equals(cardCollection, "INSECT_GOLD_1"))) {
+                        //Resource Cards loading with score points
+                    }
+                    case "FUNGI_GOLD_1", "PLANT_GOLD_1", "ANIMAL_GOLD_1", "INSECT_GOLD_1" -> {
 
-                    ResourceCard c = loadResourceCard(cardObj, cardID, (Integer) cardObj.get("scorePoints"));
-                    resourceCardDeck.appendToBottom(c);
+                        ResourceCard c = loadResourceCard(cardObj, cardID, (Integer) cardObj.get("scorePoints"));
+                        resourceCardDeck.appendToBottom(c);
 
 
-                    //Gold Resource Cards loading
-                } else if ((Objects.equals(cardCollection, "FUNGI_GOLD_2")) ||
-                        (Objects.equals(cardCollection, "PLANT_GOLD_2")) ||
-                        (Objects.equals(cardCollection, "ANIMAL_GOLD_2")) ||
-                        (Objects.equals(cardCollection, "INSECT_GOLD_2"))){
+                        //Gold Resource Cards loading
+                    }
+                    case "FUNGI_GOLD_2", "PLANT_GOLD_2", "ANIMAL_GOLD_2", "INSECT_GOLD_2" -> {
 
-                    GoldResourceCard c = loadGoldResourceCard(cardObj, cardID);
-                    goldenResourceCardDeck.appendToBottom(c);
+                        GoldResourceCard c = loadGoldResourceCard(cardObj, cardID);
+                        goldenResourceCardDeck.appendToBottom(c);
 
 
-                    //Starting Cards loading
-                } else if (Objects.equals(cardCollection, "STARTING")){
+                        //Starting Cards loading
+                    }
+                    case "STARTING" -> {
 
-                    StartingCard c = loadStartingCard(cardObj, cardID);
-                    startingCardDeck.appendToBottom(c);
-
-
-                    //Aim Cards loading
-                } else if (Objects.equals(cardCollection, "AIM")){
-
-                    AimCard c = loadAimCard(cardObj, cardID);
-                    aimCardDeck.appendToBottom(c);
+                        StartingCard c = loadStartingCard(cardObj, cardID);
+                        startingCardDeck.appendToBottom(c);
 
 
-                }else{
-                    throw new IllegalStateException("Unexpected value: " + cardCollection + ", cardID: " + cardID);
+                        //Aim Cards loading
+                    }
+                    case "AIM" -> {
+
+                        AimCard c = loadAimCard(cardObj, cardID);
+                        aimCardDeck.appendToBottom(c);
+
+
+                    }
+                    case null, default ->
+                            throw new IllegalStateException("Unexpected value: " + cardCollection + ", cardID: " + cardID);
                 }
             }
 
@@ -118,11 +115,7 @@ public class JSONCardLoader {
 
             return decks;
 
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        } catch (ParseException ex) {
+        } catch (IOException | ParseException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -211,7 +204,7 @@ public class JSONCardLoader {
                 break;
 
             default:
-                throw new IllegalStateException("Unexpected value: " + (String) cardObj.get("scoreType"));
+                throw new IllegalStateException("Unexpected value: " + cardObj.get("scoreType"));
         }
         return new GoldResourceCard(cardID, cardElement, frontEdgeResources, scorePoints, requires, scoreType);
 

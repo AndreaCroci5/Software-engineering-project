@@ -61,11 +61,29 @@ public class Player {
         this.score = 0;
         this.numOfAimDone = 0;
         this.isOnline = true;
-        this.startingPlayer = startingPlayer;
+        this.startingPlayer = false;
         this.game = game;
         this.privateBoard = new PrivateBoard();
         this.token = new Token();
         this.privateAim = privateAim;
+        this.isCurrentlyPlaying = false;
+    }
+
+    /**
+     * Constructor for Player class, which creates and initializes the attributes for a new player.
+     * The parameters which are not taken in input are set on default value
+     * @param nickname Nickname of the player (usually received from controller)
+     * @param game as reference of Game in which the player is playing
+     */
+    public Player(String nickname, Game game) {
+        this.nickname = nickname;
+        this.score = 0;
+        this.numOfAimDone = 0;
+        this.isOnline = true;
+        this.startingPlayer = false;
+        this.game = game;
+        this.privateBoard = new PrivateBoard();
+        this.token = new Token();
         this.isCurrentlyPlaying = false;
     }
 
@@ -121,6 +139,14 @@ public class Player {
     }
 
     /**
+     * Getter for private aim
+     * @return the private aim card as reference
+     */
+    public AimCard getPrivateAim() {
+        return privateAim;
+    }
+
+    /**
      * Getter for isOnline
      * @return true if the player is online in the game (as boolean)
      */
@@ -132,7 +158,7 @@ public class Player {
      * Getter for startingPlayer
      * @return true if the player is the starting player of the game (as boolean)
      */
-    public boolean startingPlayer() {
+    public boolean isStartingPlayer() {
         return startingPlayer;
     }
 
@@ -216,6 +242,47 @@ public class Player {
         isCurrentlyPlaying = currentlyPlaying;
     }
 
+    /**
+     * Setter for isOnline.
+     * It sets this attribute to true
+     */
+    public void setOnline() {
+        isOnline = true;
+    }
+
+    /**
+     * Setter for isOnline.
+     * It sets this attribute to false
+     */
+    public void setOffline() {
+        isOnline = false;
+    }
+
+    /**
+     * Setter for isOnline
+     * @param online to set isOnline to true or false
+     */
+    public void setIsOnline(boolean online) {
+        isOnline = online;
+    }
+
+    /**
+     * Setter for starting player
+     * @param startingPlayer True for starting player, false (default) if not
+     */
+    public void setStartingPlayer(boolean startingPlayer) {
+        this.startingPlayer = startingPlayer;
+    }
+
+    /**
+     * Setter for starting player.
+     * It sets the attribute to true
+     */
+    public void setStartingPlayerTrue(){
+        this.startingPlayer = true;
+    }
+
+
     //PRIVATE METHODS
 
     /*
@@ -239,4 +306,5 @@ public class Player {
     public void refreshPlayerScore(int points){
 
     }
+
 }

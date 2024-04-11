@@ -78,10 +78,18 @@ public class AimCard extends Card{
         return this.checker;
     }
 
+    /**
+     * Getter for check resources
+     * @return the list of resources of the cards to check for the pattern
+     */
     public List<CardElements> getCheckResources() {
         return this.checkResources;
     }
 
+    /**
+     * Getter for rotation
+     * @return the rotation as a String
+     */
     public String getRotation(){
         return this.rotation;
     }

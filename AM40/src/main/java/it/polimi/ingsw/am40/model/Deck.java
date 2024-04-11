@@ -8,22 +8,24 @@ public class Deck<T> {
      */
     private Deque<T> cards;
 
-    // Constructor TO DO
 
-    // TO DO
-    public void iniResourceDeck() {
+    // CONSTRUCTOR METHOD
+
+    /**
+     * Constructor method for Deck class
+     * (There is also a constructor overloading)
+     */
+    public Deck(){
+        this.cards = new ArrayDeque<>();
     }
 
-    // TO DO
-    public void iniGoldenResourceDeck() {
-    }
-
-    // TO DO
-    public void iniAimDeck() {
-    }
-
-    // TO DO
-    public void iniStartingDeck() {
+    /**
+     * Constructor method for Deck class
+     * @param cardList List of cards of the type of the Deck to initialize a deck
+     */
+    public Deck(List<T> cardList){
+        this.cards = new ArrayDeque<>();
+        this.cards.addAll(cardList);
     }
 
     /**

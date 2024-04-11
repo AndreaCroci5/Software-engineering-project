@@ -9,7 +9,7 @@ public abstract class Card {
     /**
      * Univoke identification number of a card
      */
-    private int cardID;
+    private final int cardID;
 
 
     /**
