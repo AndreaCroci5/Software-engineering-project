@@ -7,10 +7,6 @@ import java.util.Map;
 
 import static it.polimi.ingsw.am40.model.CardElements.*;
 
-//Author of the notes: Andrea
-//TODO Add the constructor once the JSON is ready
-//FIXME Once the Cards are pushed on the Repo fix references and Card Classes
-
 
 /**
  * The PrivateBoard class represents the place where a Player keeps all the cards and

@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//Author of the notes: Andrea
-//TODO Add the getPlayersColors() method
-//TODO Add the constructor, (Note: remainingRounds will be set to a default value till the endgame state)
-//FIXME Once the Commonboard is pushed on the Repo fix references and errors if present
-//FIXME Row 14 and 18 of the code, Javadoc the initialization and the winner selection
-//TODO Add the public methods once everything is pushed
+//Author of the following note : Andrea
+//TODO Add the Game constructor for the controller's use, (Note: remainingRounds should be set to a default value
+// till the call of calculateRemainingRounds() method)
 
 /**
  * The Game class is the entry point from the controller and manages the correct flow of the game.
- * His first role is to initialize and set up everything in order to play.
+ * Its first role is to initialize and set up everything in order to play.
  * Then the Game class works as a bridge from all the Players to the CommonBoard,
  * in order to ease the cards passing through the boards during a Player turn.
  * Lastly once the end game phase is triggered, it calculates the number of the remaining rounds
@@ -71,6 +68,19 @@ public class Game {
     }
 
     //PUBLIC METHODS
+
+    /**
+     * This method returns an ArrayList of each Players' Token color
+     * with the index corresponding to the order of players of this class
+     * @return all the Token colors chosen by the players during the starting phase of the Game
+     */
+    public ArrayList<Color> getPlayersTokenColor() {
+        ArrayList<Color> playersTokenColor = new ArrayList<>();
+        for (Player p: players) {
+            playersTokenColor.add(p.getToken().getColor());
+        }
+        return playersTokenColor;
+    }
 
     /**
      * This method checks if one of the player reached 20 points or if the decks are empty
