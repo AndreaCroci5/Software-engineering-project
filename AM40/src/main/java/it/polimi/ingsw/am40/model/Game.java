@@ -275,4 +275,40 @@ public class Game {
             player.setScore(finalScore);
         }
     }
+
+    /**
+     * This method is the simulation of the card placing phase.
+     * It checks if the Card, the card orientation and the position chosen by a Player are legal in order to proceed
+     * with the placing.
+     * In case that the choice leads to an illegal move according to the rules, this method doesn't do anything.
+     * So, it's the controller responsibility to manage the correct procedure
+     * @param choice is the card chosen by a player to be placed
+     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * @param cardFace is the orientation of the card chosen by a player
+     */
+    public void placeCard(int choice, Coordinates coordinates, CardFace cardFace) {
+        int index = getIndexOfPlayingPlayer();
+        PrivateBoard currentPlayerPrivateBoard = this.players.get(index).getPrivateBoard();
+        //Check if the choice, the coordinates and the CardFace are legal.
+        if (currentPlayerPrivateBoard.checkPlacing(currentPlayerPrivateBoard.getHandDeck().get(choice), coordinates, cardFace)) {
+            currentPlayerPrivateBoard.placing(currentPlayerPrivateBoard.takeCardFromHand(choice), coordinates, cardFace);
+            currentPlayerPrivateBoard.refreshElementsCounter();
+            currentPlayerPrivateBoard.refreshPlacingCoordinates();
+            this.players.get(index).increaseScore(currentPlayerPrivateBoard.refreshPoints());
+        }
+    }
+
+    /**
+     * This method checks the player that is playing and it returns the index
+     * @return the index of the playing Player as int
+     */
+    private int getIndexOfPlayingPlayer(){
+        for (Player player : players) {
+            if (player.isCurrentlyPlaying()) {
+                return players.indexOf(player);
+            }
+        }
+        return 0;
+    }
+
 }
