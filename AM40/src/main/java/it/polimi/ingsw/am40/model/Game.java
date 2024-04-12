@@ -261,11 +261,21 @@ public class Game {
     public void calculateFinalScore() {
         for (Player player : players) {
             int finalScore = player.getScore(); // take the score
+            int singleNumOfAim = 0; // num of aim done on each card
+            int totalNumOfAim = 0; // total num of aim done by a player
 
             // increments by adding personal aim points, and common aim points
-            finalScore += player.getPrivateAim().calculatePoints(player.getPrivateBoard());
-            finalScore += commonBoard.getPlateAimCard().getFirst().calculatePoints(player.getPrivateBoard());
-            finalScore += commonBoard.getPlateAimCard().getLast().calculatePoints(player.getPrivateBoard());
+            singleNumOfAim = player.getPrivateAim().calculateNumOfPatternVerified(player.getPrivateBoard());
+            finalScore += singleNumOfAim * player.getPrivateAim().getPoints();
+            totalNumOfAim += singleNumOfAim;
+
+            singleNumOfAim = commonBoard.getPlateAimCard().getFirst().calculateNumOfPatternVerified(player.getPrivateBoard());
+            finalScore += singleNumOfAim * commonBoard.getPlateAimCard().getFirst().getPoints();
+            totalNumOfAim += singleNumOfAim;
+
+            singleNumOfAim = commonBoard.getPlateAimCard().getLast().calculateNumOfPatternVerified(player.getPrivateBoard());
+            finalScore += singleNumOfAim * commonBoard.getPlateAimCard().getLast().getPoints();
+            totalNumOfAim += singleNumOfAim;
 
             // maximum points for each player are 29
             if (finalScore > 29) {
@@ -273,6 +283,7 @@ public class Game {
             }
 
             player.setScore(finalScore);
+            player.setNumOfAimDone(totalNumOfAim);
         }
     }
 

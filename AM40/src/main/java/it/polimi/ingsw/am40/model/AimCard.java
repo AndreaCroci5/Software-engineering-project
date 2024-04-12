@@ -96,11 +96,11 @@ public class AimCard extends Card{
     }
 
     /**
-     * This method calculates how many points the player get from the aimCard
+     * This method calculates how many times the player got the pattern on the aim card
      * @param privateBoard is the personal board of the player that contains all the cards he played
-     * @return number of points given by the aim card
+     * @return number of times the player got that pattern
      */
-    public int calculatePoints(PrivateBoard privateBoard) {
-        return points * checker.check(privateBoard, checkResources, rotation);
+    public int calculateNumOfPatternVerified(PrivateBoard privateBoard) {
+        return checker.check(privateBoard, checkResources, rotation);
     }
 }
