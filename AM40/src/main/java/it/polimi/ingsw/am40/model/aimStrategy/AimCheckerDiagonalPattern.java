@@ -1,0 +1,97 @@
+package it.polimi.ingsw.am40.model.aimStrategy;
+
+import it.polimi.ingsw.am40.model.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class that implements the method for calculating how many times the diagonal pattern occurs in a player grid
+ */
+
+public class AimCheckerDiagonalPattern implements AimChecker{
+
+    /**
+     * TO FIX
+     * @param privateBoard is the board of the player with grid of cards and map of resources that the player has
+     * @param checkResources is a list of the resources that the aimCard require
+     * @param rotation is a string that indicate how the path is oriented
+     * @return the number of times that the pattern is verified
+     */
+    public int check(PrivateBoard privateBoard, List<CardElements> checkResources, String rotation) {
+        // copying the grid of the player
+        ArrayList<ResourceCard> tempGrid = new ArrayList<>(privateBoard.getCardGrid());
+        ArrayList<ResourceCard> elemMatching = new ArrayList<>();
+        int multiplier = 0; // return value
+
+        // array list that contains all possible starting card for diagonal pattern
+        for (ResourceCard card : tempGrid) {
+            if(card.getCardElement() == checkResources.getFirst()) {
+                elemMatching.add(card);
+            }
+        }
+
+        for (ResourceCard toCheck : elemMatching) {
+            ArrayList<Coordinates> nextCord = new ArrayList<>(neighborsCord(toCheck, rotation));
+            ArrayList<ResourceCard> neighbors = new ArrayList<>(findNeighbors(tempGrid, nextCord, checkResources));
+            if (neighbors.size() == 2) { // we found the two cards the aim wants
+                ++multiplier;
+                tempGrid.remove(toCheck);
+                tempGrid.removeAll(neighbors); // remove all the card used
+            }
+        }
+        return multiplier;
+    }
+
+    /**
+     * This method calculates which coordinates I have to check in order to find the pattern
+     * @param toCheck is the card that we're checking
+     * @param rotation is the orientation of the pattern
+     * @return the coordinates we have to check in order to find the pattern
+     */
+    private ArrayList<Coordinates> neighborsCord(ResourceCard toCheck, String rotation) {
+        ArrayList<Coordinates> temp = new ArrayList<>();
+        Coordinates cord = new Coordinates(0,0);
+        switch (rotation) {
+            case "x" ->
+            {
+                cord.setX(toCheck.getCoordinates().getX() - 1);
+                cord.setY(toCheck.getCoordinates().getY() - 1);
+                temp.add(cord);
+                cord.setX(cord.getX() - 1);
+                cord.setY(cord.getY() - 1);
+                temp.add(cord);
+            }
+            case "y" ->
+            {
+                cord.setX(toCheck.getCoordinates().getX() + 1);
+                cord.setY(toCheck.getCoordinates().getY() + 1);
+                temp.add(cord);
+                cord.setX(cord.getX() + 1);
+                cord.setY(cord.getY() + 1);
+                temp.add(cord);
+            }
+        }
+        return temp;
+    }
+
+    /**
+     * This method check if the card at the coordinates we calculate before respect the requirements that
+     * the aim card asks for
+     * @param tempGrid is a copy of the player private board
+     * @param nextCord are coordinate where we have to check
+     * @param checkResources are the resources required by the aim card
+     * @return an array list that contains cards with all the requirements the aim card asks for
+     */
+    private ArrayList<ResourceCard> findNeighbors(ArrayList<ResourceCard> tempGrid, ArrayList<Coordinates> nextCord, List<CardElements> checkResources) {
+        ArrayList<ResourceCard> temp = new ArrayList<>();
+        for(ResourceCard next : tempGrid) {
+            if( (next.getCoordinates().equals(nextCord.getFirst()) && next.getCardElement() == checkResources.get(1))
+                    || (next.getCoordinates().equals(nextCord.getLast()) && next.getCardElement() == checkResources.get(2) )) {
+                temp.add(next);
+            }
+        }
+        return temp;
+    }
+}
+
+

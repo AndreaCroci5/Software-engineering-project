@@ -1,5 +1,9 @@
 package it.polimi.ingsw.am40.model;
 
+import it.polimi.ingsw.am40.model.aimStrategy.AimChecker;
+import it.polimi.ingsw.am40.model.aimStrategy.AimCheckerDiagonalPattern;
+import it.polimi.ingsw.am40.model.aimStrategy.AimCheckerLPattern;
+import it.polimi.ingsw.am40.model.aimStrategy.AimCheckerResource;
 import it.polimi.ingsw.am40.model.scoreStrategy.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -7,11 +11,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 
 import static it.polimi.ingsw.am40.model.CardElements.NONE;

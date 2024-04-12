@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.model;
 
 import java.util.List;
+import it.polimi.ingsw.am40.model.aimStrategy.AimChecker;
 
 /**
  * The AimCard class defines the aim cards, which indicate the private and public
@@ -92,5 +93,14 @@ public class AimCard extends Card{
      */
     public String getRotation(){
         return this.rotation;
+    }
+
+    /**
+     * This method calculates how many points the player get from the aimCard
+     * @param privateBoard is the personal board of the player that contains all the cards he played
+     * @return number of points given by the aim card
+     */
+    public int calculatePoints(PrivateBoard privateBoard) {
+        return points * checker.check(privateBoard, checkResources, rotation);
     }
 }
