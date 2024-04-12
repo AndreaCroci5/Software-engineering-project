@@ -219,7 +219,8 @@ public class Game {
             case 0 -> {
                 switch (selection) {
                     case 0, 1 -> {
-                        temp = commonBoard.getPlateResourceCard().get(selection);
+                        temp = commonBoard.pickFromResourcePlate(selection);
+                        commonBoard.addCartToResourcePlate(selection);
                     }
                     case 2 -> {
                         temp = commonBoard.getResourceDeck().pickFromTop();
@@ -232,7 +233,8 @@ public class Game {
             case 1 -> {
                 switch (selection) {
                     case 0, 1 -> {
-                        temp = commonBoard.getPlateGoldenResourceCard().get(selection);
+                        temp = commonBoard.pickFromGoldenPlate(selection);
+                        commonBoard.addCartToGoldenPlate(selection);
                     }
                     case 2 -> {
                         temp = commonBoard.getGoldenResourceDeck().pickFromTop();
