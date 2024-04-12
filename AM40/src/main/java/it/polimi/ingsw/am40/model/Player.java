@@ -303,8 +303,6 @@ public class Player {
     }
     */
     //PUBLIC METHODS
-    public void refreshPlayerScore(int points){
 
-    }
 
 }
