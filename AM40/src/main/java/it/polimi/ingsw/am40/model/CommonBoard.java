@@ -78,12 +78,17 @@ public class CommonBoard {
     /**
      * Third constructor for common board.
      * It gets the four decks in input and creates empty decks
+     * Requirements: decks passed as argument cannot be null
      * @param resDeck Deck of resource cards
      * @param goldResDeck Deck of golden resource cards
      * @param startDeck Deck of starting cards
      * @param aimDeck Deck of aim cards
      */
     public CommonBoard(Deck<ResourceCard> resDeck, Deck<GoldResourceCard> goldResDeck, Deck<StartingCard> startDeck, Deck<AimCard> aimDeck){
+        if (resDeck == null || goldResDeck == null || startDeck == null || aimDeck == null) {
+            throw new IllegalArgumentException("Decks cannot be null");
+        }
+
         this.resourceDeck = resDeck;
         this.goldenResourceDeck = goldResDeck;
         this.startingDeck = startDeck;
@@ -158,8 +163,21 @@ public class CommonBoard {
 
     /**
      * Initialization of the CommonBoard by loading the decks, shuffle them and adding the cards on the plates
+     * Requirements: decks and plates should be already initialised
      */
     public void iniCommonBoard() {
+
+        if (resourceDeck == null || goldenResourceDeck == null || startingDeck == null || aimDeck == null) {
+            throw new IllegalStateException("Decks not initialized");
+        }
+
+        if(plateResourceCard == null || plateGoldenResourceCard == null || plateAimCard == null) {
+            throw new IllegalStateException("Plate not initialised");
+        }
+
+        if (resourceDeck.isEmpty() || goldenResourceDeck.isEmpty() || startingDeck.isEmpty() || aimDeck.isEmpty()){
+            throw new IllegalStateException("One or more decks are empty");
+        }
 
         resourceDeck.shuffle();
         goldenResourceDeck.shuffle();
@@ -168,46 +186,58 @@ public class CommonBoard {
 
         // Adding the two cards on the plates
         plateResourceCard.addFirst(resourceDeck.pickFromTop());
-        plateResourceCard.add(1,resourceDeck.pickFromTop());
+        plateResourceCard.addLast(resourceDeck.pickFromTop());
 
         plateGoldenResourceCard.addFirst(goldenResourceDeck.pickFromTop());
-        plateGoldenResourceCard.add(1,goldenResourceDeck.pickFromTop());
+        plateGoldenResourceCard.addLast(goldenResourceDeck.pickFromTop());
 
         plateAimCard.addFirst(aimDeck.pickFromTop());
-        plateAimCard.add(1,aimDeck.pickFromTop());
+        plateAimCard.addLast(aimDeck.pickFromTop());
     }
 
     /**
-     * This method checks if both the decks are empty
+     * This method checks if both the resource deck and the golden deck are empty
      * @return true, if they are. False, otherwise
      */
     public boolean deckEmptinessCheck() {
-        return resourceDeck.isEmpty() && goldenResourceDeck.isEmpty();
+        return (resourceDeck == null || resourceDeck.isEmpty()) && (goldenResourceDeck == null || goldenResourceDeck.isEmpty());
     }
 
     /**
      * This method get the card from the ResourcePlate
+     * Requirements: selection can only have the values 0,1
      * @param selection is the index that select which of the two cards pick from the plate
      * @return the card selected, null if there is no card at the index selected
      */
     public ResourceCard pickFromResourcePlate(int selection) {
+        if(selection < 0 || selection >= plateResourceCard.size()) {
+            throw new IndexOutOfBoundsException("Selection index is out of bounds");
+        }
         return plateResourceCard.get(selection);
     }
 
     /**
      * This method get the card from the GoldenPlate
+     * Requirements: selection can only have the values 0,1
      * @param selection is the index that select which of the two cards pick from the plate
      * @return the card selected, null if there is no card at the index selected
      */
     public GoldResourceCard pickFromGoldenPlate(int selection) {
+        if(selection < 0 || selection >= plateGoldenResourceCard.size()) {
+            throw new IndexOutOfBoundsException("Selection index is out of bounds");
+        }
         return plateGoldenResourceCard.get(selection);
     }
 
     /**
      * This method replace the card drawn from the plate with the first card of the resource deck, set the element null if the deck is empty
+     * Requirements: selection can only have the values 0,1
      * @param selection is the index of the card drawn from the plate
      */
     public void addCartToResourcePlate(int selection) {
+        if(selection < 0 || selection >= plateResourceCard.size()) {
+            throw new IndexOutOfBoundsException("Selection index is out of bounds");
+        }
         if(resourceDeck.isEmpty()) {
             plateResourceCard.set(selection,null);
             return;
@@ -217,14 +247,17 @@ public class CommonBoard {
 
     /**
      * This method replace the card drawn from the plate with the first card of the golden deck, set the element null if the deck is empty
+     * Requirements: selection can only have the values 0,1
      * @param selection is the index of the card drawn
      */
     public void addCartToGoldenPlate(int selection) {
+        if(selection < 0 || selection >= plateGoldenResourceCard.size()) {
+            throw new IndexOutOfBoundsException("Selection index is out of bounds");
+        }
         if(goldenResourceDeck.isEmpty()) {
             plateGoldenResourceCard.set(selection, null);
             return;
         }
         plateGoldenResourceCard.set(selection, goldenResourceDeck.pickFromTop());
     }
-
 }

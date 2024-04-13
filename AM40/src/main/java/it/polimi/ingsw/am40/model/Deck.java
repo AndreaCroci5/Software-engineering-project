@@ -21,9 +21,13 @@ public class Deck<T> {
 
     /**
      * Constructor method for Deck class
+     * Requirements : cardList cannot be null
      * @param cardList List of cards of the type of the Deck to initialize a deck
      */
     public Deck(List<T> cardList){
+        if (cardList == null) {
+            throw new IllegalArgumentException("Card list cannot be null");
+        }
         this.cards = new ArrayDeque<>();
         this.cards.addAll(cardList);
     }
@@ -33,25 +37,30 @@ public class Deck<T> {
      * @return true in case the deck is empty, false otherwise
      */
     public boolean isEmpty() {
-        return cards.isEmpty();
+        return (cards == null || cards.isEmpty());
     }
 
     /**
      * This method gets the first element of the Deck and removes it
+     * Requirements: deck cannot be null or empty
      * @return the first element of the Deck
      */
     public T pickFromTop() {
-        if(cards.isEmpty()) {
-            throw new java.util.NoSuchElementException();
+        if(cards == null || cards.isEmpty()) {
+            throw new IllegalStateException("Deck is empty or null");
         }
         return cards.pollFirst();
     }
 
     /**
      * This method adds the element at the bottom of the Deck
+     * Requirements: cardToAppend cannot be null
      * @param cardToAppend is the element to add at the bottom of the Deck
      */
     public void appendToBottom(T cardToAppend) {
+        if (cardToAppend == null) {
+            throw new IllegalArgumentException("Card to append cannot be null");
+        }
         cards.addLast(cardToAppend);
     }
 
@@ -59,9 +68,11 @@ public class Deck<T> {
      * This method performs a shuffle on the deck
      */
     public void shuffle() {
-        List<T> temp = new ArrayList<>(List.copyOf(cards));
-        Collections.shuffle(temp);
-        cards.clear();
-        cards.addAll(temp);
+        if (!cards.isEmpty()) {
+            List<T> temp = new ArrayList<>(List.copyOf(cards));
+            Collections.shuffle(temp);
+            cards.clear();
+            cards.addAll(temp);
+        }
     }
 }
