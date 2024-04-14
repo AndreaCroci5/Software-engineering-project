@@ -269,6 +269,17 @@ public class ResourceCard extends Card{
         this.objectScoreTypeElement = objectScoreTypeElement;
     }
 
+    /**
+     * Setter for edgeCoverage
+     * @param newCoverage is the ArrayList of all the new EdgeState
+     */
+    public void setEdgeCoverage(ArrayList<EdgeState> newCoverage) {
+        this.edgeCoverage.clear();
+        for (int i=0; i<4; i++) {
+            this.edgeCoverage.add(i,newCoverage.get(i));
+        }
+    }
+
 
     //PUBLIC METHODS
 

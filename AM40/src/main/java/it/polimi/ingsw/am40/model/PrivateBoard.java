@@ -134,8 +134,12 @@ public class PrivateBoard {
      * @return true if a card can be placed, false otherwise
      */
     public boolean checkPlacing(ResourceCard card, Coordinates coordinates, CardFace cardFace) {
-        if (checkCoordinates(coordinates) && checkGoldResourceCardRequirements(card, cardFace)) {
-            return true;
+        if (checkCoordinatesAvailability(coordinates)) {
+            if(cardFace == CardFace.FRONT) {
+                return checkGoldResourceCardRequirements(card, cardFace);
+            } else {
+                return true;
+            }
         } else {
             return false;
         }
@@ -149,19 +153,50 @@ public class PrivateBoard {
      * @param cardFace is the orientation of the card chosen by a player
      */
     public void placing(ResourceCard card, Coordinates coordinates, CardFace cardFace) {
+        //Placing basic logic
         card.setFace(cardFace);
         card.setCoordinates(coordinates);
         this.cardGrid.add(card);
+
+        //If a card is placed on the back, it sets the all the edges to FREE
+        if(cardFace == CardFace.BACK) {
+            ArrayList<EdgeState> freeEdges = new ArrayList<>();
+            for (int i = 0; i<4; i++) {
+                freeEdges.add(EdgeState.FREE);
+            }
+            card.setEdgeCoverage(freeEdges);
+        }
+
+        //Creates Adjacent Cards
+        Map<Integer, Coordinates> adjacentCoordinates= findAdjacentCoordinatesAfterPlacing(card);
+        Map<Integer, ResourceCard> adjacentCards = fromAdjacentCoordinatesToCardsAfterPlacing(adjacentCoordinates);
+
+        //Change EdgeStates
+        //Change Card Placed EdgeState
+        for(Map.Entry<Integer,ResourceCard> entry : adjacentCards.entrySet()) {
+            card.getEdgeCoverage().set(entry.getKey(), EdgeState.TAKEN);
+        }
+        //Change Adjacent Cards EdgeState
+        for (int i=0; i<4; i++) {
+            if (card.getEdgeCoverage().get(i) == EdgeState.TAKEN) {
+                //4-1-i is the value of the symmetrical corner of the Card according the Map key which represent the coordinate
+                adjacentCards.get(i).getEdgeCoverage().set(4-1-i, EdgeState.TAKEN);
+            }
+
+        }
     }
 
     /**
      * This method serves as a mean to inform the Player on how many points he gained by placing a Card on the cardGrid
      * @return the amount of points that the last Card gives after being placed
      * Note: if a ResourceCard is placed and has no scorePoints shown, the increase of the score will be 0
+     * Note: if the Card is placed with CardFace == BACK it will be returned 0 as score increase
      */
     public int refreshPoints() {
         ResourceCard lastCardAdded = this.cardGrid.get(this.cardGrid.size()-1);
-        return lastCardAdded.calculateScore(this.elementsCounter);
+        if(lastCardAdded.getCardFace() == CardFace.FRONT)
+            return lastCardAdded.calculateScore(this.elementsCounter);
+        return 0;
     }
 
     /**
@@ -173,7 +208,7 @@ public class PrivateBoard {
         //Pivot Card
         ResourceCard tmp = this.cardGrid.get(this.cardGrid.size()-1);
         //Creation of a Map withAdjacent Coordinates
-        Map<Integer, Coordinates> adjacentCoordinates = findAdjacentCoordinatesForRefreshing(tmp);
+        Map<Integer, Coordinates> adjacentCoordinates = findAdjacentCoordinatesAfterPlacing(tmp);
         //Removal of covered elements
         for (int i=0; i<4; i++) {
             if (tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN) {
@@ -216,20 +251,30 @@ public class PrivateBoard {
                 this.placingCoordinates.remove(c);
         }
         //Refresh by adding the new Coordinates
-        //Creates the adjacentCoordinates
-        Map<Integer, Coordinates> adjacentCoordinates = findAdjacentCoordinatesForRefreshing(pivot);
+        //Creates the adjacentCoordinates of the last card placed, named pivot here
+        Map<Integer, Coordinates> adjacentCoordinates = findAdjacentCoordinatesAfterPlacing(pivot);
         //Check if the new coordinates are already present in placingCoordinates
+        //If present, it deletes them in order to do a complete refresh
         for(Coordinates c : this.placingCoordinates) {
             for (int i=0; i<4; i++) {
                 if(adjacentCoordinates.get(i).equals(c))
-                    adjacentCoordinates.remove(i);
+                    placingCoordinates.remove(c);
             }
         }
-        //Add the new coordinates only if the EdgesState are Free
+        //Remove from adjacentCoordinates the ones that touch a HIDDEN or TAKEN Edge of pivot
         for(int i=0; i<4; i++){
-            if (pivot.getEdgeCoverage().get(i) == EdgeState.FREE)
-                this.placingCoordinates.add(adjacentCoordinates.get(i));
+            if (pivot.getEdgeCoverage().get(i) != EdgeState.FREE)
+                adjacentCoordinates.remove(i);
         }
+
+        //Check the possible multiplePlacing from the possible presence of "Neighbour" cards of the adjacent Coordinates
+        //If present checks in multiple placing if coordinate is legal
+        for (Map.Entry<Integer, Coordinates> entry : adjacentCoordinates.entrySet()) {
+            if(checkMultiplePlacing(entry.getValue())) {
+                this.placingCoordinates.add(entry.getValue());
+            }
+        }
+
     }
 
     //PRIVATE METHODS
@@ -251,21 +296,6 @@ public class PrivateBoard {
         }
     }
 
-    /**
-     * This method checks if a card can be placed by looking for a correspondence of its coordinates with a coordinate in
-     * placingCoordinates ArrayList and if this Card covers multiple edges belonging to Cards already placed
-     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
-     * @return true if the placing position satisfy all the conditions illustrated, false otherwise
-     */
-    private boolean checkCoordinates(Coordinates coordinates){
-        if (checkCoordinatesAvailability(coordinates) && checkMultiplePlacing(coordinates)){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    //      checkCoordinates related methods
 
     /**
      * This method checks if the given coordinates are present in placingCoordinates ArrayList
@@ -279,6 +309,9 @@ public class PrivateBoard {
         return false;
     }
 
+
+    //      refreshPlacingCoordinates related methods
+
     /**
      * This method checks if a Card that's being placed in a certain position given by the coordinats could potentially
      * cover multiple edges belonging to adjacent cards.
@@ -288,9 +321,9 @@ public class PrivateBoard {
      * @return true if a card covers multiple edges of adjacent cards in a legal way, false otherwise
      */
     private boolean checkMultiplePlacing(Coordinates coordinates){
-        ArrayList<Coordinates> adjacentCoordinates = createAdjacentCoordinatesForPlacing(coordinates);
-        Map<ResourceCard, Integer> adjacentCards = fromAdjacentCoordinatesToCardsForPlacing(adjacentCoordinates);
-        return checkAdjacentEdges(adjacentCards);
+        ArrayList<Coordinates> adjacentCoordinates = fromAdjacentCreateNeighbourCoordinates(coordinates);
+        Map<ResourceCard, Integer> adjacentCards = fromNeighbourCoordinatesToCards(adjacentCoordinates);
+        return checkNeighbourEdges(adjacentCards);
     }
 
     //      checkMultiplePlacing related methods
@@ -305,7 +338,7 @@ public class PrivateBoard {
      * @param adjacentCards is the Map of the adjacentCards
      * @return true if a card covers only FREE EdgeStates, false otherwise
      */
-    private boolean checkAdjacentEdges(Map<ResourceCard, Integer> adjacentCards) {
+    private boolean checkNeighbourEdges(Map<ResourceCard, Integer> adjacentCards) {
         EdgeState tmp;
         for (Map.Entry<ResourceCard, Integer> entry : adjacentCards.entrySet()) {
             tmp = entry.getKey().getEdgeCoverage().get(entry.getValue());
@@ -315,7 +348,7 @@ public class PrivateBoard {
         return true;
     }
 
-    //Factory: From Coordinates to Cards
+    //Factory: From Coordinates to Cards for refreshing
 
     /**
      * This method creates an ArrayList of adjacentCoordinates by using, as a pivot, the coordinates chosen
@@ -323,7 +356,7 @@ public class PrivateBoard {
      * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
      * @return the four adjacent coordinate in this order: (0)Bottom-Right (1)Bottom-Left (2)Top-Right (3)Top-Left
      */
-    private ArrayList<Coordinates> createAdjacentCoordinatesForPlacing(Coordinates coordinates){
+    private ArrayList<Coordinates> fromAdjacentCreateNeighbourCoordinates(Coordinates coordinates){
         ArrayList<Coordinates> adjacentCoordinates = new ArrayList<>();
         int x = coordinates.getX();
         int y = coordinates.getY();
@@ -340,7 +373,7 @@ public class PrivateBoard {
      * @param adjacentCoordinates is the ArrayList of the four adjacentCoordinates of the Card that's chosen to be placed
      * @return a Map of adjacentCards found in the cardGrid as Map Key , with their Map Value corresponding to the index of the adjacentCoordinate
      */
-    private Map<ResourceCard, Integer> fromAdjacentCoordinatesToCardsForPlacing(ArrayList<Coordinates> adjacentCoordinates){
+    private Map<ResourceCard, Integer> fromNeighbourCoordinatesToCards(ArrayList<Coordinates> adjacentCoordinates){
         Map<ResourceCard, Integer> adjacentCards = new HashMap<>();
         for (int i=0; i<4; i++){
             for (ResourceCard card : this.cardGrid) {
@@ -352,7 +385,7 @@ public class PrivateBoard {
         return adjacentCards;
     }
 
-    // refreshElementsCounter related methods
+    // FACTORY: refreshElementsCounter and refreshPlacingCoordinates related methods
 
     /**
      * This method creates a Map of adjacentCoordinates of a card placed.
@@ -361,7 +394,7 @@ public class PrivateBoard {
      * @param card is the Card used as pivot
      * @return a Map of adjacentCoordinates
      */
-    private Map<Integer, Coordinates> findAdjacentCoordinatesForRefreshing(ResourceCard card){
+    private Map<Integer, Coordinates> findAdjacentCoordinatesAfterPlacing(ResourceCard card){
         int pivotX = card.getCoordinates().getX();
         int pivotY = card.getCoordinates().getY();
         Map<Integer, Coordinates> adjacentCoordinates = new HashMap<>();
@@ -373,4 +406,15 @@ public class PrivateBoard {
     }
 
 
+    private Map<Integer, ResourceCard> fromAdjacentCoordinatesToCardsAfterPlacing(Map<Integer, Coordinates> adjacentCoordinates) {
+        Map<Integer, ResourceCard> adjacentCards = new HashMap<>();
+        for (int i=0; i<4; i++) {
+            for(ResourceCard card: this.cardGrid) {
+                if(adjacentCoordinates.get(i).equals((card.getCoordinates()))) {
+                    adjacentCards.put(i,card);
+                }
+            }
+        }
+        return adjacentCards;
+    }
 }
