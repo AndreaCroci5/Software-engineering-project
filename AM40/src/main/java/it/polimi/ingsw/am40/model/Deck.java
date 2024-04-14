@@ -25,9 +25,6 @@ public class Deck<T> {
      * @param cardList List of cards of the type of the Deck to initialize a deck
      */
     public Deck(List<T> cardList){
-        if (cardList == null) {
-            throw new IllegalArgumentException("Card list cannot be null");
-        }
         this.cards = new ArrayDeque<>();
         this.cards.addAll(cardList);
     }
@@ -37,7 +34,7 @@ public class Deck<T> {
      * @return true in case the deck is empty, false otherwise
      */
     public boolean isEmpty() {
-        return (cards == null || cards.isEmpty());
+        return cards.isEmpty();
     }
 
     /**
@@ -46,33 +43,36 @@ public class Deck<T> {
      * @return the first element of the Deck
      */
     public T pickFromTop() {
-        if(cards == null || cards.isEmpty()) {
-            throw new IllegalStateException("Deck is empty or null");
-        }
         return cards.pollFirst();
     }
 
     /**
      * This method adds the element at the bottom of the Deck
-     * Requirements: cardToAppend cannot be null
+     * Requirements: cardToAppend cannot be null, deck can be empty but not null
      * @param cardToAppend is the element to add at the bottom of the Deck
      */
     public void appendToBottom(T cardToAppend) {
-        if (cardToAppend == null) {
-            throw new IllegalArgumentException("Card to append cannot be null");
-        }
         cards.addLast(cardToAppend);
     }
 
     /**
      * This method performs a shuffle on the deck
+     * Requirements: cards cannot be null or empty
      */
     public void shuffle() {
-        if (!cards.isEmpty()) {
             List<T> temp = new ArrayList<>(List.copyOf(cards));
             Collections.shuffle(temp);
             cards.clear();
             cards.addAll(temp);
-        }
     }
+
+    /**
+     * This method calculate the size of the deck
+     * Requirements: cards cannot be null or empty
+     * @return the number of cards in the deck
+     */
+    public int size() {
+        return cards.size();
+    }
+
 }

@@ -13,12 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DeckTest {
 
     /**
-     * Test case to verify the behavior of the Deck constructor when a null card list is provided
-     * An IllegalArgumentException is expected to be thrown because requirements are no null list
+     * This method is used to test the constructor of the Deck class when an empty deck is created
+     * It asserts that the deck is empty
      */
     @Test
-    public void testDeckConstructorNullList() {
-        assertThrows(IllegalArgumentException.class, () -> new Deck<>(null));
+    public void testEmptyDeckConstructor() {
+        Deck<ResourceCard> deck = new Deck<>();
+        assertTrue(deck.isEmpty());
     }
 
     /**
@@ -51,6 +52,7 @@ public class DeckTest {
     public void testIsEmpty() {
         Deck<ResourceCard> deck = new Deck<>();
         assertTrue(deck.isEmpty());
+        assertEquals(0, deck.size());
     }
 
     /**
@@ -67,17 +69,7 @@ public class DeckTest {
         ResourceCard card = new ResourceCard(1,CardElements.FUNGI,exampleCardElements);
         deck.appendToBottom(card);
         assertFalse(deck.isEmpty());
-    }
-
-    /**
-     * This method is used to test the behavior of picking a card from the top of an empty deck
-     * An IllegalStateException is thrown when attempting to pick a card from the top
-     * because requirements are not empty deck
-     */
-    @Test
-    public void testPickFromTopEmptyDeck() {
-        Deck<ResourceCard> deck = new Deck<>();
-        assertThrows(IllegalStateException.class, deck::pickFromTop);
+        assertNotEquals(0, deck.size());
     }
 
     /**
@@ -107,17 +99,6 @@ public class DeckTest {
         ResourceCard topCard2 = deck.pickFromTop();
         assertEquals(card2.getCardElement(), topCard2.getCardElement());
         assertTrue(deck.isEmpty());
-    }
-
-    /**
-     * This method is used to test the behavior of the appendToBottom method in the Deck class
-     * when a null card is provided
-     * It should throw an `IllegalArgumentException` because the requirements are not null card
-     */
-    @Test
-    public void testAppendToBottomNullCard() {
-        Deck<ResourceCard> deck = new Deck<>();
-        assertThrows(IllegalArgumentException.class, () -> deck.appendToBottom(null));
     }
 
     /**
@@ -153,7 +134,7 @@ public class DeckTest {
     @Test
     public void testShuffleEmptyDeck() {
         Deck<ResourceCard> deck = new Deck<>();
-        deck.shuffle(); // assert no exception is thrown
+        deck.shuffle();
     }
 
     /**

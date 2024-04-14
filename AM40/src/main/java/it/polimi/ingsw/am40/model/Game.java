@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static it.polimi.ingsw.am40.model.CommonBoard.plateAimCard;
+
 //Author of the following note : Andrea
 //TODO Add the Game constructor for the controller's use, (Note: remainingRounds should be set to a default value
 // till the call of calculateRemainingRounds() method)
@@ -230,7 +232,7 @@ public class Game {
                 switch (selection) {
                     case 0, 1 -> {
                         temp = commonBoard.pickFromResourcePlate(selection);
-                        commonBoard.addCartToResourcePlate(selection);
+                        commonBoard.addCardToResourcePlate(selection);
                     }
                     case 2 -> {
                         temp = commonBoard.getResourceDeck().pickFromTop();
@@ -244,7 +246,7 @@ public class Game {
                 switch (selection) {
                     case 0, 1 -> {
                         temp = commonBoard.pickFromGoldenPlate(selection);
-                        commonBoard.addCartToGoldenPlate(selection);
+                        commonBoard.addCardToGoldenPlate(selection);
                     }
                     case 2 -> {
                         temp = commonBoard.getGoldenResourceDeck().pickFromTop();
@@ -265,9 +267,12 @@ public class Game {
         }
     }
 
+
     /**
      * This method calculate the final score for each player by adding the aim cards
      */
+
+
     public void calculateFinalScore() {
         for (Player player : players) {
             int finalScore = player.getScore(); // take the score
@@ -279,12 +284,12 @@ public class Game {
             finalScore += singleNumOfAim * player.getPrivateAim().getPoints();
             totalNumOfAim += singleNumOfAim;
 
-            singleNumOfAim = commonBoard.getPlateAimCard().getFirst().calculateNumOfPatternVerified(player.getPrivateBoard());
-            finalScore += singleNumOfAim * commonBoard.getPlateAimCard().getFirst().getPoints();
+            singleNumOfAim = plateAimCard[0].calculateNumOfPatternVerified(player.getPrivateBoard());
+            finalScore += singleNumOfAim * plateAimCard[0].getPoints();
             totalNumOfAim += singleNumOfAim;
 
-            singleNumOfAim = commonBoard.getPlateAimCard().getLast().calculateNumOfPatternVerified(player.getPrivateBoard());
-            finalScore += singleNumOfAim * commonBoard.getPlateAimCard().getLast().getPoints();
+            singleNumOfAim = plateAimCard[1].calculateNumOfPatternVerified(player.getPrivateBoard());
+            finalScore += singleNumOfAim * plateAimCard[1].getPoints();
             totalNumOfAim += singleNumOfAim;
 
             // maximum points for each player are 29
@@ -296,6 +301,7 @@ public class Game {
             player.setNumOfAimDone(totalNumOfAim);
         }
     }
+
 
     /**
      * This method is the simulation of the card placing phase.
