@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.model;
 
 import it.polimi.ingsw.am40.model.aimStrategy.AimCheckerDiagonalPattern;
+import it.polimi.ingsw.am40.model.aimStrategy.AimCheckerLPattern;
 import it.polimi.ingsw.am40.model.aimStrategy.AimCheckerResource;
 import org.junit.jupiter.api.*;
 
@@ -10,10 +11,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for aim strategy pattern
+ */
 public class AimStrategyTest {
 
     // AimCheckerResource
 
+
+    /**
+     * This method tests the return multiplier of the check method in the AimCard class
+     * for the aim cards that have the resource as constraint
+     * Finally, it asserts the expected return values of the check
+     */
     @Test
     public void testReturnMultiplier() {
         // Setup
@@ -68,6 +78,11 @@ public class AimStrategyTest {
     }
 
 
+    /**
+     * This method tests the buildElementCounter method in the AimStrategyTest class
+     * It checks if the buildElementCounter method correctly counts
+     * the occurrences of each element in the checkResources list
+     */
     @Test
     public void testBuildElementCounter() {
         List<CardElements> checkResources = new ArrayList<>();
@@ -91,8 +106,16 @@ public class AimStrategyTest {
 
 
 
+
     // AimCheckerDiagonalPattern
 
+
+    /**
+     * This method tests the findNeighbors method in the AimCheckerDiagonalPattern class
+     * It verifies if the method correctly identifies neighbors
+     * based on the provided grid, next coordinates, and check resources
+     * It asserts the expected output for various test scenarios
+     */
     @Test
     public void testFindNeighbors() {
         ArrayList<ResourceCard> tempGrid = new ArrayList<>();
@@ -182,6 +205,12 @@ public class AimStrategyTest {
         assertTrue(res.isEmpty());
     }
 
+    /**
+     * The testNeighCord method tests the neighborsCord method in the AimCheckerDiagonalPattern class
+     * It verifies if the method correctly identifies the neighboring coordinates
+     * based on the provided card, rotation and expected output coordinates
+     * It asserts the expected output for various test scenarios
+     */
     @Test
     public void testNeighCord() {
         Coordinates next1 = new Coordinates(6, 8);
@@ -220,6 +249,11 @@ public class AimStrategyTest {
         assertEquals(0,result4.size());
     }
 
+    /**
+     * This method tests the return multiplier of the check method in the AimCard class
+     * for the aim cards that have the diagonal pattern as constraint
+     * Finally, it asserts the expected return values of the check
+     */
     @Test
     public void testCheck() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -296,7 +330,183 @@ public class AimStrategyTest {
         assertEquals(2, result7);
     }
 
-    // AimCheckerLPattern TO DO
+
+
+    // AimCheckerLPattern
+
+
+    /**
+     * The testNeighCord method tests the neighborsCord method in the AimCheckerLPattern class
+     * It verifies if the method correctly identifies the neighboring coordinates
+     * based on the provided card, rotation and expected output coordinates
+     * It asserts the expected output for various test scenarios
+     */
+    @Test
+    public void testNeighCordL () {
+        Coordinates next1 = new Coordinates(6, 8);
+        ResourceCard card1 = new ResourceCard(1,CardElements.FUNGI,new ArrayList<>(),1);
+        card1.setCoordinates(next1);
+        String rotation1 = "x";
+        Coordinates expected1 = new Coordinates(7, 7);
+        Coordinates expected2 = new Coordinates(7, 6);
+        ArrayList<Coordinates> result1 = AimCheckerLPattern.neighborsCord(card1,rotation1);
+        assertEquals(expected1, result1.getFirst());
+        assertEquals(expected2, result1.getLast());
+
+        Coordinates next2 = new Coordinates(14, 84);
+        ResourceCard card2 = new ResourceCard(1,CardElements.FUNGI,new ArrayList<>(),1);
+        card2.setCoordinates(next2);
+        String rotation2 = "y";
+        Coordinates expected3 = new Coordinates(15, 85);
+        Coordinates expected4 = new Coordinates(15, 86);
+        ArrayList<Coordinates> result2 = AimCheckerLPattern.neighborsCord(card2,rotation2);
+        assertEquals(expected3, result2.getFirst());
+        assertEquals(expected4, result2.getLast());
+
+        Coordinates next3 = new Coordinates(18, 26);
+        ResourceCard card3 = new ResourceCard(1,CardElements.FUNGI,new ArrayList<>(),1);
+        card3.setCoordinates(next3);
+        String rotation3 = "-x";
+        Coordinates expected5 = new Coordinates(17, 27);
+        Coordinates expected6 = new Coordinates(17, 28);
+        ArrayList<Coordinates> result3 = AimCheckerLPattern.neighborsCord(card3,rotation3);
+        assertEquals(expected5, result3.getFirst());
+        assertEquals(expected6, result3.getLast());
+
+        Coordinates next4 = new Coordinates(156, 212);
+        ResourceCard card4 = new ResourceCard(1,CardElements.FUNGI,new ArrayList<>(),1);
+        card4.setCoordinates(next4);
+        String rotation4 = "-y";
+        Coordinates expected7 = new Coordinates(155, 211);
+        Coordinates expected8 = new Coordinates(155, 210);
+        ArrayList<Coordinates> result4 = AimCheckerLPattern.neighborsCord(card4,rotation4);
+        assertEquals(expected7, result4.getFirst());
+        assertEquals(expected8, result4.getLast());
+
+        ArrayList<Coordinates> result5 = AimCheckerDiagonalPattern.neighborsCord(card3,"z");
+        assertEquals(0,result5.size());
+    }
+
+    /**
+     * This method tests the findNeighbors method in the AimCheckerLPattern class
+     * It verifies if the method correctly identifies neighbors
+     * based on the provided grid, next coordinates, and check resources
+     * It asserts the expected output for various test scenarios
+     */
+    @Test
+    public void testFindNeighL() {
+        ArrayList<ResourceCard> tempGrid = new ArrayList<>();
+        ArrayList<Coordinates> tempCoords = new ArrayList<>();
+        List<CardElements> checkResources = new ArrayList<>();
+        ArrayList<ResourceCard> res = new ArrayList<>();
+
+        ResourceCard card1 = new ResourceCard(1,CardElements.FUNGI,new ArrayList<>(),1);
+        ResourceCard card2 = new ResourceCard(2,CardElements.FUNGI,new ArrayList<>(),1);
+        ResourceCard card3 = new ResourceCard(3,CardElements.PLANT,new ArrayList<>(),1);
+        ResourceCard card4 = new ResourceCard(1,CardElements.INSECT,new ArrayList<>(),1);
+        ResourceCard card5 = new ResourceCard(5,CardElements.ANIMAL,new ArrayList<>(),1);
+        checkResources.add(CardElements.PLANT);
+        checkResources.add(CardElements.FUNGI);
+        checkResources.add(CardElements.FUNGI);
+        card3.setCoordinates(4,4);
+        card4.setCoordinates(4,5);
+        Coordinates cor1 = new Coordinates(4,4);
+        Coordinates cor2 = new Coordinates(4,5);
+        tempCoords.add(cor1);
+        tempCoords.add(cor2);
+
+        tempGrid.add(card3);
+        tempGrid.add(card4);
+        tempGrid.add(card5);
+
+        res = AimCheckerLPattern.findNeighbors(tempGrid,tempCoords,checkResources);
+
+        assertTrue(res.isEmpty());
+
+        card3.setCoordinates(8,8);
+        card4.setCoordinates(1,1);
+        card1.setCoordinates(4,4);
+        card2.setCoordinates(4,5);
+        tempGrid.add(card1);
+        tempGrid.add(card2);
+
+        res = AimCheckerLPattern.findNeighbors(tempGrid,tempCoords,checkResources);
+        assertFalse(res.isEmpty());
+        assertEquals(2,res.size());
+
+        tempGrid.remove(card2);
+        res = AimCheckerLPattern.findNeighbors(tempGrid,tempCoords,checkResources);
+        assertEquals(1,res.size());
+
+        tempGrid.remove(card1);
+        tempGrid.add(card2);
+        res = AimCheckerLPattern.findNeighbors(tempGrid,tempCoords,checkResources);
+        assertEquals(1,res.size());
+
+    }
+
+    /**
+     * This method tests the return multiplier of the check method in the AimCard class
+     * for the aim cards that have the L pattern as constraint
+     * Finally, it asserts the expected return values of the check
+     */
+    @Test
+    public void testCheckL() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        List<CardElements> checkResources = new ArrayList<>();
+        String rotation1 = "-x";
+        ResourceCard card1 = new ResourceCard(1,CardElements.PLANT,new ArrayList<>(),1);
+        ResourceCard card2 = new ResourceCard(2,CardElements.FUNGI,new ArrayList<>(),1);
+        ResourceCard card3 = new ResourceCard(3,CardElements.PLANT,new ArrayList<>(),1);
+        ResourceCard card4 = new ResourceCard(4,CardElements.INSECT,new ArrayList<>(),1);
+        ResourceCard card5 = new ResourceCard(5,CardElements.ANIMAL,new ArrayList<>(),1);
+
+        checkResources.add(CardElements.PLANT);
+        checkResources.add(CardElements.FUNGI);
+        checkResources.add(CardElements.FUNGI);
+
+        privateBoard.getCardGrid().add(card2);
+        privateBoard.getCardGrid().add(card4);
+        privateBoard.getCardGrid().add(card5);
+
+        AimCard toCheck = new AimCard(6,2,checkResources,new AimCheckerLPattern(),rotation1);
+
+        final int result1 = toCheck.getChecker().check(privateBoard, checkResources, rotation1);
+        assertEquals(0,result1);
+
+        privateBoard.getCardGrid().add(card1);
+        privateBoard.getCardGrid().add(card3);
+
+        final int result2 = toCheck.getChecker().check(privateBoard, checkResources, rotation1);
+        assertEquals(0,result2);
+
+        card1.setCoordinates(1,1);
+        ResourceCard card6 = new ResourceCard(6,CardElements.FUNGI,new ArrayList<>(),1);
+        card2.setCoordinates(0,2);
+        card6.setCoordinates(0,3);
+        privateBoard.getCardGrid().add(card6);
+        final int result3 = toCheck.getChecker().check(privateBoard, checkResources, rotation1);
+        assertEquals(1,result3);
+
+        privateBoard.getCardGrid().remove(card2);
+        final int result4 = toCheck.getChecker().check(privateBoard, checkResources, rotation1);
+        assertEquals(0,result4);
+
+        privateBoard.getCardGrid().add(card2);
+        ResourceCard card7 = new ResourceCard(7,CardElements.PLANT,new ArrayList<>(),1);
+        ResourceCard card8 = new ResourceCard(8,CardElements.FUNGI,new ArrayList<>(),1);
+        ResourceCard card9 = new ResourceCard(1,CardElements.FUNGI,new ArrayList<>(),1);
+        card7.setCoordinates(-2,-2);
+        card8.setCoordinates(-3,-1);
+        card9.setCoordinates(-3,0);
+        privateBoard.getCardGrid().add(card7);
+        privateBoard.getCardGrid().add(card8);
+        privateBoard.getCardGrid().add(card9);
+
+        final int result5 = toCheck.getChecker().check(privateBoard, checkResources, rotation1);
+        assertEquals(2,result5);
+
+    }
 
 
 }
