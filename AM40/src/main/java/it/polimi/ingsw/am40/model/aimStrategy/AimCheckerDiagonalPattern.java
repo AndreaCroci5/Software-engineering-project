@@ -25,7 +25,7 @@ public class AimCheckerDiagonalPattern implements AimChecker{
 
         // array list that contains all possible starting card for diagonal pattern
         for (ResourceCard card : tempGrid) {
-            if(card.getCardElement() == checkResources.getFirst()) {
+            if(card.getCardElement().equals(checkResources.getFirst())) {
                 elemMatching.add(card);
             }
         }
@@ -48,27 +48,29 @@ public class AimCheckerDiagonalPattern implements AimChecker{
      * @param rotation is the orientation of the pattern
      * @return the coordinates we have to check in order to find the pattern
      */
-    private ArrayList<Coordinates> neighborsCord(ResourceCard toCheck, String rotation) {
+    public static ArrayList<Coordinates> neighborsCord(ResourceCard toCheck, String rotation) {
         ArrayList<Coordinates> temp = new ArrayList<>();
-        Coordinates cord = new Coordinates(0,0);
+        Coordinates toVerify = new Coordinates(toCheck.getCoordinates().getX(), toCheck.getCoordinates().getY());
+        Coordinates cord1 = new Coordinates(0,0);
+        Coordinates cord2 = new Coordinates(0, 0);
         switch (rotation) {
             case "x" ->
             {
-                cord.setX(toCheck.getCoordinates().getX() - 1);
-                cord.setY(toCheck.getCoordinates().getY() - 1);
-                temp.add(cord);
-                cord.setX(cord.getX() - 1);
-                cord.setY(cord.getY() - 1);
-                temp.add(cord);
+                cord1.setX(toVerify.getX() - 1);
+                cord1.setY(toVerify.getY() - 1);
+                temp.add(cord1);
+                cord2.setX(toVerify.getX() - 2);
+                cord2.setY(toVerify.getY() - 2);
+                temp.add(cord2);
             }
             case "y" ->
             {
-                cord.setX(toCheck.getCoordinates().getX() + 1);
-                cord.setY(toCheck.getCoordinates().getY() + 1);
-                temp.add(cord);
-                cord.setX(cord.getX() + 1);
-                cord.setY(cord.getY() + 1);
-                temp.add(cord);
+                cord1.setX(toVerify.getX() + 1);
+                cord1.setY(toVerify.getY() + 1);
+                temp.add(cord1);
+                cord2.setX(toVerify.getX() + 2);
+                cord2.setY(toVerify.getY() + 2);
+                temp.add(cord2);
             }
         }
         return temp;
@@ -82,12 +84,13 @@ public class AimCheckerDiagonalPattern implements AimChecker{
      * @param checkResources are the resources required by the aim card
      * @return an array list that contains cards with all the requirements the aim card asks for
      */
-    private ArrayList<ResourceCard> findNeighbors(ArrayList<ResourceCard> tempGrid, ArrayList<Coordinates> nextCord, List<CardElements> checkResources) {
+    public static ArrayList<ResourceCard> findNeighbors(ArrayList<ResourceCard> tempGrid, ArrayList<Coordinates> nextCord, List<CardElements> checkResources) {
         ArrayList<ResourceCard> temp = new ArrayList<>();
         for(ResourceCard next : tempGrid) {
-            if( (next.getCoordinates().equals(nextCord.getFirst()) && next.getCardElement() == checkResources.get(1))
-                    || (next.getCoordinates().equals(nextCord.getLast()) && next.getCardElement() == checkResources.get(2) )) {
-                temp.add(next);
+            if( next.getCardElement().equals(checkResources.getFirst())) {
+                if ( (next.getCoordinates().equals(nextCord.getFirst())) || (next.getCoordinates().equals(nextCord.getLast()))) {
+                    temp.add(next);
+                }
             }
         }
         return temp;

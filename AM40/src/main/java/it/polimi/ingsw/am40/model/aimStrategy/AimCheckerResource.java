@@ -12,6 +12,7 @@ public class AimCheckerResource implements AimChecker{
 
     /**
      * This method checks how many times the pattern is verified
+     * Requirements : arguments passed cannot be null
      * @param privateBoard is the board of the player with grid of cards and map of resources that the player has
      * @param checkResources is a list of the resources that the aimCard require
      * @param rotation is a string that indicate how the path is oriented
@@ -30,7 +31,7 @@ public class AimCheckerResource implements AimChecker{
         int exit=0; // when the number of an element that the player has is smaller than the requirement it will be set to 1
         while (exit==0) {
             for (CardElements element : aimCardElementsCounter.keySet()) {
-                if ( (!temp.containsKey(element)) || (temp.get(element) < aimCardElementsCounter.get(element)) ) {
+                if (temp.get(element) < aimCardElementsCounter.get(element)) {
                     exit = 1;
                 } else {
                     temp.put(element, temp.get(element) - aimCardElementsCounter.get(element));

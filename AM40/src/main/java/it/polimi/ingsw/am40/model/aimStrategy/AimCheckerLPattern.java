@@ -3,6 +3,7 @@ package it.polimi.ingsw.am40.model.aimStrategy;
 import it.polimi.ingsw.am40.model.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that implements the method for calculating how many times the L pattern occurs in a player grid
@@ -96,11 +97,12 @@ public class AimCheckerLPattern implements AimChecker{
     private ArrayList<ResourceCard> findNeighbors(ArrayList<ResourceCard> tempGrid, ArrayList<Coordinates> nextCord, List<CardElements> checkResources) {
         ArrayList<ResourceCard> temp = new ArrayList<>();
         for(ResourceCard next : tempGrid) {
-            if( (next.getCoordinates().equals(nextCord.getFirst()) && next.getCardElement() == checkResources.get(1))
+            if( (next.getCoordinates().equals(nextCord.getFirst()) && next.getCardElement().equals(checkResources.get(1)))
                     || (next.getCoordinates().equals(nextCord.getLast()) && next.getCardElement() == checkResources.get(2) )) {
                 temp.add(next);
             }
         }
         return temp;
     }
+
 }
