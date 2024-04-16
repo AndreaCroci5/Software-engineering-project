@@ -305,10 +305,9 @@ public class Game {
 
     /**
      * This method is the simulation of the card placing phase.
-     * It checks if the Card, the card orientation and the position chosen by a Player are legal in order to proceed
-     * with the placing.
-     * In case that the choice leads to an illegal move according to the rules, this method doesn't do anything.
-     * So, it's the controller responsibility to manage the correct procedure
+     * It's called by the controller if checkPlaceCard returns true
+     * The role of this method is: to place a Card, to set the right EdgeState in TAKEN, to refresh the elementsCounter,
+     * to refresh the placingCoordinates for future placings and to refresh the score of a Player
      * @param choice is the card chosen by a player to be placed
      * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
      * @param cardFace is the orientation of the card chosen by a player
@@ -316,14 +315,32 @@ public class Game {
     public void placeCard(int choice, Coordinates coordinates, CardFace cardFace) {
         int index = getIndexOfPlayingPlayer();
         PrivateBoard currentPlayerPrivateBoard = this.players.get(index).getPrivateBoard();
-        //Check if the choice, the coordinates and the CardFace are legal.
-        if (currentPlayerPrivateBoard.checkPlacing(currentPlayerPrivateBoard.getHandDeck().get(choice), coordinates, cardFace)) {
-            currentPlayerPrivateBoard.placing(currentPlayerPrivateBoard.takeCardFromHand(choice), coordinates, cardFace);
-            currentPlayerPrivateBoard.refreshElementsCounter();
-            currentPlayerPrivateBoard.refreshPlacingCoordinates();
-            this.players.get(index).increaseScore(currentPlayerPrivateBoard.refreshPoints());
-        }
+
+        //Place Phase
+        currentPlayerPrivateBoard.placing(currentPlayerPrivateBoard.takeCardFromHand(choice), coordinates, cardFace);
+        currentPlayerPrivateBoard.refreshElementsCounter();
+        currentPlayerPrivateBoard.refreshPlacingCoordinates();
+        this.players.get(index).increaseScore(currentPlayerPrivateBoard.refreshPoints());
     }
+
+    /**
+     * This method checks if the Card, the card orientation and the position chosen by a Player are legal,
+     * in order to proceed with the card placement
+     * @param choice is the card chosen by a player to be placed
+     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * @param cardFace is the orientation of the card chosen by a player
+     * @return true if the Player's choice is legal. false otherwise
+     */
+    public boolean checkPlaceCard(int choice, Coordinates coordinates, CardFace cardFace) {
+        int index = getIndexOfPlayingPlayer();
+        PrivateBoard currentPlayerPrivateBoard = this.players.get(index).getPrivateBoard();
+
+        //Check
+        if (currentPlayerPrivateBoard.checkPlacing(currentPlayerPrivateBoard.getHandDeck().get(choice), coordinates, cardFace))
+            return true;
+        else return false;
+    }
+
 
     /**
      * This method checks the player that is playing and it returns the index
