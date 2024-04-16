@@ -9,8 +9,10 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//TODO Javadoc the last tests
 //INDEX: 17 private methods for factory, 227 card flow, 281 check placing,
 //       370 placing, 465 refresh score, 633 refresh placingCoordinates
+//       1163 refresh ElementsCounter
 
 class PrivateBoardTest {
 
@@ -1233,7 +1235,7 @@ class PrivateBoardTest {
      * In this case we should have  FUNGI = 4 - 1 (covered) + 1 (new Card)
      */
     @Test
-    void simpleRefreshElementsCounterCardPlacedonBACK() {
+    void simpleRefreshElementsCounterCardPlacedOnBACK() {
         PrivateBoard privateBoard = new PrivateBoard();
         ResourceCard cardToPlace = resourceCardCreator();
         //PrivateBoard setup
@@ -1268,6 +1270,148 @@ class PrivateBoardTest {
     }
 
 
+    //TO JAVADOC
+    //LAST SINGLE TESTS BY USING NONE
+    
+
+    
+    //MULTIPLE PLACEMENT REFRESH ELEMENTS COUNTER
+
+    @Test
+    void multipleRefreshElementsCounterAllFRONT() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreator();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.FRONT));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.FRONT));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 8);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.FRONT);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(10, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    @Test
+    void multipleRefreshElementsCounterCardPlacedOnBACKOthersFRONT() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreator();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.FRONT));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.FRONT));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 8);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.BACK);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(7, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    @Test
+    void multipleRefreshElementsCounterCardPlacedOnFRONTOthersBACK() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreator();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.BACK));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.BACK));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 2);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.FRONT);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(6, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    @Test
+    void multipleRefreshElementsCounterAllBACK() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreator();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.BACK));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.BACK));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 2);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.BACK);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(3, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    @Test
+    void multipleRefreshElementsCounterCardPlacedOnFRONTOneBACKOneFRONT() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreator();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.BACK));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.FRONT));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 5);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.FRONT);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(8, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    @Test
+    void multipleRefreshElementsCounterCardPlacedOnBACKOneBACKOneFRONT() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreator();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.BACK));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.FRONT));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 5);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.BACK);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(5, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    //Try the tests above including NONE Edges
 
 
+    @Test
+    void multipleRefreshElementsCounterCardPlacedOnFRONTWEdgeNONE() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneBL();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.FRONT));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.FRONT));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 8);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.FRONT);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(9, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    @Test
+    void multipleRefreshElementsCounterCardPlacedOnBACKEdgeNONE() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneBL();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.FRONT));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.FRONT));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 8);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.BACK);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(7, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    @Test
+    void multipleRefreshElementsCounterCardPlacedOnFRONTEdgeNONEWPlacedCardOnBACK() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneBL();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.FRONT));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,3,CardFace.BACK));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 5);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.FRONT);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(7, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
 }
