@@ -85,11 +85,12 @@ public class ResourceCard extends Card{
      * The parameters which are not taken in input are set on default value.
      * Another constructor uses overloading to set card points too.
      * This constructor is usually used by the card loader from JSON file
-      * @param cardID Identification number of the card
-     * @param cardElement Element of the card
+     *
+     * @param cardID             Identification number of the card
+     * @param cardElement        Element of the card
      * @param frontEdgeResources List of the front edges element ((1) top-left, (2) top-right, (3) bottom-left, (4) bottom-right)
      */
-    public ResourceCard(int cardID, CardElements cardElement, List<CardElements> frontEdgeResources ){
+    public ResourceCard(int cardID, CardElements cardElement, List<CardElements> frontEdgeResources){
         super(cardID);
 
         this.cardElement = cardElement;
@@ -349,7 +350,7 @@ public class ResourceCard extends Card{
      * @return the amount of points given by a card to increase the score
      */
     public int calculateScore(Map<CardElements, Integer> elementsCounter){
-        return this.scoreType.calculate((ArrayList<EdgeState>) this.edgeCoverage, elementsCounter, this.scorePoints, this.objectScoreTypeElement);
+        return this.scoreType.calculate((ArrayList<EdgeState>) this.edgeCoverage, elementsCounter, Math.toIntExact(this.scorePoints), this.objectScoreTypeElement);
     }
 
     /**

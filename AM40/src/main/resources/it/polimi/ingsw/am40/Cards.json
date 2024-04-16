@@ -394,7 +394,7 @@
     ]
   },
   {
-    "collection": "INSECTL_RESOURCE",
+    "collection": "INSECT_RESOURCE",
     "cardID": 36,
     "cardElement": "INSECT",
     "frontEdgeResources": [
@@ -664,7 +664,7 @@
     "cardElement": "PLANT",
     "frontEdgeResources": [
       "EMPTY",
-      "MANUSCIPT",
+      "MANUSCRIPT",
       "NONE",
       "EMPTY"
     ],
