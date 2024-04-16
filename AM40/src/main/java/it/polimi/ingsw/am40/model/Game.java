@@ -6,10 +6,6 @@ import java.util.List;
 
 import static it.polimi.ingsw.am40.model.CommonBoard.plateAimCard;
 
-//Author of the following note : Andrea
-//TODO Add the Game constructor for the controller's use, (Note: remainingRounds should be set to a default value
-// till the call of calculateRemainingRounds() method)
-
 /**
  * The Game class is the entry point from the controller and manages the correct flow of the game.
  * Its first role is to initialize and set up everything in order to play.
@@ -31,6 +27,13 @@ public class Game {
 
     /**Number of the remaining rounds once the endgame phase is triggered*/
     private int remainingRounds;
+
+    //CONSTRUCTOR
+    public Game() {
+        this.players = new ArrayList<Player>(); ;
+        this.commonBoard = new CommonBoard(); ;
+        this.remainingRounds = 0;
+    }
 
     //GETTERS
 
@@ -150,9 +153,19 @@ public class Game {
                 index = players.indexOf(player);
             }
         }
-        res = 4 + (3 - index); // 4 for the last round, (3-index) for finishing the current round
-        // 3-index means the distance between the current player and the one that started
 
+        int numOfPlayerPlaying = 0;
+        for (Player player : players) {
+                numOfPlayerPlaying++;
+        }
+
+        res = numOfPlayerPlaying + (numOfPlayerPlaying - (index + 1));
+        // numOfPlayerPlaying for the final round
+        // numOfPlayerPlaying - (index + 1) is the ending of the current round
+
+        if (res < 0) { // this is in case of zero players (it shouldn't happen)
+            res = 0;
+        }
         setRemainingRounds(res);
     }
 
