@@ -214,7 +214,7 @@ public class PrivateBoard {
             if (tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN) {
                 for (ResourceCard c : this.cardGrid){
                     if (adjacentCoordinates.get(i).equals(c.getCoordinates())) {
-                        if(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i) != CardElements.EMPTY){
+                        if(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i) != CardElements.EMPTY && c.getCardFace() == CardFace.FRONT){
                             int lastElementAmount = this.elementsCounter.get(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i));
                             this.elementsCounter.replace(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i), --lastElementAmount);
                         }
@@ -222,11 +222,12 @@ public class PrivateBoard {
                 }
             }
         }
+
         //Adding the elements of the new Card
         if (tmp.getCardFace() == CardFace.FRONT) {
             for (int i=0; i<4; i++) {
-                if(tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN) {
-                    if(tmp.getFrontEdgeResources().get(i) != CardElements.EMPTY){
+                if(tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN || tmp.getEdgeCoverage().get(i) == EdgeState.FREE) {
+                    if(tmp.getFrontEdgeResources().get(i) != CardElements.EMPTY && tmp.getFrontEdgeResources().get(i) != NONE){
                         int lastElementAmount = this.elementsCounter.get(tmp.getFrontEdgeResources().get(i));
                         this.elementsCounter.replace(tmp.getFrontEdgeResources().get(i), ++lastElementAmount);
                     }
