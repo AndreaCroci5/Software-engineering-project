@@ -2,7 +2,12 @@ package it.polimi.ingsw.am40.model;
 
 /**
  * The Coordinates class defines the position of the cards in the grid in the private board, which also allow the player
- * to know where he can place the next card
+ * to know where he can place the next card.
+ * How to work with Coordinates: in all the methods related to the game logic, the coordinates represent a point with their x and y
+ * based on a Cartesian Plane whose axes are rotated by 45°.
+ * The center of a Card represents the point represented by the Coordinates, and the StartingCard is located in (0,0)
+ * The x-axis grows positive towards the bottom-right corner of a card and the y-axis towards the top-right corner
+ *
  */
 
 

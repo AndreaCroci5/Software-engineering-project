@@ -10,7 +10,7 @@ import static it.polimi.ingsw.am40.model.CardElements.*;
 
 /**
  * The PrivateBoard class represents the place where a Player keeps all the cards and
- * contains all the data related the game logic.
+ * contains, also, all the data related the game logic.
  * The cards possessed by a Player are in the handDeck and the cards placed are in the cardGrid.
  * A Player can play a card in one of the position contained in the placingCoordinates.
  * In the case of placing a goldCard or checking an aimCard, the elementsCounter eases the checking operation.
@@ -125,8 +125,8 @@ public class PrivateBoard {
     }
 
     /**
-     * This method checks if a card can be placed on a player's cardGrid in his PrivateBoard after a Player choose: a card,
-     * the coordinates of the placement and the CardFace orientation.
+     * This method checks if a card can be placed on a player's cardGrid in his PrivateBoard after a Player choose:
+     * a card in his handDeck, the coordinates of the placement and the CardFace orientation.
      * If a Card is a GoldResourceCard type and CardFace is set to front, it checks the requirements
      * @param card is the card chosen by a player to be placed
      * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
@@ -147,7 +147,10 @@ public class PrivateBoard {
 
     /**
      * This method simulates the placing action performed by a player by adding the card chosen from the handDeck to
-     * cardGrid and setting the cardFace to the right orientation and the Coordinates position
+     * cardGrid and setting the cardFace to the right orientation and the Coordinates position.
+     * If a Card is placed on the back, all the EdgeStates change to FREE, because till the placement phase, they represent
+     * the FRONT state
+     * It also ensures that the overlapping Edges are all set to TAKEN
      * @param card is the card chosen by a player to be placed
      * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
      * @param cardFace is the orientation of the card chosen by a player
@@ -166,6 +169,8 @@ public class PrivateBoard {
             }
             card.setEdgeCoverage(freeEdges);
         }
+
+        //Adjacent Cards and just placed Card EdgeStates update
 
         //Creates Adjacent Cards
         Map<Integer, Coordinates> adjacentCoordinates= findAdjacentCoordinatesAfterPlacing(card);
@@ -188,6 +193,7 @@ public class PrivateBoard {
 
     /**
      * This method serves as a mean to inform the Player on how many points he gained by placing a Card on the cardGrid
+     * by calling the related method on every Card placed
      * @return the amount of points that the last Card gives after being placed
      * Note: if a ResourceCard is placed and has no scorePoints shown, the increase of the score will be 0
      * Note: if the Card is placed with CardFace == BACK it will be returned 0 as score increase
@@ -241,8 +247,12 @@ public class PrivateBoard {
 
     /**
      * This method refreshes the placingCoordinates Arraylist after a Card is placed.
-     * There are two phases: the first where the Coordinates of the last added Card to the cardGrid are removed,
-     * the second phase consists in adding the new Coordinates available only if the Edges State of the last added Card are FREE
+     * There are two phases: the first where the Coordinates of the last added Card to the cardGrid are removed;
+     * the second phase, instead consists in adding the new Coordinates available only if the EdgesState in analysis
+     * of the last added Card is FREE.
+     * NOTE: In case of a Coordinates conflict, in other word when the Coordinates of a future placing produce the risk
+     * of a possible multiple corner overlap. In this case the Coordinates will be added only if they satisfy the rules
+     * of the game. (All adjacent EdgeStates of the card already placed are FREE)
      */
     public void refreshPlacingCoordinates(){
         //Remove the coordinates from placingCoordinates of the last Card placed
@@ -287,7 +297,7 @@ public class PrivateBoard {
     //      checkPlacing related methods
 
     /**
-     * This method checks if a GoldCard is being placed with CardFace == FRONT, in that case it checks if the requirements
+     * This method checks specifically that if a GoldCard is being placed with CardFace == FRONT, in that case it checks if the requirements
      * on a GoldResourceCard are satisfied. On the other hand, if the orientation is BACK the check is skipped by returning true
      * @param card is the card chosen by a player to be placed
      * @param cardFace is the orientation of the card chosen by a player
@@ -318,8 +328,10 @@ public class PrivateBoard {
     //      refreshPlacingCoordinates related methods
 
     /**
-     * This method checks if a Card that's being placed in a certain position given by the coordinats could potentially
-     * cover multiple edges belonging to adjacent cards.
+     * This method serves as a mean during the last phase of refreshPlacingCoordinates() method.
+     * It checks, during the coordinates refreshing as consequence of a Card placing, if the last card placed might create
+     * a conflict for a future Card placing. In particular, it checks if the future Card could cover multiple edges of
+     * the Card already placed on the grid. If the result passes the check, it returns true or false otherwise.
      * Starting with the adjacent coordinates, it gets the corresponding cards already placed (if they exist),
      * then proceeds to check the edges
      * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
@@ -335,13 +347,14 @@ public class PrivateBoard {
     //Checker
 
     /**
-     * This method checks on every potential adjacentCard of a Card that's chosen to be placed.
+     * This method checks on every Card already placed on the grid, which are adjacent to the Coordinates
+     * where a Card could be placed in the future.
      * For every adjacent Card it checks if the edge that could be potentially covered is FREE.
      * The index of the potentially covered edges are Symmetrical to the Map Value of the adjacentCards:
      * for example a Top-Left AdjacentCard needs a check on his Bottom-Right EdgeState,
      * a Top-Right AdjacentCard needs a check on his Bottom-Left EdgeState,
      * @param adjacentCards is the Map of the adjacentCards
-     * @return true if a card covers only FREE EdgeStates, false otherwise
+     * @return true if a card could potentially cover only FREE EdgeStates, false otherwise
      */
     private boolean checkNeighbourEdges(Map<ResourceCard, Integer> adjacentCards) {
         EdgeState tmp;
@@ -353,12 +366,12 @@ public class PrivateBoard {
         return true;
     }
 
-    //Factory: From Coordinates to Cards for refreshing
+    //Factory: From Coordinates to Cards for searching the adjacentCards
 
     /**
-     * This method creates an ArrayList of adjacentCoordinates by using, as a pivot, the coordinates chosen
-     * during the placing phase by a Player.
-     * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
+     * This method creates an ArrayList of adjacentCoordinates by using, as a pivot, the coordinates given by input.
+     * The Coordinates are saved in an ArrayList in this order: (0)Bottom-Right (1)Bottom-Left (2)Top-Right (3)Top-Left
+     * @param coordinates are the coordinates used as pivot
      * @return the four adjacent coordinate in this order: (0)Bottom-Right (1)Bottom-Left (2)Top-Right (3)Top-Left
      */
     private ArrayList<Coordinates> fromAdjacentCreateNeighbourCoordinates(Coordinates coordinates){
@@ -390,7 +403,7 @@ public class PrivateBoard {
         return adjacentCards;
     }
 
-    // FACTORY: refreshElementsCounter and refreshPlacingCoordinates related methods
+    // FACTORY
 
     /**
      * This method creates a Map of adjacentCoordinates of a card placed.
@@ -411,6 +424,15 @@ public class PrivateBoard {
     }
 
 
+    /**
+     * This method creates a Map of Cards with its keys in relation to the keys of the adjacentCoordinates Map
+     * given in input.
+     * This Map puts a Card in itself, as a value, only if the adjacentCoordinates key in analysis is equal to an
+     * already placed Card's Coordinates on the cardGrid
+     * @param adjacentCoordinates Map of adjacentCoordinates
+     * @return the adjacent Cards already placed in a Map as a value, with their Key in relation to the Key of their
+     * respective Coordinates in adjacentCoordinates Map given in input to this method
+     */
     private Map<Integer, ResourceCard> fromAdjacentCoordinatesToCardsAfterPlacing(Map<Integer, Coordinates> adjacentCoordinates) {
         Map<Integer, ResourceCard> adjacentCards = new HashMap<>();
         for (int i=0; i<4; i++) {
