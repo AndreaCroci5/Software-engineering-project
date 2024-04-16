@@ -246,19 +246,22 @@ public class PrivateBoard {
     public void refreshPlacingCoordinates(){
         //Remove the coordinates from placingCoordinates of the last Card placed
         ResourceCard pivot = this.cardGrid.get(this.cardGrid.size()-1);
-        for (Coordinates c: this.placingCoordinates) {
-            if(c.equals(pivot.getCoordinates()))
-                this.placingCoordinates.remove(c);
+        for (int i=0; i<this.placingCoordinates.size(); i++) {
+            if(this.placingCoordinates.get(i).equals(pivot.getCoordinates())){
+                this.placingCoordinates.remove(i);
+                break;
+            }
+
         }
         //Refresh by adding the new Coordinates
         //Creates the adjacentCoordinates of the last card placed, named pivot here
         Map<Integer, Coordinates> adjacentCoordinates = findAdjacentCoordinatesAfterPlacing(pivot);
         //Check if the new coordinates are already present in placingCoordinates
         //If present, it deletes them in order to do a complete refresh
-        for(Coordinates c : this.placingCoordinates) {
-            for (int i=0; i<4; i++) {
-                if(adjacentCoordinates.get(i).equals(c))
-                    placingCoordinates.remove(c);
+        for (int j=0; j<4; j++) {
+            for(int i=0; i<this.placingCoordinates.size(); i++) {
+                if(adjacentCoordinates.get(j).equals(this.placingCoordinates.get(i)))
+                    placingCoordinates.remove(i);
             }
         }
         //Remove from adjacentCoordinates the ones that touch a HIDDEN or TAKEN Edge of pivot
@@ -267,14 +270,15 @@ public class PrivateBoard {
                 adjacentCoordinates.remove(i);
         }
 
+        //COORDINATES ADDING
+
         //Check the possible multiplePlacing from the possible presence of "Neighbour" cards of the adjacent Coordinates
-        //If present checks in multiple placing if coordinate is legal
+        //If present, it checks the multiple placing cases, then adds the legal Coordinates to placingCoordinates ArrayList
         for (Map.Entry<Integer, Coordinates> entry : adjacentCoordinates.entrySet()) {
             if(checkMultiplePlacing(entry.getValue())) {
                 this.placingCoordinates.add(entry.getValue());
             }
         }
-
     }
 
     //PRIVATE METHODS

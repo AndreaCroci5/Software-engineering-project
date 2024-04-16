@@ -3,21 +3,21 @@ package it.polimi.ingsw.am40.model;
 import it.polimi.ingsw.am40.model.scoreStrategy.CoverageScoreType;
 import it.polimi.ingsw.am40.model.scoreStrategy.NormalScoreType;
 import it.polimi.ingsw.am40.model.scoreStrategy.ObjectScoreType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//INDEX: 17 private methods, 162 card flow, 216 check placing,
-//       306 placing, 401 refresh score
+//INDEX: 17 private methods for factory, 227 card flow, 281 check placing,
+//       370 placing, 465 refresh score, 633 refresh placingCoordinates
 
 class PrivateBoardTest {
 
     //Factory
+    //GENERAL CARD
     /**
-     * This method creates a full FUNGI ResourceCard
+     * This method creates a full FUNGI ResourceCard with all FREE EdgeState
      * @return the FUNGI ResourceCard
      */
     private ResourceCard resourceCardCreator(){
@@ -27,21 +27,6 @@ class PrivateBoardTest {
         exampleCardElements.add(CardElements.FUNGI);
         exampleCardElements.add(CardElements.FUNGI);
         ResourceCard card = new ResourceCard(0, CardElements.FUNGI, exampleCardElements);
-        return card;
-    }
-
-    /**
-     * This method creates a ResourceCard with Points on it.
-     * NOTE: it creates the Card with ID = 8
-     * @return
-     */
-    private ResourceCard resourceCardWithPointsCreator(){
-        ArrayList<CardElements> exampleCardElements = new ArrayList<>();
-        exampleCardElements.add(CardElements.EMPTY);
-        exampleCardElements.add(CardElements.FUNGI);
-        exampleCardElements.add(CardElements.EMPTY);
-        exampleCardElements.add(CardElements.NONE);
-        ResourceCard card = new ResourceCard(8, CardElements.FUNGI, exampleCardElements, 1);
         return card;
     }
 
@@ -64,9 +49,88 @@ class PrivateBoardTest {
         return card;
     }
 
+
+    //SPECIFIC CARDS
+
+    /**
+     * This method creates a full FUNGI ResourceCard with all FREE EdgeState, with the only exception that
+     * the top-right corner is NONE
+     * @return the ResourceCard with a top-right corner NONE
+     */
+    private ResourceCard resourceCardCreatorWithEdgeNoneTR(){
+        ArrayList<CardElements> exampleCardElements = new ArrayList<>();
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.NONE);
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.FUNGI);
+        ResourceCard card = new ResourceCard(0, CardElements.FUNGI, exampleCardElements);
+        return card;
+    }
+
+    /**
+     * This method creates a full FUNGI ResourceCard with all FREE EdgeState, with the only exception that
+     * the top-right and the bottom-right corner are NONE
+     * @return the ResourceCard with NONE on top-right and bottom-right corners
+     */
+    private ResourceCard resourceCardCreatorWithEdgesNoneTRnBR(){
+        ArrayList<CardElements> exampleCardElements = new ArrayList<>();
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.NONE);
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.NONE);
+        ResourceCard card = new ResourceCard(0, CardElements.FUNGI, exampleCardElements);
+        return card;
+    }
+
+    /**
+     * This method creates a full FUNGI ResourceCard with all FREE EdgeState, with the only exception that
+     * the bottom-left corner is NONE
+     * @return the ResourceCard with a bottom-left corner NONE
+     */
+    private ResourceCard resourceCardCreatorWithEdgeNoneBL(){
+        ArrayList<CardElements> exampleCardElements = new ArrayList<>();
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.NONE);
+        exampleCardElements.add(CardElements.FUNGI);
+        ResourceCard card = new ResourceCard(0, CardElements.FUNGI, exampleCardElements);
+        return card;
+    }
+
+    /**
+     * This method creates a full FUNGI ResourceCard with all FREE EdgeState, with the only exception that
+     * the top-left corner is NONE
+     * @return the ResourceCard with a top-left corner NONE
+     */
+    private ResourceCard resourceCardCreatorWithEdgeNoneTL(){
+        ArrayList<CardElements> exampleCardElements = new ArrayList<>();
+        exampleCardElements.add(CardElements.NONE);
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.FUNGI);
+        ResourceCard card = new ResourceCard(0, CardElements.FUNGI, exampleCardElements);
+        return card;
+    }
+
+    //CARDS WITH ID
+    /**
+     * This method creates a ResourceCard with Points on it.
+     * NOTE: it creates the Card with ID = 8
+     * @return ID 8 ResourceCard
+     */
+    private ResourceCard resourceCardWithPointsCreator(){
+        ArrayList<CardElements> exampleCardElements = new ArrayList<>();
+        exampleCardElements.add(CardElements.EMPTY);
+        exampleCardElements.add(CardElements.FUNGI);
+        exampleCardElements.add(CardElements.EMPTY);
+        exampleCardElements.add(CardElements.NONE);
+        ResourceCard card = new ResourceCard(8, CardElements.FUNGI, exampleCardElements, 1);
+        return card;
+    }
+
     /**
      * This method creates the Golden Resource Card with ID 41 for generic purpose
-     * @return ID 41 GoldResource Card
+     * @return ID 41 GoldResourceCard
      */
     private GoldResourceCard goldResourceCardCreator(){
         ArrayList<CardElements> frontEdgeRes = new ArrayList<>();
@@ -85,7 +149,7 @@ class PrivateBoardTest {
 
     /**
      * This method creates the GoldResourceCard with ID 41 for calculating the score of refreshScore method (ObjectScoreType)
-     * @return ID 41 GoldResource Card
+     * @return ID 41 GoldResourceCard
      */
     private GoldResourceCard goldResourceCardObjectScoreTypeCreator(){
         ArrayList<CardElements> frontEdgeRes = new ArrayList<>();
@@ -563,25 +627,546 @@ class PrivateBoardTest {
         assertEquals(8,privateBoard.refreshPoints());
     }
 
-    //Refresh Coordinates Testing
+
+
+
+    //Refresh placingCoordinates Testing
+
+    //SIMPLE CASES: One Card covers an edge of another one Card
+
+    /**
+     * This test ensures that, given a card already placed and with the related new Coordinates for future placing already refreshed,
+     * the Card, that will be placed at legal Coordinates chosen by a Player, removes those Coordinates from the placingCoordinates ArrayList
+     * and correctly adds the new adjacentCoordinates in case its edges are FREE
+     * NOTE: placingCoordinates size : | before placing 4 | refresh: after placing 3, after new adjacentCoordinates 6
+     */
     @Test
-    void checkCorrectRefreshing(){
+    void coordinatesRefreshingSingleResourceCardFreeEdges(){
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreator();
+        //Setup of the cardGrid
+        //Assume that the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        //Assume that refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1,2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2,1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2,3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3,2));
+        //Card placing phase, NOTE: The checking of the placement is skipped for obvious reasons
+        privateBoard.placing(cardToPlace, new Coordinates(2,3), CardFace.FRONT);
+        //Refresh placing Coordinates by using the method we want to test
+        privateBoard.refreshPlacingCoordinates();
+        //Test that the coordinate of the Card just placed are removed and the method didn't add the Coordinates
+        //of the Card already placed
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+        }
+        // Test that the coordinates of possible future placing are 6 = (4-1) old + 3 new
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+    }
+
+    /**
+     * This test ensures that, given a card already placed and with the related new Coordinates for future placing already refreshed,
+     * the Card, that will be placed at legal Coordinates chosen by a Player, removes those Coordinates from the placingCoordinates ArrayList
+     * and correctly adds the new adjacentCoordinates in case its edges are FREE and do not add in NONE case
+     * Top-right NONE EdgeState case
+     * NOTE: placingCoordinates size : | before placing 4 | refresh: after placing 3, after new adjacentCoordinates 5
+     */
+    @Test
+    void coordinatesRefreshingSingleResourceCardWithTREdgeNone(){
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneTR();
+        //Setup of the cardGrid
+        //Assume that the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        //Assume that refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1,2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2,1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2,3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3,2));
+        //Card placing phase
+        privateBoard.placing(cardToPlace, new Coordinates(2,3), CardFace.FRONT);
+        //Refresh placing Coordinates by using the method we want to test
+        privateBoard.refreshPlacingCoordinates();
+        //Test that: the coordinate of the Card just placed are removed ,the method didn't add the Coordinates
+        //of the Card already placed and the coordinates (2,4) aren't present due to the Card EdgeCoverage
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+            assertTrue(!c.equals(new Coordinates(2,4)));
+        }
+        // Test that the coordinates of possible future placing are 5 = (4-1) old + 2 new
+        assertEquals(5, privateBoard.getPlacingCoordinates().size());
+    }
+
+    /**
+     * This test ensures that, given a card already placed and with the related new Coordinates for future placing already refreshed,
+     * the Card, that will be placed at legal Coordinates chosen by a Player, removes those Coordinates from the placingCoordinates ArrayList
+     * and correctly adds the new adjacentCoordinates in case its edges are FREE and do not add in NONE case
+     * Top-right and bottom-right NONE EdgeState case
+     * NOTE: placingCoordinates size : | before placing 4 | refresh: after placing 3, after new adjacentCoordinates 5
+     */
+    @Test
+    void coordinatesRefreshingSingleResourceCardWithTRnBREdgesNone(){
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgesNoneTRnBR();
+        //Setup of the cardGrid
+        //Assume that the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        //Assume that refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1,2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2,1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2,3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3,2));
+        //Card placing phase
+        privateBoard.placing(cardToPlace, new Coordinates(2,3), CardFace.FRONT);
+        //Refresh placing Coordinates by using the method we want to test
+        privateBoard.refreshPlacingCoordinates();
+        //Test that the coordinate of the Card just placed are removed and the method didn't add the Coordinates
+        //of the Card already placed and the coordinates (2,4) aren't present due to the Card EdgeCoverage
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+            assertTrue(!c.equals(new Coordinates(2,4)));
+            assertTrue(!c.equals(new Coordinates(3,3)));
+        }
+        // Test that the coordinates of possible future placing are 4 = (4-1) old + 1 new
+        assertEquals(4, privateBoard.getPlacingCoordinates().size());
+    }
+
+    /**
+     * This test ensures that, given a card already placed and with the related new Coordinates for future placing already refreshed,
+     * the Card, that will be placed at legal Coordinates chosen by a Player, removes those Coordinates from the placingCoordinates ArrayList
+     * and correctly adds the new adjacentCoordinates in case its edges are FREE, even if the Edge, that covers the edge
+     * of the card already set on the grid, is set to NONE. (Legal move by the rules)
+     * This test ensures that in this case, the refreshPlacingCoordinates behaves like in the case of a Card with all edges
+     * set to FREE before placing
+     * NOTE: placingCoordinates size : | before placing 4 | refresh: after placing 3, after new adjacentCoordinates 6
+     */
+    @Test
+    void coordinatesRefreshingSingleResourceCardWithBLEdgeNone(){
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneBL();
+        //Setup of the cardGrid
+        //Assume that the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        //Assume that refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1,2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2,1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2,3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3,2));
+        //Card placing phase
+        privateBoard.placing(cardToPlace, new Coordinates(2,3), CardFace.FRONT);
+        //Refresh placing Coordinates by using the method we want to test
+        privateBoard.refreshPlacingCoordinates();
+        //Test that: the coordinate of the Card just placed are removed ,the method didn't add the Coordinates
+        //of the Card already placed
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+        }
+        // Test that the coordinates of possible future placing are 6 = (4-1) old + 3 new
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+    }
+
+
+    //COMPLICATED PREVISION FUTURE MULTIPLE COVER CASES:
+    // One of the possible coordinates that a player can choose for the future placing might cover
+    // multiple edges of the Cards placed in the cardGrid
+
+    /**
+     * This test ensures that Coordinates refresh for a possible multiple corner cover placing is possible.
+     * In this case we have a Card in (2,2) and a Card in (2,3) already placed and with placingCoordinates attribute
+     * already up to date.
+     * We start the test by placing a Card in (3,2) with BACK CardFace creating a conflict in Coordinates (3,3). This test ensures that
+     * the placingCoordinates remains the same with the old coordinates, adds the new Coordinates which are not in conflict
+     * and, at last, removes the conflict Coordinates to check if the Edges conditions makes possible a future placing
+     * and, then, adds the coordinates once the check is passed
+     */
+    @Test
+    void coordinatesRefreshingMultipleCoverFreeEdgesCardPlacedOnBACK() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Card with all FREE EdgeState
+        ResourceCard cardToPlace = resourceCardCreator();
+        //Setup of the cardGrid
+        //Assume that all the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        privateBoard.getCardGrid().get(0).getEdgeCoverage().set(3, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3,CardFace.BACK));
+        privateBoard.getCardGrid().get(1).getEdgeCoverage().set(2, EdgeState.TAKEN);
+        //Assume that all refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 3));
+        //Check to see if the Coordinates setup is correct
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+        //Place the Card in (3,2) in order to create a conflict in (3,3) coordinate
+        privateBoard.placing(cardToPlace, new Coordinates(3,2), CardFace.BACK);
+        assertEquals(3, privateBoard.getCardGrid().size());
+        privateBoard.refreshPlacingCoordinates();
+        //Test by checking that all is coherent:
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            //Test that there aren't Coordinates in placingCoordinates equal to the Coordinates of the Card placed in cardGrid
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+            assertTrue(!c.equals(new Coordinates(3,2)));
+        }
+        //Test that the Coordinates responsible for the conflict of multiple placing is present in placingCoordinates
+        Coordinates coordsToTest = new Coordinates(10,10);
+        int counter = 0;
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(3,3))){
+                coordsToTest = new Coordinates(3,3);
+                counter++;
+            }
+
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(3,3)));
+        //Test that there is no repetition in the placingCoordinates of the Coordinates 3,3
+        assertEquals(1, counter);
+        //Test that the coordinates of possible future placing are  = (6-1) old --> for (5-1) presence of 3,3 --> 4+3 refresh
+        assertEquals(7, privateBoard.getPlacingCoordinates().size());
 
     }
+
+    /**
+     * This test ensures that Coordinates refresh for a possible multiple corner cover placing is possible.
+     * In this case we have a Card in (2,2) and a Card in (2,3) already placed and with placingCoordinates attribute
+     * already up to date.
+     * We start the test by placing a Card in (3,2) on FRONT CardFace creating a conflict in Coordinates (3,3). This test ensures that
+     * the placingCoordinates remains the same with the old coordinates, adds the new Coordinates which are not in conflict
+     * and, at last, removes the conflict Coordinates to check if the Edges conditions makes possible a future placing
+     * and, then, adds the coordinates once the check is passed
+     */
+    @Test
+    void coordinatesRefreshingMultipleCoverFreeEdgesCardPlacedOnFRONT() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Card with all FREE EdgeState
+        ResourceCard cardToPlace = resourceCardCreator();
+        //Setup of the cardGrid
+        //Assume that all the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        privateBoard.getCardGrid().get(0).getEdgeCoverage().set(3, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3,CardFace.BACK));
+        privateBoard.getCardGrid().get(1).getEdgeCoverage().set(2, EdgeState.TAKEN);
+        //Assume that all refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 3));
+        //Check to see if the Coordinates setup is correct
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+        //Place the Card in (3,2) in order to create a conflict in (3,3) coordinate
+        privateBoard.placing(cardToPlace, new Coordinates(3,2), CardFace.FRONT);
+        assertEquals(3, privateBoard.getCardGrid().size());
+        privateBoard.refreshPlacingCoordinates();
+        //Test by checking that all is coherent:
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            //Test that there aren't Coordinates in placingCoordinates equal to the Coordinates of the Card placed in cardGrid
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+            assertTrue(!c.equals(new Coordinates(3,2)));
+        }
+        //Test that the Coordinates responsible for the conflict of multiple placing is present in placingCoordinates
+        Coordinates coordsToTest = new Coordinates(10,10);
+        int counter = 0;
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(3,3))){
+                coordsToTest = new Coordinates(3,3);
+                counter++;
+            }
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(3,3)));
+        //Test that there is no repetition in the placingCoordinates of the Coordinates 3,3
+        assertEquals(1, counter);
+        //Test that the coordinates of possible future placing are  = (6-1) old --> for (5-1) presence of 3,3 --> 4+3 refresh
+        assertEquals(7, privateBoard.getPlacingCoordinates().size());
+
+    }
+
+    /**
+     * This test ensures that Coordinates refresh for a possible multiple corner cover placing is not possible if
+     * an EdgeState is set as NONE.
+     * In this case we have a Card in (2,2) and a Card in (2,3) already placed and with placingCoordinates attribute already up to date.
+     * We start the test by placing a Card in (3,2) on FRONT CardFace with a NONE EdgeState on top-right corner,
+     * creating a conflict in Coordinates (3,3). This test ensures that the placingCoordinates
+     * remains the same with the old coordinates, adds the new Coordinates which are not in conflict and, at last,
+     * removes the conflict Coordinates to check if the Edges conditions makes possible a future placing. In this case,
+     * it's the check is not passed, so the test ensures that the Coordinates are not added
+     *
+     */
+    @Test
+    void coordinatesRefreshingMultipleCoverOneEdgeNone() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Card with EdgeState NONE on top-left edge
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneTR();
+        //Setup of the cardGrid
+        //Assume that all the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        privateBoard.getCardGrid().get(0).getEdgeCoverage().set(3, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3,CardFace.BACK));
+        privateBoard.getCardGrid().get(1).getEdgeCoverage().set(2, EdgeState.TAKEN);
+        //Assume that all refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 3));
+        //Check to see if the Coordinates setup is correct
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+        //Place the Card in (3,2) in order to create a conflict in (3,3) coordinate
+        privateBoard.placing(cardToPlace, new Coordinates(3,2), CardFace.FRONT);
+        assertEquals(3, privateBoard.getCardGrid().size());
+        privateBoard.refreshPlacingCoordinates();
+        //Test by checking that all is coherent:
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            //Test that there aren't Coordinates in placingCoordinates equal to the Coordinates of the Card placed in cardGrid
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+            assertTrue(!c.equals(new Coordinates(3,2)));
+            //Test that (3,3) coordinates aren't in placingCoordinates
+            assertTrue(!c.equals(new Coordinates(3,3)));
+        }
+        //Test that the coordinates of possible future placing are  = (6-1) old --> for (5-1) presence of 3,3 --> 4+2 refresh
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+    }
+
+
+    //THREE CARDS MULTIPLE PLACING COORDINATES CONFLICT
+
+
+    /**
+     * This test ensures that Coordinates refresh for a possible multiple corner cover placing is possible
+     * (in this case we have 3 corners in conflict).
+     * In this case we have a Card in (2,2), a Card in (2,3) and a Card in (4,3) already placed
+     * with placingCoordinates attribute already up to date.
+     * We start the test by placing a Card in (3,2) on FRONT CardFace with all FREE EdgeStates, creating again a conflict in Coordinates (3,3), which
+     * we assume was already handled successfully when the Card (4,3) was placed.
+     * This test ensures that the placingCoordinates remains the same with the old coordinates, adds the new Coordinates which are not in conflict and, at last,
+     * removes the conflict Coordinates to check if the Edges conditions makes possible a future placing.
+     * In this case, (3,3) must be added to placingCoordinates.
+     * PLUS: SIDE EFFECT, there is a conflict also in (4,2), but the case was already tested before.
+     *       Anyway, here is also tested that (4,2) is correctly added to placingCoordinates
+     */
+    @Test
+    void coordinatesRefreshingThreeCornersPotentiallyCoverPossible() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Card with EdgeState NONE on top-left edge
+        ResourceCard cardToPlace1 = resourceCardCreator();
+        //Setup of the cardGrid
+        //Assume that all the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        privateBoard.getCardGrid().get(0).getEdgeCoverage().set(3, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3,CardFace.BACK));
+        privateBoard.getCardGrid().get(1).getEdgeCoverage().set(2, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(placedResourceCardCreator(4,3,CardFace.FRONT));
+        //Assume that all refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 2));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 3));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(5, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 2));
+        //Check to see if the Coordinates setup is correct
+        assertEquals(9, privateBoard.getPlacingCoordinates().size());
+        //Place the Card in (3,2) in order to create a conflict in (3,3) coordinate
+        privateBoard.placing(cardToPlace1, new Coordinates(3,2), CardFace.FRONT);
+        //Test the correct Card addition
+        assertEquals(4, privateBoard.getCardGrid().size());
+        //Call of the method to test
+        privateBoard.refreshPlacingCoordinates();
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            //Test that there aren't Coordinates in placingCoordinates equal to the Coordinates of the Card placed in cardGrid
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+            assertTrue(!c.equals(new Coordinates(3,2)));
+            assertTrue(!c.equals(new Coordinates(4,3)));
+        }
+
+        //Test that the Coordinates responsible for the main conflict of multiple placing are present in placingCoordinates
+        Coordinates coordsToTest = new Coordinates(10,10);
+        int counter = 0;
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(3,3))){
+                coordsToTest = new Coordinates(3,3);
+                counter++;
+            }
+        }
+
+        //Test that the Coordinates responsible for the side effect conflict of multiple placing are present in placingCoordinates
+        coordsToTest = new Coordinates(10,10);
+        counter = 0;
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(4,2))){
+                coordsToTest = new Coordinates(4,2);
+                counter++;
+            }
+        }
+
+        //Test that the coordinates of possible future placing are in the correct amount
+        assertEquals(9, privateBoard.getPlacingCoordinates().size());
+    }
+
+    /**
+     * This test ensures that Coordinates refresh for a possible multiple corner cover placing is not possible in a particular situation
+     * (in this case we have 3 corners in conflict).
+     * In this case we have a Card in (2,2), a Card in (2,3) and a Card in (4,3) already placed
+     * with placingCoordinates attribute already up to date.
+     * We start the test by placing a Card in (3,2) on FRONT CardFace with NONE top-right EdgeState, creating again a conflict in Coordinates (3,3), which
+     * we assume was already handled successfully when the Card (4,3) was placed.
+     * This test ensures that the placingCoordinates remains the same with the old coordinates, adds the new Coordinates which are not in conflict and, at last,
+     * removes the conflict Coordinates to check if the Edges conditions makes possible a future placing.
+     * In this case, (3,3) must not be added to placingCoordinates.
+     * PLUS: SIDE EFFECT, there is a conflict also in (4,2), but the case was already tested before.
+     *       Anyway, here is also tested that (4,2) is correctly added to placingCoordinates
+     */
+    @Test
+    void coordinatesRefreshingThreeCornersPotentiallyCoveredTwoPlacingNotPossible1() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Card with EdgeState NONE on top-left edge
+        ResourceCard cardToPlace1 = resourceCardCreatorWithEdgeNoneTR();
+        //Setup of the cardGrid
+        //Assume that all the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        privateBoard.getCardGrid().get(0).getEdgeCoverage().set(3, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3,CardFace.BACK));
+        privateBoard.getCardGrid().get(1).getEdgeCoverage().set(2, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(placedResourceCardCreator(4,3,CardFace.FRONT));
+        //Assume that all refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 2));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 3));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(5, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 2));
+        //Check to see if the Coordinates setup is correct
+        assertEquals(9, privateBoard.getPlacingCoordinates().size());
+        //Place the Card in (3,2) in order to create a conflict in (3,3) coordinate
+        privateBoard.placing(cardToPlace1, new Coordinates(3,2), CardFace.FRONT);
+        //Test the correct Card addition
+        assertEquals(4, privateBoard.getCardGrid().size());
+        //Call of the method to test
+        privateBoard.refreshPlacingCoordinates();
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            //Test that there aren't Coordinates in placingCoordinates equal to the Coordinates of the Card placed in cardGrid
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+            assertTrue(!c.equals(new Coordinates(3,2)));
+            assertTrue(!c.equals(new Coordinates(4,3)));
+            //Test that (3,3) coordinates aren't in placingCoordinates
+            assertTrue(!c.equals(new Coordinates(3,3)));
+        }
+
+        //Test that the Coordinates responsible for the side effect conflict of multiple placing are present in placingCoordinates
+        Coordinates coordsToTest = new Coordinates(10,10);
+        int counter = 0;
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(4,2))){
+                coordsToTest = new Coordinates(4,2);
+                counter++;
+            }
+        }
+        //Test that the coordinates of possible future placing are in the correct amount
+        assertEquals(8, privateBoard.getPlacingCoordinates().size());
+    }
+
+    /**
+     * This test ensures that Coordinates refresh for a possible multiple corner cover placing is possible (in this case 3).
+     * In this case we have a Card in (2,2), a Card in (2,3) and a Card in (4,3) with a NONE top-left EdgeState already placed
+     * with placingCoordinates attribute already up to date.
+     * We start the test by placing a Card in (3,2) on FRONT CardFace with all FREE EdgeStates, creating again a conflict in Coordinates (3,3),
+     * in this case, (3,3) was excluded when the Card in (4,3) was placed due to its NONE top-left EdgeState, so we do have to
+     * test that (3,3) is not considered to be added in placingCoordinates when the last Card is placed in (3,2)
+     * This test ensures that the placingCoordinates remains the same with the old coordinates, adds the new Coordinates which are not in conflict and, at last,
+     * removes the conflict Coordinates to check if the Edges conditions makes possible a future placing.
+     * In this case, (3,3) must not be added to placingCoordinates due to its history.
+     * PLUS: SIDE EFFECT, there is a conflict also in (4,2), but the case was already tested before.
+     *       Anyway, here is also tested that (4,2) is correctly added to placingCoordinates
+     */
+    @Test
+    void coordinatesRefreshingThreeCornersPotentiallyCoveredTwoPlacingNotPossible2() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Card with FREE EdgeStates to place
+        ResourceCard cardToPlace1 = resourceCardCreator();
+        //Card to add in setup
+        ResourceCard setupCard = resourceCardCreatorWithEdgeNoneTL();
+        setupCard.setCoordinates(new Coordinates(4,3));
+        setupCard.setFace(CardFace.FRONT);
+        //Setup of the cardGrid
+        //Assume that all the placing was made correctly
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,2,CardFace.BACK));
+        privateBoard.getCardGrid().get(0).getEdgeCoverage().set(3, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3,CardFace.BACK));
+        privateBoard.getCardGrid().get(1).getEdgeCoverage().set(2, EdgeState.TAKEN);
+        privateBoard.getCardGrid().add(setupCard);
+        //Assume that all refresh Coordinates was made correctly till this moment
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 2));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 2));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(5, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 2));
+        //Check to see if the Coordinates setup is correct
+        assertEquals(8, privateBoard.getPlacingCoordinates().size());
+        //Place the Card in (3,2) in order to create a conflict in (3,3) coordinate
+        privateBoard.placing(cardToPlace1, new Coordinates(3,2), CardFace.FRONT);
+        //Test the correct Card addition
+        assertEquals(4, privateBoard.getCardGrid().size());
+        //Call of the method to test
+        privateBoard.refreshPlacingCoordinates();
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            //Test that there aren't Coordinates in placingCoordinates equal to the Coordinates of the Card placed in cardGrid
+            assertTrue(!c.equals(new Coordinates(2,3)));
+            assertTrue(!c.equals(new Coordinates(2,2)));
+            assertTrue(!c.equals(new Coordinates(3,2)));
+            assertTrue(!c.equals(new Coordinates(4,3)));
+            //Test that (3,3) coordinates aren't in placingCoordinates
+            assertTrue(!c.equals(new Coordinates(3,3)));
+        }
+        //Test that the Coordinates responsible for the side effect conflict of multiple placing are present in placingCoordinates
+        Coordinates coordsToTest = new Coordinates(10,10);
+        int counter = 0;
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(4,2))){
+                coordsToTest = new Coordinates(4,2);
+                counter++;
+            }
+        }
+        //Test that the coordinates of possible future placing are in the correct amount
+        assertEquals(8, privateBoard.getPlacingCoordinates().size());
+    }
+
+
+
 
     //Tests that will be updated in the next days
         /*
-    @Test
-    void refreshPoints() {
-    }
 
     @Test
     void refreshElementsCounter() {
     }
-
-    @Test
-    void refreshPlacingCoordinates() {
-    }
-
      */
 }
