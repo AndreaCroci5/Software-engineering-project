@@ -1,6 +1,11 @@
 package it.polimi.ingsw.am40.model;
 
+import it.polimi.ingsw.am40.ActionListener;
+import it.polimi.ingsw.am40.ActionPoster;
+import it.polimi.ingsw.am40.messages.Message;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,13 +19,18 @@ import static it.polimi.ingsw.am40.model.CommonBoard.plateAimCard;
  * Lastly once the end game phase is triggered, it calculates the number of the remaining rounds
  * and then returns the winner.
  */
-public class Game {
+public class Game implements ActionPoster {
+
     //REFERENCE ATTRIBUTES
 
     /**Reference to all the players that are in the Game*/
     private ArrayList<Player> players;
     /**Reference to the CommonBoard where all the Decks are kept and where players draw cards*/
     private CommonBoard commonBoard;
+    /**
+     * List of Objects which implement the ActionListener interface, i.e. classes that want to be notified by the model
+     */
+    private List<ActionListener> listeners;
 
 
     //GAME ATTRIBUTES
@@ -33,6 +43,7 @@ public class Game {
         this.players = new ArrayList<Player>(); ;
         this.commonBoard = new CommonBoard(); ;
         this.remainingRounds = 0;
+        this.listeners = new ArrayList<>();
     }
 
     //GETTERS
@@ -368,4 +379,23 @@ public class Game {
         return 0;
     }
 
+
+    //INTERFACE METHODS IMPLEMENTATION
+
+    @Override
+    public void addListener(ActionListener listener, Collection<ActionListener> listenersContainer) {
+        listenersContainer.add(listener);
+    }
+
+    @Override
+    public void removeListener(ActionListener listener, Collection<ActionListener> listenersContainer) {
+        listenersContainer.remove(listener);
+    }
+
+    @Override
+    public void notifyListeners(Message event, Collection<ActionListener> listenersContainer) {
+        for (ActionListener l : listenersContainer) {
+            l.onEvent(event);
+        }
+    }
 }
