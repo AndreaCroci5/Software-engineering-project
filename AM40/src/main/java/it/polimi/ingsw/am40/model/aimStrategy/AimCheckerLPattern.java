@@ -52,7 +52,7 @@ public class AimCheckerLPattern implements AimChecker{
      */
     public static ArrayList<Coordinates> neighborsCord(ResourceCard toCheck, String rotation) {
         ArrayList<Coordinates> temp = new ArrayList<>();
-        Coordinates toVerify = toCheck.getCoordinates();
+        Coordinates toVerify = new Coordinates(toCheck.getCoordinates().getX(), toCheck.getCoordinates().getY());
         Coordinates cord1 = new Coordinates(0,0);
         Coordinates cord2 = new Coordinates(0,0);
         switch (rotation) {
