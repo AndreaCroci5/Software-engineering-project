@@ -74,6 +74,11 @@ public class StartingCard extends ResourceCard{
 
     //PUBLIC METHODS
 
+    /**
+     * This method is used during the refreshElementsCounter method in PrivateBoard.
+     * It calculates the correct amount of each element based on the orientation of the CardFace
+     * @return a map with the CardElements of the Card as Key and the relative amount as Value
+     */
     @Override
     public Map<CardElements, Integer> countCardElements(){
         Map<CardElements, Integer> elementsMap = new HashMap<>();
@@ -164,10 +169,10 @@ public class StartingCard extends ResourceCard{
                         break;
                 }
             }
+
         } else {
 
-
-            for (CardElements c : this.getBackEdgeResources()) {
+            for (CardElements c : this.getFrontEdgeResources()) {
                 switch (c) {
                     case FUNGI:
                         tmp = elementsMap.get(FUNGI);
@@ -204,5 +209,28 @@ public class StartingCard extends ResourceCard{
         }
 
         return elementsMap;
+    }
+
+    /**
+     * This method sets up the card when it's placed in the cardGrid.
+     * For a StartingCard, in case it's placed with CardFace == BACK this method resets all the edges to FREE and
+     * its face Edges are swapped in order to operate with polymorphism
+     * @param cardFace is the orientation of the Card placed
+     */
+    @Override
+    public void activationOnGrid(CardFace cardFace) {
+        if(cardFace == CardFace.BACK) {
+            ArrayList<EdgeState> freeEdges = new ArrayList<>();
+            for (int i = 0; i<4; i++) {
+                freeEdges.add(EdgeState.FREE);
+            }
+            this.setEdgeCoverage(freeEdges);
+            //Swap FRONT AND BACK Edges
+            ArrayList<CardElements> tmp = new ArrayList<>(this.getFrontEdgeResources());
+            this.getFrontEdgeResources().clear();
+            this.getFrontEdgeResources().addAll(this.backEdgeResources);
+            this.backEdgeResources.clear();
+            this.backEdgeResources.addAll(tmp);
+        }
     }
 }

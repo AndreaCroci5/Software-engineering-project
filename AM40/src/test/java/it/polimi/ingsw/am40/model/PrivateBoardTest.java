@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO Javadoc the last tests
+//TODO Javadoc the last tests line 1298
 //INDEX: 17 private methods for factory, 227 card flow, 281 check placing,
 //       370 placing, 465 refresh score, 633 refresh placingCoordinates
 //       1163 refresh ElementsCounter
@@ -205,7 +205,32 @@ class PrivateBoardTest {
         return card;
     }
 
+    /**
+     * This method creates the StartingCard with ID 86 for the testing of a StartingCard placement
+     * @return ID 86 StartingCard
+     */
+    private StartingCard startingCardCreator(){
+        ArrayList<CardElements> frontEdgeRes = new ArrayList<>();
+        frontEdgeRes.add(CardElements.EMPTY);
+        frontEdgeRes.add(CardElements.EMPTY);
+        frontEdgeRes.add(CardElements.NONE);
+        frontEdgeRes.add(CardElements.NONE);
+        ArrayList<CardElements> startingRes = new ArrayList<>();
+        startingRes.add(CardElements.PLANT);
+        startingRes.add(CardElements.ANIMAL);
+        startingRes.add(CardElements.FUNGI);
+        ArrayList<CardElements> backEdgeRes = new ArrayList<>();
+        backEdgeRes.add(CardElements.FUNGI);
+        backEdgeRes.add(CardElements.ANIMAL);
+        backEdgeRes.add(CardElements.PLANT);
+        backEdgeRes.add(CardElements.INSECT);
+        StartingCard card = new StartingCard(86, startingRes,frontEdgeRes, backEdgeRes);
+        return card;
+    }
 
+
+
+    //Specific Factory of the PrivateBoard
 
     /**
      * This method creates a PrivateBoard with a hanDeck full of resourceCards
@@ -1414,4 +1439,190 @@ class PrivateBoardTest {
         //Test
         assertEquals(7, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
+
+
+
+    //STARTING CARD INTEGRATION TESTING
+    @Test
+    void startingCardPlaceOnFRONT() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        StartingCard startingCard = startingCardCreator();
+
+        //PlacingPhase
+        privateBoard.placing(startingCard, new Coordinates(0,0),CardFace.FRONT);
+
+        //Card to test
+        ResourceCard cardToTest = privateBoard.getCardGrid().get(0);
+        //Testing
+        assertEquals(1, privateBoard.getCardGrid().size());
+        //BottomCorners are NONE and HIDDEN TEST
+        assertEquals(CardElements.NONE, cardToTest.getFrontEdgeResources().get(2));
+        assertEquals(CardElements.NONE, cardToTest.getFrontEdgeResources().get(3));
+        assertEquals(EdgeState.HIDDEN, cardToTest.getEdgeCoverage().get(2));
+        assertEquals(EdgeState.HIDDEN, cardToTest.getEdgeCoverage().get(3));
+
+        //ElementsTesting
+        privateBoard.refreshElementsCounter();
+        assertEquals(1, privateBoard.getElementsCounter().get(CardElements.PLANT));
+        assertEquals(1, privateBoard.getElementsCounter().get(CardElements.ANIMAL));
+        assertEquals(1, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+        assertEquals(0, privateBoard.getElementsCounter().get(CardElements.INSECT));
+
+        //CoordinatesTesting
+        privateBoard.refreshPlacingCoordinates();
+        assertEquals(2, privateBoard.getPlacingCoordinates().size());
+        //Test that the new Coordinates are correct
+        Coordinates coordsToTest = new Coordinates(10,10);
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(0,1))){
+                coordsToTest = new Coordinates(0,1);
+            }
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(0,1)));
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(-1,0))){
+                coordsToTest = new Coordinates(-1,0);
+            }
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(-1,0)));
+
+        //ScoreTesting
+        assertEquals(0, privateBoard.refreshPoints());
+    }
+
+    @Test
+    void startingCardPlaceOnBACK() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        StartingCard startingCard = startingCardCreator();
+
+        //PlacingPhase
+        privateBoard.placing(startingCard, new Coordinates(0,0),CardFace.BACK);
+
+        //Card to test
+        ResourceCard cardToTest = privateBoard.getCardGrid().get(0);
+        //Testing
+        assertEquals(1, privateBoard.getCardGrid().size());
+        //BottomCorners are NONE and HIDDEN TEST
+        assertEquals(CardElements.PLANT, cardToTest.getFrontEdgeResources().get(2));
+        assertEquals(CardElements.INSECT, cardToTest.getFrontEdgeResources().get(3));
+        assertEquals(EdgeState.FREE, cardToTest.getEdgeCoverage().get(2));
+        assertEquals(EdgeState.FREE, cardToTest.getEdgeCoverage().get(3));
+
+        //ElementsTesting
+        privateBoard.refreshElementsCounter();
+        assertEquals(1, privateBoard.getElementsCounter().get(CardElements.PLANT));
+        assertEquals(1, privateBoard.getElementsCounter().get(CardElements.ANIMAL));
+        assertEquals(1, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+        assertEquals(1, privateBoard.getElementsCounter().get(CardElements.INSECT));
+
+        //CoordinatesTesting
+        privateBoard.refreshPlacingCoordinates();
+        assertEquals(4, privateBoard.getPlacingCoordinates().size());
+        //Test that the new Coordinates are correct
+        Coordinates coordsToTest = new Coordinates(10,10);
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertFalse(c.equals(new Coordinates(0, 0)));
+        }
+
+        //ScoreTesting
+        assertEquals(0, privateBoard.refreshPoints());
+    }
+
+    @Test
+    void legalPlaceOnStartingCardPlacedOnFRONT() {
+        //SETUP
+        PrivateBoard privateBoard = new PrivateBoard();
+        StartingCard startingCard = startingCardCreator();
+        privateBoard.placing(startingCard, new Coordinates(0,0),CardFace.FRONT);
+        privateBoard.refreshElementsCounter();
+        privateBoard.refreshPlacingCoordinates();
+
+        //NEW CARD PLACING PHASE
+        ResourceCard cardToPlace = resourceCardCreator();
+        if(privateBoard.checkPlacing(cardToPlace,new Coordinates(0,1), CardFace.BACK)) {
+            privateBoard.placing(cardToPlace,new Coordinates(0,1), CardFace.BACK);
+            privateBoard.refreshPlacingCoordinates();
+            privateBoard.refreshElementsCounter();
+        }
+
+        //TESTING COORDINATES
+        assertEquals(4, privateBoard.getPlacingCoordinates().size());
+        //Ensures the Coordinates of the card just placed aren't present
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertFalse(c.equals(new Coordinates(0, 1)));
+        }
+        //Ensures the Coordinates (0,2) are present
+        Coordinates coordsToTest = new Coordinates(10,10);
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(0,2))){
+                coordsToTest = new Coordinates(0,2);
+            }
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(0,2)));
+
+        //TESTING ELEMENTS COUNTER
+        assertEquals(2, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
+
+    @Test
+    void illegalPlaceOnStartingCardPlacedOnFRONT() {
+        //SETUP
+        PrivateBoard privateBoard = new PrivateBoard();
+        StartingCard startingCard = startingCardCreator();
+        privateBoard.placing(startingCard, new Coordinates(0,0),CardFace.FRONT);
+        privateBoard.refreshElementsCounter();
+        privateBoard.refreshPlacingCoordinates();
+
+        //NEW CARD PLACING PHASE
+        ResourceCard cardToPlace = resourceCardCreator();
+        if(privateBoard.checkPlacing(cardToPlace,new Coordinates(0,-1), CardFace.BACK)) {
+            privateBoard.placing(cardToPlace,new Coordinates(0,-1), CardFace.BACK);
+            privateBoard.refreshPlacingCoordinates();
+            privateBoard.refreshElementsCounter();
+        }
+
+        //Test that the Card is not added
+        assertEquals(1, privateBoard.getCardGrid().size());
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertFalse(c.equals(new Coordinates(0,-1)));
+        }
+    }
+
+    @Test
+    void legalPlaceOnStartingCardPlacedOnBACK() {
+        //SETUP
+        PrivateBoard privateBoard = new PrivateBoard();
+        StartingCard startingCard = startingCardCreator();
+        privateBoard.placing(startingCard, new Coordinates(0,0),CardFace.BACK);
+        privateBoard.refreshElementsCounter();
+        privateBoard.refreshPlacingCoordinates();
+
+        //NEW CARD PLACING PHASE
+        ResourceCard cardToPlace = resourceCardCreator();
+        if(privateBoard.checkPlacing(cardToPlace,new Coordinates(0,-1), CardFace.BACK)) {
+            privateBoard.placing(cardToPlace,new Coordinates(0,-1), CardFace.BACK);
+            privateBoard.refreshPlacingCoordinates();
+            privateBoard.refreshElementsCounter();
+        }
+
+        //TESTING COORDINATES
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+        //Ensures the Coordinates of the card just placed aren't present
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertFalse(c.equals(new Coordinates(0, -1)));
+        }
+        //Ensures the Coordinates (0,-2) are present
+        Coordinates coordsToTest = new Coordinates(10,10);
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(0,-2))){
+                coordsToTest = new Coordinates(0,-2);
+            }
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(0,-2)));
+
+        //TESTING ELEMENTS COUNTER
+        assertEquals(2, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+        assertEquals(0, privateBoard.getElementsCounter().get(CardElements.PLANT));
+    }
+
 }

@@ -362,5 +362,21 @@ public class ResourceCard extends Card{
         return true;
     }
 
+
+    /**
+     * This method sets up the card when it's placed in the cardGrid.
+     * For a Resource Card and a GoldResourceCard, in case they are placed with CardFace == BACK this method
+     * resets all the edges to FREE
+     * @param cardFace is the orientation of the Card placed
+     */
+    public void activationOnGrid(CardFace cardFace) {
+        if(cardFace == CardFace.BACK) {
+            ArrayList<EdgeState> freeEdges = new ArrayList<>();
+            for (int i = 0; i<4; i++) {
+                freeEdges.add(EdgeState.FREE);
+            }
+            this.setEdgeCoverage(freeEdges);
+        }
+    }
 }
 

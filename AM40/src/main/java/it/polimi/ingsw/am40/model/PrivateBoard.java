@@ -149,8 +149,10 @@ public class PrivateBoard {
      * This method simulates the placing action performed by a player by adding the card chosen from the handDeck to
      * cardGrid and setting the cardFace to the right orientation and the Coordinates position.
      * If a Card is placed on the back, all the EdgeStates change to FREE, because till the placement phase, they represent
-     * the FRONT state
-     * It also ensures that the overlapping Edges are all set to TAKEN
+     * the FRONT state.
+     * In a similar way, this change works also for the StartingCard, through dynamic association during the call of the method
+     * activationOnGrid(cardFace).
+     * It also ensures that the overlapping Edges of adjacentCards are all set to TAKEN
      * @param card is the card chosen by a player to be placed
      * @param coordinates are the coordinates chosen by a player to indicate where the card will be placed
      * @param cardFace is the orientation of the card chosen by a player
@@ -162,13 +164,7 @@ public class PrivateBoard {
         this.cardGrid.add(card);
 
         //If a card is placed on the back, it sets the all the edges to FREE
-        if(cardFace == CardFace.BACK) {
-            ArrayList<EdgeState> freeEdges = new ArrayList<>();
-            for (int i = 0; i<4; i++) {
-                freeEdges.add(EdgeState.FREE);
-            }
-            card.setEdgeCoverage(freeEdges);
-        }
+        card.activationOnGrid(cardFace);
 
         //Adjacent Cards and just placed Card EdgeStates update
 
@@ -208,7 +204,7 @@ public class PrivateBoard {
     /**
      * This method refresh the elementsCounter attribute by removing the elements covered by the last card positioned and
      * adding the elements present on the last card edges if CardFace is FRONT, otherwise the resource on the centre if
-     * the CardFace is BACK
+     * the CardFace is BACK. In case of a StartingCard, through polymorphism this method ensures the correct addition of the element
      */
     public void refreshElementsCounter(){
         //Pivot Card
@@ -219,8 +215,15 @@ public class PrivateBoard {
         for (int i=0; i<4; i++) {
             if (tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN) {
                 for (ResourceCard c : this.cardGrid){
-                    if (adjacentCoordinates.get(i).equals(c.getCoordinates())) {
+                    //ResourceCards and GoldResourceCards
+                    if (adjacentCoordinates.get(i).equals(c.getCoordinates()) && !c.getCoordinates().equals(new Coordinates(0,0))) {
                         if(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i) != CardElements.EMPTY && c.getCardFace() == CardFace.FRONT){
+                            int lastElementAmount = this.elementsCounter.get(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i));
+                            this.elementsCounter.replace(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i), --lastElementAmount);
+                        }
+                        //StartingCards
+                    } else if (adjacentCoordinates.get(i).equals(c.getCoordinates()) && c.getCoordinates().equals(new Coordinates(0,0))) {
+                        if(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i) != CardElements.EMPTY && c.getCardFace() == CardFace.BACK){
                             int lastElementAmount = this.elementsCounter.get(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i));
                             this.elementsCounter.replace(c.getFrontEdgeResources().get(c.getFrontEdgeResources().size()-1-i), --lastElementAmount);
                         }
@@ -230,19 +233,33 @@ public class PrivateBoard {
         }
 
         //Adding the elements of the new Card
-        if (tmp.getCardFace() == CardFace.FRONT) {
-            for (int i=0; i<4; i++) {
-                if(tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN || tmp.getEdgeCoverage().get(i) == EdgeState.FREE) {
-                    if(tmp.getFrontEdgeResources().get(i) != CardElements.EMPTY && tmp.getFrontEdgeResources().get(i) != NONE){
-                        int lastElementAmount = this.elementsCounter.get(tmp.getFrontEdgeResources().get(i));
-                        this.elementsCounter.replace(tmp.getFrontEdgeResources().get(i), ++lastElementAmount);
-                    }
-                }
+
+        //StartingCard Case
+        if (tmp.getCoordinates().equals(new Coordinates(0, 0))) {
+            Map<CardElements, Integer> newElements= tmp.countCardElements();
+            for(Map.Entry<CardElements, Integer> entry : newElements.entrySet()) {
+                int amount = this.elementsCounter.get(entry.getKey());
+                amount += entry.getValue();
+                this.elementsCounter.replace(entry.getKey(), amount);
             }
         } else {
-            int lastElementAmount = this.elementsCounter.get(tmp.getCardElement());
-            this.elementsCounter.replace(tmp.getCardElement(), ++lastElementAmount);
+            //Normal Cards
+            if (tmp.getCardFace() == CardFace.FRONT) {
+                for (int i=0; i<4; i++) {
+                    if(tmp.getEdgeCoverage().get(i) == EdgeState.TAKEN || tmp.getEdgeCoverage().get(i) == EdgeState.FREE) {
+                        if(tmp.getFrontEdgeResources().get(i) != CardElements.EMPTY && tmp.getFrontEdgeResources().get(i) != NONE){
+                            int lastElementAmount = this.elementsCounter.get(tmp.getFrontEdgeResources().get(i));
+                            this.elementsCounter.replace(tmp.getFrontEdgeResources().get(i), ++lastElementAmount);
+                        }
+                    }
+                }
+            } else {
+                int lastElementAmount = this.elementsCounter.get(tmp.getCardElement());
+                this.elementsCounter.replace(tmp.getCardElement(), ++lastElementAmount);
+            }
         }
+        //Normal Cards
+
     }
 
     /**
@@ -255,15 +272,20 @@ public class PrivateBoard {
      * of the game. (All adjacent EdgeStates of the card already placed are FREE)
      */
     public void refreshPlacingCoordinates(){
-        //Remove the coordinates from placingCoordinates of the last Card placed
+        //Search for the last card added to the cardGrid
         ResourceCard pivot = this.cardGrid.get(this.cardGrid.size()-1);
-        for (int i=0; i<this.placingCoordinates.size(); i++) {
-            if(this.placingCoordinates.get(i).equals(pivot.getCoordinates())){
-                this.placingCoordinates.remove(i);
-                break;
-            }
 
+        //Remove the coordinates from placingCoordinates of the last Card placed if it isn't a StartingCard
+        if (!pivot.getCoordinates().equals(new Coordinates(0,0))){
+            for (int i=0; i<this.placingCoordinates.size(); i++) {
+                if(this.placingCoordinates.get(i).equals(pivot.getCoordinates())){
+                    this.placingCoordinates.remove(i);
+                    break;
+                }
+
+            }
         }
+
         //Refresh by adding the new Coordinates
         //Creates the adjacentCoordinates of the last card placed, named pivot here
         Map<Integer, Coordinates> adjacentCoordinates = findAdjacentCoordinatesAfterPlacing(pivot);
