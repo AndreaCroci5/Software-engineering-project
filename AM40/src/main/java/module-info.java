@@ -6,8 +6,11 @@ module it.polimi.ingsw.am40 {
     requires json.simple;
 
     opens it.polimi.ingsw.am40 to javafx.fxml;
-    exports it.polimi.ingsw.am40.model;
-    exports it.polimi.ingsw.am40.controller;
-    exports it.polimi.ingsw.am40.FXexamples;
-    opens it.polimi.ingsw.am40.FXexamples to javafx.fxml;
+    exports it.polimi.ingsw.am40.server.model;
+    exports it.polimi.ingsw.am40.server.controller;
+    exports it.polimi.ingsw.am40.client.view.GUI.FXexamples;
+    opens it.polimi.ingsw.am40.client.view.GUI.FXexamples to javafx.fxml;
+    opens it.polimi.ingsw.am40.server to javafx.fxml;
+    exports it.polimi.ingsw.am40.client.view.GUI;
+    opens it.polimi.ingsw.am40.client.view.GUI to javafx.fxml;
 }

@@ -47,6 +47,7 @@
       <version>1.1.1</version>
     </dependency>
 
+
   </dependencies>
 
   <build>
@@ -69,7 +70,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>it.polimi.ingsw.am40/it.polimi.ingsw.am40.FXexamples.HelloApplication</mainClass>
+              <mainClass>it.polimi.ingsw.am40/it.polimi.ingsw.am40.client.view.GUI.FXexamples.HelloApplication</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
