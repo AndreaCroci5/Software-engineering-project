@@ -3,6 +3,7 @@ package it.polimi.ingsw.am40.server;
 import it.polimi.ingsw.am40.server.actions.Action;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface that ensures the implementation of methods to handle a collection of listeners
@@ -31,4 +32,10 @@ public interface ActionPoster extends ActionAgent{
      * @param listenersContainer Collection of the listeners
      */
     public void notifyListeners(Action event, Collection<ActionListener> listenersContainer);
+
+    /**
+     * Getter for the list of listeners
+     * @return the list of references of the listeners
+     */
+    public List<ActionListener> getListeners();
 }
