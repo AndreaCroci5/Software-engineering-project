@@ -56,12 +56,14 @@ public class VVServer implements ActionPoster, ActionListener  {
      * 3)Creates a new list to contain the future parties
      * 4)Creates a new list for orphan clients (the ones that aren't logged in a Party yet)
      * 5)Creates a new list of listeners
+     * @param port the listening port of the server
+     * @param hostName the name of the server in the network
      */
-    public VVServer() {
+    public VVServer(int port, String hostName) {
         this.concreteNetworkManagers = new ArrayList<>();
         this.concreteNetworkManagers.add(new ServerNetworkRMIManager());
-        this.concreteNetworkManagers.add(new ServerNetworkTCPManager());
-        this.initCommunicationProtocols();
+        this.concreteNetworkManagers.add(new ServerNetworkTCPManager(port, hostName));
+       // this.initCommunicationProtocols();
         this.activeParties = new ArrayList<>();
         this.orphanClients = new ArrayList<>();
         this.listeners = new ArrayList<>();
@@ -244,9 +246,9 @@ public class VVServer implements ActionPoster, ActionListener  {
     /**
      * Method that invokes the init() on networkManagers to run the server connections
      */
-    private void initCommunicationProtocols(){
+    private void initCommunicationProtocols(int port, String hostName){
         for (NetworkManagerServer nm : this.concreteNetworkManagers) {
-            nm.initCommunication();
+            nm.initCommunication(port, hostName);
         }
     }
 
@@ -281,21 +283,32 @@ public class VVServer implements ActionPoster, ActionListener  {
      * As requirement, the partID must exist.
      * @param partyID the ID number of the party where add the client
      * @param clientID the ID of the client
-     * @param protocol to specify which communication protocol is used by the client
-     * @param socket to specify the socket (null if not necessary)
+     * @throws NonExistentClientException if the client doesn't exist
+     * @throws NonExistentPartyException if the party doesn't exist
+     * @throws ClientAlreadyLoggedException if the client is already logged in another Party
      */
-    private void logExistentClientInAParty(int partyID, int clientID, Protocol protocol, Socket socket) throws NonExistentClientException {
-        NetworkParty p = getPartyByID(partyID);
+    private void logClientInAParty(int partyID, int clientID) throws NonExistentClientException, NonExistentPartyException, ClientAlreadyLoggedException {
+        NetworkParty p = null;
+        try {
+            p = getPartyByID(partyID);
+        } catch (NonExistentPartyException e) {
+            throw new NonExistentPartyException();
+        }
 
-        if(p != null)
-        {
-            NetworkClient c = getClientInAPartyByID(clientID);
-            if(c != null){
+        NetworkClient c = null;
+        try {
+            c = getOrphanClientByID(clientID);
+        } catch (NonExistentClientException e){
+            try {
+                getClientInAPartyByID(partyID);
+            } catch (NonExistentClientException e1){
+                throw new ClientAlreadyLoggedException();
+            }
+            throw new NonExistentClientException();
+        }
 
-                p.logClient(c);
-            }else throw new NonExistentClientException();
-        }**************************************
-        return false;
+        p.logClient(c);
+
     }
 
 }

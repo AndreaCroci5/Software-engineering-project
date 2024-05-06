@@ -9,5 +9,5 @@ public interface NetworkManagerServer {
     /**
      * Method to start communications with a specific protocol
      */
-    public void initCommunication();
+    public void initCommunication(int port, String hostName);
 }

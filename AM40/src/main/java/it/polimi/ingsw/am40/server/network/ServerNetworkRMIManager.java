@@ -6,7 +6,7 @@ public class ServerNetworkRMIManager implements NetworkManagerServer, RemoteInte
      * Method to start communications with a specific protocol
      */
     @Override
-    public void initCommunication() {
+    public void initCommunication(int port, String hostName) {
 
     }
 }

@@ -4,7 +4,10 @@ package it.polimi.ingsw.am40.server.controller;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.model.Game;
+import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
+import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -28,6 +31,18 @@ public class GameManager implements ActionListener {
 
 
 
+
+
+    //CONSTRUCTOR
+
+    /**
+     * Constructor for GameManager
+     */
+    public GameManager(){
+        this.activeGames = new HashMap<>();
+    }
+
+
     //LISTENER METHOD
 
     /**
@@ -41,5 +56,29 @@ public class GameManager implements ActionListener {
     }
 
 
-    //
+    //PUBLIC METHODS
+
+    /**
+     * This method create a new server, initializes the listeners system and calls initCommunication on the
+     * network managers
+     * @param port the port of the server
+     * @param hostName the name of the server
+     */
+    public void initApplication(int port, String hostName){
+
+        VVServer server = new VVServer(port, hostName);
+        server.addListener(this, server.getListeners());
+
+        for (NetworkManagerServer nm : server.getConcreteNetworkManagers()) {
+            nm.initCommunication(port, hostName);
+        }
+
+    }//********************************************************
+
+
+    //PRIVATE METHODS
+
+    private void createNewGame(){
+
+    }
 }

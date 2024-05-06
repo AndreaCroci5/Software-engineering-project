@@ -410,4 +410,14 @@ public class Game implements ActionPoster {
             l.onEvent(event);
         }
     }
+
+    /**
+     * Getter for the list of listeners
+     *
+     * @return the list of references of the listeners
+     */
+    @Override
+    public List<ActionListener> getListeners() {
+        return this.listeners;
+    }
 }

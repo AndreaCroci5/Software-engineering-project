@@ -1,9 +1,5 @@
 package it.polimi.ingsw.am40.client.view;
 
-import it.polimi.ingsw.am40.client.network.ClientNetworkRMIManager;
-import it.polimi.ingsw.am40.client.network.ClientNetworkTCPManager;
-import it.polimi.ingsw.am40.client.network.NetworkFactoryException;
-import it.polimi.ingsw.am40.client.network.NetworkManagerClient;
 import it.polimi.ingsw.am40.client.view.GUI.GUIManager;
 import it.polimi.ingsw.am40.client.view.TUI.TUIManager;
 
@@ -30,7 +26,6 @@ public class ViewFactory {
                 }
             }
             throw new ViewFactoryException();
-        }
-    }
 
+    }
 }

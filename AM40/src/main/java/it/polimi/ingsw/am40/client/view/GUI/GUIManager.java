@@ -8,4 +8,11 @@ import it.polimi.ingsw.am40.client.view.ViewManager;
  * and to manage the inputs with JavaFX
  */
 public class GUIManager implements ViewManager {
+    /**
+     * Method to initialize the entire display protocol and to set initial parameters
+     */
+    @Override
+    public void initView() {
+
+    }
 }
