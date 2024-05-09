@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am40.server.model;
 
-import it.polimi.ingsw.am40.server.model.*;
 import it.polimi.ingsw.am40.server.model.scoreStrategy.CoverageScoreType;
 import it.polimi.ingsw.am40.server.model.scoreStrategy.NormalScoreType;
 import it.polimi.ingsw.am40.server.model.scoreStrategy.ObjectScoreType;
@@ -10,10 +9,9 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO Javadoc the last tests line 1298
-//INDEX: 17 private methods for factory, 227 card flow, 281 check placing,
-//       370 placing, 465 refresh score, 633 refresh placingCoordinates
-//       1163 refresh ElementsCounter
+//INDEX: 18 private methods for factory, 253 card flow, 307 check placing,
+//       396 placing, 491 refresh score, 659 refresh placingCoordinates
+//       1341 refresh ElementsCounter, 1682 StartingCard Complete Tests
 
 class PrivateBoardTest {
 
@@ -1118,7 +1116,7 @@ class PrivateBoardTest {
     }
 
     /**
-     * This test ensures that Coordinates refresh for a possible multiple corner cover placing is possible (in this case 3).
+     * This test ensures that Coordinates refresh for a possible multiple corner cover placing is possible (in this case 3 corners).
      * In this case we have a Card in (2,2), a Card in (2,3) and a Card in (4,3) with a NONE top-left EdgeState already placed
      * with placingCoordinates attribute already up to date.
      * We start the test by placing a Card in (3,2) on FRONT CardFace with all FREE EdgeStates, creating again a conflict in Coordinates (3,3),
@@ -1187,10 +1185,163 @@ class PrivateBoardTest {
         assertEquals(8, privateBoard.getPlacingCoordinates().size());
     }
 
+    //PLACING WITH DOUBLE OVERLAPPING CHECK CORRECT REFRESH
+
+    /**
+     * This test ensures that the correct Coordinates refresh after a multiple corner overlap placing is done.
+     * In this case we have two Cards already placed in positioned in (2,3) and (3,2), we assume that until now Coordinates
+     * refreshing was correctly made. Then we want to place a card in Coordinates (3,3) on BACK.
+     * Now we want to test that (4,3) and (3,4) Coordinates are present in placingCoordinates attribute, then we want to
+     * ensure that the Coordinates of the Card placed are not present
+     */
+    @Test
+    void coordinatesRefreshingOverlappingOnBACK() {
+        //Setup
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Cards Setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3, CardFace.BACK));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(3,2, CardFace.BACK));
+        //Coordinates setup
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 2));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 2));
+
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+        //CardToPlace
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneTR();
+        //Call methods to test
+        privateBoard.placing(cardToPlace, new Coordinates(3,3),CardFace.BACK);
+        privateBoard.refreshPlacingCoordinates();
+        //TESTING new coordinates are present
+        Coordinates coordsToTest = new Coordinates(10,10);
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(3,4))){
+                coordsToTest = new Coordinates(3,4);
+            }
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(3,4)));
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(4,3))){
+                coordsToTest = new Coordinates(4,3);
+            }
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(4,3)));
+        //TESTING old Coordinates are removed
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertFalse(c.equals(new Coordinates(3,3)));
+            assertFalse(c.equals(new Coordinates(2,3)));
+            assertFalse(c.equals(new Coordinates(3,2)));
+        }
+        //Testing that placingCoordinates is the right size
+        assertEquals(7,privateBoard.getPlacingCoordinates().size());
+    }
+
+    /**
+     * This test ensures that the correct Coordinates refresh after a multiple corner overlap placing is done.
+     * In this case we have two Cards already placed in positioned in (2,3) and (3,2), we assume that until now Coordinates
+     * refreshing was correctly made. Then we want to place a card with top-right corner NONE in Coordinates (3,3) on FRONT.
+     * Now we want to test that (4,3) Coordinates are present in placingCoordinates attribute, then we want to
+     * ensure that the Coordinates of the Card placed and the Coordinates (3,4) related to the top right edge of the
+     * last card placed are not present
+     */
+    @Test
+    void coordinatesRefreshingOverlappingOnFRONTWithTLNONE() {
+        //Setup
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Cards Setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3, CardFace.BACK));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(3,2, CardFace.BACK));
+        //Coordinates setup
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 2));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 2));
+
+        assertEquals(6, privateBoard.getPlacingCoordinates().size());
+        //CardToPlace
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneTR();
+        //Call methods to test
+        privateBoard.placing(cardToPlace, new Coordinates(3,3),CardFace.FRONT);
+        privateBoard.refreshPlacingCoordinates();
+        //TESTING new coordinates are present
+        Coordinates coordsToTest = new Coordinates(10,10);
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            if(c.equals(new Coordinates(4,3))){
+                coordsToTest = new Coordinates(4,3);
+            }
+        }
+        assertTrue(coordsToTest.equals(new Coordinates(4,3)));
+        //TESTING old Coordinates are removed and TR Coords of the Card placed isn't present
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertFalse(c.equals(new Coordinates(3,3)));
+            assertFalse(c.equals(new Coordinates(2,3)));
+            assertFalse(c.equals(new Coordinates(3,2)));
+            assertFalse(c.equals(new Coordinates(3,4)));
+        }
+        //Testing that placingCoordinates is the right size
+        assertEquals(6,privateBoard.getPlacingCoordinates().size());
+    }
+
+    /**
+     * This test ensures that the correct Coordinates refresh after a multiple corner overlap placing is done.
+     * In this case we have three Cards already placed in positioned in (2,3), (3,2) and (4,3),
+     * we assume that until now Coordinates refreshing was correctly made.
+     * Then we want to place a card with top-right corner NONE in Coordinates (3,3) on FRONT.
+     * Now we want to test that no new Coordinates are present in placingCoordinates attribute after the refreshing,
+     * then we want to that the Coordinates of the Card placed and the Coordinates (3,4) related to the top right edge
+     * of the last card placed are not present
+     */
+    @Test
+    void coordinatesRefreshingThreeCardsOverlappingOnFRONTWithTLNONE() {
+        //Setup
+        PrivateBoard privateBoard = new PrivateBoard();
+        //Cards Setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(2,3, CardFace.BACK));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(3,2, CardFace.BACK));
+        privateBoard.getCardGrid().add(placedResourceCardCreator(4,3, CardFace.BACK));
+        //Coordinates setup
+        privateBoard.getPlacingCoordinates().add(new Coordinates(1, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 3));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(2, 2));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(3, 1));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 2));
+
+        privateBoard.getPlacingCoordinates().add(new Coordinates(4, 4));
+        privateBoard.getPlacingCoordinates().add(new Coordinates(5, 3));
+
+        assertEquals(8, privateBoard.getPlacingCoordinates().size());
+        //CardToPlace
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneTR();
+        //Call methods to test
+        privateBoard.placing(cardToPlace, new Coordinates(3,3),CardFace.FRONT);
+        privateBoard.refreshPlacingCoordinates();
+        //TESTING old Coordinates are removed and TR Coords of the Card placed isn't present
+        for(Coordinates c: privateBoard.getPlacingCoordinates()){
+            assertFalse(c.equals(new Coordinates(3,3)));
+            assertFalse(c.equals(new Coordinates(2,3)));
+            assertFalse(c.equals(new Coordinates(3,2)));
+            assertFalse(c.equals(new Coordinates(3,4)));
+            assertFalse(c.equals(new Coordinates(4,3)));
+        }
+        //Testing that placingCoordinates is the right size
+        assertEquals(7,privateBoard.getPlacingCoordinates().size());
+    }
+
     //Test RefreshElementsCounter
 
     /**
-     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times how many times
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
      * an element is present on the cardGrid.
      * Here we have a placed FUNGI card with CardFace FRONT and a FUNGI in every corner.
      * Then we place a copy of the Card onto the top-right corner of the card already placed.
@@ -1211,7 +1362,7 @@ class PrivateBoardTest {
     }
 
     /**
-     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times how many times
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
      * an element is present on the cardGrid.
      * Here we have a placed FUNGI card with CardFace FRONT and a FUNGI in every corner.
      * Then we place a copy of the Card with the only difference of having a NONE onto the bottom left corner.
@@ -1219,7 +1370,7 @@ class PrivateBoardTest {
      * In this case we should have 6 FUNGI = 4 - 1 (covered) + 3 (new Card)
      */
     @Test
-    void simpleRefreshElementsCounterFrontWCardPlacedBLEdgeNONEFRONT() {
+    void simpleRefreshElementsCounterFRONTWithCardPlacedBLEdgeNONEFRONT() {
         PrivateBoard privateBoard = new PrivateBoard();
         ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneBL();
         //PrivateBoard setup
@@ -1233,7 +1384,7 @@ class PrivateBoardTest {
     }
 
     /**
-     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times how many times
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
      * an element is present on the cardGrid.
      * Here we have a placed FUNGI card with CardFace BACK and a FUNGI in every corner on the FRONT.
      * Then we place on the BACK a copy of the Card onto the top-right corner of the card already placed.
@@ -1254,7 +1405,7 @@ class PrivateBoardTest {
     }
 
     /**
-     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times how many times
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
      * an element is present on the cardGrid.
      * Here we have a placed FUNGI card with CardFace FRONT and a FUNGI in every corner on the FRONT.
      * Then we place on the BACK a copy of the Card onto the top-right corner of the card already placed.
@@ -1275,7 +1426,7 @@ class PrivateBoardTest {
     }
 
     /**
-     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times how many times
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
      * an element is present on the cardGrid.
      * Here we have a placed FUNGI card with CardFace FRONT and a FUNGI in every corner on the FRONT.
      * Then we place on the BACK a copy of the Card onto the top-right corner of the card already placed.
@@ -1295,14 +1446,39 @@ class PrivateBoardTest {
         assertEquals(5, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed FUNGI card with CardFace BACK with on the other side FUNGI in every corner except the top-right corner which is NONE.
+     * Then we place a Card on FRONT with all FUNGI in the Edges except a NONE onto the bottom-left corner.
+     * So, we place this Card onto the top-right corner of the card already placed.
+     * In this case we should have 4 FUNGI = 1 + 3 (new Card)
+     */
+    @Test
+    void simpleRefreshElementsCounterBACKWithCardPlacedBLEdgeNONEFRONT() {
+        PrivateBoard privateBoard = new PrivateBoard();
+        ResourceCard cardToPlace = resourceCardCreatorWithEdgeNoneBL();
+        ResourceCard cardAlreadyPlaced = resourceCardCreatorWithEdgeNoneTR();
+        //PrivateBoard setup
+        privateBoard.getCardGrid().add(placedResourceCardCreator(1,1,CardFace.BACK));
+        privateBoard.getElementsCounter().replace(CardElements.FUNGI, 1);
+        //Place Phase
+        privateBoard.placing(cardToPlace, new Coordinates(1, 2), CardFace.FRONT);
+        privateBoard.refreshElementsCounter();
+        //Test
+        assertEquals(4, privateBoard.getElementsCounter().get(CardElements.FUNGI));
+    }
 
-    //TO JAVADOC
-    //LAST SINGLE TESTS BY USING NONE
-    
 
-    
     //MULTIPLE PLACEMENT REFRESH ELEMENTS COUNTER
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI card with CardFace FRONT with FUNGI in every corner.
+     * Then we place another full FUNGI Card on the FRONT by overlapping the edges of the other two cards.
+     * In this case we should have: 10 FUNGI = 4 + 4 - 2 (covered) + 4 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterAllFRONT() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1318,6 +1494,13 @@ class PrivateBoardTest {
         assertEquals(10, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI card with CardFace FRONT with FUNGI in every corner.
+     * Then we place another full FUNGI Card on the BACK by overlapping the edges of the other two cards.
+     * In this case we should have: 7 FUNGI = 4 + 4 - 2 (covered) + 1 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterCardPlacedOnBACKOthersFRONT() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1333,6 +1516,13 @@ class PrivateBoardTest {
         assertEquals(7, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI card with CardFace BACK with FUNGI in every corner on the other side.
+     * Then we place another full FUNGI Card on the FRONT by overlapping the edges of the other two cards.
+     * In this case we should have: 6 FUNGI = 1 + 1 + 4 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterCardPlacedOnFRONTOthersBACK() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1348,6 +1538,13 @@ class PrivateBoardTest {
         assertEquals(6, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI card with CardFace BACK with FUNGI in every corner on the other side.
+     * Then we place another full FUNGI Card on the BACK by overlapping the edges of the other two cards.
+     * In this case we should have: 3 FUNGI = 1 + 1 + 1 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterAllBACK() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1363,6 +1560,14 @@ class PrivateBoardTest {
         assertEquals(3, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI cards with one's CardFace BACK with FUNGI in every corner on the other side and
+     * the other Card on FRONT.
+     * Then we place another full FUNGI Card on the FRONT by overlapping the edges of the other two cards.
+     * In this case we should have: 8 FUNGI = 1 + 4 - 1 (covered) + 4 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterCardPlacedOnFRONTOneBACKOneFRONT() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1378,6 +1583,14 @@ class PrivateBoardTest {
         assertEquals(8, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI cards with one's CardFace BACK with FUNGI in every corner on the other side and
+     * the other Card on FRONT.
+     * Then we place another full FUNGI Card on the BACK by overlapping the edges of the other two cards.
+     * In this case we should have: 5 FUNGI = 1 + 4 - 1 (covered) + 1 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterCardPlacedOnBACKOneBACKOneFRONT() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1393,9 +1606,16 @@ class PrivateBoardTest {
         assertEquals(5, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
-    //Try the tests above including NONE Edges
+    //Test Above with NONE Edges Cases
 
-
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI cards with CardFace FRONT.
+     * Then we place another full FUNGI Card with the only exception of having a NONE bottom-left corner.
+     * So we place this Card on the FRONT by overlapping the edges of the other two cards.
+     * In this case we should have: 9 FUNGI = 4 + 4 - 2 (covered) + 3 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterCardPlacedOnFRONTWEdgeNONE() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1411,6 +1631,14 @@ class PrivateBoardTest {
         assertEquals(9, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI cards with CardFace FRONT.
+     * Then we place another full FUNGI Card with the only exception of having a NONE bottom-left corner.
+     * So we place this Card on the BACK by overlapping the edges of the other two cards.
+     * In this case we should have: 7 FUNGI = 4 + 4 - 2 (covered) + 1 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterCardPlacedOnBACKEdgeNONE() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1426,6 +1654,14 @@ class PrivateBoardTest {
         assertEquals(7, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that elementsCounter refresh is executed correctly by checking the number of times
+     * an element is present on the cardGrid.
+     * Here we have a placed 2 FUNGI cards with one's CardFace FRONT and the other one with CardFace BACK.
+     * Then we place another full FUNGI Card with the only exception of having a NONE bottom-left corner.
+     * So we place this Card on the FRONT by overlapping the edges of the other two cards.
+     * In this case we should have: 7 FUNGI = 4 + 1 - 1 (covered) + 3 (new Card)
+     */
     @Test
     void multipleRefreshElementsCounterCardPlacedOnFRONTEdgeNONEWPlacedCardOnBACK() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1444,6 +1680,11 @@ class PrivateBoardTest {
 
 
     //STARTING CARD INTEGRATION TESTING
+
+    /**
+     * This test ensures that the placing of a StartingCard with ID 86 on FRONT is correctly made.
+     * This includes that all PrivateBoard refreshing must be done correctly.
+     */
     @Test
     void startingCardPlaceOnFRONT() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1491,6 +1732,10 @@ class PrivateBoardTest {
         assertEquals(0, privateBoard.refreshPoints());
     }
 
+    /**
+     * This test ensures that the placing of a StartingCard with ID 86 on BACK is correctly made.
+     * This includes that all PrivateBoard refreshing must be done correctly.
+     */
     @Test
     void startingCardPlaceOnBACK() {
         PrivateBoard privateBoard = new PrivateBoard();
@@ -1529,6 +1774,12 @@ class PrivateBoardTest {
         assertEquals(0, privateBoard.refreshPoints());
     }
 
+    /**
+     * This test ensures that the placing of a StartingCard with ID 86 on FRONT is correctly made.
+     * This includes that all PrivateBoard refreshing must be done correctly.
+     * After that we place a ResourceCard with CardFace BACK overlapping the top-right corner of the StartingCard.
+     * In the end we test that the PrivateBoard, after the last placing is correctly refreshed and up to date.
+     */
     @Test
     void legalPlaceOnStartingCardPlacedOnFRONT() {
         //SETUP
@@ -1565,6 +1816,13 @@ class PrivateBoardTest {
         assertEquals(2, privateBoard.getElementsCounter().get(CardElements.FUNGI));
     }
 
+    /**
+     * This test ensures that the placing of a StartingCard with ID 86 on FRONT is correctly made.
+     * This includes that all PrivateBoard refreshing must be done correctly.
+     * After that we try to place a ResourceCard with CardFace BACK overlapping the bottom-left corner of the StartingCard.
+     * This move is not possible because the StartingCard has a NONE Edge.
+     * In the end we test that the PrivateBoard didn't place the ResourceCard
+     */
     @Test
     void illegalPlaceOnStartingCardPlacedOnFRONT() {
         //SETUP
@@ -1589,6 +1847,12 @@ class PrivateBoardTest {
         }
     }
 
+    /**
+     * This test ensures that the placing of a StartingCard with ID 86 on FRONT is correctly made.
+     * This includes that all PrivateBoard refreshing must be done correctly.
+     * After that we place a ResourceCard with CardFace BACK overlapping the bottom-left corner of the StartingCard.
+     * In the end we test that the PrivateBoard, after the last placing is correctly refreshed and up to date.
+     */
     @Test
     void legalPlaceOnStartingCardPlacedOnBACK() {
         //SETUP
