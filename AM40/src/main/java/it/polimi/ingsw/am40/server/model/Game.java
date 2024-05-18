@@ -1,5 +1,8 @@
 package it.polimi.ingsw.am40.server.model;
 
+import it.polimi.ingsw.am40.exceptions.server.model.ForceEndgameTurnException;
+import it.polimi.ingsw.am40.exceptions.server.model.TokenColorException;
+import it.polimi.ingsw.am40.exceptions.server.model.TurnException;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -42,7 +45,7 @@ public class Game implements ActionPoster {
     public Game() {
         this.players = new ArrayList<Player>(); ;
         this.commonBoard = new CommonBoard(); ;
-        this.remainingRounds = 0;
+        this.remainingRounds = 70;
         this.listeners = new ArrayList<>();
     }
 
@@ -208,6 +211,7 @@ public class Game implements ActionPoster {
         this.playFirstRound();
     }
 
+    //FIXME let's discuss if it's worth keeping the method below, because first round must be fragmented
     //TO CHECK (MESSAGES)
     /**
      * This method calls other sub-methods to play the first round of the game
@@ -233,6 +237,69 @@ public class Game implements ActionPoster {
 
         }
     }
+
+    //FIXME Correct Refreshing in the PrivateBoard in StartingCard Face Selection
+    /**
+     * This method is used during the first round where a Player choose on which side place the StartingCard
+     * @param cardFace the CardFace chosen by the Player in order to place the StaringCard
+     */
+    public void chooseStartingCardFace(CardFace cardFace) {
+        int index = getIndexOfPlayingPlayer();
+        PrivateBoard currentPlayerPrivateBoard = this.players.get(index).getPrivateBoard();
+
+        //Change StartingCard Orientation
+        currentPlayerPrivateBoard.getCardGrid().getFirst().setFace(cardFace);
+
+        //Refreshing
+        currentPlayerPrivateBoard.refreshElementsCounter();
+        this.players.get(index).increaseScore(currentPlayerPrivateBoard.refreshPoints());
+        currentPlayerPrivateBoard.refreshPlacingCoordinates();
+    }
+
+    /**
+     * This method is used during the first round where a Player choose on which side place the StartingCard
+     * @param color the CardFace chosen by the Player in order to place the StaringCard
+     */
+    public void chooseTokenColor(Color color) throws TokenColorException {
+        int index = getIndexOfPlayingPlayer();
+        Player currentPlayer = this.players.get(index);
+
+        //Choose Token Color
+        for(Player p: players) {
+            if(color == p.getToken().getColor()){
+                throw new TokenColorException();
+            }
+        }
+        currentPlayer.getToken().setColor(color);
+    }
+
+    /**
+     * This method is used during the first round where a Player one of the two AimCards offered
+     * @param choice is the AimCard chosen by the Client: (0) the first, (1) the second
+     */
+    public void aimCardSelection(int choice) {
+        int index = getIndexOfPlayingPlayer();
+        Player currentPlayer = this.players.get(index);
+
+        //AimCardSelection
+        if (choice == 0) {
+            //Selection
+            AimCard cardSelected = this.getCommonBoard().getAimDeck().pickFromTop();
+            currentPlayer.setPrivateAim(cardSelected);
+            //Discard of the other AimCard
+            AimCard cardDiscarded = this.getCommonBoard().getAimDeck().pickFromTop();
+            this.getCommonBoard().getAimDeck().appendToBottom(cardDiscarded);
+        }
+        if (choice == 1) {
+            //Discard of the other AimCard
+            AimCard cardDiscarded = this.getCommonBoard().getAimDeck().pickFromTop();
+            this.getCommonBoard().getAimDeck().appendToBottom(cardDiscarded);
+            //Selection
+            AimCard cardSelected = this.getCommonBoard().getAimDeck().pickFromTop();
+            currentPlayer.setPrivateAim(cardSelected);
+        }
+    }
+
 
     /**
      * This method decides the player order and sets the first player as starting player
@@ -370,13 +437,46 @@ public class Game implements ActionPoster {
      * This method checks the player that is playing and it returns the index
      * @return the index of the playing Player as int
      */
-    private int getIndexOfPlayingPlayer(){
+    public int getIndexOfPlayingPlayer(){
         for (Player player : players) {
             if (player.isCurrentlyPlaying()) {
                 return players.indexOf(player);
             }
         }
         return 0;
+    }
+
+    /**
+     * This method is used after the end of every Round or Phase in order to change the Player that has the right
+     * to play its turn
+     * @param index is the index of the actual player, should use getIndexOfPlayingPlayer method
+     */
+    public void changePlayersTurn(int index) throws TurnException {
+        //This check serves to control the final rounds
+        if (remainingRounds<8 && remainingRounds>0) {
+            remainingRounds--;
+        }
+        if (remainingRounds == 0) {
+            throw new ForceEndgameTurnException();
+        }
+        //Check if the next Player is Online and in that case puts him as CurrentlyPlaying for the nextTurn recursively
+        if (remainingRounds != 0) {
+            this.players.get(index).setCurrentlyPlaying(false);
+            if (index != this.players.size()-1) {
+                if(this.players.get(++index).isOnline()){
+                    this.players.get(++index).setCurrentlyPlaying(true);
+                } else {
+                    changePlayersTurn(++index);
+                }
+            } else {
+                if(this.players.get(0).isOnline()){
+                    this.players.get(0).setCurrentlyPlaying(true);
+                } else {
+                    changePlayersTurn(1);
+                }
+                this.players.get(0).setCurrentlyPlaying(true);
+            }
+        }
     }
 
 

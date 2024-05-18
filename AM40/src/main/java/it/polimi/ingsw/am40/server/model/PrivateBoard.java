@@ -314,6 +314,24 @@ public class PrivateBoard {
         }
     }
 
+    /**
+     * This method is used in PlacingAction when it becomes necessary to fetch the changes made after a Placing
+     * @param tmpElementsCounter is a copy of this.elementsCounter before the placing
+     * @return a Map with the keys that suffered a value change and the new values related
+     */
+    public Map<CardElements, Integer>  elementsCounterDifferences(Map<CardElements, Integer> tmpElementsCounter) {
+        Map<CardElements, Integer> elementsCounterChanges = new HashMap<>();
+
+        for (Map.Entry<CardElements, Integer> entry: tmpElementsCounter.entrySet()) {
+            CardElements key = entry.getKey();
+            if (!this.elementsCounter.get(key).equals(entry.getValue())) {
+                elementsCounterChanges.put(key, this.elementsCounter.get(key));
+            }
+        }
+
+        return elementsCounterChanges;
+    }
+
     //PRIVATE METHODS
 
     //      checkPlacing related methods

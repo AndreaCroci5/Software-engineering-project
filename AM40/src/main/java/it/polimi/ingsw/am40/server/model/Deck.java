@@ -75,4 +75,25 @@ public class Deck<T> {
         return cards.size();
     }
 
+
+    // MVC --> Network related methods
+
+    /**
+     * This method allows the caller to peek the first element of the cards deck in order to get the cardID
+     * @return cardID of the first element of the cards deck as int
+     */
+    public int peekFirstCard() {
+        Card cardToPeek = (Card) this.cards.peekFirst();
+        return cardToPeek.getCardID();
+    }
+
+    /**
+     * This method allows the caller to insert an element on the top of the cards deck.
+     * It becomes very useful in the First Round when the Client has to choose one of two Cards
+     * @param elementToAdd is the element to add on top of the cards deck
+     */
+    public void addToTop(T elementToAdd) {
+        cards.offerFirst(elementToAdd);
+    }
+
 }
