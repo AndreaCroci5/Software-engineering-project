@@ -5,8 +5,8 @@ import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
-import it.polimi.ingsw.am40.server.network.ServerNetworkRMIManager;
-import it.polimi.ingsw.am40.server.network.ServerNetworkTCPManager;
+import it.polimi.ingsw.am40.server.network.RMI.ServerNetworkRMIManager;
+import it.polimi.ingsw.am40.server.network.TCP.ServerNetworkTCPManager;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -52,18 +52,16 @@ public class VVServer implements ActionPoster, ActionListener  {
     /**
      * Constructor for VVServer
      * 1)Creates the protocol managers
-     * 2)Initializes the connections by calling the init() method on the managers
-     * 3)Creates a new list to contain the future parties
-     * 4)Creates a new list for orphan clients (the ones that aren't logged in a Party yet)
-     * 5)Creates a new list of listeners
-     * @param port the listening port of the server
-     * @param hostName the name of the server in the network
+     * 2)Creates a new list to contain the future parties
+     * 3)Creates a new list for orphan clients (the ones that aren't logged in a Party yet)
+     * 4)Creates a new list of listeners
      */
-    public VVServer(int port, String hostName) {
+    public VVServer() {
         this.concreteNetworkManagers = new ArrayList<>();
-        this.concreteNetworkManagers.add(new ServerNetworkRMIManager());
-        this.concreteNetworkManagers.add(new ServerNetworkTCPManager(port, hostName));
-       // this.initCommunicationProtocols();
+
+        this.concreteNetworkManagers.add(new ServerNetworkRMIManager(this));
+        this.concreteNetworkManagers.add(new ServerNetworkTCPManager(this));
+
         this.activeParties = new ArrayList<>();
         this.orphanClients = new ArrayList<>();
         this.listeners = new ArrayList<>();
@@ -181,6 +179,65 @@ public class VVServer implements ActionPoster, ActionListener  {
         throw new NonExistentClientException();
     }
 
+    /**
+     * Getter for all the clients connected with TCP
+     * @return the list of the NetworkClient connected
+     */
+    public List<NetworkClient> getAllTCPClients(){
+        List<NetworkClient> result = null;
+        for (NetworkClient client : this.orphanClients) {
+            if(client.getProtocol() == Protocol.TCP){
+                result.add(client);
+            }
+        }
+
+
+        for(NetworkParty party : this.activeParties){
+            for (NetworkClient client : party.getClients()) {
+                if (client.getProtocol() == Protocol.TCP) {
+                    result.add(client);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Getter for all the clients connected with RMI
+     * @return the list of the NetworkClient connected
+     */
+    public List<NetworkClient> getAllRMIClients(){
+        List<NetworkClient> result = null;
+        for (NetworkClient client : this.orphanClients) {
+            if(client.getProtocol() == Protocol.RMI){
+                result.add(client);
+            }
+        }
+
+
+        for(NetworkParty party : this.activeParties){
+            for (NetworkClient client : party.getClients()) {
+                if (client.getProtocol() == Protocol.RMI) {
+                    result.add(client);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Getter for all the clients connected with the server
+     * @return the list of the NetworkClient connected
+     */
+    public List<NetworkClient> getAllClients(){
+        List<NetworkClient> result = null;
+        result.addAll(getAllTCPClients());
+        result.addAll(getAllRMIClients());
+        return result;
+    }
+
 
 
     //POSTER METHODS
@@ -241,19 +298,6 @@ public class VVServer implements ActionPoster, ActionListener  {
 
 
 
-    //PRIVATE INIT METHODS
-
-    /**
-     * Method that invokes the init() on networkManagers to run the server connections
-     */
-    private void initCommunicationProtocols(int port, String hostName){
-        for (NetworkManagerServer nm : this.concreteNetworkManagers) {
-            nm.initCommunication(port, hostName);
-        }
-    }
-
-
-
     //PRIVATE METHODS
 
     /**
@@ -268,15 +312,22 @@ public class VVServer implements ActionPoster, ActionListener  {
         return p.getPartyID();
     }
 
+
+
+    //PUBLIC METHODS
+    //TODO javadoc
     /**
      * Method to create a new client and to add it in the orphan list
      * @return the ClientID
      */
-    private int createNewOrphanClient(String username, Protocol protocol, Socket socket){
-        NetworkClient c = new NetworkClient(username, protocol, socket);
+    public int createNewOrphanClient(Protocol protocol, Socket socket){
+        NetworkClient c = new NetworkClient(protocol, socket);
         this.orphanClients.add(c);
         return c.getClientID();
     }
+
+    //todo
+    public void setClientOffline(Socket clientSocket){}
 
     /**
      * Method to add a new client to a party.
@@ -287,7 +338,7 @@ public class VVServer implements ActionPoster, ActionListener  {
      * @throws NonExistentPartyException if the party doesn't exist
      * @throws ClientAlreadyLoggedException if the client is already logged in another Party
      */
-    private void logClientInAParty(int partyID, int clientID) throws NonExistentClientException, NonExistentPartyException, ClientAlreadyLoggedException {
+    public void logClientInAParty(int partyID, int clientID) throws NonExistentClientException, NonExistentPartyException, ClientAlreadyLoggedException {
         NetworkParty p = null;
         try {
             p = getPartyByID(partyID);
@@ -311,4 +362,16 @@ public class VVServer implements ActionPoster, ActionListener  {
 
     }
 
+
+    /**
+     * This method call the initCommunication() method on the Network Managers
+     * //fixme doc
+     * @param port     the port of the server
+     * @param portRMI
+     * @param hostName the name of the server
+     */
+    public void initServer(int portTCP, int portRMI, String hostName) {
+            this.concreteNetworkManagers.get(1).initCommunication(portTCP, hostName);
+            this.concreteNetworkManagers.get(0).initCommunication(portRMI, hostName);
+    }
 }

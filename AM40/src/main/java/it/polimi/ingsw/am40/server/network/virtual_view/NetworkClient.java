@@ -33,7 +33,7 @@ public class NetworkClient {
     /**
      * Represents the username used by a client when logged
      */
-    private final String username;
+    private String username;
 
     /**
      * Indicates if a client is the one that asked for a new lobby
@@ -65,11 +65,10 @@ public class NetworkClient {
     /**
      * Constructor method for network client
      *
-     * @param username Username of the client
      * @param protocol Protocol used by the client
      * @param socket   Reference to the socket
      */
-    NetworkClient(String username, Protocol protocol, Socket socket) {
+    public NetworkClient( Protocol protocol, Socket socket) {
         //More than one thread could access to this block of code, but each client must have a different ID
         synchronized (lock) {
             NetworkClient.clientCounter++;
@@ -78,7 +77,7 @@ public class NetworkClient {
         this.protocol = protocol;
         this.socket = socket;
         this.online = true;
-        this.username = username;
+        this.username = null;
         this.creator = false;
         this.active = false;
     }
@@ -173,4 +172,11 @@ public class NetworkClient {
         this.creator = creator;
     }
 
+    /**
+     * Setter for username
+     * @param username if the client has a username in the game
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

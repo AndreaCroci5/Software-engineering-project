@@ -9,6 +9,9 @@ import it.polimi.ingsw.am40.client.view.TUI.TUIManager;
  */
 public class ViewFactory {
 
+    public ViewFactory() {
+    }
+
     /**
      * Method to create the concrete network manager class according to user preferences
      * @param graphicInterface A string which define which protocol is used
@@ -16,7 +19,7 @@ public class ViewFactory {
      */
     public ViewManager createConcreteView(String graphicInterface) throws ViewFactoryException {
             if(graphicInterface != null){
-                switch(graphicInterface){
+                switch(graphicInterface.toUpperCase()){
                     case "TUI":
                         return new TUIManager();
                     case "GUI":

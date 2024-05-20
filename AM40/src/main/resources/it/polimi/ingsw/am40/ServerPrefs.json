@@ -1,4 +1,5 @@
 {
   "hostnameServer" : "server codex naturalis",
-  "portNumber" : "1000"
+  "portNumberRMI" : "1099",
+  "portNumberTCP" : "8080"
 }

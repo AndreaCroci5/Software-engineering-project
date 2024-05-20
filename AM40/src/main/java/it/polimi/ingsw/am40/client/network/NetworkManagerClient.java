@@ -12,5 +12,12 @@ public interface NetworkManagerClient extends ConcreteContext {
     /**
      * Method to initialize the entire communication protocol and to set initial parameters
      */
-    public void initCommunication();
+    public void initCommunication(int port, String hostName, String serverAddress);
+
+    /**
+     * Getter for the client class reference
+     * @return the client as reference
+     */
+    public Client getClient();
+
 }

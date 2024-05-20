@@ -1,4 +1,6 @@
 {
   "hostnameClient" : "client codex naturalis",
-  "portNumber" : "2024"
+  "portNumberRMI" : "1099",
+  "portNumberTCP" : "6053",
+  "serverAddress" : "127.0.0.1"
 }

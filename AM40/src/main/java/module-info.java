@@ -4,6 +4,7 @@ module it.polimi.ingsw.am40 {
 
     requires org.controlsfx.controls;
     requires json.simple;
+    requires java.rmi;
 
     opens it.polimi.ingsw.am40 to javafx.fxml;
     exports it.polimi.ingsw.am40.server.model;
@@ -14,4 +15,6 @@ module it.polimi.ingsw.am40 {
     opens it.polimi.ingsw.am40.server to javafx.fxml;
     exports it.polimi.ingsw.am40.client.view.GUI;
     opens it.polimi.ingsw.am40.client.view.GUI to javafx.fxml;
+
+    exports it.polimi.ingsw.am40.server.network.RMI to java.rmi;
 }

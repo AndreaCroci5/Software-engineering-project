@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class CodexNaturalisServer {
 
+    /**
+     * File path for json prefs file
+     */
     private static final String sourcePrefsFile = "AM40/src/main/resources/it/polimi/ingsw/am40/ServerPrefs.json";
 
     /**
@@ -30,7 +33,8 @@ public class CodexNaturalisServer {
         //Creating the controller
         GameManager gameManager = new GameManager();
 
-        Integer portPref = null;
+        Integer portPrefTCP = null;
+        Integer portPrefRMI = null;
         String hostPref = null;
         boolean JSONCheck = true;
 
@@ -42,16 +46,18 @@ public class CodexNaturalisServer {
         */
         try {
             List<Object> params = application.parsingJSONPrefs();
-            portPref = (Integer) params.get(0);
-            hostPref = (String) params.get(1);
+            portPrefTCP = (Integer) params.get(0);
+            portPrefRMI = (Integer) params.get(1);
+            hostPref = (String) params.get(2);
         } catch (InvalidJSONPrefsException e) {
             JSONCheck = false;
         }
 
         try {
             List<Object> params = application.parsingArgsPrefs(args);
-            portPref = (Integer) params.get(0);
-            hostPref = (String) params.get(1);
+            portPrefTCP = (Integer) params.get(0);
+            portPrefRMI = (Integer) params.get(1);
+            hostPref = (String) params.get(2);
             System.out.println("Args prefs are set as parameters");
         } catch (InvalidArgsPrefsException e) {
             if(JSONCheck == false) {
@@ -62,11 +68,15 @@ public class CodexNaturalisServer {
             }
         }
 
-        System.out.println("Server initialization on port: " + portPref + ", host name: " + hostPref);
+        System.out.println("Server initialization on port: " + portPrefTCP + " for TCP, " + portPrefRMI + " for RMI, " + "host name: " + hostPref);
 
 
-        gameManager.initApplication(portPref, hostPref);
+        gameManager.initApplication(portPrefTCP, portPrefRMI, hostPref);
 
+        //fixme
+        while(true){
+
+        }
     }
 
     /**
@@ -105,21 +115,23 @@ public class CodexNaturalisServer {
 
             //Reading the prefs parameters from JSON
 
-            String port = (String) prefs.get("portNumber");
+            String portTCP = (String) prefs.get("portNumberTCP");
+            String portRMI = (String) prefs.get("portNumberRMI");
             String hostName = (String) prefs.get("hostnameServer");
 
-            if(port == null || hostName == null){
+            if(portTCP == null || portRMI == null || hostName == null){
                 System.out.println("Loading from JSON file failed");
                 throw new InvalidJSONPrefsException();
             }
 
-            if(!checkPort(Integer.parseInt(port.toString())) || !checkHostName(hostName)){
+            if(!checkPort(Integer.parseInt(portTCP.toString())) || !checkPort(Integer.parseInt(portRMI.toString())) || !checkHostName(hostName)){
                 System.out.println("Loading from JSON file failed");
                 throw new InvalidJSONPrefsException();
             }
 
             List<Object> result = new ArrayList<>();
-            result.add(Integer.parseInt(port));
+            result.add(Integer.parseInt(portTCP));
+            result.add(Integer.parseInt(portRMI));
             result.add(hostName);
 
             System.out.println("Loading from JSON succeed");
@@ -140,20 +152,22 @@ public class CodexNaturalisServer {
      *                                     of args is != 2
      */
     private List<Object> parsingArgsPrefs(String[] args) throws InvalidArgsPrefsException{
-        if(args.length == 2) {
+        if(args.length == 3) {
             //Taking port
-            Integer portPref = Integer.parseInt(args[0]);
+            Integer portPrefTCP = Integer.parseInt(args[0]);
+            Integer portPrefRMI = Integer.parseInt(args[1]);
 
             //Taking host name
-            String hostPref = args[1];
+            String hostPref = args[2];
 
-            if(portPref == null || hostPref == null || !(checkPort(portPref) && checkHostName(hostPref))){
+            if(portPrefTCP == null || portPrefRMI == null || hostPref == null || !(checkPort(portPrefTCP) && checkPort(portPrefRMI) && checkHostName(hostPref))){
                 System.out.println("Loading from args failed");
                 throw new InvalidArgsPrefsException();
             }
 
             List<Object> result = new ArrayList<>();
-            result.add(portPref);
+            result.add(portPrefTCP);
+            result.add(portPrefRMI);
             result.add(hostPref);
             System.out.println("Loading from args succeed");
             return result;
