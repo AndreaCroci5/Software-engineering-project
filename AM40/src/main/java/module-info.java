@@ -5,6 +5,7 @@ module it.polimi.ingsw.am40 {
     requires org.controlsfx.controls;
     requires json.simple;
     requires java.rmi;
+    requires com.fasterxml.jackson.annotation;
 
     opens it.polimi.ingsw.am40 to javafx.fxml;
     exports it.polimi.ingsw.am40.server.model;
