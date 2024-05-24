@@ -1,26 +1,30 @@
-package it.polimi.ingsw.am40.data.active.flow;
+package it.polimi.ingsw.am40.data.passive.firstRound;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
-import it.polimi.ingsw.am40.server.model.CardFace;
-import it.polimi.ingsw.am40.server.model.Coordinates;
 
-@JsonTypeName("CHANGE_TURN")
-public class ChangeTurnData extends Data {
+@JsonTypeName("AIM_CARD_SELECTED")
+public class AimCardResultData extends Data {
+    //ATTRIBUTES
+    /** ID of the AimCard chosen by the Player*/
+    int aimCardChosenID;
+
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public ChangeTurnData(String description) {
-        super("CHANGE_TURN");
+    public AimCardResultData(int aimCardChosenID) {
+        super("AIM_CARD_SELECTED");
+        this.aimCardChosenID = aimCardChosenID;
     }
     //Json constructor
-    public ChangeTurnData() {
+    public AimCardResultData(){
 
     }
 
     //PUBLIC METHODS
+
 
     public Action onServer(){
         return null;

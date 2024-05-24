@@ -17,11 +17,19 @@ public class PlacingData extends Data {
     /** CardFace orientation of the Card chosen to place by the Player*/
     CardFace face;
 
+    //CONSTRUCTOR
+
+    //Logic constructor for subclasses
     public PlacingData(String description, int choice, Coordinates coordsToPlace, CardFace face) {
         super("PLACING");
         this.choice = choice;
         this.coordsToPlace = coordsToPlace;
         this.face = face;
+    }
+
+    //Json constructor
+    public PlacingData() {
+
     }
 
 

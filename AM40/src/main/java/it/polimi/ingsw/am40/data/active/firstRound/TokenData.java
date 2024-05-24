@@ -6,12 +6,17 @@ import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.data.Data;
 
 @JsonTypeName("TOKEN_SELECTION")
-
 public class TokenData extends Data {
+
     //CONSTRUCTOR
 
+    //Logic constructor for subclasses
     public TokenData(String description) {
         super("TOKEN_SELECTION");
+    }
+    //Json constructor
+    public TokenData() {
+
     }
 
     //PUBLIC METHODS

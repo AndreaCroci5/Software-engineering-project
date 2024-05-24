@@ -14,13 +14,16 @@ public class DrawData extends Data {
     int selection;
 
     //CONSTRUCTOR
+
+    //Logic constructor for subclasses
     public DrawData(String description, int choice, int selection) {
         super("DRAW");
         this.choice = choice;
         this.selection = selection;
     }
-    //Json
-    public DrawData(){
+    //Json constructor
+    public DrawData() {
+
     }
 
 

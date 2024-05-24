@@ -4,27 +4,53 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.active.firstRound.AimCardData;
+import it.polimi.ingsw.am40.data.active.firstRound.DealCardsData;
 import it.polimi.ingsw.am40.data.active.firstRound.StartingCardData;
 import it.polimi.ingsw.am40.data.active.firstRound.TokenData;
+import it.polimi.ingsw.am40.data.active.flow.ChangeTurnData;
 import it.polimi.ingsw.am40.data.active.round.DrawData;
 import it.polimi.ingsw.am40.data.active.round.PlacingData;
+import it.polimi.ingsw.am40.data.passive.firstRound.DealCardsResultData;
+import it.polimi.ingsw.am40.data.passive.firstRound.NegativeTokenColorData;
+import it.polimi.ingsw.am40.data.passive.firstRound.PositiveTokenColorData;
+import it.polimi.ingsw.am40.data.passive.firstRound.StartingCardResultData;
+import it.polimi.ingsw.am40.data.passive.flow.ChangeTurnInfoData;
+import it.polimi.ingsw.am40.data.passive.flow.LastRoundsInfoData;
+import it.polimi.ingsw.am40.data.passive.round.*;
 import it.polimi.ingsw.am40.server.actions.Action;
 
-//TODO In every subclass add the default constructor for Jackson parsing from Json and javadoc everything
+//TODO JAVADOC in the subclasses
 
+/**
+ * This class contains the information that will be carried by being sent on the network as a TCP message.
+ * This class is also the bridge to the specular MVC mechanism in both Client and Server that is handled by the
+ * Messages and the Actions respectively
+ */
 //These Annotations serve as a mean to give to the Jackson Parser an orientation to the correct Object creation based
 //on polymorphism
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = AimCardData.class, name = "AIM_CARD_SELECTION"),
         @JsonSubTypes.Type(value = StartingCardData.class, name = "STARTING_CARD_SELECTION"),
         @JsonSubTypes.Type(value = TokenData.class, name = "TOKEN_SELECTION"),
-        @JsonSubTypes.Type(value = TokenData.class, name = "CARD_DISTRIBUTION_MESSAGE"),
+        @JsonSubTypes.Type(value = DealCardsData.class, name = "CARDS_DEAL"),
+        @JsonSubTypes.Type(value = AimCardData.class, name = "AIM_CARD_SELECTION"),
         @JsonSubTypes.Type(value = PlacingData.class, name = "PLACING"),
         @JsonSubTypes.Type(value = DrawData.class, name = "DRAW"),
-        @JsonSubTypes.Type(value = DrawData.class, name = "CHANGE_TURN")
-})
+        @JsonSubTypes.Type(value = ChangeTurnData.class, name = "CHANGE_TURN"),
 
+        @JsonSubTypes.Type(value = StartingCardResultData.class, name = "POSITIVE_STARTING_CARD"),
+        @JsonSubTypes.Type(value = NegativeTokenColorData.class, name = "NEGATIVE_TOKEN_COLOR"),
+        @JsonSubTypes.Type(value = PositiveTokenColorData.class, name = "POSITIVE_TOKEN_COLOR"),
+        @JsonSubTypes.Type(value = DealCardsResultData.class, name = "CARDS_DEAL_RESULT"),
+        @JsonSubTypes.Type(value = AimCardData.class, name = "AIM_CARD_SELECTED"),
+        @JsonSubTypes.Type(value = PositivePlacingData.class, name = "POSITIVE_PLACING"),
+        @JsonSubTypes.Type(value = RepeatPlacingData.class, name = "REPEAT_PLACING"),
+        @JsonSubTypes.Type(value = PositiveDrawData.class, name = "POSITIVE_DRAW"),
+        @JsonSubTypes.Type(value = RepeatDrawData.class, name = "REPEAT_DRAW"),
+        @JsonSubTypes.Type(value = ChangeTurnInfoData.class, name = "CHANGE_TURN_INFO"),
+        @JsonSubTypes.Type(value = LastRoundsInfoData.class, name = "LAST_ROUNDS"),
+        @JsonSubTypes.Type(value = EndGameData.class, name = "ENDGAME")
+})
 public abstract class Data {
 
     //ATTRIBUTES
@@ -35,23 +61,32 @@ public abstract class Data {
 
 
     //CONSTRUCTOR
+
     //Logic constructor for subclasses
     public Data(String description) {
         this.description = description;
     }
-
-    //JsonConstructor
+    //Json Constructor
     public Data(){
+
     }
 
 
 
     //PUBLIC METHODS
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return null;
     }
