@@ -1,0 +1,33 @@
+package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound;
+
+import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.data.active.firstRound.TokenChoiceData;
+
+public class TokenChoiceMessage extends Message {
+
+    /**
+     * It's the color of the token choose by the client
+     */
+    private final String token;
+
+
+    /**
+     * Constructor for TokenMessage
+     * This message it's the token request from the client
+     * @param token it's the color of the token choose by the client
+     */
+    public TokenChoiceMessage(String token) {
+        super("TOKEN_SELECTION");
+        this.token = token;
+    }
+
+    /**
+     * This method is used to convert the internal message of the client in
+     * a data that is the object that is going through the network
+     * @return the data that is going to the network
+     */
+    public TokenChoiceData messageToData() {
+        return new TokenChoiceData(this.token);
+    }
+
+}
