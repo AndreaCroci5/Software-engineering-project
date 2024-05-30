@@ -1,8 +1,8 @@
 package it.polimi.ingsw.am40.server.model;
 
-import it.polimi.ingsw.am40.exceptions.server.model.ForceEndgameTurnException;
-import it.polimi.ingsw.am40.exceptions.server.model.TokenColorException;
-import it.polimi.ingsw.am40.exceptions.server.model.TurnException;
+import it.polimi.ingsw.am40.server.exceptions.model.ForceEndgameTurnException;
+import it.polimi.ingsw.am40.server.exceptions.model.TokenColorException;
+import it.polimi.ingsw.am40.server.exceptions.model.TurnException;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;

@@ -51,8 +51,8 @@ public class GameManager implements ActionListener {
      */
     @Override
     public void onEvent(Action event) {
-        Game g = this.activeGames.get(event.getGameID());
-        event.doAction(g);
+        Game game = this.activeGames.get(event.getGameID());
+        event.doAction(game);
     }
 
 
@@ -75,8 +75,10 @@ public class GameManager implements ActionListener {
 
 
     //PRIVATE METHODS
-//fixme
-    private void createNewGame(){
-
+//fixme incongruenza username e id player
+    private void createNewGame(int gameID/*, List<Integer>*/){
+        Game newGame = new Game();
+        this.activeGames.put(gameID, newGame);
+        /*newGame.startGame();*/
     }
 }

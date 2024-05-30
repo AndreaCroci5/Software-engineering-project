@@ -73,10 +73,6 @@ public class CodexNaturalisServer {
 
         gameManager.initApplication(portPrefTCP, portPrefRMI, hostPref);
 
-        //fixme
-        while(true){
-
-        }
     }
 
     /**

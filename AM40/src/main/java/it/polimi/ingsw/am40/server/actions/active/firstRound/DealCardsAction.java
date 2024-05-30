@@ -32,7 +32,7 @@ public class DealCardsAction extends Action {
         Game gameContext = (Game) agent;
 
         //Card Deal
-        gameContext.dealCards();
+      //fixme  gameContext.dealCards();
         //Data fetch
         //HandDeck
         ArrayList<Integer> handDeckIDs = new ArrayList<>();

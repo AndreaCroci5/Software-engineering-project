@@ -1,16 +1,19 @@
 package it.polimi.ingsw.am40.server.network.TCP;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
+import it.polimi.ingsw.am40.server.network.virtual_view.NetworkClient;
+import it.polimi.ingsw.am40.server.network.virtual_view.NonExistentClientException;
 import it.polimi.ingsw.am40.server.network.virtual_view.Protocol;
 import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,23 +33,14 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     /**
      * Port on which server accept incoming connection requests
      */
-    private int portNumber;
+    private int port;
 
     /**
      * The reference to the VVServer, which is the class that manage all the incoming requests and is part of the MVC
      */
     private final VVServer mainServerClass;
 
-    /**
-     * Attribute introduced to avoid that a great number of clients are connected in the same time
-     */
-    public static int activeTCPConnections = 0;
-
-    /**
-     * Static attribute which indicates the maximum limit of active simultaneously connections with TCP
-     */
-    public static final int maxActiveTCPConnections = 10;
-
+    private final Protocol usedProtocol = Protocol.TCP;
 
 
 
@@ -67,20 +61,19 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
     //GETTER METHODS
 
-    /**
-     * Getter for portNumber
-     * @return the port number of the server
-     */
-    private int getPortNumber() {
-        return portNumber;
-    }
 
     /**
      * Getter for hostName
      * @return the host name of the server
      */
-    private String getHostName() {
+    @Override
+    public String getHostName() {
         return hostName;
+    }
+
+    @Override
+    public Protocol getUsedProtocol() {
+        return this.usedProtocol;
     }
 
     /**
@@ -92,10 +85,14 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     }
 
 
+    @Override
+    public int getPort() {
+        return this.port;
+    }
 
 
-
-    //SETTER METHODS
+//SETTER METHODS
+    @Override
 
     /**
      * Setter for host name
@@ -105,94 +102,109 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         this.hostName = hostName;
     }
 
-    /**
-     * Setter for portNumber
-     * @param portNumber the port num to set
-     */
-    public void setPortNumber(int portNumber) {
-        this.portNumber = portNumber;
+    @Override
+    public void setPort(int port) {
+        this.port = port;
     }
 
 
-
-
-
-    //NETWORK MANAGER METHODS
+//NETWORK MANAGER METHODS
 
     /**
      * Method to start communications with a specific protocol.
      * This method initializes the TCP modules to communicate with the TCP clients
+     *
+     * @return
      */
     @Override
-    public void initCommunication(int port, String hostName) {
-
-        //Set the attributes
-        this.setPortNumber(port);
-        this.setHostName(hostName);
-
+    public void initCommunication() {
         //Calls runListeningLogic
         Thread listeningTCPThread = new Thread(() -> {
             this.runListeningLogic(port);
         });
         listeningTCPThread.start();
-        //fixme
-
     }
 
-    /**
-     * Method to stop the communication with the clients (server not reachable on the network)
-     */
-    @Override
-    public void stopCommunication() {
-
-    }
 
     /**
      * Method to init the ping logic in order to know if clients are still connected
      */
     @Override
     public void initPing() {
+        Thread pingerTCPThread = new Thread(() -> {
+            while(true){
+                List<NetworkClient> pongers = this.mainServerClass.getAllTCPClients();
+                if(pongers != null && !pongers.isEmpty()){
+                    for(NetworkClient nc : pongers){
+                        if(nc.isOnline()){
+
+                            PrintWriter out = nc.getStreams().getOut();
+                            Scanner in = nc.getStreams().getIn();
+                            //fixme A+S ping with data
+                            System.out.println("ping sent");
+                            if(in.nextLine() != "pong"){
+                                System.out.println("Client doesn't answer to the ping");
+                                try {
+                                    this.disconnectedClientNotification(nc);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                try {
+                    Thread.sleep(2000L);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        pingerTCPThread.start();
 
     }
 
-    /**
-     * Method to stop the ping logic
-     */
-    @Override
-    public void stopPing() {
 
-    }
 
 
     //OTHER METHODS
 
-    /**
-     * Method to parse the strings serialized with JSON file from the client.
-     * It calls the methods on the Server class in order to handle the network message
-     * @param line the message to pars as serialized string
-     */
-    public synchronized void parseJSONStringTCP(String line, Socket socket, PrintWriter out) {
-        HashMap<String, String> m = new HashMap<>();
-        switch (line){
-            case "ex": {
-                m.put("hello", this.hostName);
-                this.sendJSONMessageTCP(m, socket, out);
-                break;
-            }
+   /**
+    * Method to parse the strings serialized with JSON file from the client.
+    * It calls the methods on the Server class in order to handle the network message
+    *
+    * @param message the message to pars as serialized string
+    */
+    public synchronized void handleJSONMessage(String message) {
 
-        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Data myObject = objectMapper.readValue(message, Data.class);
+            System.out.println("Deserialized object: " + myObject);
+
+            //fixme A+S
+
+            this.mainServerClass.notifyListeners(myObject.onServer(), this.mainServerClass.getListeners());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } //fixme azione
     }
 
-    public void sendJSONMessageTCP(Map<String, String> parameters, Socket socket, PrintWriter out){
-        JSONObject jsonObject = new JSONObject();
+    @Override
+    public synchronized void sendSerializedMessage(Data message, NetworkClient client){
 
-        for (String key : parameters.keySet())
-        {
-            jsonObject.put( key , parameters.get(key));
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String json = null; //fixme A+S
+        try {
+            json = objectMapper.writeValueAsString(message);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
-
-        String jsonString = jsonObject.toJSONString();
-        out.println(jsonString);
+        client.getStreams().getOut().println(json);
+        //fixme A+S rimuovere message e end*/
     }
 
 
@@ -202,77 +214,102 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
      * connection request
      * @param port the listening port of the server from prefs
      */
-    private void runListeningLogic(int port){
+    private void runListeningLogic(int port) {
 
 
+        ExecutorService executor = null;
         try {
-            ExecutorService executor = Executors.newCachedThreadPool();
+            executor = Executors.newCachedThreadPool();
             ServerSocket serverSocket = new ServerSocket(port);
             System.out.println("TCP Server is running on port " + port);
 
-            //runningListening = true;
 
-            while (/*runningListening*/true) {
+            while (true) {
 
                 try {
                     Socket clientSocket = serverSocket.accept();
 
-                    System.out.println("Accepting..");
+                    System.out.println("Accepting...");
 
                     // Delegate client handling to ClientHandler
 
-                    ClientHandlerTCP clientHandler = new ClientHandlerTCP(this, clientSocket);
+                    int clientID = this.connectedClientNotification(clientSocket);
+
+                    ClientHandlerTCP clientHandler = new ClientHandlerTCP(this, clientID);
+
                     executor.submit(clientHandler);
 
-                    this.connectedClientNotification(clientSocket/*, this.*/);
+
 
                 } catch (IOException e) {
                     System.out.println("Something went wrong with the server socket acceptation");
+                    e.printStackTrace();
                     break;
                     //throw new RuntimeException(e);
                 }
             }
 
-            executor.shutdown();
-
-
         } catch (IOException e) {
             System.out.println("Something went wrong with the server socket initialization on the port " + port);
             e.printStackTrace();
+        } finally {
+            executor.shutdown();
         }
     }
 
-//fixme
-    public synchronized void disconnectClient(Socket clientSocket){
-       /* // Implementa la logica per disconnettere il client, ad esempio chiudendo il socket
+
+    @Override
+    public synchronized int connectedClientNotification(Socket clientSocket){
+
+
+
+        int clientID = this.mainServerClass.createNewOrphanClient(Protocol.TCP, clientSocket);
         try {
-            ping.removePonger(clientSocket);
-            clientSocket.close();
-            activeTCPConnections--;
-            System.out.println("Client disconnected: " + clientSocket.getInetAddress());
-            System.out.println(activeTCPConnections + " clients are logged with TCP now");
-
-        } catch (Exception e) {
-            System.out.println("Error disconnecting client: " + e.getMessage());
+            this.mainServerClass.setClientOnline(this.mainServerClass.getClientByID(clientID));
+            this.mainServerClass.getClientByID(clientID).setStreams(new Streams(new Scanner(clientSocket.getInputStream()), new PrintWriter(clientSocket.getOutputStream())));
+        } catch (NonExistentClientException e) {
+            System.out.println("Client doesn't exist");
+        } catch (IOException e) {
+            System.out.println("Problem with the creation of the buffer reader and/or print writer");
         }
-        //this.mainServerClass.setClientOffline(clientSocket);*/
-    }
-
-    private synchronized void connectedClientNotification(Socket clientSocket/*, PingPongTCP pingPong*/){
-        //pingPong.addPonger(clientSocket);
-        this.mainServerClass.createNewOrphanClient(Protocol.TCP, clientSocket);
-       activeTCPConnections++;
+        VVServer.activeConnections++;
         System.out.println("Accepted");
-        System.out.println(activeTCPConnections + " clients are logged with TCP now");
+        System.out.println(VVServer.activeConnections + " clients are logged with TCP now");
+        //fixme bind socket e gestione riconnessione client con nickname
+
+        //fixme per fine partita devo fare in modo che si sciolga il party
+        return clientID;
     }
 
-    public synchronized void disconnectedClientNotification(Socket socket, Scanner in, PrintWriter out) throws IOException {
-        ServerNetworkTCPManager.activeTCPConnections--;
-        System.out.println("1 client has disconnected from TCP");
-        System.out.println(ServerNetworkTCPManager.activeTCPConnections + " clients are logged with TCP now");
-        in.close();
-        out.close();
-        socket.close();
+
+    @Override
+    public synchronized void disconnectedClientNotification(NetworkClient client) throws IOException {
+
+        if(client != null && client.isOnline()){
+            try {
+                this.mainServerClass.getOrphanClientByID(client.getClientID());
+                VVServer.activeConnections--;
+                System.out.println("1 client has definitely disconnected from TCP");
+
+               client.setOnline(false);
+                System.out.println(VVServer.activeConnections + " clients are logged with TCP now");
+                 client.getSocket().close();
+            } catch (NonExistentClientException e) {
+                try {
+                    NetworkClient cInParty = this.mainServerClass.getClientInAPartyByID(client.getClientID());
+                    if(cInParty != null){
+                        System.out.println("1 client has temporarily disconnected from TCP");
+                        //fixme action per propagazione a model
+                        client.setOnline(false);
+                        client.getSocket().close();
+                    }
+                } catch (NonExistentClientException ex) {
+                    System.out.println("Trying to disconnect a non-existent client!");
+                }
+            }
+
+        }
+        //fixme chiusura clienthandler
     }
 }
 

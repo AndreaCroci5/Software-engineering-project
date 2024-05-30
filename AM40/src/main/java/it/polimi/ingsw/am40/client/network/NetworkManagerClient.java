@@ -9,15 +9,30 @@ import it.polimi.ingsw.am40.client.ConcreteContext;
  */
 public interface NetworkManagerClient extends ConcreteContext {
 
+
+
     /**
      * Method to initialize the entire communication protocol and to set initial parameters
      */
-    public void initCommunication(int port, String hostName, String serverAddress);
+    void initCommunication() throws NetworkProblemException;
 
     /**
      * Getter for the client class reference
      * @return the client as reference
      */
-    public Client getClient();
+    Client getClient();
+
+    void closeCommunication() throws NetworkProblemException;
+
+    String getHostName();
+    void setHostName(String hostName);
+
+    void setPort(int port);
+    int getPort();
+
+    void setServerAddress(String serverAddress);
+    String getServerAddress();
+
+    Protocol getUsedProtocol();
 
 }

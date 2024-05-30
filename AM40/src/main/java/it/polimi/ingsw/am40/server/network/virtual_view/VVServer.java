@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.server.network.virtual_view;
 
 
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -12,6 +13,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * VirtualView/Server class is the main junction between the network and tha MVC pattern.
@@ -42,6 +44,13 @@ public class VVServer implements ActionPoster, ActionListener  {
      */
     private final List<NetworkClient> orphanClients;
 
+    public boolean serverOn;
+
+    /**
+     * Attribute introduced to avoid that a great number of clients are connected in the same time
+     */
+    public static int activeConnections = 0;
+
 
 
 
@@ -58,7 +67,7 @@ public class VVServer implements ActionPoster, ActionListener  {
      */
     public VVServer() {
         this.concreteNetworkManagers = new ArrayList<>();
-
+        //FIXME A+S concrete net managers to add to the client in the creation for polymorphism
         this.concreteNetworkManagers.add(new ServerNetworkRMIManager(this));
         this.concreteNetworkManagers.add(new ServerNetworkTCPManager(this));
 
@@ -129,7 +138,7 @@ public class VVServer implements ActionPoster, ActionListener  {
      * @return the client as reference (null if not found)
      * @throws NonExistentClientException if the client doesn't exist in any Party
      */
-    private NetworkClient getClientInAPartyByID(int playerID)  throws NonExistentClientException{
+    public NetworkClient getClientInAPartyByID(int playerID)  throws NonExistentClientException{
         for (NetworkParty p : this.activeParties) {
             for(NetworkClient c : p.getClients()){
                 if(c.getClientID() == playerID){
@@ -147,7 +156,7 @@ public class VVServer implements ActionPoster, ActionListener  {
      * @return the client as reference (null if not found)
      * @throws NonExistentClientException if the client doesn't exist as orphan
      */
-    private NetworkClient getOrphanClientByID(int clientID) throws NonExistentClientException{
+    public synchronized NetworkClient getOrphanClientByID(int clientID) throws NonExistentClientException{
         for (NetworkClient c : this.orphanClients) {
             if(c.getClientID() == clientID){
                 return c;
@@ -163,7 +172,7 @@ public class VVServer implements ActionPoster, ActionListener  {
      * @return the client as reference (null if not found)
      * @throws NonExistentClientException if the client doesn't exist on either orphans list or in the Parties
      */
-    private NetworkClient getClientByID(int clientID) throws NonExistentClientException {
+    public NetworkClient getClientByID(int clientID) throws NonExistentClientException {
         for (NetworkClient c1 : this.orphanClients) {
             if(c1.getClientID() == clientID){
                 return c1;
@@ -184,7 +193,7 @@ public class VVServer implements ActionPoster, ActionListener  {
      * @return the list of the NetworkClient connected
      */
     public List<NetworkClient> getAllTCPClients(){
-        List<NetworkClient> result = null;
+        List<NetworkClient> result = new ArrayList<>();
         for (NetworkClient client : this.orphanClients) {
             if(client.getProtocol() == Protocol.TCP){
                 result.add(client);
@@ -233,9 +242,40 @@ public class VVServer implements ActionPoster, ActionListener  {
      */
     public List<NetworkClient> getAllClients(){
         List<NetworkClient> result = null;
-        result.addAll(getAllTCPClients());
-        result.addAll(getAllRMIClients());
+        result.addAll(this.getAllTCPClients());
+        result.addAll(this.getAllRMIClients());
         return result;
+    }
+
+    public boolean isAClientLoggedInAParty(NetworkClient client){
+
+        NetworkClient result;
+        try {
+            result = this.getClientInAPartyByID(client.getClientID());
+        } catch (NonExistentClientException e) {
+            return false;
+        }
+
+        if(result == null){
+            return false;
+        }
+
+        return true;
+    }
+
+
+    //SETTER METHODS
+
+    public void setClientOnline(NetworkClient client) throws NonExistentClientException {
+        if(this.isAClientLoggedInAParty(client)){
+            this.getClientByID(client.getClientID()).setOnline(true);
+        }
+    }
+
+    public void setClientOffline(NetworkClient client) throws NonExistentClientException {
+        if(this.isAClientLoggedInAParty(client)){
+            this.getClientByID(client.getClientID()).setOnline(true);
+        }
     }
 
 
@@ -298,7 +338,7 @@ public class VVServer implements ActionPoster, ActionListener  {
 
 
 
-    //PRIVATE METHODS
+    //"CREATION" METHODS
 
     /**
      * Method to create a new party
@@ -312,22 +352,26 @@ public class VVServer implements ActionPoster, ActionListener  {
         return p.getPartyID();
     }
 
+    private int createNewParty(int totalNumOfClients, NetworkClient creator) throws ClientAlreadyLoggedException, NonExistentPartyException, NonExistentClientException {
+        NetworkParty p;
+        this.activeParties.add(p = new NetworkParty(totalNumOfClients));
+        this.logClientInAParty(p.getPartyID(), creator.getClientID());
+        return p.getPartyID();
+    }
 
-
-    //PUBLIC METHODS
-    //TODO javadoc
     /**
      * Method to create a new client and to add it in the orphan list
      * @return the ClientID
      */
     public int createNewOrphanClient(Protocol protocol, Socket socket){
-        NetworkClient c = new NetworkClient(protocol, socket);
+        NetworkClient c = new NetworkClient(protocol, socket, this.concreteNetworkManagers);
         this.orphanClients.add(c);
         return c.getClientID();
     }
 
-    //todo
-    public void setClientOffline(Socket clientSocket){}
+
+    //LOG IN AND LOG OUT METHODS
+
 
     /**
      * Method to add a new client to a party.
@@ -363,15 +407,78 @@ public class VVServer implements ActionPoster, ActionListener  {
     }
 
 
+    //INIT METHOD
+
     /**
      * This method call the initCommunication() method on the Network Managers
      * //fixme doc
-     * @param port     the port of the server
+     * @param portTCP     the port of the server
      * @param portRMI
      * @param hostName the name of the server
      */
     public void initServer(int portTCP, int portRMI, String hostName) {
-            this.concreteNetworkManagers.get(1).initCommunication(portTCP, hostName);
-            this.concreteNetworkManagers.get(0).initCommunication(portRMI, hostName);
+
+        for (NetworkManagerServer nm : this.concreteNetworkManagers) {
+            nm.setHostName(hostName);
+            switch(nm.getUsedProtocol()){
+                case RMI -> nm.setPort(portRMI);
+                case TCP -> nm.setPort(portTCP);
+                case null, default -> {
+                    break;
+                }
+            }
+            nm.initCommunication();
+            nm.initPing();
+        }
+
+
+        this.serverOn = true;
+        String input;
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            Thread.sleep(500L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println();
+        System.out.println("Type 'quit' to close the server communications");
+
+        while (serverOn) {
+
+            input = scanner.nextLine();
+
+            switch (input) {
+                case "quit" :
+                    System.out.println("Closing the server application");
+                    serverOn = false;
+                    break;
+                default:
+                    System.out.println("Invalid input!");
+                    break;
+            }
+
+        }
+
+        scanner.close();
+
+        System.exit(0);
+
+    }
+    //fixme A+S sistemo roba switch networkManager
+
+    public void sendOnNetworkUnicast(int playerID, Data data){
+
+        NetworkClient c;
+        try {
+            c = this.getClientByID(playerID);
+        } catch (NonExistentClientException e) {
+            System.out.println("Client doesn't exist!");
+            throw new RuntimeException(e);
+        }
+
+        c.getManager().sendSerializedMessage(data, c);
+
     }
 }

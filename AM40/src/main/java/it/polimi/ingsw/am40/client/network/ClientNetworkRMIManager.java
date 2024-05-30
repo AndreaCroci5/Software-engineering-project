@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import static it.polimi.ingsw.am40.client.network.Protocol.RMI;
+
 /**
  * Concrete network protocol implementation for RMI
  */
@@ -19,10 +21,13 @@ public class ClientNetworkRMIManager implements NetworkManagerClient{
      */
     private Client client;
 
-    /**
-     * Flag attribute which says if the communication logic is on or off
-     */
-    private boolean communicationOn;
+    private String hostName;
+
+    private Integer port;
+
+    private String serverAddress;
+
+    public final Protocol usedProtocol = RMI;
 
 
 
@@ -45,13 +50,13 @@ public class ClientNetworkRMIManager implements NetworkManagerClient{
      * Method to initialize the entire communication protocol and to set initial parameters
      */
     @Override
-    public void initCommunication(int port, String hostName, String serverAddress) {
+    public void initCommunication() {
 
         Registry registry = null;
 
         try {
             //Getting the server registry
-            registry = LocateRegistry.getRegistry(hostName);
+            registry = LocateRegistry.getRegistry();
 
             //Getting the server stub
             RemoteObjectServer stub = (RemoteObjectServer) registry.lookup("ServerRemote");
@@ -76,11 +81,42 @@ public class ClientNetworkRMIManager implements NetworkManagerClient{
         return this.client;
     }
 
-    public boolean isCommunicationOn() {
-        return communicationOn;
+    @Override
+    public void closeCommunication() {
+
     }
 
-    public void setCommunicationOn(boolean communicationOn) {
-        this.communicationOn = communicationOn;
+    @Override
+    public String getHostName() {
+        return null;
     }
-}
+
+    @Override
+    public void setHostName(String hostName) {
+
+    }
+
+    @Override
+    public void setPort(int port) {
+
+    }
+
+    @Override
+    public int getPort() {
+        return 0;
+    }
+
+    @Override
+    public void setServerAddress(String serverAddress) {
+
+    }
+
+    @Override
+    public String getServerAddress() {
+        return null;
+    }
+
+    @Override
+    public Protocol getUsedProtocol() {
+        return this.usedProtocol;
+    }}

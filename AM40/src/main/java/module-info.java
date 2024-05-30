@@ -6,12 +6,13 @@ module it.polimi.ingsw.am40 {
     requires json.simple;
     requires java.rmi;
     requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.databind;
 
     opens it.polimi.ingsw.am40 to javafx.fxml;
     exports it.polimi.ingsw.am40.server.model;
     exports it.polimi.ingsw.am40.server.controller;
     exports it.polimi.ingsw.am40.client.view.GUI.FXexamples;
-    exports it.polimi.ingsw.am40.exceptions.server.model;
+    exports it.polimi.ingsw.am40.server.exceptions.model;
     opens it.polimi.ingsw.am40.client.view.GUI.FXexamples to javafx.fxml;
     opens it.polimi.ingsw.am40.server to javafx.fxml;
     exports it.polimi.ingsw.am40.client.view.GUI;

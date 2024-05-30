@@ -14,6 +14,10 @@ public class GUIManager implements ViewManager {
 
     private Client client;
 
+    public GUIManager(Client client) {
+        this.client = client;
+    }
+
 
     /**
      * Method to initialize the entire display protocol and to set initial parameters

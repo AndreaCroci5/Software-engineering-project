@@ -1,20 +1,22 @@
 package it.polimi.ingsw.am40.server.network.TCP;
 
-import java.io.IOException;
+import it.polimi.ingsw.am40.server.network.virtual_view.NonExistentClientException;
+
 import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.Scanner;
 
 //todo doc
 public class ClientHandlerTCP implements Runnable{
 
-    private final Socket socket;
 
-    private final ServerNetworkTCPManager TCPManager;
+    private ServerNetworkTCPManager TCPManager;
+    private int clientID;
 
 
-    public ClientHandlerTCP(ServerNetworkTCPManager serverNetworkTCPManager, Socket clientSocket) {
-        this.socket = clientSocket;
+
+
+    public ClientHandlerTCP(ServerNetworkTCPManager serverNetworkTCPManager, int clientID) {
+        this.clientID = clientID;
         this.TCPManager = serverNetworkTCPManager;
     }
 
@@ -23,29 +25,52 @@ public class ClientHandlerTCP implements Runnable{
      */
     @Override
     public void run() {
+
+        PrintWriter out = null;
+        Scanner in = null;
         try {
-            Scanner in = new Scanner(socket.getInputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
-
-            while (true) {
-                String line = in.nextLine();
-                if (line.equals("quit")) {
-                    break;
-                } else {
-                    //todo logica + max connection
-                    this.getTCPManager().parseJSONStringTCP(line, this.socket, out);
-                    out.flush();
-                }
-            }
-// Chiudo gli stream e il socket
-            TCPManager.disconnectedClientNotification(socket, in, out);
-
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+            out = this.TCPManager.getMainServerClass().getClientByID(this.clientID).getStreams().getOut();
+            in = this.TCPManager.getMainServerClass().getClientByID(this.clientID).getStreams().getIn();
+        } catch (NonExistentClientException e) {
+            System.out.println("Client doesn't exist!");
+            throw new RuntimeException(e);
         }
+        String line;
+
+        while (true) {
+             line = in.nextLine();;
+            switch (line.toLowerCase()){
+                case "message":{                      //todo logica
+                    String subResponse;
+                    StringBuilder jsonBuilder = new StringBuilder();
+                    while (true) {
+                        if (!((subResponse = in.nextLine()) != null && !subResponse.isEmpty()))
+                            break;
+                        if (subResponse.equals("endmessage")){
+                            String json = jsonBuilder.toString();
+                            this.getTCPManager().handleJSONMessage(json); //fixme metodi per ricevere e mandare
+                            break;
+                        }else{
+                            jsonBuilder.append(subResponse);
+                        }
+                    }
+                    out.flush();
+                    break;
+                }
+                case "ping" :
+                    System.out.println("ping received");
+                   out.println("pong");
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
     }
 
     public ServerNetworkTCPManager getTCPManager() {
         return TCPManager;
     }
+
 }

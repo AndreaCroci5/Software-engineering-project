@@ -18,6 +18,10 @@ public class TUIManager implements ViewManager {
 
     private Client client;
 
+    public TUIManager(Client client) {
+        this.client = client;
+    }
+
     /**
      * Method to initialize the entire display protocol and to set initial parameters
      */

@@ -1,6 +1,10 @@
 package it.polimi.ingsw.am40.server.network.virtual_view;
 
+import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
+import it.polimi.ingsw.am40.server.network.TCP.Streams;
+
 import java.net.Socket;
+import java.util.List;
 
 
 /**
@@ -55,6 +59,10 @@ public class NetworkClient {
      */
     private static final Object lock = new Object();
 
+    private Streams streams;
+
+    private NetworkManagerServer manager;
+
 
 
 
@@ -68,8 +76,13 @@ public class NetworkClient {
      * @param protocol Protocol used by the client
      * @param socket   Reference to the socket
      */
-    public NetworkClient( Protocol protocol, Socket socket) {
+    public NetworkClient(Protocol protocol, Socket socket, List<NetworkManagerServer> managerContainer) {
         //More than one thread could access to this block of code, but each client must have a different ID
+        switch (protocol){
+            case TCP -> this.manager = managerContainer.get(0);
+            case RMI -> this.manager = managerContainer.get(1);
+            case null, default -> throw new RuntimeException();
+        }
         synchronized (lock) {
             NetworkClient.clientCounter++;
             this.clientID = NetworkClient.clientCounter;
@@ -178,5 +191,21 @@ public class NetworkClient {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Streams getStreams() {
+        return streams;
+    }
+
+    public void setStreams(Streams streams) {
+        this.streams = streams;
+    }
+
+    public NetworkManagerServer getManager() {
+        return manager;
+    }
+
+    public void setManager(NetworkManagerServer manager) {
+        this.manager = manager;
     }
 }

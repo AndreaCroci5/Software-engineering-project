@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.active.flow;
 
 
-import it.polimi.ingsw.am40.exceptions.server.model.TurnException;
+import it.polimi.ingsw.am40.server.exceptions.model.TurnException;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.actions.passive.flow.ChangeTurnInfoAction;

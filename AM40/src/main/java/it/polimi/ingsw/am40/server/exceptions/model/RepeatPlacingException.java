@@ -1,7 +1,7 @@
-package it.polimi.ingsw.am40.exceptions.server.model;
+package it.polimi.ingsw.am40.server.exceptions.model;
 
 
-import it.polimi.ingsw.am40.exceptions.server.ModelException;
+import it.polimi.ingsw.am40.server.exceptions.ModelException;
 
 public class RepeatPlacingException extends ModelException {
     public RepeatPlacingException() {

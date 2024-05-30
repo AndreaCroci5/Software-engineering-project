@@ -33,12 +33,13 @@ public class CodexNaturalisClient {
     //MAIN CLIENT
 
     /**
-     *
-     * @param args
+     * Main method of the application.
+     * It creates the Client class and initializes the application taking in input from the user the initial parameters
+     * @param args The argument of the application (from boot config)
      */
     public static void main(String[] args) {
 
-        //Creation of the application and of the client class
+        //Creation of the application and client class
         CodexNaturalisClient application = new CodexNaturalisClient();
         Client client = new Client();
 
@@ -60,7 +61,7 @@ public class CodexNaturalisClient {
             //trying to parse from JSON
             List<Object> params = application.parsingJSONPrefs();
             portPrefTCP = (Integer) params.get(0);
-            portPrefTCP = (Integer) params.get(1);
+            portPrefRMI = (Integer) params.get(1);
             hostPref = (String) params.get(2);
             serverPref = (String) params.get(3);
 
@@ -120,13 +121,14 @@ public class CodexNaturalisClient {
         }while (retry2);
 
 
-
+        //launching the application
         client.initApplication(portPrefTCP, portPrefRMI, hostPref, serverPref, network, view);
 
-        scanner.close();
+
     }
 
 
+    //AUXILIARY CHECK METHODS
 
     /**
      * Method to check if the port number is valid
@@ -161,9 +163,11 @@ public class CodexNaturalisClient {
 
 
 
+    //AUXILIARY PARSING METHODS
+
     /**
      * Method to parse prefs from JSON
-     * @return a list of obj (0 - port as Integer, 1 - hostName as String, 3 - server IP address)
+     * @return a list of obj (0 - TCP port as Integer, 1 - RMI port as Integer, 2 - hostName as String, 3 - server IP address as String)
      * @throws InvalidJSONPrefsException if the key values doesn't exist,
      *                                   if it's impossible to parse the file or if prefs values aren't valid
      */
@@ -181,7 +185,7 @@ public class CodexNaturalisClient {
             String hostName = (String) prefs.get("hostnameClient");
             String serverAddress = (String) prefs.get("serverAddress");
 
-            if(portTCP == null || hostName == null || serverAddress == null){
+            if(portTCP == null || portRMI == null || hostName == null || serverAddress == null){
                 System.out.println("Loading from JSON file failed");
                 throw new InvalidJSONPrefsException();
             }
@@ -217,14 +221,14 @@ public class CodexNaturalisClient {
     private List<Object> parsingArgsPrefs(String[] args) throws InvalidArgsPrefsException{
         if(args.length == 4) {
             //Taking port
-            Integer portPrefTCP = Integer.parseInt(args[0]);
-            Integer portPrefRMI = Integer.parseInt(args[1]);
+            int portPrefTCP = Integer.parseInt(args[0]);
+            int portPrefRMI = Integer.parseInt(args[1]);
 
             //Taking host name
             String hostPref = args[2];
             String serverPref = args[3];
 
-            if(portPrefRMI == null || portPrefTCP == null || hostPref == null || serverPref == null || !(checkPort(portPrefTCP) && checkPort(portPrefRMI) && checkHostName(hostPref) && checkServerAddress(serverPref))){
+            if(hostPref == null || serverPref == null || !(checkPort(portPrefTCP) && checkPort(portPrefRMI) && checkHostName(hostPref) && checkServerAddress(serverPref))){
                 System.out.println("Loading from args failed");
                 throw new InvalidArgsPrefsException();
             }
@@ -244,6 +248,7 @@ public class CodexNaturalisClient {
     }
 
 
+    //AUXILIARY ASKING-PARAMETERS METHODS
 
     /**
      * Method which asks the user the network protocol preference
@@ -285,7 +290,7 @@ public class CodexNaturalisClient {
         switch (networkPref.toLowerCase()){
             case "tui":
                 break;
-            //case "gui":
+            //case "gui": //fixme link with the gui
             //break;
             default: throw new IllegalValueException();
         }

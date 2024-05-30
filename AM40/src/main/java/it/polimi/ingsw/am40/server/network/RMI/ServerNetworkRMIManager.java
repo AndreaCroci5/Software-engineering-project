@@ -1,8 +1,13 @@
 package it.polimi.ingsw.am40.server.network.RMI;
 
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
+import it.polimi.ingsw.am40.server.network.virtual_view.NetworkClient;
+import it.polimi.ingsw.am40.server.network.virtual_view.Protocol;
 import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -16,7 +21,11 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
      */
     private final VVServer mainServerClass;
 
+    private final Protocol usedProtocol = Protocol.RMI;
 
+    private int port;
+
+    private String hostName;
 
 
 
@@ -46,21 +55,23 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
 
     /**
      * Method to start communications with a specific protocol
+     *
+     * @return
      */
     @Override
-    public void initCommunication(int port, String hostName) {
+    public void initCommunication() {
 
 
             Thread listeningThreadRMI = new Thread(() -> {
                 try {
                     //Creation of the RMI registry
-                    Registry registry = LocateRegistry.createRegistry(port);
+                    Registry registry = LocateRegistry.createRegistry(this.port);
                     RemoteInterfaceServer obj = new RemoteObjectServer();
 
                     //Binding of the remote object in RMI registry
                     registry.rebind("ServerRemote", obj);
 
-                    System.out.println("Server RMI is running at port " + port);
+                    System.out.println("Server RMI is running at port " + this.port);
                 } catch (RemoteException e) {
                     System.out.println("Something went wrong with the RMI server initialization");
                     e.printStackTrace();
@@ -73,13 +84,6 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
 
     }
 
-    /**
-     * Method to stop the communication with the clients (server not reachable on the network)
-     */
-    @Override
-    public void stopCommunication() {
-
-    }
 
     /** //todo
      *
@@ -89,12 +93,45 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
 
     }
 
-    /**
-     * Method to stop the ping logic
-     */
     @Override
-    public void stopPing() {
+    public void setPort(int port) {
 
     }
+
+    @Override
+    public int getPort() {
+        return 0;
+    }
+
+    @Override
+    public void setHostName(String hostName) {
+
+    }
+
+    @Override
+    public String getHostName() {
+        return null;
+    }
+
+    @Override
+    public Protocol getUsedProtocol() {
+        return null;
+    }
+
+    @Override
+    public int connectedClientNotification(Socket socket) {
+        return 0;
+    }
+
+    @Override
+    public void disconnectedClientNotification(NetworkClient client) throws IOException {
+
+    }
+
+    @Override
+    public void sendSerializedMessage(Data message, NetworkClient client) {
+
+    }
+
 
 }

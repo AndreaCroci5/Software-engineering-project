@@ -1,6 +1,6 @@
 package it.polimi.ingsw.am40.server.actions.active.round;
 
-import it.polimi.ingsw.am40.exceptions.server.model.RepeatPlacingException;
+import it.polimi.ingsw.am40.server.exceptions.model.RepeatPlacingException;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.actions.passive.round.PositivePlacingAction;

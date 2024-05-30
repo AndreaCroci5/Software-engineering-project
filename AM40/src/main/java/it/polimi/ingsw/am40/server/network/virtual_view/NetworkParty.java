@@ -139,7 +139,7 @@ public class NetworkParty {
         //If the client is the first in the lobby, it's the creator.
        if(client != null)
        {
-           this.currentNumOfClients++;
+           this.increaseCurrentNumOfClients();
            if (this.currentNumOfClients == 1) {
                client.setCreator(true);
            }
