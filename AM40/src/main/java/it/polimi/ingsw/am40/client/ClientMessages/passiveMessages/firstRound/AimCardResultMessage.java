@@ -1,8 +1,9 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
 import it.polimi.ingsw.am40.client.network.ClientContext;
-import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveDrawState;
+import it.polimi.ingsw.am40.client.network.States.passiveStates.PassivePlacingState;
 
 
 public class AimCardResultMessage extends Message {
@@ -39,7 +40,8 @@ public class AimCardResultMessage extends Message {
 
 
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
-            context.setState(new PassiveDrawState());
+            context.setState(new PassivePlacingState());
+            context.getClientNetwork().send(new ChangeTurnRequestMessage());
         }
         else {
             context.getClientView().showAimCardResult(this.clientNickname);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
 import it.polimi.ingsw.am40.client.network.ClientContext;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveTokenChoiceState;
 
@@ -35,11 +36,11 @@ public class StartingCardResultMessage extends Message {
     public void process(ClientContext context) {
 
         // TO DO: UPDATE SMALL MODEL
-
-
+        
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
             context.getClientView().displayStartingCard(cardID);
             context.setState(new PassiveTokenChoiceState());
+            context.getClientNetwork().send(new ChangeTurnRequestMessage());
         }
         else {
             context.getClientView().showPassiveStartingCard();

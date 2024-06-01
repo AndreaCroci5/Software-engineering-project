@@ -1,8 +1,10 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
 import it.polimi.ingsw.am40.client.network.ClientContext;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveAimCardChoiceState;
+import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveDealCardsState;
 
 public class PositiveTokenColorMessage extends Message {
 
@@ -40,7 +42,8 @@ public class PositiveTokenColorMessage extends Message {
         context.getClientView().showPositiveTokenColor(clientNickname, token);
 
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
-            context.setState(new PassiveAimCardChoiceState());
+            context.setState(new PassiveDealCardsState());
+            context.getClientNetwork().send(new ChangeTurnRequestMessage());
         }
     }
 }

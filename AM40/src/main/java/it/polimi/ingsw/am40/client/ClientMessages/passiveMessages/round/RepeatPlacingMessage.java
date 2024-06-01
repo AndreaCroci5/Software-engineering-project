@@ -2,7 +2,6 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.ClientContext;
-import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveDrawState;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ActivePlacingState;
 
 

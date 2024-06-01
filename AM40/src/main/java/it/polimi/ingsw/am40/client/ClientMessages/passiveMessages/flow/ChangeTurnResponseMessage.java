@@ -1,6 +1,9 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.AimCardRequestMessage;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.StartingCardRequestMessage;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.TokenRequestMessage;
 import it.polimi.ingsw.am40.client.network.ClientContext;
 import it.polimi.ingsw.am40.client.network.States.activeStates.*;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.*;
@@ -28,19 +31,19 @@ public class ChangeTurnResponseMessage extends Message {
     public void process(ClientContext context) {
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
             if (context.getCurrentState().getClass().equals(PassiveTokenChoiceState.class)) {
-                context.setState(new ActiveTokenChoiceState());
+                context.getClientNetwork().send(new TokenRequestMessage());
             }
             if (context.getCurrentState().getClass().equals(PassiveStartingCardChoiceState.class)) {
-                context.setState(new ActiveStartingCardChoiceState());
-            }
-            if (context.getCurrentState().getClass().equals(PassiveDrawState.class)) {
-                context.setState(new ActiveDrawState());
+                context.getClientNetwork().send(new StartingCardRequestMessage());
             }
             if (context.getCurrentState().getClass().equals(PassiveAimCardChoiceState.class)) {
-                context.setState(new ActiveAimCardChoiceState());
+                context.getClientNetwork().send(new AimCardRequestMessage());
             }
             if (context.getCurrentState().getClass().equals(PassivePlacingState.class)) {
                 context.setState(new ActivePlacingState());
+            }
+            if (context.getCurrentState().getClass().equals(PassiveDealCardsState.class)) {
+                context.setState(new ActiveDealCardsState());
             }
         }
     }

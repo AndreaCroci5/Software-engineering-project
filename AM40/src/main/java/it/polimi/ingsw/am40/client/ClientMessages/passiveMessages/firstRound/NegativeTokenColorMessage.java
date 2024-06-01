@@ -1,8 +1,8 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.TokenRequestMessage;
 import it.polimi.ingsw.am40.client.network.ClientContext;
-import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveTokenChoiceState;
 
 public class NegativeTokenColorMessage  extends Message {
 
@@ -24,7 +24,7 @@ public class NegativeTokenColorMessage  extends Message {
     public void process(ClientContext context) {
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
             context.getClientView().displayError();
-            context.setState(new ActiveTokenChoiceState());
+            context.getClientNetwork().send(new TokenRequestMessage());
         }
     }
 }

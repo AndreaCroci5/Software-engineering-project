@@ -30,11 +30,16 @@ public class JoinResponseMessage extends Message {
     }
 
     /**
+     * It displays all possible games the player can join
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
     public void process(ClientContext context) {
-        if (clientNickname.equalsIgnoreCase(context.getNickname())) {
+
+        // display all possible games
+        // set the new state
+        if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
+            context.getClientView().displayAllGameUds(this.gamesIDs);
             context.setState(new ChooseGameState());
         }
     }
