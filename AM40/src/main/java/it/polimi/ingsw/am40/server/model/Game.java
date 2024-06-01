@@ -1,8 +1,9 @@
 package it.polimi.ingsw.am40.server.model;
 
-import it.polimi.ingsw.am40.server.exceptions.model.ForceEndgameTurnException;
-import it.polimi.ingsw.am40.server.exceptions.model.TokenColorException;
-import it.polimi.ingsw.am40.server.exceptions.model.TurnException;
+import it.polimi.ingsw.am40.exceptions.server.model.ForceEndgameTurnException;
+import it.polimi.ingsw.am40.exceptions.server.model.RepeatDrawException;
+import it.polimi.ingsw.am40.exceptions.server.model.TokenColorException;
+import it.polimi.ingsw.am40.exceptions.server.model.TurnException;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -273,6 +274,17 @@ public class Game implements ActionPoster {
         currentPlayer.getToken().setColor(color);
     }
 
+    //TODO JAVADOC and FIXME  to check if it all works fine
+    public void dealCards() {
+        try {
+            draw(0,2);
+            draw(0,2);
+            draw(1,2);
+        } catch (RepeatDrawException e) {
+            //It doesn't happen
+        }
+    }
+
     /**
      * This method is used during the first round where a Player one of the two AimCards offered
      * @param choice is the AimCard chosen by the Client: (0) the first, (1) the second
@@ -308,14 +320,14 @@ public class Game implements ActionPoster {
         Collections.shuffle(this.players);
         this.players.getFirst().setStartingPlayerTrue();
     }
-
+    //FIXME FINISH DRAW EXC
     /**
      * This method perform a draw
      * Values of choice and selection comes from the controller, and they're checked there
      * @param choice is the choice of resource(0) or golden(1)
      * @param selection is the selection of the two cards on plate(0),plate(1) or deck(2)
      */
-    public void draw(int choice, int selection) {
+    public void draw(int choice, int selection) throws RepeatDrawException {
         ResourceCard temp = null;
 
         switch(choice) {
@@ -329,7 +341,7 @@ public class Game implements ActionPoster {
                         temp = commonBoard.getResourceDeck().pickFromTop();
                     }
                     default -> {
-                        // No action
+                        throw new RepeatDrawException();
                     }
                 }
             }
@@ -343,12 +355,12 @@ public class Game implements ActionPoster {
                         temp = commonBoard.getGoldenResourceDeck().pickFromTop();
                     }
                     default -> {
-                        // No action
+                        throw new RepeatDrawException();
                     }
                 }
             }
             default -> {
-                // No action
+                throw new RepeatDrawException();
             }
         }
         for (Player player : players) {

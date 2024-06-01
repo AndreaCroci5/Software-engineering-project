@@ -5,26 +5,31 @@ import it.polimi.ingsw.am40.server.actions.Action;
 
 /**
  * This class serves as a mean to notify to the VirtualView which then will notify the client by using the Network interface
- * that the user has correctly selected his token color
+ * about the two AimCards from which he will have to choose one to keep
  */
-public class PositiveTokenColorAction extends Action {
-    //COLOR CHOSEN //FIXME Check the toString method for the colors
-    private final String color;
+public class AimCardInfoAction extends Action {
+    //ATTRIBUTES
+    private final int aimID1;
+    private final int aimID2;
+
     //CONSTRUCTOR
     /**
-     * Constructor for PositiveTokenAction response
+     * Constructor for AimCardInfoAction
      */
-    public PositiveTokenColorAction(int gameID, int playerID, String color){
-        super("POSITIVE_TOKEN_COLOR", gameID, playerID);
-        this.color = color;
+    public AimCardInfoAction(int gameID, int playerID, int aimID1, int aimID2){
+        super("AIM_CARD_INFO", gameID, playerID);
+        this.aimID1 = aimID1;
+        this.aimID2 = aimID2;
     }
 
     /**
-     * Override of doAction for the positive Token selection
+     * Override of doAction for AimCard info transport
      * @param agent is the Game in which we perform the Action
      */
     @Override
     public void doAction(ActionAgent agent){
 
     }
+
+
 }

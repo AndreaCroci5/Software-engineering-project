@@ -1,12 +1,17 @@
 package it.polimi.ingsw.am40.server.actions.passive.firstRound;
 
+import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
+import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
-//TODO this class should carry also the information of the AimCardIDs of the next Player
+/**
+ * This class serves as a mean to notify to the VirtualView which then will notify the client by using the Network interface
+ * that the AimCard that the Player wants is correctly selected
+ */
 public class AimCardResultAction extends Action {
     //ATTRIBUTES
     /** ID of the AimCard chosen by the Player*/
-    int aimCardChosenID;
+    private final int aimCardChosenID;
 
 
     //CONSTRUCTOR
@@ -14,8 +19,12 @@ public class AimCardResultAction extends Action {
      * Constructor for AimCard choice selection response
      */
     public AimCardResultAction(int gameID, int playerID, int aimCardChosenID){
-        super("AIMCARD_SELECTED", gameID, playerID);
+        super("AIM_CARD_SELECTED", gameID, playerID);
         this.aimCardChosenID = aimCardChosenID;
     }
 
+    @Override
+    public void doAction(ActionAgent agent){
+        VVServer vv = (VVServer) agent;
+    }
 }

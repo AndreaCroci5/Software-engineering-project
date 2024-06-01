@@ -14,17 +14,19 @@ import java.util.ArrayList;
 public class DealCardsResultAction extends Action {
     //ATTRIBUTES
     /** Reference to the Array of Integers that represents the cardIDs of the Cards held in a Player's PrivateBoard's handDeck*/
-    ArrayList<Integer> handDeckIDs;
+    private final ArrayList<Integer> handDeckIDs;
     /** Value of the ID of the Card on the top of the ResourceCard Deck*/
-    int deckResourceCardID;
+    private final int deckResourceCardID;
     /** Value of the ID of the Card on the top of the GoldenResourceCard Deck*/
-    int deckGoldenCardID;
+    private final int deckGoldenCardID;
+
+
     //CONSTRUCTOR
     /**
      * Constructor for DealCardsResult Action
      */
     public DealCardsResultAction(int gameID, int playerID, ArrayList<Integer> handDeckIDs, int deckResourceCardID, int deckGoldenCardID){
-        super("POSITIVE_TOKEN_COLOR", gameID, playerID);
+        super("CARDS_DEAL_RESULT", gameID, playerID);
         this.handDeckIDs = handDeckIDs;
         this.deckResourceCardID = deckResourceCardID;
         this.deckGoldenCardID = deckGoldenCardID;

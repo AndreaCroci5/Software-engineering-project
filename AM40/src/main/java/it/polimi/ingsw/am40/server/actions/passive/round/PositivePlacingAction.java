@@ -5,26 +5,28 @@ import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.model.CardElements;
 import it.polimi.ingsw.am40.server.model.Coordinates;
 import it.polimi.ingsw.am40.server.model.Game;
+import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * This class represent the action response made by the Server after executing a positive placing phase.
- * It works as executor for the model on the virtual view, following the MVC pattern
+ * It works as executor for the model on the virtual view, following the MVC pattern.
+ * This class carries the information about the changes made by the last PlacingAction
  */
 public class PositivePlacingAction extends Action {
     //ATTRIBUTES
     /** Amount of points that a Player has*/
-    int score;
+    private final int score;
     /** Reference to the Map that keeps the amount of every CardElement in the PrivateBoard*/
-    Map<CardElements,Integer> elementsCounter;
+    private final Map<CardElements,Integer> elementsCounter;
 
     /** Reference to the ArrayList containing all the future placing legal Coordinates*/
-    ArrayList<Coordinates> placingCoordinates;
+    private final ArrayList<Coordinates> placingCoordinates;
 
     /** ID of the last Card placed*/
-    int cardID;
+    private final int cardID;
 
     //CONSTRUCTOR
     /**
@@ -44,6 +46,7 @@ public class PositivePlacingAction extends Action {
      */
     @Override
     public void doAction(ActionAgent agent){
+        VVServer v = (VVServer) agent;
 
     }
 }

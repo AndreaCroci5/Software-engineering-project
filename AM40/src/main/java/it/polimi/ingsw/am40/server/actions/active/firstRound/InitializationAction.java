@@ -10,7 +10,7 @@ public class InitializationAction extends Action {
 
     //CONSTRUCTOR
     /**
-     * Constructor for action
+     * Constructor for InitializationAction
      */
     public InitializationAction(int gameID, int playerID){
         super("", gameID, playerID);

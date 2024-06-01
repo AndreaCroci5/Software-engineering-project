@@ -5,19 +5,22 @@ import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.actions.passive.firstRound.AimCardResultAction;
 import it.polimi.ingsw.am40.server.model.Game;
 
-//TODO put in the end the player order decision and add passive actions and Synchronize with the Map in the Server
-//FIXME AIM CARD managing
+
+/**
+ * This class represent the Action made by the Server in response of an input by the network from the Client that chooses
+ * his personal AimCard
+ */
 public class AimCardAction extends Action {
     //ATTRIBUTES
     /** This attribute represents one the AimCard chosen by the Client: (0) the first, (1) the second*/
-    int choice;
+    private final int choice;
 
     //CONSTRUCTOR
     /**
      * Constructor for AimCardAction
      */
     public AimCardAction(int gameID, int playerID, int choice){
-        super("AIMCARD_SELECTION", gameID, playerID);
+        super("AIM_CARD_SELECTION", gameID, playerID);
         this.choice = choice;
     }
 

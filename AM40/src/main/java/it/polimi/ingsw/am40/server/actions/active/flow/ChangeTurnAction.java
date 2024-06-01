@@ -5,13 +5,17 @@ import it.polimi.ingsw.am40.server.exceptions.model.TurnException;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.actions.passive.flow.ChangeTurnInfoAction;
-import it.polimi.ingsw.am40.server.actions.passive.flow.LastRoundsInfoMessage;
+import it.polimi.ingsw.am40.server.actions.passive.flow.LastRoundsInfoAction;
 import it.polimi.ingsw.am40.server.actions.passive.round.EndGameAction;
 import it.polimi.ingsw.am40.server.model.Game;
 import it.polimi.ingsw.am40.server.model.Player;
 
 import java.util.List;
 
+/**
+ * This class represent the Action made by the Server in response a Data sent on the network by the Client that
+ * has just finished his round and confirms the fact that his round is ended to the model
+ */
 public class ChangeTurnAction extends Action {
 
     //CONSTRUCTOR
@@ -36,7 +40,7 @@ public class ChangeTurnAction extends Action {
         if (gameContext.checkEndGame()) {
             //Last Rounds Triggered
             gameContext.calculateRemainingRounds();
-            gameContext.notifyListeners(new LastRoundsInfoMessage(this.getGameID(),this.getPlayerID()), gameContext.getListeners());
+            gameContext.notifyListeners(new LastRoundsInfoAction(this.getGameID(),this.getPlayerID()), gameContext.getListeners());
             //Turn Change
             try{
                 gameContext.changePlayersTurn(gameContext.getIndexOfPlayingPlayer());

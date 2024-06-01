@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am40.server.actions;
 
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.ActionAgent;
 
 /**
@@ -78,5 +79,10 @@ public abstract class Action {
      */
     public void doAction(ActionAgent agent){
 
+    }
+
+    //TODO Implementation of dataCreator in every subclass
+    public Data dataCreator() {
+        return null;
     }
 }

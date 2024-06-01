@@ -20,11 +20,11 @@ public class DealCardsAction extends Action {
      * Constructor for DealCardsAction
      */
     public DealCardsAction(int gameID, int playerID){
-        super("CARDS_DEAL_MESSAGE", gameID, playerID);
+        super("CARDS_DEAL", gameID, playerID);
     }
 
     /**
-     * Override of doAction for the Initialization of the Game Phase
+     * Override of doAction for the Cards dealing phase during the first Round
      * @param agent is the Game in which we perform the Action
      */
     @Override
