@@ -15,12 +15,12 @@ public class PlacingData extends Data {
     /** Coordinates chosen by the Player for the Card to Place*/
     Coordinates coordsToPlace;
     /** CardFace orientation of the Card chosen to place by the Player*/
-    CardFace face;
+    String face;
 
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public PlacingData(String description, int choice, Coordinates coordsToPlace, CardFace face) {
+    public PlacingData(int choice, Coordinates coordsToPlace, String face) {
         super("PLACING");
         this.choice = choice;
         this.coordsToPlace = coordsToPlace;

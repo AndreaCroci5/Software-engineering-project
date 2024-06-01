@@ -3,11 +3,11 @@ package it.polimi.ingsw.am40.data;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.data.active.firstRound.AimCardData;
+import it.polimi.ingsw.am40.data.active.firstRound.AimCardChoiceData;
 import it.polimi.ingsw.am40.data.active.firstRound.DealCardsData;
 import it.polimi.ingsw.am40.data.active.firstRound.StartingCardData;
-import it.polimi.ingsw.am40.data.active.firstRound.TokenData;
-import it.polimi.ingsw.am40.data.active.flow.ChangeTurnData;
+import it.polimi.ingsw.am40.data.active.firstRound.TokenChoiceData;
+import it.polimi.ingsw.am40.data.active.flow.ChangeTurnRequestData;
 import it.polimi.ingsw.am40.data.active.round.DrawData;
 import it.polimi.ingsw.am40.data.active.round.PlacingData;
 import it.polimi.ingsw.am40.data.passive.firstRound.DealCardsResultData;
@@ -31,18 +31,18 @@ import it.polimi.ingsw.am40.server.actions.Action;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = StartingCardData.class, name = "STARTING_CARD_SELECTION"),
-        @JsonSubTypes.Type(value = TokenData.class, name = "TOKEN_SELECTION"),
+        @JsonSubTypes.Type(value = TokenChoiceData.class, name = "TOKEN_SELECTION"),
         @JsonSubTypes.Type(value = DealCardsData.class, name = "CARDS_DEAL"),
-        @JsonSubTypes.Type(value = AimCardData.class, name = "AIM_CARD_SELECTION"),
+        @JsonSubTypes.Type(value = AimCardChoiceData.class, name = "AIM_CARD_SELECTION"),
         @JsonSubTypes.Type(value = PlacingData.class, name = "PLACING"),
         @JsonSubTypes.Type(value = DrawData.class, name = "DRAW"),
-        @JsonSubTypes.Type(value = ChangeTurnData.class, name = "CHANGE_TURN"),
+        @JsonSubTypes.Type(value = ChangeTurnRequestData.class, name = "CHANGE_TURN"),
 
         @JsonSubTypes.Type(value = StartingCardResultData.class, name = "POSITIVE_STARTING_CARD"),
         @JsonSubTypes.Type(value = NegativeTokenColorData.class, name = "NEGATIVE_TOKEN_COLOR"),
         @JsonSubTypes.Type(value = PositiveTokenColorData.class, name = "POSITIVE_TOKEN_COLOR"),
         @JsonSubTypes.Type(value = DealCardsResultData.class, name = "CARDS_DEAL_RESULT"),
-        @JsonSubTypes.Type(value = AimCardData.class, name = "AIM_CARD_SELECTED"),
+        @JsonSubTypes.Type(value = AimCardChoiceData.class, name = "AIM_CARD_SELECTED"),
         @JsonSubTypes.Type(value = PositivePlacingData.class, name = "POSITIVE_PLACING"),
         @JsonSubTypes.Type(value = RepeatPlacingData.class, name = "REPEAT_PLACING"),
         @JsonSubTypes.Type(value = PositiveDrawData.class, name = "POSITIVE_DRAW"),

@@ -10,7 +10,7 @@ import it.polimi.ingsw.am40.data.Data;
  * This class is also the bridge to the AimCardAction on Server and AimCardMessage on the Client
  */
 @JsonTypeName("AIM_CARD_SELECTION")
-public class AimCardData extends Data {
+public class AimCardChoiceData extends Data {
     //ATTRIBUTES
     /** This attribute represents one the AimCard chosen by the Client: (0) the first, (1) the second*/
     int choice;
@@ -18,12 +18,12 @@ public class AimCardData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public AimCardData(String description, int choice) {
+    public AimCardChoiceData(int choice) {
         super("AIM_CARD_SELECTION");
         this.choice = choice;
     }
     //Json constructor
-    public AimCardData() {
+    public AimCardChoiceData() {
 
     }
 

@@ -1,21 +1,20 @@
-package it.polimi.ingsw.am40.data.active.firstRound;
+package it.polimi.ingsw.am40.data.active.flow;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.server.actions.Action;
 
-@JsonTypeName("TOKEN_SELECTION")
-public class TokenData extends Data {
-
+@JsonTypeName("CHANGE_TURN")
+public class ChangeTurnRequestData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public TokenData(String description) {
-        super("TOKEN_SELECTION");
+    public ChangeTurnRequestData(String description) {
+        super("CHANGE_TURN");
     }
     //Json constructor
-    public TokenData() {
+    public ChangeTurnRequestData() {
 
     }
 
