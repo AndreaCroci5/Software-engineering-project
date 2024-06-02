@@ -1,27 +1,27 @@
 package it.polimi.ingsw.am40.server.actions.active.firstRound;
 
-import it.polimi.ingsw.am40.exceptions.server.model.TokenColorException;
+import it.polimi.ingsw.am40.server.exceptions.model.TokenColorException;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.actions.passive.firstRound.NegativeTokenColorAction;
 import it.polimi.ingsw.am40.server.actions.passive.firstRound.PositiveTokenColorAction;
 import it.polimi.ingsw.am40.server.model.Color;
 import it.polimi.ingsw.am40.server.model.Game;
-//FIXME Add request and info Token
+
 /**
  * This class represent the Action made by the Server in response of an input coming through the network made by
  * the Client that chooses the Color of his Token
  */
-public class TokenAction extends Action {
+public class TokenChoiceAction extends Action {
     //ATTRIBUTES
     /**Color of the Token Chosen*/
     private final Color tokenColor;
 
     //CONSTRUCTOR
     /**
-     * Constructor for TokenAction
+     * Constructor for TokenChoiceAction
      */
-    public TokenAction(int gameID, int playerID, Color tokenColor){
+    public TokenChoiceAction(int gameID, int playerID, Color tokenColor){
         super("TOKEN_SELECTION", gameID, playerID);
         this.tokenColor = tokenColor;
     }

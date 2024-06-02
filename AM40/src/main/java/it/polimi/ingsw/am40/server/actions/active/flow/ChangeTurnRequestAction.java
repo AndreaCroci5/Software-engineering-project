@@ -16,13 +16,13 @@ import java.util.List;
  * This class represent the Action made by the Server in response a Data sent on the network by the Client that
  * has just finished his round and confirms the fact that his round is ended to the model
  */
-public class ChangeTurnAction extends Action {
+public class ChangeTurnRequestAction extends Action {
 
     //CONSTRUCTOR
     /**
-     * Constructor for ChangeTurnAction
+     * Constructor for ChangeTurnRequestAction
      */
-    public ChangeTurnAction(int gameID, int playerID){
+    public ChangeTurnRequestAction(int gameID, int playerID){
         super("CHANGE_TURN", gameID, playerID);
     }
 

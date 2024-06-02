@@ -1,7 +1,9 @@
 package it.polimi.ingsw.am40.data.active.flow;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.data.Data;
 
+@JsonTypeName("GAME_ID_CHOICE")
 public class GameIDChoiceData extends Data {
 
     private int gameIDChoice;

@@ -9,7 +9,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
 public class AimCardResultData extends Data {
     //ATTRIBUTES
     /** ID of the AimCard chosen by the Player*/
-    int aimCardChosenID;
+    private int aimCardChosenID;
 
     //CONSTRUCTOR
 

@@ -11,7 +11,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
 public class StartingCardResultData extends Data {
     //ATTRIBUTES
     /** Nickname of the Player that has just chosen the StartingCard CardFace*/
-    String playerNickname;
+    private String playerNickname;
 
     //CONSTRUCTOR
 

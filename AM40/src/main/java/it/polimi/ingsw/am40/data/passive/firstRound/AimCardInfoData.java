@@ -5,21 +5,22 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
 
-@JsonTypeName("NEGATIVE_TOKEN_COLOR")
-public class NegativeTokenColorData extends Data {
+@JsonTypeName("AIM_CARD_INFO")
+public class AimCardInfoData extends Data {
     //ATTRIBUTES
-    /** Nickname of the Player that has just chosen the Token Color*/
-    private String playerNickname;
+    private int aimID1;
+    private int aimID2;
 
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public NegativeTokenColorData(String playerNickname) {
-        super("NEGATIVE_TOKEN_COLOR");
-        this.playerNickname = playerNickname;
+    public AimCardInfoData(int aimID1, int aimID2) {
+        super("AIM_CARD_INFO");
+        this.aimID1 = aimID1;
+        this.aimID2 = aimID2;
     }
     //Json constructor
-    public NegativeTokenColorData(){
+    public AimCardInfoData(){
 
     }
 

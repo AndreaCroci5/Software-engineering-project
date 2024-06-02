@@ -12,14 +12,14 @@ import java.util.ArrayList;
  * This class represent the Action made by the Server after the Token selection phase that gives to a Player his 2
  * ResourceCards and 1 GoldenResourceCard as the rules say
  */
-public class DealCardsAction extends Action {
+public class DealCardsRequestAction extends Action {
     //ATTRIBUTES
 
     //CONSTRUCTOR
     /**
-     * Constructor for DealCardsAction
+     * Constructor for DealCardsRequestAction
      */
-    public DealCardsAction(int gameID, int playerID){
+    public DealCardsRequestAction(int gameID, int playerID){
         super("CARDS_DEAL", gameID, playerID);
     }
 
@@ -32,7 +32,7 @@ public class DealCardsAction extends Action {
         Game gameContext = (Game) agent;
 
         //Card Deal
-      //fixme  gameContext.dealCards();
+        //fixme  gameContext.dealCards() for only resource and golden
         //Data fetch
         //HandDeck
         ArrayList<Integer> handDeckIDs = new ArrayList<>();

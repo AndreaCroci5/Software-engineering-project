@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.round;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.round.PositivePlacingData;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.model.CardElements;
@@ -46,7 +48,9 @@ public class PositivePlacingAction extends Action {
      */
     @Override
     public void doAction(ActionAgent agent){
+        //FIXME COPY procedure in all and fix DataCreator
         VVServer v = (VVServer) agent;
-
+        v.sendOnNetworkUnicast(this.getPlayerID(), this.dataCreator());
     }
+
 }

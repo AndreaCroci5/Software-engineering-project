@@ -5,22 +5,22 @@ import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.actions.passive.firstRound.StartingCardResultAction;
 import it.polimi.ingsw.am40.server.model.CardFace;
 import it.polimi.ingsw.am40.server.model.Game;
-//FIXME add the request and the info
+
 /**
  * This class represent the Action made by the Server in response of an input coming through the network made
  * by the Client that chooses the phase of his StartingCard
  */
-public class StartingCardAction extends Action{
+public class StartingCardChoiceAction extends Action{
     //ATTRIBUTES
     /** CardFace chosen by the Client for the Starting Card*/
     private final CardFace cardFace;
 
     //CONSTRUCTOR
     /**
-     * Constructor for StartingCardAction
+     * Constructor for StartingCardChoiceAction
      */
-    public StartingCardAction(int gameID, int playerID, CardFace cardFace){
-        super("STARTING_CARD_SELECTION", gameID, playerID);
+    public StartingCardChoiceAction(int gameID, int playerID, CardFace cardFace){
+        super("STARTING_CARD_CHOICE", gameID, playerID);
         this.cardFace = cardFace;
     }
 

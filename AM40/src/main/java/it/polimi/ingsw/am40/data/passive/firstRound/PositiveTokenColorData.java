@@ -9,10 +9,10 @@ import it.polimi.ingsw.am40.server.actions.Action;
 public class PositiveTokenColorData extends Data {
     //ATTRIBUTES
     /** Nickname of the Player that has just chosen the Token Color*/
-    String playerNickname;
+    private String playerNickname;
 
     /** Color of the Token chosen by the Player*/
-    String color;
+    private String color;
 
 
 

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.server.actions.active.firstRound.DealCardsRequestAction;
 
+//FIXME Rename by adding request between cards and data in class name A+N
 @JsonTypeName("CARDS_DEAL")
 public class DealCardsData extends Data {
 
@@ -22,7 +24,7 @@ public class DealCardsData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return null;
+        return new DealCardsRequestAction(this.getGameID(), this.getPlayerID());
     }
 
     public Message onClient() {

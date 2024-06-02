@@ -3,23 +3,18 @@ package it.polimi.ingsw.am40.data;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.data.active.firstRound.AimCardChoiceData;
-import it.polimi.ingsw.am40.data.active.firstRound.DealCardsData;
-import it.polimi.ingsw.am40.data.active.firstRound.StartingCardData;
-import it.polimi.ingsw.am40.data.active.firstRound.TokenChoiceData;
-import it.polimi.ingsw.am40.data.active.flow.ChangeTurnRequestData;
+import it.polimi.ingsw.am40.data.active.firstRound.*;
+import it.polimi.ingsw.am40.data.active.flow.*;
 import it.polimi.ingsw.am40.data.active.round.DrawData;
 import it.polimi.ingsw.am40.data.active.round.PlacingData;
-import it.polimi.ingsw.am40.data.passive.firstRound.DealCardsResultData;
-import it.polimi.ingsw.am40.data.passive.firstRound.NegativeTokenColorData;
-import it.polimi.ingsw.am40.data.passive.firstRound.PositiveTokenColorData;
-import it.polimi.ingsw.am40.data.passive.firstRound.StartingCardResultData;
+import it.polimi.ingsw.am40.data.passive.firstRound.*;
 import it.polimi.ingsw.am40.data.passive.flow.ChangeTurnInfoData;
 import it.polimi.ingsw.am40.data.passive.flow.LastRoundsInfoData;
 import it.polimi.ingsw.am40.data.passive.round.*;
 import it.polimi.ingsw.am40.server.actions.Action;
 
 //TODO JAVADOC in the subclasses
+//FIXME CHECK if all json types and annotations are correct
 
 /**
  * This class contains the information that will be carried by being sent on the network as a TCP message.
@@ -30,18 +25,29 @@ import it.polimi.ingsw.am40.server.actions.Action;
 //on polymorphism
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = StartingCardData.class, name = "STARTING_CARD_SELECTION"),
+        //Active Data
+        @JsonSubTypes.Type(value = StartingCardRequestData.class, name = "STARTING_CARD_REQUEST"),
+        @JsonSubTypes.Type(value = StartingCardChoiceData.class, name = "STARTING_CARD_CHOICE"),
         @JsonSubTypes.Type(value = TokenChoiceData.class, name = "TOKEN_SELECTION"),
+        @JsonSubTypes.Type(value = TokenRequestData.class, name = "TOKEN_REQUEST"),
         @JsonSubTypes.Type(value = DealCardsData.class, name = "CARDS_DEAL"),
+        @JsonSubTypes.Type(value = AimCardRequestData.class, name = "AIM_CARD_REQUEST"),
         @JsonSubTypes.Type(value = AimCardChoiceData.class, name = "AIM_CARD_SELECTION"),
         @JsonSubTypes.Type(value = PlacingData.class, name = "PLACING"),
         @JsonSubTypes.Type(value = DrawData.class, name = "DRAW"),
         @JsonSubTypes.Type(value = ChangeTurnRequestData.class, name = "CHANGE_TURN"),
-
+        //Passive Data
+        @JsonSubTypes.Type(value = CreateRequestData.class, name = "CREATE_GAME"),
+        @JsonSubTypes.Type(value = GameIDChoiceData.class, name = "GAME_ID_CHOICE"),
+        @JsonSubTypes.Type(value = JoinRequestData.class, name = "JOIN_GAME"),
+        @JsonSubTypes.Type(value = ReadyToPlayData.class, name = "READY_TO_PLAY"),
+        @JsonSubTypes.Type(value = StartingCardInfoData.class, name = "STARTING_INFO"),
         @JsonSubTypes.Type(value = StartingCardResultData.class, name = "POSITIVE_STARTING_CARD"),
+        @JsonSubTypes.Type(value = TokenInfoData.class, name = "TOKEN_INFO"),
         @JsonSubTypes.Type(value = NegativeTokenColorData.class, name = "NEGATIVE_TOKEN_COLOR"),
         @JsonSubTypes.Type(value = PositiveTokenColorData.class, name = "POSITIVE_TOKEN_COLOR"),
         @JsonSubTypes.Type(value = DealCardsResultData.class, name = "CARDS_DEAL_RESULT"),
+        @JsonSubTypes.Type(value = AimCardInfoData.class, name = "AIM_CARD_INFO"),
         @JsonSubTypes.Type(value = AimCardChoiceData.class, name = "AIM_CARD_SELECTED"),
         @JsonSubTypes.Type(value = PositivePlacingData.class, name = "POSITIVE_PLACING"),
         @JsonSubTypes.Type(value = RepeatPlacingData.class, name = "REPEAT_PLACING"),
@@ -58,6 +64,10 @@ public abstract class Data {
      * Description of the action. It describes what an action does in order to be used in listener system (onEvent)
      */
     private String description;
+
+    //Attributes used to orientate on the server, not useful for the Data itself, only for the Action creation
+    private int gameID;
+    private int playerID;
 
 
     //CONSTRUCTOR
@@ -90,4 +100,30 @@ public abstract class Data {
     public Message onClient() {
         return null;
     }
+
+    //GETTER AND SETTERS
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+
 }

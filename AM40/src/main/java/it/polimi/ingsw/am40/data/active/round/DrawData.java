@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.server.actions.active.round.DrawAction;
 
+//FIXME check string choice parse into int attended values
 @JsonTypeName("DRAW")
 public class DrawData extends Data {
     //ATTRIBUTES
@@ -27,7 +29,7 @@ public class DrawData extends Data {
 
 
     //PUBLIC METHODS
-
+    //TODO onServer()
     public Action onServer(){
         return null;
     }

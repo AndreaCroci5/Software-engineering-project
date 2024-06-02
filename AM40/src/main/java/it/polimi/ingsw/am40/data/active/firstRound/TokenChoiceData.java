@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.server.actions.active.firstRound.TokenChoiceAction;
+import it.polimi.ingsw.am40.server.model.Color;
 
 @JsonTypeName("TOKEN_SELECTION")
 public class TokenChoiceData extends Data {
@@ -26,7 +28,8 @@ public class TokenChoiceData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return null;
+        Color color = Color.valueOf(this.token);
+        return new TokenChoiceAction(this.getGameID(), this.getPlayerID(), color);
     }
 
     public Message onClient() {

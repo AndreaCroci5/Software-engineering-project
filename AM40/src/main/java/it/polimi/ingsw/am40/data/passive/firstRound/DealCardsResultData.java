@@ -11,16 +11,16 @@ import java.util.ArrayList;
 public class DealCardsResultData extends Data {
     //ATTRIBUTES
     /** Nickname of the Player that just got the cards dealt*/
-    String playerNickname;
+    private String playerNickname;
 
     /** Reference to the Array of Integers that represents the cardIDs of the Cards held in a Player's PrivateBoard's handDeck*/
-    ArrayList<Integer> handDeckIDs;
+    private ArrayList<Integer> handDeckIDs;
 
     /** Value of the ID of the Card on the top of the ResourceCard Deck*/
-    int deckResourceCardID;
+    private int deckResourceCardID;
 
     /** Value of the ID of the Card on the top of the GoldenResourceCard Deck*/
-    int deckGoldenCardID;
+    private int deckGoldenCardID;
 
     //CONSTRUCTOR
 

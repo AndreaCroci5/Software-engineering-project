@@ -10,16 +10,16 @@ import it.polimi.ingsw.am40.server.model.Game;
  * This class represent the Action made by the Server in response of an input by the network from the Client that chooses
  * his personal AimCard
  */
-public class AimCardAction extends Action {
+public class AimCardChoiceAction extends Action {
     //ATTRIBUTES
     /** This attribute represents one the AimCard chosen by the Client: (0) the first, (1) the second*/
     private final int choice;
 
     //CONSTRUCTOR
     /**
-     * Constructor for AimCardAction
+     * Constructor for AimCardChoiceAction
      */
-    public AimCardAction(int gameID, int playerID, int choice){
+    public AimCardChoiceAction(int gameID, int playerID, int choice){
         super("AIM_CARD_SELECTION", gameID, playerID);
         this.choice = choice;
     }

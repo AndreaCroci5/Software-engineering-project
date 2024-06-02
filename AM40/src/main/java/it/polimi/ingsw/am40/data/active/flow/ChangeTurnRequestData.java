@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
+import it.polimi.ingsw.am40.server.actions.active.flow.ChangeTurnRequestAction;
 
+//FIXME make unique constructor A+N
 @JsonTypeName("CHANGE_TURN")
 public class ChangeTurnRequestData extends Data {
     //CONSTRUCTOR
@@ -21,7 +23,7 @@ public class ChangeTurnRequestData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return null;
+        return new ChangeTurnRequestAction(this.getGameID(), this.getPlayerID());
     }
 
     public Message onClient() {

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.am40.server.model;
 
-import it.polimi.ingsw.am40.exceptions.server.model.ForceEndgameTurnException;
-import it.polimi.ingsw.am40.exceptions.server.model.RepeatDrawException;
-import it.polimi.ingsw.am40.exceptions.server.model.TokenColorException;
-import it.polimi.ingsw.am40.exceptions.server.model.TurnException;
+import it.polimi.ingsw.am40.server.exceptions.model.ForceEndgameTurnException;
+import it.polimi.ingsw.am40.server.exceptions.model.RepeatDrawException;
+import it.polimi.ingsw.am40.server.exceptions.model.TokenColorException;
+import it.polimi.ingsw.am40.server.exceptions.model.TurnException;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.am40.server.model.CommonBoard.plateAimCard;
 
@@ -310,6 +311,27 @@ public class Game implements ActionPoster {
             AimCard cardSelected = this.getCommonBoard().getAimDeck().pickFromTop();
             currentPlayer.setPrivateAim(cardSelected);
         }
+    }
+
+    //TODO JavaDoc and maybe check if it is equal to NONE but we must see the initialization first
+    public List<String> remainingTokenColors() {
+        Color[] allColors = Color.values();
+        ArrayList<Color> remainingColors = new ArrayList<>();
+        for(Color c : allColors) {
+            boolean isTaken = false;
+            for (Player p : this.players) {
+                if (c == p.getToken().getColor()) {
+                    isTaken = true;
+                }
+            }
+            if (!isTaken) {
+                remainingColors.add(c);
+            }
+        }
+        //List<String> creation
+        return remainingColors.stream()
+                .map(Color::toString)
+                .collect(Collectors.toList());
     }
 
 

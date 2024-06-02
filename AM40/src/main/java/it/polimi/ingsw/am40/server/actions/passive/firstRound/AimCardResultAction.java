@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.firstRound;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.firstRound.AimCardResultData;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
@@ -25,6 +27,13 @@ public class AimCardResultAction extends Action {
 
     @Override
     public void doAction(ActionAgent agent){
-        VVServer vv = (VVServer) agent;
+        VVServer v = (VVServer) agent;
+        v.sendOnNetworkUnicast(this.getPlayerID(), this.dataCreator());
     }
+
+    @Override
+    public Data dataCreator() {
+        return new AimCardResultData(this.aimCardChosenID);
+    }
+
 }
