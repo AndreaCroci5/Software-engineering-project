@@ -9,9 +9,11 @@ import it.polimi.ingsw.am40.server.model.CardFace;
 
 @JsonTypeName("STARTING_CARD_CHOICE")
 public class StartingCardChoiceData extends Data {
-
+    //ATTRIBUTES
     private final String face;
 
+    //CONSTRUCTOR
+    //Logic and Json constructor for subclasses
     public StartingCardChoiceData(String face) {
         super("STARTING_CARD_CHOICE");
         this.face = face;
@@ -21,7 +23,7 @@ public class StartingCardChoiceData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return new StartingCardChoiceAction(this.getGameID(), this.getPlayerID(), CardFace.valueOf(this.face));
+        return new StartingCardChoiceAction(this.getGameID(), this.getPlayerID(), CardFace.valueOf(this.face.toUpperCase()));
     }
 
     public Message onClient() {

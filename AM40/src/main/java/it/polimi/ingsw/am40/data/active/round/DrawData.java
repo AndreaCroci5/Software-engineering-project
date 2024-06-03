@@ -6,7 +6,6 @@ import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.active.round.DrawAction;
 
-//FIXME check string choice parse into int attended values
 @JsonTypeName("DRAW")
 public class DrawData extends Data {
     //ATTRIBUTES
@@ -29,9 +28,16 @@ public class DrawData extends Data {
 
 
     //PUBLIC METHODS
-    //TODO onServer()
+
     public Action onServer(){
-        return null;
+        //String parse to an Integer
+        int source;
+        if (this.choice.equalsIgnoreCase("res")){
+            source = 0;
+        } else {
+            source = 1;
+        }
+        return new DrawAction(this.getGameID(), this.getPlayerID(), source, selection);
     }
 
     public Message onClient() {

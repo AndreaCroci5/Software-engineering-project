@@ -8,7 +8,6 @@ import it.polimi.ingsw.am40.server.model.CardFace;
 import it.polimi.ingsw.am40.server.model.Coordinates;
 import it.polimi.ingsw.am40.data.Data;
 
-//FIXME CardFace must be in MAIUSC. A+N
 @JsonTypeName("PLACING")
 public class PlacingData extends Data {
     //ATTRIBUTES for the Execution
@@ -38,8 +37,7 @@ public class PlacingData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-
-        return new PlacingAction(this.getGameID(), this.getPlayerID(), this.choice, this.coordsToPlace, CardFace.valueOf(this.face));
+        return new PlacingAction(this.getGameID(), this.getPlayerID(), this.choice, this.coordsToPlace, CardFace.valueOf(this.face.toUpperCase()));
     }
 
     public Message onClient() {

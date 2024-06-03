@@ -11,7 +11,7 @@ import it.polimi.ingsw.am40.server.actions.active.firstRound.DealCardsRequestAct
 public class DealCardsData extends Data {
 
     //CONSTRUCTOR
-
+    //FIXME similar to all request check the constructor
     //Logic constructor for subclasses
     public DealCardsData(String description) {
         super("CARDS_DEAL");

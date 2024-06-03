@@ -6,7 +6,6 @@ import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.actions.active.firstRound.StartingCardRequestAction;
 
-//TODO Add attributes
 @JsonTypeName("STARTING_CARD_REQUEST")
 public class StartingCardRequestData extends Data {
 

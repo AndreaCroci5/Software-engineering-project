@@ -17,7 +17,7 @@ public class AimCardRequestAction extends Action {
     /**
      * Constructor for AimCardRequestAction
      */
-    public AimCardRequestAction(int gameID, int playerID, int choice){
+    public AimCardRequestAction(int gameID, int playerID){
         super("AIM_CARD_REQUEST", gameID, playerID);
     }
 

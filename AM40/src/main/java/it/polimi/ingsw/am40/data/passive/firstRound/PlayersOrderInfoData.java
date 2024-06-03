@@ -5,25 +5,22 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
 
-@JsonTypeName("STARTING_INFO")
-public class StartingCardInfoData extends Data {
+import java.util.ArrayList;
+
+@JsonTypeName("PLAYERS_ORDER_INFO")
+public class PlayersOrderInfoData extends Data {
     //ATTRIBUTES
-    private int startingCardID;
+    private ArrayList<String> players;
 
     //CONSTRUCTOR
-
     //Logic constructor for subclasses
-    public StartingCardInfoData(int startingCardID) {
-        super("AIM_CARD_INFO");
-        this.startingCardID = startingCardID;
+    public PlayersOrderInfoData(ArrayList<String> players) {
+        super("PLAYERS_ORDER_INFO");
+        this.players = players;
     }
-    //Json constructor
-    public StartingCardInfoData(){
 
-    }
 
     //PUBLIC METHODS
-
 
     public Action onServer(){
         return null;
