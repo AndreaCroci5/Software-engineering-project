@@ -14,7 +14,7 @@ public class SetUpState implements State {
     @Override
     public void execute(Client context) {
         // ask the user to create or join a game
-        context.getViewManager().displayInitialisation();
+        context.getViewManager().displaySetUp();
     }
 
     /**

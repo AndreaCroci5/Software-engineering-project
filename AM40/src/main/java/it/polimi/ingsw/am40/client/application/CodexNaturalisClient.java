@@ -1,6 +1,9 @@
 package it.polimi.ingsw.am40.client.application;
 
+import it.polimi.ingsw.am40.client.UserInputReader;
 import it.polimi.ingsw.am40.client.network.Client;
+import it.polimi.ingsw.am40.client.network.States.activeStates.SetUpState;
+import it.polimi.ingsw.am40.client.network.States.activeStates.UsernameChoiceState;
 import it.polimi.ingsw.am40.server.application.InvalidArgsPrefsException;
 import it.polimi.ingsw.am40.server.application.InvalidJSONPrefsException;
 import org.json.simple.JSONObject;
@@ -124,6 +127,13 @@ public class CodexNaturalisClient {
         //launching the application
         client.initApplication(portPrefTCP, portPrefRMI, hostPref, serverPref, network, view);
 
+        // set the first state of the client FSM
+        client.setInputReader(new UserInputReader(client));
+        // Creating a new thread to constantly listen for input
+        Thread reallyImportantThread = new Thread(client.getInputReader());
+        reallyImportantThread.start();
+        client.setState(new UsernameChoiceState());
+        client.getCurrentState().execute(client);
 
     }
 

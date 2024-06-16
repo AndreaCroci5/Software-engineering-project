@@ -24,6 +24,7 @@ public interface ViewManager extends ConcreteContext {
 
     // initialisation
     void displayInitialisation();
+    void displaySetUp();
     void displayCreate();
     void displayAllGameIds(List<Integer> gamesIDs);
 

@@ -64,7 +64,14 @@ public class Client implements AbstractContext{
         return inputReader;
     }
 
-    //ABSTRACT CONTEXT METHODS
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setInputReader(UserInputReader inputReader) {
+        this.inputReader = inputReader;
+    }
+//ABSTRACT CONTEXT METHODS
 
     /**
      * Method to set the current state of the FSM

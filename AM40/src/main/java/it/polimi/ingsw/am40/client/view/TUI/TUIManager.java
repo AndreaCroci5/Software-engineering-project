@@ -72,6 +72,12 @@ public class TUIManager implements ViewManager {
     public void displayInitialisation() {
         printTitle();
         System.out.println(">Welcome to the game ");
+        System.out.println(">Choose the username you want to use: ");
+
+    }
+
+    @Override
+    public void displaySetUp() {
         System.out.println(">Do you want to join an existing game or create a new game (join/create) ");
     }
 
