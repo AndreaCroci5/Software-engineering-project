@@ -5,7 +5,6 @@ import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.NetworkManagerClient;
 import it.polimi.ingsw.am40.client.network.Protocol;
 import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
-import it.polimi.ingsw.am40.server.network.RMI.RemoteObjectServer;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
@@ -74,7 +73,7 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
             registry = LocateRegistry.getRegistry(this.port);
 
             //Getting the server stub
-            RemoteObjectServer stub = (RemoteObjectServer) registry.lookup("ServerRemote");
+            RemoteInterfaceServer stub = (RemoteInterfaceServer) registry.lookup("ServerRemote");
             this.stub = stub;
         } catch (RemoteException e) {
             System.out.println("Something went wrong with the server remote interface research");
@@ -147,32 +146,32 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
 
     @Override
     public String getHostName() {
-        return null;
+        return this.hostName;
     }
 
     @Override
     public void setHostName(String hostName) {
-
+        this.hostName = hostName;
     }
 
     @Override
     public void setPort(int port) {
-
+        this.port = port;
     }
 
     @Override
     public int getPort() {
-        return 0;
+        return this.port;
     }
 
     @Override
     public void setServerAddress(String serverAddress) {
-
+        this.serverAddress = serverAddress;
     }
 
     @Override
     public String getServerAddress() {
-        return null;
+        return this.serverAddress;
     }
 
     @Override

@@ -133,10 +133,11 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
                     //Creation of the RMI registry
                     Registry registry = LocateRegistry.createRegistry(this.port);
                     RemoteObjectServer obj = new RemoteObjectServer();
+                    RemoteInterfaceServer remInterface = obj;
                     obj.setManager(this);
 
                     //Binding of the remote object in RMI registry
-                    registry.rebind("ServerRemote", (RemoteInterfaceServer) obj);
+                    registry.rebind("ServerRemote", remInterface);
 
                     System.out.println("Server RMI is running at port " + this.port);
                 } catch (RemoteException e) {

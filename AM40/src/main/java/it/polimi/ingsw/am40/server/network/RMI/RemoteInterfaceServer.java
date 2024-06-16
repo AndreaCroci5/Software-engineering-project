@@ -12,5 +12,5 @@ import java.rmi.RemoteException;
 public interface RemoteInterfaceServer extends Remote{
     String example() throws RemoteException;
 
-    void registerClient(RemoteInterfaceClient client);
+    void registerClient(RemoteInterfaceClient client) throws RemoteException;
 }

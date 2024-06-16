@@ -19,4 +19,5 @@ module it.polimi.ingsw.am40 {
     opens it.polimi.ingsw.am40.client.view.GUI to javafx.fxml;
 
     exports it.polimi.ingsw.am40.server.network.RMI to java.rmi;
+    exports it.polimi.ingsw.am40.client.network.RMI to java.rmi;
 }
