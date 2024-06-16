@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveDrawState;
 
 public class RepeatDrawMessage extends Message {
@@ -25,9 +25,9 @@ public class RepeatDrawMessage extends Message {
      * because there was an error
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
+    public void process(Client context) {
         if (context.getNickname().equalsIgnoreCase(clientNickname)) {
-            context.getClientView().displayError();
+            context.getViewManager().displayError();
             context.setState(new ActiveDrawState());
         }
     }

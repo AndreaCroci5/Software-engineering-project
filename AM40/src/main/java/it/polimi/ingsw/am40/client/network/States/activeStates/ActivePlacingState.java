@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am40.client.network.States.activeStates;
 
-import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
 
 public class ActivePlacingState implements State {
@@ -12,8 +11,12 @@ public class ActivePlacingState implements State {
      * @param context is the context of the client with his view and network choices
      */
     @Override
-    public void execute(ClientContext context) {
-        Message response = context.getClientView().askPlacing();
-        context.getClientNetwork().send(response);
+    public void execute(Client context) {
+        // **TO FIX**
+    }
+
+    @Override
+    public void checkInput(Client context,String input) {
+        // **TO FIX**
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am40.client.network.RMI;
 
+import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.NetworkManagerClient;
 import it.polimi.ingsw.am40.client.network.Protocol;
@@ -177,4 +178,15 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
     @Override
     public Protocol getUsedProtocol() {
         return this.usedProtocol;
-    }}
+    }
+
+    @Override
+    public Message send(Message message) {
+        return null;
+    }
+
+    @Override
+    public Message receive(Message message) {
+        return null;
+    }
+}

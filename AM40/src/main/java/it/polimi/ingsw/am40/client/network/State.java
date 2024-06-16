@@ -1,24 +1,21 @@
 package it.polimi.ingsw.am40.client.network;
 
-import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.view.ViewManager;
-
 /**
  * The State interface is useful for the State Pattern
  */
 public interface State {
 
     /**
-     * Method to execute a sequence of instructions written in the state.
-     * The actions include view showings and network interactions
-     * @param view the object on which to invoke the methods to execute the state
+     * It executes the instruction of a state
+     * @param context is the context of the client with his view and his network communication protocol
      */
-    public Message execute(ViewManager view);
+    void execute(Client context);
 
     /**
-     * Method to send a message through the network
-     * @param message the message to send
-     * @return a message //fixme
+     * Thi method is used to check the input of the client based on the state where he is
+     * @param context is the context of the client with his view and his network communication protocol
+     * @param input is the input of the client
      */
-    public Message sendMessage(Message message);
+    void checkInput(Client context, String input);
+
 }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.server.model.CardElements;
 import it.polimi.ingsw.am40.server.model.Coordinates;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class PositivePlacingMessage extends Message {
         this.cardID = cardID;
     }
 
-    public void process(ClientContext clientContext) {
+    public void process(Client clientContext) {
         // UPDATE SMALL MODEL
         // SHOW INFORMATION
         // SET NEW STATE

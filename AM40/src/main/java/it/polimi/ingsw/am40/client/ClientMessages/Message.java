@@ -1,6 +1,6 @@
 package it.polimi.ingsw.am40.client.ClientMessages;
 
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.data.Data;
 
 public abstract class Message {
@@ -21,7 +21,7 @@ public abstract class Message {
      * It is used to update the state in the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {}
+    public void process(Client context) {}
 
     /**
      * This method is used to convert an internal client message in a data object

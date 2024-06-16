@@ -1,8 +1,7 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.network.ClientContext;
-import it.polimi.ingsw.am40.data.passive.round.PositiveDrawData;
+import it.polimi.ingsw.am40.client.network.Client;
 
 public class PositiveDrawMessage extends Message {
 
@@ -25,7 +24,7 @@ public class PositiveDrawMessage extends Message {
         this.cardOnTopOfDeck = cardOnTopOfDeck;
     }
 
-    public void process(ClientContext clientContext) {
+    public void process(Client clientContext) {
         // UPDATE SMALL MODEL
         // SHOW INFORMATION
         // SET NEW STATE

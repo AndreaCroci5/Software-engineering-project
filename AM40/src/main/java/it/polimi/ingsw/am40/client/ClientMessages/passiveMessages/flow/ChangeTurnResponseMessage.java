@@ -4,7 +4,8 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.AimCardRequestMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.StartingCardRequestMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.TokenRequestMessage;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.DecidePlayerOrderRequestMessage;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.*;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.*;
 
@@ -28,22 +29,27 @@ public class ChangeTurnResponseMessage extends Message {
      * It sets the next state of the client state machine based on the phase of the game
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
+    public void process(Client context) {
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
             if (context.getCurrentState().getClass().equals(PassiveTokenChoiceState.class)) {
-                context.getClientNetwork().send(new TokenRequestMessage());
+                context.getNetworkManager().send(new TokenRequestMessage());
             }
             if (context.getCurrentState().getClass().equals(PassiveStartingCardChoiceState.class)) {
-                context.getClientNetwork().send(new StartingCardRequestMessage());
+                context.getNetworkManager().send(new StartingCardRequestMessage());
             }
             if (context.getCurrentState().getClass().equals(PassiveAimCardChoiceState.class)) {
-                context.getClientNetwork().send(new AimCardRequestMessage());
+                context.getNetworkManager().send(new AimCardRequestMessage());
             }
+
             if (context.getCurrentState().getClass().equals(PassivePlacingState.class)) {
                 context.setState(new ActivePlacingState());
             }
             if (context.getCurrentState().getClass().equals(PassiveDealCardsState.class)) {
                 context.setState(new ActiveDealCardsState());
+            }
+
+            if (context.getCurrentState().getClass().equals(ReadyToRoundState.class)) {
+                context.getNetworkManager().send(new DecidePlayerOrderRequestMessage());
             }
         }
     }

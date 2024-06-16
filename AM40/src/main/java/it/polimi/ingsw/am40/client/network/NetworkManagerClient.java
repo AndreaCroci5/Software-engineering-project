@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.client.network;
 
 
+import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ConcreteContext;
 
 /**
@@ -34,5 +35,8 @@ public interface NetworkManagerClient extends ConcreteContext {
     String getServerAddress();
 
     Protocol getUsedProtocol();
+
+    Message send(Message message);
+    Message receive(Message message);
 
 }

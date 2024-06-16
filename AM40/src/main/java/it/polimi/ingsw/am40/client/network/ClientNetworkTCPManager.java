@@ -2,6 +2,7 @@ package it.polimi.ingsw.am40.client.network;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 
 import java.io.BufferedReader;
@@ -281,5 +282,18 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
     @Override
     public Protocol getUsedProtocol() {
         return usedProtocol;
+    }
+
+
+    // **TO FIX**
+    @Override
+    public Message send(Message message) {
+        return null;
+    }
+
+    // **TO FIX**
+    @Override
+    public Message receive(Message message) {
+        return null;
     }
 }

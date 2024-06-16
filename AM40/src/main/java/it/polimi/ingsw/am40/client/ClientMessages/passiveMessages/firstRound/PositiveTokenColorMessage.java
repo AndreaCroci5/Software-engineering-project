@@ -2,8 +2,7 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
-import it.polimi.ingsw.am40.client.network.ClientContext;
-import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveAimCardChoiceState;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveDealCardsState;
 
 public class PositiveTokenColorMessage extends Message {
@@ -35,15 +34,14 @@ public class PositiveTokenColorMessage extends Message {
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
+    public void process(Client context) {
 
-        // TO DO: UPDATE SMALL MODEL
-
-        context.getClientView().showPositiveTokenColor(clientNickname, token);
+        context.getViewManager().showPositiveTokenColor(this.clientNickname, this.token);
 
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
+            context.getSmallModel().setToken(this.token);
             context.setState(new PassiveDealCardsState());
-            context.getClientNetwork().send(new ChangeTurnRequestMessage());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage());
         }
     }
 }

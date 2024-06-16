@@ -1,24 +1,48 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ReadyToPlayState;
 
 public class GameIdResponseMessage extends Message {
 
     /**
+     * It's the name of the active client
+     */
+    private final String clientNickname;
+
+    /**
+     * It's the numbers of the players already logged
+     */
+    private final int numOfActualPlayers;
+
+    /**
+     * It's the numbers of the players that are going to play the game
+     */
+    private final int numOfFinalPlayers;
+
+    /**
      * This message is sent by the server, and it's an ack that client joined the game he chose
      */
-    public GameIdResponseMessage() {
+    public GameIdResponseMessage(String clientNickname, int numOfActualPlayers, int numOfFinalPlayers) {
         super("POSITIVE_GAME_CHOICE");
+        this.clientNickname = clientNickname;
+        this.numOfActualPlayers = numOfActualPlayers;
+        this.numOfFinalPlayers = numOfFinalPlayers;
     }
 
     /**
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
-        context.setState(new ReadyToPlayState());
+    public void process(Client context) {
+        if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
+            context.getViewManager().displayWaitingForPlayers(this.numOfActualPlayers,this.numOfFinalPlayers);
+            context.setState(new ReadyToPlayState());
+        }
+        else {
+            context.getViewManager().displayWaitingForPlayers(this.numOfActualPlayers,this.numOfFinalPlayers);
+        }
     }
 
 }

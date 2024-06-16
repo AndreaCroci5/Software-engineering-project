@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am40.client.network.States.activeStates;
 
-import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.JoinRequestMessage;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
 
 public class SetUpState implements State {
@@ -12,12 +12,27 @@ public class SetUpState implements State {
      * @param context is the context of the client with his view and network choices
      */
     @Override
-    public void execute(ClientContext context) {
-
+    public void execute(Client context) {
         // ask the user to create or join a game
-        Message response = context.getClientView().displayInitialisation();
+        context.getViewManager().displayInitialisation();
+    }
 
-        // send back the client response
-        context.getClientNetwork().send(response);
+    /**
+     * In this state input must be only join or create
+     * @param context is the context of the client with his view and his network communication protocol
+     * @param input is the input of the client
+     */
+    @Override
+    public void checkInput(Client context, String input) {
+        if (!input.equalsIgnoreCase("join") && !input.equalsIgnoreCase("create")) {
+            System.out.println(">Wrong input");
+        }
+        else if (input.equalsIgnoreCase("join")) {
+            context.getNetworkManager().send(new JoinRequestMessage());
+        }
+        else if (input.equalsIgnoreCase("create")) {
+            context.setState(new CreateState());
+            context.getCurrentState().execute(context);
+        }
     }
 }

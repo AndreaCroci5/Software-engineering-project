@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ChooseGameState;
 import java.util.ArrayList;
 
@@ -34,13 +34,13 @@ public class JoinResponseMessage extends Message {
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
+    public void process(Client context) {
 
         // display all possible games
         // set the new state
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
-            context.getClientView().displayAllGameUds(this.gamesIDs);
-            context.setState(new ChooseGameState());
+            context.getViewManager().displayAllGameIds(this.gamesIDs);
+            context.setState(new ChooseGameState(this.gamesIDs));
         }
     }
 }

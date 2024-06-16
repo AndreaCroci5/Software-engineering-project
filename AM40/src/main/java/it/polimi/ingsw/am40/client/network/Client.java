@@ -1,5 +1,8 @@
 package it.polimi.ingsw.am40.client.network;
 
+import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.UserInputReader;
+import it.polimi.ingsw.am40.client.smallModel.SmallModel;
 import it.polimi.ingsw.am40.client.view.ViewFactory;
 import it.polimi.ingsw.am40.client.view.ViewFactoryException;
 import it.polimi.ingsw.am40.client.view.ViewManager;
@@ -31,9 +34,35 @@ public class Client implements AbstractContext{
 
     //fixme doc + revisione
 
+    private SmallModel smallModel;
 
+    private String nickname;
 
+    private UserInputReader inputReader;
 
+    public SmallModel getSmallModel() {
+        return smallModel;
+    }
+
+    public State getCurrentState() {
+        return currentState;
+    }
+
+    public NetworkManagerClient getNetworkManager() {
+        return networkManager;
+    }
+
+    public ViewManager getViewManager() {
+        return viewManager;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public UserInputReader getInputReader() {
+        return inputReader;
+    }
 
     //ABSTRACT CONTEXT METHODS
 
@@ -181,6 +210,14 @@ public class Client implements AbstractContext{
         }
         System.out.println("GOODBYE FRIEND!!!");
         System.exit(0);
+    }
+
+    public void handleMessage(Message message) {
+        // based on the message it sets the new state
+        message.process(this);
+
+        // it executes the new state
+        currentState.execute(this);
     }
 
 

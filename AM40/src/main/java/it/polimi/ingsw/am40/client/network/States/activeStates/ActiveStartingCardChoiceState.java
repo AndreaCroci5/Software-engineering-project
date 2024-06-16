@@ -1,8 +1,11 @@
 package it.polimi.ingsw.am40.client.network.States.activeStates;
 
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.StartingCardChoiceMessage;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActiveStartingCardChoiceState implements State {
 
@@ -12,8 +15,24 @@ public class ActiveStartingCardChoiceState implements State {
      * @param context is the context of the client with his view and his network communication protocol
      */
     @Override
-    public void execute(ClientContext context) {
-        StartingCardChoiceMessage response = context.getClientView().askStartingCardFace();
-        context.getClientNetwork().send(response);
+    public void execute(Client context) {
+        // Nothing to do
     }
+
+    /**
+     * In this state input must be only front or back in order to choose how to place the starting card
+     * @param context is the context of the client with his view and his network communication protocol
+     * @param input is the input of the client
+     */
+    @Override
+    public void checkInput(Client context, String input) {
+        List<String> possibleChoices = new ArrayList<String>();
+        possibleChoices.add("front");
+        possibleChoices.add("back");
+        if (!possibleChoices.contains(input.toLowerCase())) {
+            System.out.println(">Wrong input");
+        }
+        context.getNetworkManager().send(new StartingCardChoiceMessage(input));
+    }
+
 }

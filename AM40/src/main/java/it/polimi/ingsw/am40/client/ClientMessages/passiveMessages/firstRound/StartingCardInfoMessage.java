@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveStartingCardChoiceState;
 
 public class StartingCardInfoMessage extends Message {
@@ -32,9 +32,9 @@ public class StartingCardInfoMessage extends Message {
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
+    public void process(Client context) {
         if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
-            context.getClientView().showStartingCardInfo(this.StartingCardID);
+            context.getViewManager().displayStartingCardInfo(this.StartingCardID);
             context.setState(new ActiveStartingCardChoiceState());
         }
     }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am40.client.network.States.activeStates;
 
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ReadyToPlayMessage;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
 
 public class ReadyToPlayState implements State {
@@ -12,12 +12,19 @@ public class ReadyToPlayState implements State {
      * @param context is the context of the client with his view and his network communication protocol
      */
     @Override
-    public void execute(ClientContext context) {
-
-        // Display waiting for player
-        context.getClientView().displayWaitingForPlayers();
+    public void execute(Client context) {
 
         // send the message to the server in order to start the game
-        context.getClientNetwork().send(new ReadyToPlayMessage());
+        context.getNetworkManager().send(new ReadyToPlayMessage());
+    }
+
+    /**
+     * In this state the client doesn't have to write anything
+     * @param context is the context of the client with his view and his network communication protocol
+     * @param input is the input of the client
+     */
+    @Override
+    public void checkInput(Client context, String input) {
+        // Nothing to do
     }
 }

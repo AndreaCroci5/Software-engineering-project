@@ -16,15 +16,18 @@ public class ChangeTurnInfoAction extends Action {
     private final int nextActivePlayerModelIndex;
 
     //CONSTRUCTOR
+
     /**
      * Constructor for Change Turn Information response
      */
-    public ChangeTurnInfoAction(int gameID, int playerID, int nextActivePlayerModelIndex){
+    public ChangeTurnInfoAction(int gameID, int playerID, int nextActivePlayerModelIndex) {
         super("CHANGE_TURN_INFO", gameID, playerID);
         this.nextActivePlayerModelIndex = nextActivePlayerModelIndex;
     }
-
+}
+    /*
     public Data dataCreator() {
         return new ChangeTurnInfoData(nicknameNext);
     }
 }
+*/

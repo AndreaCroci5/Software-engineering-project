@@ -2,8 +2,9 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
-import it.polimi.ingsw.am40.client.network.ClientContext;
-import it.polimi.ingsw.am40.client.network.States.passiveStates.PassivePlacingState;
+import it.polimi.ingsw.am40.client.network.Client;
+import it.polimi.ingsw.am40.client.network.States.activeStates.ReadyToRoundState;
+import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 
 
 public class AimCardResultMessage extends Message {
@@ -35,16 +36,15 @@ public class AimCardResultMessage extends Message {
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
-        // TO DO UPDATE THE SMALL MODEL
-
+    public void process(Client context) {
 
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
-            context.setState(new PassivePlacingState());
-            context.getClientNetwork().send(new ChangeTurnRequestMessage());
+            context.getSmallModel().setMyAimCard(SmallCardLoader.findCardById(this.aimCardIdChosen));
+            context.setState(new ReadyToRoundState());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage());
         }
         else {
-            context.getClientView().showAimCardResult(this.clientNickname);
+            context.getViewManager().showPassiveAimCardResult(this.clientNickname);
         }
     }
 

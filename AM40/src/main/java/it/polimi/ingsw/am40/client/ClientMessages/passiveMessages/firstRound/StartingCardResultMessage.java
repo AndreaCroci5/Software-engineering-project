@@ -2,7 +2,7 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveTokenChoiceState;
 
 public class StartingCardResultMessage extends Message {
@@ -33,17 +33,18 @@ public class StartingCardResultMessage extends Message {
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
+    public void process(Client context) {
 
         // TO DO: UPDATE SMALL MODEL
+        // Set grid
         
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
-            context.getClientView().displayStartingCard(cardID);
+            context.getViewManager().displayStartingCardInfo(cardID);
             context.setState(new PassiveTokenChoiceState());
-            context.getClientNetwork().send(new ChangeTurnRequestMessage());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage());
         }
         else {
-            context.getClientView().showPassiveStartingCard();
+            context.getViewManager().showPassiveStartingCard(this.clientNickname,this.cardID);
         }
     }
 }

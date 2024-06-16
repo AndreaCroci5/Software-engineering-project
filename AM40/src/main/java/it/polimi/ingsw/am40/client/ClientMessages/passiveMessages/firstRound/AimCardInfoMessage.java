@@ -1,23 +1,31 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.network.Client;
+import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveAimCardChoiceState;
 
 import java.util.List;
 
 public class AimCardInfoMessage extends Message {
 
     /**
+     * The nickname of the active client
+     */
+    private final String clientNickname;
+
+    /**
      * It's the list of the two cards in which the client has to choose one of them
      */
-    private final List<Integer> amiCardsID;
+    private final List<Integer> aimCardsID;
 
     /**
      * This message contains the two aim cards for the client choice
      * @param amiCardsID is the list of the two cards in which the client has to choose one of them
      */
-    public AimCardInfoMessage(List<Integer> amiCardsID) {
+    public AimCardInfoMessage(List<Integer> amiCardsID, String clientNickname) {
         super("AIM_CARD_INFO");
-        this.amiCardsID = amiCardsID;
+        this.clientNickname = clientNickname;
+        this.aimCardsID = amiCardsID;
     }
 
     /**
@@ -25,11 +33,11 @@ public class AimCardInfoMessage extends Message {
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-   public void process(ClientContext context) {
-        // show the two cards that the player has to choose
-        context.getClientView().displayAimCardsToChoose(this.amiCardsID);
+    public void process(Client context) {
 
-        // set the new state
-        context.setState(new ActiveAimCardChoiceState());
+        if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
+            context.getViewManager().displayAimCardsToChoose(this.aimCardsID);
+            context.setState(new ActiveAimCardChoiceState(this.aimCardsID));
+        }
     }
 }

@@ -2,10 +2,12 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
-import it.polimi.ingsw.am40.client.network.ClientContext;
+import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveAimCardChoiceState;
-import it.polimi.ingsw.am40.client.network.States.passiveStates.PassivePlacingState;
+import it.polimi.ingsw.am40.client.smallModel.SmallCard;
+import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DealCardsResponseMessage extends Message {
@@ -36,14 +38,20 @@ public class DealCardsResponseMessage extends Message {
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */
-    public void process(ClientContext context) {
-
-        // UPDATE SMALL MODEL
+    public void process(Client context) {
 
         if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
-            context.getClientView().displayPlayerHand();
+
+            List<SmallCard> myHandCards = new ArrayList<SmallCard>();
+            for (Integer cardID : handCards) {
+                SmallCard card = SmallCardLoader.findCardById(cardID);
+                myHandCards.add(card);
+            }
+
+            context.getSmallModel().setMyHand(myHandCards);
+            context.getViewManager().displayMyHand(context.getSmallModel().getMyHand());
             context.setState(new PassiveAimCardChoiceState());
-            context.getClientNetwork().send(new ChangeTurnRequestMessage());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage());
         }
     }
 }
