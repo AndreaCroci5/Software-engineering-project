@@ -30,6 +30,6 @@ public class TokenInfoAction extends Action {
     }
 
     public Data dataCreator() {
-        return new TokenInfoData(nickname, this.remainingColors);
+        return null;
     }
 }

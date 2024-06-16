@@ -57,7 +57,7 @@ public class PositivePlacingAction extends Action {
     }
 
     public Data dataCreator() {
-        return new PositivePlacingData(nickname, this.cardID, this.coordsCardPlaced, this.cardFace, this.score, this.elementsCounter, this.placingCoordinates);
+        return null;
     }
 
 }

@@ -22,6 +22,6 @@ public class RepeatPlacingAction extends Action {
 
 
     public Data dataCreator() {
-        return new RepeatPlacingData(nickname);
+        return null;
     }
 }

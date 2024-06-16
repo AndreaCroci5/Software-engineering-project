@@ -45,6 +45,6 @@ public class StartingCardResultAction extends Action {
     }
 
     public Data dataCreator() {
-        return new StartingCardResultData(nickname, );
+        return null;
     }
 }

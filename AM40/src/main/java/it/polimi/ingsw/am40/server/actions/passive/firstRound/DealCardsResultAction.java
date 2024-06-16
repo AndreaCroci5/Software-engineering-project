@@ -47,6 +47,6 @@ public class DealCardsResultAction extends Action {
 
 
     public Data dataCreator() {
-        return DealCardsResultData(nickname, this.handDeckIDs, this.deckResourceCardID, this.deckGoldenCardID);
+        return null;
     }
 }

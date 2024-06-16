@@ -34,6 +34,6 @@ public class PositiveDrawAction extends Action {
     }
 
     public Data dataCreator() {
-        return new PositiveDrawData(nickname, this.cardDrawnID, this.cardReplacedID, this.replacePosition, this.cardOnTopOfDeck);
+        return null;
     }
 }

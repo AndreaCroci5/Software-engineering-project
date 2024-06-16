@@ -20,6 +20,6 @@ public class RepeatDrawAction extends Action {
 
 
     public Data dataCreator() {
-        return new RepeatDrawData(nickname);
+        return null;
     }
 }

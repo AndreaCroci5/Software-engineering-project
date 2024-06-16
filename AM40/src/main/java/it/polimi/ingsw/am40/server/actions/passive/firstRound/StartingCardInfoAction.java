@@ -28,6 +28,6 @@ public class StartingCardInfoAction extends Action {
     }
 
     public Data dataCreator() {
-        return new StartingCardInfoData(nickname, this.startingCardID);
+        return null;
     }
 }

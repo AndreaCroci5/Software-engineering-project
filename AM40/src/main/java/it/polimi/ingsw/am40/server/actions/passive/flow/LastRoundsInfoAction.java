@@ -20,6 +20,6 @@ public class LastRoundsInfoAction extends Action {
 
 
     public Data dataCreator() {
-        return new LastRoundsInfoData(nickname);
+        return null;
     }
 }

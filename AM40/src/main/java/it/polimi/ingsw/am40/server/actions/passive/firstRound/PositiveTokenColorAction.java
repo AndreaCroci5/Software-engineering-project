@@ -31,6 +31,6 @@ public class PositiveTokenColorAction extends Action {
     }
 
     public Data dataCreator() {
-        return new PositiveTokenColorData(nickname, this.color);
+        return null;
     }
 }
