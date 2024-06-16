@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.client.network;
 
+import it.polimi.ingsw.am40.client.network.RMI.ClientNetworkRMIManager;
+
 /**
  * The NetworkFactory class is used to actuate the factory pattern for the network protocol.
  * The user can decide the protocol used to communicate with the server

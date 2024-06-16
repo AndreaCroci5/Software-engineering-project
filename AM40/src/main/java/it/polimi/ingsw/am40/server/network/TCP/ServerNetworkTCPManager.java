@@ -2,7 +2,9 @@ package it.polimi.ingsw.am40.server.network.TCP;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.PingData;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
 import it.polimi.ingsw.am40.server.network.virtual_view.NetworkClient;
 import it.polimi.ingsw.am40.server.network.virtual_view.NonExistentClientException;
@@ -31,15 +33,18 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     private String hostName;
 
     /**
-     * Port on which server accept incoming connection requests
+     * Port on which server accept incoming connection requests for TCP
      */
     private int port;
 
     /**
-     * The reference to the VVServer, which is the class that manage all the incoming requests and is part of the MVC
+     * The reference to the VVServer, which is the class that manage all the incoming network data and is part of the MVC
      */
     private final VVServer mainServerClass;
 
+    /**
+     * Enum used to recognize the used network protocol for polymorphism
+     */
     private final Protocol usedProtocol = Protocol.TCP;
 
 
@@ -61,9 +66,8 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
     //GETTER METHODS
 
-
     /**
-     * Getter for hostName
+     * Getter for hostName.
      * @return the host name of the server
      */
     @Override
@@ -71,6 +75,10 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         return hostName;
     }
 
+    /**
+     * Getter for usedProtocl
+     * @return the used network protocol (in this case TCP)
+     */
     @Override
     public Protocol getUsedProtocol() {
         return this.usedProtocol;
@@ -84,28 +92,37 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         return mainServerClass;
     }
 
-
+    /**
+     * Getter for the port number for TCP
+     * @return the port number
+     */
     @Override
     public int getPort() {
         return this.port;
     }
 
 
+
 //SETTER METHODS
-    @Override
 
     /**
      * Setter for host name
      * @param hostName the host name of the server
      */
+    @Override
     public void setHostName(String hostName) {
         this.hostName = hostName;
     }
 
+    /**
+     * Setter for the port
+     * @param port the port number
+     */
     @Override
     public void setPort(int port) {
         this.port = port;
     }
+
 
 
 //NETWORK MANAGER METHODS
@@ -113,8 +130,6 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     /**
      * Method to start communications with a specific protocol.
      * This method initializes the TCP modules to communicate with the TCP clients
-     *
-     * @return
      */
     @Override
     public void initCommunication() {
@@ -140,16 +155,20 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
                             PrintWriter out = nc.getStreams().getOut();
                             Scanner in = nc.getStreams().getIn();
-                            //fixme A+S ping with data
+
+                            Data pingPacket = new PingData();
+                            this.sendSerializedMessage(pingPacket, nc);
+                            //fixme * problema che potrei ricevere altro
+                            //fixme A+S ping with data + set the streams at reconnect
                             System.out.println("ping sent");
-                            if(in.nextLine() != "pong"){
+                            /*if(in.nextLine() != "pong"){
                                 System.out.println("Client doesn't answer to the ping");
                                 try {
                                     this.disconnectedClientNotification(nc);
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
-                            }
+                            }*/
 
                         }
                     }
@@ -233,7 +252,9 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
                     // Delegate client handling to ClientHandler
 
-                    int clientID = this.connectedClientNotification(clientSocket);
+                    //fixme * meccanismo di sessione con hostname
+
+                    int clientID = this.newConnectedClientNotification(clientSocket, null);
 
                     ClientHandlerTCP clientHandler = new ClientHandlerTCP(this, clientID);
 
@@ -259,11 +280,10 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
 
     @Override
-    public synchronized int connectedClientNotification(Socket clientSocket){
+    public synchronized int newConnectedClientNotification(Socket clientSocket, RemoteInterfaceClient remoteInterface){
 
 
-
-        int clientID = this.mainServerClass.createNewOrphanClient(Protocol.TCP, clientSocket);
+        int clientID = this.mainServerClass.createNewOrphanClient(Protocol.TCP, clientSocket, null);
         try {
             this.mainServerClass.setClientOnline(this.mainServerClass.getClientByID(clientID));
             this.mainServerClass.getClientByID(clientID).setStreams(new Streams(new Scanner(clientSocket.getInputStream()), new PrintWriter(clientSocket.getOutputStream())));
@@ -273,12 +293,22 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
             System.out.println("Problem with the creation of the buffer reader and/or print writer");
         }
         VVServer.activeConnections++;
-        System.out.println("Accepted");
-        System.out.println(VVServer.activeConnections + " clients are logged with TCP now");
+        System.out.println("Accepted TCP client");
+        System.out.println(VVServer.activeConnections + " clients are logged now");
         //fixme bind socket e gestione riconnessione client con nickname
 
         //fixme per fine partita devo fare in modo che si sciolga il party
         return clientID;
+    }
+
+    /**
+     * Method to notify the VVServer that a client has been reconnected
+     *
+     * @param clientName the host name of the client
+     */
+    @Override
+    public void reconnectionNotification(String clientName) {
+        //todo
     }
 
 
@@ -310,6 +340,11 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
         }
         //fixme chiusura clienthandler
+    }
+
+    @Override
+    public void removeClientNotification() {
+//todo
     }
 }
 

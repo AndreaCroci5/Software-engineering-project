@@ -1,10 +1,12 @@
 package it.polimi.ingsw.am40.server.network.virtual_view;
 
 
+import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;
+import it.polimi.ingsw.am40.server.actions.active.firstRound.InitializationAction;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
 import it.polimi.ingsw.am40.server.network.RMI.ServerNetworkRMIManager;
 import it.polimi.ingsw.am40.server.network.TCP.ServerNetworkTCPManager;
@@ -216,11 +218,13 @@ public class VVServer implements ActionPoster, ActionListener  {
      * Getter for all the clients connected with RMI
      * @return the list of the NetworkClient connected
      */
-    public List<NetworkClient> getAllRMIClients(){
+    public List<NetworkClient> getAllRMIClients(){//fixme attenzione alla sincronizzazione su stesso lock
         List<NetworkClient> result = null;
-        for (NetworkClient client : this.orphanClients) {
-            if(client.getProtocol() == Protocol.RMI){
-                result.add(client);
+        synchronized (orphanClients){
+            for (NetworkClient client : this.orphanClients) {
+                if(client.getProtocol() == Protocol.RMI){
+                    result.add(client);
+                }
             }
         }
 
@@ -363,8 +367,8 @@ public class VVServer implements ActionPoster, ActionListener  {
      * Method to create a new client and to add it in the orphan list
      * @return the ClientID
      */
-    public int createNewOrphanClient(Protocol protocol, Socket socket){
-        NetworkClient c = new NetworkClient(protocol, socket, this.concreteNetworkManagers);
+    public int createNewOrphanClient(Protocol protocol, Socket socket, RemoteInterfaceClient remoteInterface){
+        NetworkClient c = new NetworkClient(protocol, socket, remoteInterface, this.concreteNetworkManagers);
         this.orphanClients.add(c);
         return c.getClientID();
     }
@@ -404,6 +408,10 @@ public class VVServer implements ActionPoster, ActionListener  {
 
         p.logClient(c);
 
+        if(p.getCurrentNumOfClients() == p.getTotalNumOfClients()){
+            this.notifyListeners(new InitializationAction(partyID, -1),this.listeners);
+        }
+
     }
 
 
@@ -419,7 +427,7 @@ public class VVServer implements ActionPoster, ActionListener  {
     public void initServer(int portTCP, int portRMI, String hostName) {
 
         for (NetworkManagerServer nm : this.concreteNetworkManagers) {
-            nm.setHostName(hostName);
+            nm.setHostName(hostName);//fixme * ridondanza
             switch(nm.getUsedProtocol()){
                 case RMI -> nm.setPort(portRMI);
                 case TCP -> nm.setPort(portTCP);
@@ -479,6 +487,52 @@ public class VVServer implements ActionPoster, ActionListener  {
         }
 
         c.getManager().sendSerializedMessage(data, c);
+
+    }
+
+    public void sendOnNetworkBroadcastInAParty(int partyID, Data data){
+
+        NetworkParty p ;
+        try {
+            p = this.getPartyByID(partyID);
+        } catch (NonExistentPartyException e) {
+            System.out.println("Party doesn't exist!");
+            throw new RuntimeException(e);
+        }
+        for (NetworkClient c : p.getClients()) {
+            c.getManager().sendSerializedMessage(data, c);
+        }
+    }
+
+    public void sendOnNetworkMulticast(List<Integer> recipients, Data data){
+        for (Integer i : recipients) {
+            try {
+                NetworkClient c = this.getClientByID(i) ;
+                c.getManager().sendSerializedMessage(data, c);
+            } catch (NonExistentClientException e) {
+                System.out.println("Client doesn't exist!");
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    public void sendOnNetworkOneActiveOtherPassive(int partyID, int activePlayerID, Data activeData, Data passiveData){
+
+        NetworkParty p;
+        try {
+             p = this.getPartyByID(partyID);
+        } catch (NonExistentPartyException e) {
+            System.out.println("Party doesn't exist!");
+            throw new RuntimeException(e);
+        }
+
+        for (NetworkClient c : p.getClients()) {
+            if(c.getClientID() != activePlayerID){
+                this.sendOnNetworkUnicast(c.getClientID(), passiveData);
+            }
+        }
+        this.sendOnNetworkUnicast(activePlayerID, activeData);
 
     }
 }

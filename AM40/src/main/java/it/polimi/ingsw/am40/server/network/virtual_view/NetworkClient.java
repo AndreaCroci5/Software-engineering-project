@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am40.server.network.virtual_view;
 
+import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
 import it.polimi.ingsw.am40.server.network.TCP.Streams;
 
@@ -28,6 +29,8 @@ public class NetworkClient {
      * Reference to the socket used in communication (if unnecessary, put null)
      */
     private final Socket socket;
+
+    private RemoteInterfaceClient remoteInterface;
 
     /**
      * Updated status of a client connection to implements persistence to disconnections
@@ -76,7 +79,7 @@ public class NetworkClient {
      * @param protocol Protocol used by the client
      * @param socket   Reference to the socket
      */
-    public NetworkClient(Protocol protocol, Socket socket, List<NetworkManagerServer> managerContainer) {
+    public NetworkClient(Protocol protocol, Socket socket, RemoteInterfaceClient remoteInterface, List<NetworkManagerServer> managerContainer) {
         //More than one thread could access to this block of code, but each client must have a different ID
         switch (protocol){
             case TCP -> this.manager = managerContainer.get(0);
@@ -88,6 +91,7 @@ public class NetworkClient {
             this.clientID = NetworkClient.clientCounter;
         }
         this.protocol = protocol;
+        this.remoteInterface = remoteInterface;
         this.socket = socket;
         this.online = true;
         this.username = null;
@@ -156,8 +160,17 @@ public class NetworkClient {
         return active;
     }
 
+    public RemoteInterfaceClient getRemoteInterface() {
+        return remoteInterface;
+    }
 
+    public NetworkManagerServer getManager() {
+        return manager;
+    }
 
+    public Streams getStreams() {
+        return streams;
+    }
 
     //SETTER METHODS
 
@@ -193,19 +206,21 @@ public class NetworkClient {
         this.username = username;
     }
 
-    public Streams getStreams() {
-        return streams;
-    }
+
 
     public void setStreams(Streams streams) {
         this.streams = streams;
     }
 
-    public NetworkManagerServer getManager() {
-        return manager;
-    }
+
 
     public void setManager(NetworkManagerServer manager) {
         this.manager = manager;
+    }
+
+
+
+    public void setRemoteInterface(RemoteInterfaceClient remoteInterface) {
+        this.remoteInterface = remoteInterface;
     }
 }

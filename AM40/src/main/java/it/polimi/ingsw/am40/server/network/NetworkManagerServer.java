@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am40.server.network;
 
+import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.network.virtual_view.NetworkClient;
 import it.polimi.ingsw.am40.server.network.virtual_view.Protocol;
@@ -15,10 +16,8 @@ public interface NetworkManagerServer {
 
     /**
      * Method to start communications with a specific protocol
-     *
-     * @return
      */
-    public void initCommunication();
+    void initCommunication();
 
 
     /**
@@ -26,19 +25,65 @@ public interface NetworkManagerServer {
      */
      void initPing();
 
-     public void setPort(int port);
+    /**
+     * Setter the attribute port
+     * @param port the port number
+     */
+     void setPort(int port);
 
-     public int getPort();
+    /**
+     * Getter for port
+     * @return the port number used for the communications
+     */
+     int getPort();
 
-     public void setHostName(String hostName);
 
-     public String getHostName();
+    /**
+     * Setter for the host name
+     * @param hostName the name of the server on the network
+     */
+    void setHostName(String hostName);
 
-     public Protocol getUsedProtocol();
 
-    public int connectedClientNotification(Socket socket);
+    /**
+     * Getter for host name
+     * @return the host name of the server on the network
+     */
+     String getHostName();
 
-    public void disconnectedClientNotification(NetworkClient client) throws IOException;
 
-    public void sendSerializedMessage(Data message, NetworkClient client);
+    /**
+     * Getter for the used protocol
+     * @return the protocol used for the communications
+     */
+    Protocol getUsedProtocol();
+
+    /**
+     * Method to notify VVServer that a connection with a new client has been accepted
+     * @param socket the socket of the client
+     * @return the ID of the client
+     */
+    int newConnectedClientNotification(Socket socket, RemoteInterfaceClient remoteInterface); //fixme use optional
+
+    /**
+     * Method to notify the VVServer that a client has been reconnected
+     * @param clientName the host name of the client
+     */
+    void reconnectionNotification(String clientName);
+
+    /**
+     * Method to notify the VVServer of a client disconnection
+     * @param client
+     * @throws IOException
+     */
+    void disconnectedClientNotification(NetworkClient client) throws IOException;
+
+    void removeClientNotification();//fixme
+    /**
+     * Method to send to a specific client a network message
+     * @param message the message to send
+     * @param client the recipient
+     */
+    void sendSerializedMessage(Data message, NetworkClient client);
+//fixme
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.network.RMI;
 
+import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -9,4 +11,6 @@ import java.rmi.RemoteException;
  */
 public interface RemoteInterfaceServer extends Remote{
     String example() throws RemoteException;
+
+    void registerClient(RemoteInterfaceClient client);
 }
