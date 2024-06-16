@@ -11,7 +11,7 @@ import java.util.List;
 public class EndGameData extends Data {
     //ATTRIBUTES
     /** Names of the Players that won the Game in case of a tie. If the winner is only one, the List contains only one Player*/
-    List<String> winners;
+    private List<String> winners;
 
     //CONSTRUCTOR
 

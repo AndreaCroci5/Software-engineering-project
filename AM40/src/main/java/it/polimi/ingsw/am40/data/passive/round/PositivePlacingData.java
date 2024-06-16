@@ -14,28 +14,32 @@ import java.util.Map;
 public class PositivePlacingData extends Data {
     //ATTRIBUTES
     /** Nickname of the Player that has just made the draw*/
-    String playerNickname;
+    private String playerNickname;
 
     /** Amount of points that a Player has*/
-    int score;
+    private int score;
 
     /** Reference to the Map that keeps the amount of every CardElement in the PrivateBoard*/
-    Map<CardElements,Integer> elementsCounter;
+    private Map<CardElements,Integer> elementsCounter;
 
     /** Reference to the ArrayList containing all the future placing legal Coordinates*/
-    ArrayList<Coordinates> placingCoordinates;
+    private ArrayList<Coordinates> placingCoordinates;
 
     /** ID of the last Card placed*/
-    int cardID;
+    private int cardID;
+    private Coordinates coordsCardPlaced;
+    private String cardFace;
 
 
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public PositivePlacingData(String playerNickname, int cardID, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
+    public PositivePlacingData(String playerNickname, int cardID, Coordinates coordsCardPlaced, String cardFace, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
         super("POSITIVE_PLACING");
         this.playerNickname = playerNickname;
         this.cardID = cardID;
+        this.coordsCardPlaced = coordsCardPlaced;
+        this.cardFace = cardFace;
         this.score = score;
         this.elementsCounter = elementsCounter;
         this.placingCoordinates = placingCoordinates;

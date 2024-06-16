@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.round;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.round.RepeatDrawData;
 import it.polimi.ingsw.am40.server.actions.Action;
 
 /**
@@ -16,4 +18,8 @@ public class RepeatDrawAction extends Action {
         super("REPEAT_DRAW", gameID, playerID);
     }
 
+
+    public Data dataCreator() {
+        return new RepeatDrawData(nickname);
+    }
 }

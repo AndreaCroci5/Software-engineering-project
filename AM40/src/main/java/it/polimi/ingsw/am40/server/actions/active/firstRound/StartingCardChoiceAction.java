@@ -3,8 +3,13 @@ package it.polimi.ingsw.am40.server.actions.active.firstRound;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.actions.passive.firstRound.StartingCardResultAction;
+import it.polimi.ingsw.am40.server.model.CardElements;
 import it.polimi.ingsw.am40.server.model.CardFace;
+import it.polimi.ingsw.am40.server.model.Coordinates;
 import it.polimi.ingsw.am40.server.model.Game;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * This class represent the Action made by the Server in response of an input coming through the network made
@@ -32,8 +37,13 @@ public class StartingCardChoiceAction extends Action{
     public void doAction(ActionAgent agent){
         Game gameContext = (Game) agent;
         //Face Change
-        gameContext.chooseStartingCardFace(this.cardFace);
+        gameContext.placeStartingCard(this.cardFace);
+        //Data fetch
+        int startingCardID = gameContext.getPlayers().get(gameContext.getIndexOfPlayingPlayer()).getPrivateBoard().getCardGrid().getFirst().getCardID();
+        Coordinates startingCardCoords = gameContext.getPlayers().get(gameContext.getIndexOfPlayingPlayer()).getPrivateBoard().getCardGrid().getFirst().getCoordinates();
+        ArrayList<Coordinates> placingCoordinates = gameContext.getPlayers().get(gameContext.getIndexOfPlayingPlayer()).getPrivateBoard().getPlacingCoordinates();
+        Map<CardElements,Integer> elementsCounter = gameContext.getPlayers().get(gameContext.getIndexOfPlayingPlayer()).getPrivateBoard().getElementsCounter();
         //Changes Notification
-        gameContext.notifyListeners(new StartingCardResultAction(this.getGameID(), this.getPlayerID()), gameContext.getListeners());
+        gameContext.notifyListeners(new StartingCardResultAction(this.getGameID(), this.getPlayerID(), startingCardID, startingCardCoords, this.cardFace.toString(), placingCoordinates, elementsCounter), gameContext.getListeners());
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.round;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.round.PositiveDrawData;
 import it.polimi.ingsw.am40.server.actions.Action;
 
 /**
@@ -29,5 +31,9 @@ public class PositiveDrawAction extends Action {
         this.cardReplacedID = cardReplacedID;
         this.replacePosition = replacePosition;
         this.cardOnTopOfDeck = cardOnTopOfDeck;
+    }
+
+    public Data dataCreator() {
+        return new PositiveDrawData(nickname, this.cardDrawnID, this.cardReplacedID, this.replacePosition, this.cardOnTopOfDeck);
     }
 }

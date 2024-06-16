@@ -6,7 +6,6 @@ import it.polimi.ingsw.am40.server.actions.passive.firstRound.StartingCardInfoAc
 import it.polimi.ingsw.am40.server.model.Game;
 import it.polimi.ingsw.am40.server.model.PrivateBoard;
 
-//Fixme decide where to place the Card better in hand and then place
 public class StartingCardRequestAction extends Action {
     //ATTRIBUTES
 
@@ -26,7 +25,6 @@ public class StartingCardRequestAction extends Action {
     public void doAction(ActionAgent agent){
         Game gameContext = (Game) agent;
         PrivateBoard activePP = gameContext.getPlayers().get(gameContext.getIndexOfPlayingPlayer()).getPrivateBoard();
-        //FIXME add method for StartingCard deck in CommonBoard
         //StartingCard add to hand
         activePP.addCardToHand(gameContext.getCommonBoard().getStartingDeck().pickFromTop());
         int startingCardID = activePP.getHandDeck().getFirst().getCardID();

@@ -9,7 +9,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
 public class RepeatDrawData extends Data {
     //ATTRIBUTES
     /** Nickname of the Player that has just made the draw*/
-    String playerNickname;
+    private String playerNickname;
 
     //CONSTRUCTOR
 

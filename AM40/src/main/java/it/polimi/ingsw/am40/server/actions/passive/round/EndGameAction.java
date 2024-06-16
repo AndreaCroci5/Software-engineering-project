@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.round;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.round.EndGameData;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.model.Player;
@@ -14,13 +16,13 @@ import java.util.List;
 public class EndGameAction extends Action {
     //ATTRIBUTES
     /** Reference to the Players that won the Game in case of a tie. If the winner is only one, the List contains only one Player*/
-    private final List<Player> winners;
+    private final List<String> winners;
 
     //CONSTRUCTOR
     /**
      * Constructor for EndGameAction
      */
-    public EndGameAction(int gameID, int playerID, List<Player> winners){
+    public EndGameAction(int gameID, int playerID, List<String> winners){
         super("ENDGAME", gameID, playerID);
         this.winners = winners;
     }
@@ -32,5 +34,9 @@ public class EndGameAction extends Action {
     @Override
     public void doAction(ActionAgent agent){
 
+    }
+
+    public Data dataCreator() {
+        return new EndGameData(this.winners);
     }
 }

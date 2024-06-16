@@ -2,7 +2,10 @@ package it.polimi.ingsw.am40.server.actions;
 
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.ActionAgent;
-
+//TODO choose where to put the nickname, constructor if every Action has it, set method if i make a lookup on the Server
+// UPDATE wait the next commits because probably the nickname will be given directly by the Data so i have to put
+// a nickname declaration here and put in the class constructor
+// FIXME the dataCreator in every subclass and add the VVServer part and add the Nickname part
 /**
  * Action abstract class defines messages which are used in a listeners-posters system between Model, View and Controller
  */
@@ -81,7 +84,6 @@ public abstract class Action {
 
     }
 
-    //TODO Implementation of dataCreator in every subclass
     public Data dataCreator() {
         return null;
     }

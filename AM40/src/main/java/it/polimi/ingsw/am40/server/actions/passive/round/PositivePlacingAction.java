@@ -29,14 +29,18 @@ public class PositivePlacingAction extends Action {
 
     /** ID of the last Card placed*/
     private final int cardID;
+    private final Coordinates coordsCardPlaced;
+    private final String cardFace;
 
     //CONSTRUCTOR
     /**
      * Constructor for Positive placing action response
      */
-    public PositivePlacingAction(int gameID, int playerID, int cardID, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
+    public PositivePlacingAction(int gameID, int playerID, int cardID, Coordinates coordsCardPlaced, String cardFace, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
         super("POSITIVE_PLACING", gameID, playerID);
         this.cardID = cardID;
+        this.coordsCardPlaced = coordsCardPlaced;
+        this.cardFace = cardFace;
         this.score = score;
         this.elementsCounter = elementsCounter;
         this.placingCoordinates = placingCoordinates;
@@ -48,9 +52,12 @@ public class PositivePlacingAction extends Action {
      */
     @Override
     public void doAction(ActionAgent agent){
-        //FIXME COPY procedure in all and fix DataCreator
         VVServer v = (VVServer) agent;
         v.sendOnNetworkUnicast(this.getPlayerID(), this.dataCreator());
+    }
+
+    public Data dataCreator() {
+        return new PositivePlacingData(nickname, this.cardID, this.coordsCardPlaced, this.cardFace, this.score, this.elementsCounter, this.placingCoordinates);
     }
 
 }

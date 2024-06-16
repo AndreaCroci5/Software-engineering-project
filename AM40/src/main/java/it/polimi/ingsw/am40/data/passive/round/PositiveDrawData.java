@@ -9,21 +9,21 @@ import it.polimi.ingsw.am40.server.actions.Action;
 public class PositiveDrawData extends Data {
     //ATTRIBUTES+
     /** Nickname of the Player that has just made the draw*/
-    String playerNickname;
+    private String playerNickname;
 
     /** ID of the Card drawn*/
-    int cardDrawnID;
+    private int cardDrawnID;
 
     /** ID of the new Card that replaced the CardDrawn*/
-    int cardReplacedID;
+    private int cardReplacedID;
 
     /** This attribute refers to the location from where the Player has drawn a Card:
      * (0) plate, (1) plate, (2) deck
      */
-    int replacePosition;
+    private int replacePosition;
 
     /** ID of the new Card on the top of the Deck*/
-    int cardOnTopOfDeck;
+    private int cardOnTopOfDeck;
 
     //CONSTRUCTOR
 

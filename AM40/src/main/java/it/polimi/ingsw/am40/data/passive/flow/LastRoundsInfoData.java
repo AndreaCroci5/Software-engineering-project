@@ -9,7 +9,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
 public class LastRoundsInfoData extends Data {
     //ATTRIBUTES
     /** Nickname of the Player that has triggered the Last Rounds Phase*/
-    String playerNickname;
+    private String playerNickname;
 
     //CONSTRUCTOR
 

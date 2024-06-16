@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.flow;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.flow.LastRoundsInfoData;
 import it.polimi.ingsw.am40.server.actions.Action;
 
 /**
@@ -14,5 +16,10 @@ public class LastRoundsInfoAction extends Action {
      */
     public LastRoundsInfoAction(int gameID, int playerID){
         super("LAST_ROUNDS", gameID, playerID);
+    }
+
+
+    public Data dataCreator() {
+        return new LastRoundsInfoData(nickname);
     }
 }

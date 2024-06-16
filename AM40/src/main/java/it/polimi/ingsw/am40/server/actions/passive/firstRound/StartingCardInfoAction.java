@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.firstRound;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.firstRound.StartingCardInfoData;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 
@@ -23,5 +25,9 @@ public class StartingCardInfoAction extends Action {
     @Override
     public void doAction(ActionAgent agent){
 
+    }
+
+    public Data dataCreator() {
+        return new StartingCardInfoData(nickname, this.startingCardID);
     }
 }

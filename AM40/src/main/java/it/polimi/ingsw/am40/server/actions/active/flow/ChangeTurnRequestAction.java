@@ -10,6 +10,7 @@ import it.polimi.ingsw.am40.server.actions.passive.round.EndGameAction;
 import it.polimi.ingsw.am40.server.model.Game;
 import it.polimi.ingsw.am40.server.model.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +53,11 @@ public class ChangeTurnRequestAction extends Action {
                 gameContext.calculateFinalScore();
                 List<Player> winners;
                 winners = gameContext.selectWinner();
-                gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winners), gameContext.getListeners());
+                List<String> winnersNames = new ArrayList<>();
+                for (Player p : winners) {
+                    winnersNames.add(p.getNickname());
+                }
+                gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
             }
         }
         else if (gameContext.getRemainingRounds() == 0) {
@@ -60,7 +65,11 @@ public class ChangeTurnRequestAction extends Action {
             gameContext.calculateFinalScore();
             List<Player> winners;
             winners = gameContext.selectWinner();
-            gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winners), gameContext.getListeners());
+            List<String> winnersNames = new ArrayList<>();
+            for (Player p : winners) {
+                winnersNames.add(p.getNickname());
+            }
+            gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
         } else {
             //Normal Turn Change
             try{
@@ -73,7 +82,11 @@ public class ChangeTurnRequestAction extends Action {
                 gameContext.calculateFinalScore();
                 List<Player> winners;
                 winners = gameContext.selectWinner();
-                gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winners), gameContext.getListeners());
+                List<String> winnersNames = new ArrayList<>();
+                for (Player p : winners) {
+                    winnersNames.add(p.getNickname());
+                }
+                gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
             }
         }
     }

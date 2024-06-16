@@ -10,7 +10,6 @@ import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
 import java.util.ArrayList;
 
-//FIXME Add Nickname here and every passive class
 /**
  * This class serves as a mean of the notification to the VirtualView which then will notify the client by using the Network interface
  * after cards dealing during the first Round and this class carries the information of the Cards Drawn and the new Cards on the
@@ -44,5 +43,10 @@ public class DealCardsResultAction extends Action {
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
+    }
+
+
+    public Data dataCreator() {
+        return DealCardsResultData(nickname, this.handDeckIDs, this.deckResourceCardID, this.deckGoldenCardID);
     }
 }

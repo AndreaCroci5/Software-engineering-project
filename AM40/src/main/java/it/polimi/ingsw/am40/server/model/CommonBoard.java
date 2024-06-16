@@ -182,7 +182,8 @@ public class CommonBoard {
     public GoldResourceCard pickFromGoldenPlate(int selection) {
         return plateGoldenResourceCard[selection];
     }
-
+    //TODO Add the pickFromTop() part in a else block in the addCardToPlate methods below because the emptiness check
+    // is useless otherwise
     /**
      * This method replace the card drawn from the plate with the first card of the resource deck
      * If the deck is empty it set null at the position to be replaced
@@ -212,10 +213,11 @@ public class CommonBoard {
 
     // MVC --> Network related methods
     //CommonBoard State Differences for the Network information transport
-    //TODO plate and deck emptiness handling exception --> int value 404 as emptiness
 
     /**
-     * This method returns the cardID of the new Card that took position of the Card picked by the Player
+     * This method returns the cardID of the new Card that took position of the Card picked by the Player.
+     * In case of an empty Plate position or Deck, this method will return a particular int (404),
+     * inspired by the HTTP error 404 not found (it isn't linked directly to the HTTP protocol but the value is used due to its common popularity)
      * @param choice choice of which type of Card to draw from the CommonBoard: resource(0) or golden(1)
      * @param selection possible selection on the CommonBoard: the two cards on plate(0), plate(1); or deck(2)
      * @return the cardID of the new Card on the Plate
@@ -223,47 +225,40 @@ public class CommonBoard {
     public int boardCardDifference(int choice, int selection) {
         if (choice == 0) {
             if (selection == 0 || selection == 1) {
-                return plateResourceCard[selection].getCardID();
+                if (plateResourceCard[selection] == null) return 404;
+                else return plateResourceCard[selection].getCardID();
             } else return this.deckDifference(choice);
         } else {
             if (selection == 0 || selection == 1) {
-                return plateGoldenResourceCard[selection].getCardID();
+                if (plateGoldenResourceCard[selection] == null) return 404;
+                else return plateGoldenResourceCard[selection].getCardID();
             } else return this.deckDifference(choice);
         }
     }
 
-    //TODO Add exception in case the Deck is empty
     /**
-     * This method returns the cardID of the Card in the Top of the Deck (it has to be used after a draw())
+     * This method returns the cardID of the Card in the Top of the Deck (it has to be used after a draw()).
+     * In case of an empty Deck, this method will return a particular int (404), inspired by the HTTP error 404 not found
+     * (it isn't linked directly to the HTTP protocol but the value is used due to its common popularity)
      * @param choice choice of which type of Card to draw from the CommonBoard: resource(0) or golden(1)
      * @return the cardID of the Card on the top of the chosen deck
      */
     public int deckDifference(int choice){
         if (choice == 0) {
-            return this.resourceDeck.peekFirstCard();
+            //Emptiness check
+            if (!this.resourceDeck.isEmpty()){
+                return this.resourceDeck.peekFirstCard();
+            } else {
+                //If a Deck is empty, the 404 value will be returned to signal it
+                return 404;
+            }
         } else {
-            return this.goldenResourceDeck.peekFirstCard();
+            if (!this.goldenResourceDeck.isEmpty()) {
+                return this.goldenResourceDeck.peekFirstCard();
+            } else {
+                //If a Deck is empty, the 404 value will be returned to signal it
+                return 404;
+            }
         }
-    }
-
-    //TODO decide where to put the AimCardID information payload
-    /**
-     * This method is used during the first round in order to give to the active Player infos about the AimCards which
-     * he has to choose one as his private Aim
-     * @return the IDs of two AimCards in an ArrayList
-     */
-    public ArrayList<Integer> aimCardsPeek() {
-        ArrayList<Integer> aimCards= new ArrayList<>();
-        int cardID1;
-        int cardID2;
-        //AimCards ID fetching
-        AimCard firstAimCard = this.aimDeck.pickFromTop();
-        cardID1 = firstAimCard.getCardID();
-        aimCards.add(cardID1);
-        cardID2 = this.aimDeck.peekFirstCard();
-        aimCards.add(cardID2);
-        this.aimDeck.addToTop(firstAimCard);
-        //Return of the AimCards ID
-        return aimCards;
     }
 }

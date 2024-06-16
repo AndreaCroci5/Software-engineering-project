@@ -2,7 +2,6 @@ package it.polimi.ingsw.am40.server.model;
 
 import it.polimi.ingsw.am40.server.exceptions.model.ForceEndgameTurnException;
 import it.polimi.ingsw.am40.server.exceptions.model.RepeatDrawException;
-import it.polimi.ingsw.am40.server.exceptions.model.TokenColorException;
 import it.polimi.ingsw.am40.server.exceptions.model.TurnException;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
@@ -185,6 +184,7 @@ public class Game implements ActionPoster {
         setRemainingRounds(res);
     }
 
+    //TODO Need to add the VVServer listener here, so we must add it as a parameter
     /**
      * This method execute the starting game flow of the game.
      * 1st) It loads the cards from JSON
@@ -214,6 +214,7 @@ public class Game implements ActionPoster {
     }
 
     //FIXME let's discuss if it's worth keeping the method below, because first round must be fragmented
+    // UPDATE remove the method below, but modify if needed and take a look at the method up here
     //TO CHECK (MESSAGES)
     /**
      * This method calls other sub-methods to play the first round of the game
@@ -240,42 +241,31 @@ public class Game implements ActionPoster {
         }
     }
 
-    //FIXME Correct Refreshing in the PrivateBoard in StartingCard Face Selection
     /**
      * This method is used during the first round where a Player choose on which side place the StartingCard
      * @param cardFace the CardFace chosen by the Player in order to place the StaringCard
      */
-    public void chooseStartingCardFace(CardFace cardFace) {
-        int index = getIndexOfPlayingPlayer();
-        PrivateBoard currentPlayerPrivateBoard = this.players.get(index).getPrivateBoard();
-
-        //Change StartingCard Orientation
-        currentPlayerPrivateBoard.getCardGrid().getFirst().setFace(cardFace);
-
-        //Refreshing
-        currentPlayerPrivateBoard.refreshElementsCounter();
-        this.players.get(index).increaseScore(currentPlayerPrivateBoard.refreshPoints());
-        currentPlayerPrivateBoard.refreshPlacingCoordinates();
+    public void placeStartingCard(CardFace cardFace) {
+        //Place the Starting Card recently added to handDeck as first Card, in position (0,0)
+        placeCard(0,new Coordinates(0,0),cardFace);
     }
 
     /**
      * This method is used during the first round where a Player choose on which side place the StartingCard
      * @param color the CardFace chosen by the Player in order to place the StaringCard
      */
-    public void chooseTokenColor(Color color) throws TokenColorException {
+    public void chooseTokenColor(Color color){
         int index = getIndexOfPlayingPlayer();
         Player currentPlayer = this.players.get(index);
 
-        //Choose Token Color
-        for(Player p: players) {
-            if(color == p.getToken().getColor()){
-                throw new TokenColorException();
-            }
-        }
         currentPlayer.getToken().setColor(color);
     }
 
-    //TODO JAVADOC and FIXME  to check if it all works fine
+    /**
+     * This method is called during the first phase of the Game where the Players have to receive their first two ResourceCards
+     * and one GoldenResourceCard. This method draw from the correct Decks and assigns the Cards drawn to the Player that is
+     * in the "active" mode
+     */
     public void dealCards() {
         try {
             draw(0,2);
@@ -295,15 +285,14 @@ public class Game implements ActionPoster {
         Player currentPlayer = this.players.get(index);
 
         //AimCardSelection
-        if (choice == 0) {
+        if (choice == this.getCommonBoard().getAimDeck().peekFirstCard()) {
             //Selection
             AimCard cardSelected = this.getCommonBoard().getAimDeck().pickFromTop();
             currentPlayer.setPrivateAim(cardSelected);
             //Discard of the other AimCard
             AimCard cardDiscarded = this.getCommonBoard().getAimDeck().pickFromTop();
             this.getCommonBoard().getAimDeck().appendToBottom(cardDiscarded);
-        }
-        if (choice == 1) {
+        } else {
             //Discard of the other AimCard
             AimCard cardDiscarded = this.getCommonBoard().getAimDeck().pickFromTop();
             this.getCommonBoard().getAimDeck().appendToBottom(cardDiscarded);
@@ -313,14 +302,20 @@ public class Game implements ActionPoster {
         }
     }
 
-    //TODO JavaDoc and maybe check if it is equal to NONE but we must see the initialization first
+    /**
+     * This method is called during the first phase of the Game where the Players have to decide the Color of the Token
+     * that thew want. In order to do that the Client requests the List of all the Colors still available and not already
+     * chosen by the other Players before the active turn of choice. This method fetch all the remaining Colors and put them
+     * in a List (the value NONE is excluded from the list)
+     * @return the reference to a List containing all the remaining Colors of the Tokens
+     */
     public List<String> remainingTokenColors() {
         Color[] allColors = Color.values();
         ArrayList<Color> remainingColors = new ArrayList<>();
         for(Color c : allColors) {
             boolean isTaken = false;
             for (Player p : this.players) {
-                if (c == p.getToken().getColor()) {
+                if (c == p.getToken().getColor() && c!= Color.NONE) {
                     isTaken = true;
                 }
             }
@@ -334,15 +329,21 @@ public class Game implements ActionPoster {
                 .collect(Collectors.toList());
     }
 
-
     /**
      * This method decides the player order and sets the first player as starting player
      */
-    private void decidePlayerOrder() {
+    public void decidePlayerOrder() {
+        //Set everyone as not-CurrentlyPlaying and not first-Playing
+        for (Player p : players) {
+            p.setCurrentlyPlaying(false);
+            p.setCurrentlyPlaying(false);
+        }
         Collections.shuffle(this.players);
         this.players.getFirst().setStartingPlayerTrue();
+        this.players.getFirst().setCurrentlyPlaying(true);
     }
-    //FIXME FINISH DRAW EXC
+
+    //FIXME FINISH DRAW EXC with plate emptiness check and deck emptiness from draw and make throw a repeat draw exception
     /**
      * This method perform a draw
      * Values of choice and selection comes from the controller, and they're checked there

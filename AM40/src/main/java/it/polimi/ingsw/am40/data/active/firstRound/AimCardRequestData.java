@@ -8,7 +8,6 @@ import it.polimi.ingsw.am40.server.actions.active.firstRound.AimCardRequestActio
 @JsonTypeName("AIM_CARD_REQUEST")
 public class AimCardRequestData extends Data {
 
-    //FIXME check if a single constructor works
     //CONSTRUCTOR
     //Logic and Json constructor for subclasses
     public AimCardRequestData () {

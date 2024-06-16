@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO Add the Coordinates in which where the player placed his card in the response
 /**
  * This class represent the action performed by the Server after receiving via network a PLACING command from the Client.
  * It works as executor for the controller on the model, following the MVC pattern
@@ -58,11 +57,13 @@ public class PlacingAction extends Action {
 
                 //DATA SETUP in Positive Placing case
                 int cardID = playerData.getPrivateBoard().getCardGrid().getLast().getCardID();
+                String cardFace = playerData.getPrivateBoard().getCardGrid().getLast().getCardFace().toString();
+                Coordinates coordsCardPlaced = playerData.getPrivateBoard().getCardGrid().getLast().getCoordinates();
                 int score = playerData.getScore();
                 Map<CardElements,Integer> elementsCounter = playerData.getPrivateBoard().elementsCounterDifferences(tmpElementsCounter);
                 ArrayList<Coordinates> placingCoordinates = playerData.getPrivateBoard().getPlacingCoordinates();
                 //Response Action creation
-                gameContext.notifyListeners(new PositivePlacingAction(this.getGameID(), this.getPlayerID(), cardID, score, elementsCounter, placingCoordinates), gameContext.getListeners());
+                gameContext.notifyListeners(new PositivePlacingAction(this.getGameID(), this.getPlayerID(), cardID, coordsCardPlaced, cardFace, score, elementsCounter, placingCoordinates), gameContext.getListeners());
             } else {
                 throw new RepeatPlacingException();
             }

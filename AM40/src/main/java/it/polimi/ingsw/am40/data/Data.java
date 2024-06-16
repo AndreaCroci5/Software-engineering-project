@@ -13,8 +13,10 @@ import it.polimi.ingsw.am40.data.passive.flow.LastRoundsInfoData;
 import it.polimi.ingsw.am40.data.passive.round.*;
 import it.polimi.ingsw.am40.server.actions.Action;
 
-//TODO JAVADOC in the subclasses
-//FIXME CHECK if all json types and annotations are correct
+//TODO JAVADOC in the subclasses and add nicknames in passive Data
+//FIXME CHECK if all json types and annotations are correct and put final all attributes if needed in subclasses,
+// WARNING playerID and GameId must not be put final because they change because once the Data arrives on Server it needs a Set
+// of these attributes from VVserver or net interface
 
 /**
  * This class contains the information that will be carried by being sent on the network as a TCP message.
@@ -45,7 +47,6 @@ import it.polimi.ingsw.am40.server.actions.Action;
         @JsonSubTypes.Type(value = StartingCardInfoData.class, name = "STARTING_INFO"),
         @JsonSubTypes.Type(value = StartingCardResultData.class, name = "POSITIVE_STARTING_CARD"),
         @JsonSubTypes.Type(value = TokenInfoData.class, name = "TOKEN_INFO"),
-        @JsonSubTypes.Type(value = NegativeTokenColorData.class, name = "NEGATIVE_TOKEN_COLOR"),
         @JsonSubTypes.Type(value = PositiveTokenColorData.class, name = "POSITIVE_TOKEN_COLOR"),
         @JsonSubTypes.Type(value = DealCardsResultData.class, name = "CARDS_DEAL_RESULT"),
         @JsonSubTypes.Type(value = AimCardInfoData.class, name = "AIM_CARD_INFO"),

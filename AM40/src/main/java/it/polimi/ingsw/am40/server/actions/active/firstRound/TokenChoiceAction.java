@@ -1,9 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.active.firstRound;
 
-import it.polimi.ingsw.am40.server.exceptions.model.TokenColorException;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
-import it.polimi.ingsw.am40.server.actions.passive.firstRound.NegativeTokenColorAction;
 import it.polimi.ingsw.am40.server.actions.passive.firstRound.PositiveTokenColorAction;
 import it.polimi.ingsw.am40.server.model.Color;
 import it.polimi.ingsw.am40.server.model.Game;
@@ -35,17 +33,12 @@ public class TokenChoiceAction extends Action {
         Game gameContext = (Game) agent;
 
         //TokenSelection
-        try{
             //Token color selection
             gameContext.chooseTokenColor(tokenColor);
             //Token data getter
             String color = tokenColor.toString();
             //Changes Notification
             gameContext.notifyListeners(new PositiveTokenColorAction(this.getGameID(), this.getPlayerID(), color),gameContext.getListeners());
-        } catch (TokenColorException e) {
-            //Notifies that the color chosen is not available
-            gameContext.notifyListeners(new NegativeTokenColorAction(this.getGameID(), this.getPlayerID()),gameContext.getListeners());
-        }
 
 
 

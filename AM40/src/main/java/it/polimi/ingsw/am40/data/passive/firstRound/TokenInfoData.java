@@ -6,7 +6,6 @@ import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
 
 import java.util.List;
-//FIXME remove the color NONE
 
 @JsonTypeName("TOKEN_INFO")
 public class TokenInfoData extends Data {

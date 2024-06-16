@@ -9,7 +9,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
 public class ChangeTurnInfoData extends Data {
     //ATTRIBUTES
     /** Nickname of the next Player that has the right to play*/
-    String nextActivePlayer;
+    private String nextActivePlayer;
 
     //CONSTRUCTOR
 

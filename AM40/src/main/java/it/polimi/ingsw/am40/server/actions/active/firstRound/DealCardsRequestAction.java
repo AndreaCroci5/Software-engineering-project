@@ -32,7 +32,7 @@ public class DealCardsRequestAction extends Action {
         Game gameContext = (Game) agent;
 
         //Card Deal
-        //fixme  gameContext.dealCards() for only resource and golden
+        gameContext.dealCards();
         //Data fetch
         //HandDeck
         ArrayList<Integer> handDeckIDs = new ArrayList<>();

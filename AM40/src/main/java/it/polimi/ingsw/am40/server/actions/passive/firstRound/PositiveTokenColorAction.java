@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.firstRound;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.firstRound.PositiveTokenColorData;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 
@@ -8,7 +10,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
  * that the user has correctly selected his token color
  */
 public class PositiveTokenColorAction extends Action {
-    //COLOR CHOSEN //FIXME Check the toString method for the colors
+    //COLOR CHOSEN
     private final String color;
     //CONSTRUCTOR
     /**
@@ -26,5 +28,9 @@ public class PositiveTokenColorAction extends Action {
     @Override
     public void doAction(ActionAgent agent){
 
+    }
+
+    public Data dataCreator() {
+        return new PositiveTokenColorData(nickname, this.color);
     }
 }

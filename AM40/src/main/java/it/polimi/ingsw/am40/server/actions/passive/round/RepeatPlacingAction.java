@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.actions.passive.round;
 
+import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.round.RepeatPlacingData;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 
@@ -18,4 +20,8 @@ public class RepeatPlacingAction extends Action {
         super("REPEAT_PLACING", gameID, playerID);
     }
 
+
+    public Data dataCreator() {
+        return new RepeatPlacingData(nickname);
+    }
 }
