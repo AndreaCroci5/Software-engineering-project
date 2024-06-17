@@ -209,9 +209,7 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        this.streams.getOut().println("message");
         this.streams.getOut().println(json);
-        this.streams.getOut().println("endmessage");
     }
 
 
@@ -219,7 +217,9 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Data myObject = objectMapper.readValue(json, Data.class);
-            System.out.println("Deserialized object: " + myObject);
+            //System.out.println("Deserialized object: " + myObject);
+            Message message = myObject.onClient();
+            client.handleMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
         } //fixme azione

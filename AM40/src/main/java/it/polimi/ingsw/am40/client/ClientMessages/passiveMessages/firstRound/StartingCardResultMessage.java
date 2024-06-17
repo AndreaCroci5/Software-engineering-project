@@ -4,6 +4,12 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveTokenChoiceState;
+import it.polimi.ingsw.am40.server.model.CardElements;
+import it.polimi.ingsw.am40.server.model.Coordinates;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StartingCardResultMessage extends Message {
 
@@ -17,15 +23,27 @@ public class StartingCardResultMessage extends Message {
      */
     private final int cardID;
 
+    private final Coordinates startingCardCoords;
+
+    private final String cardFace;
+
+    private final ArrayList<Coordinates> placingCoordinates;
+
+    private final Map<CardElements,Integer> elementsCounter;
+
     /**
      * This message contains the ID of the starting card given to the client
      * @param clientNickname is the name of the active client
      * @param cardID is the ID of the starting card given to the client
      */
-    public StartingCardResultMessage(String clientNickname, int cardID) {
+    public StartingCardResultMessage(String clientNickname, int cardID, Coordinates startingCardCoords, String cardFace, ArrayList<Coordinates> placingCoordinates, Map<CardElements,Integer> elementsCounter) {
         super("POSITIVE_STARTING_CARD",clientNickname);
         this.clientNickname = clientNickname;
         this.cardID = cardID;
+        this.startingCardCoords = startingCardCoords;
+        this.cardFace = cardFace;
+        this.placingCoordinates = placingCoordinates;
+        this.elementsCounter = elementsCounter;
     }
 
     /**

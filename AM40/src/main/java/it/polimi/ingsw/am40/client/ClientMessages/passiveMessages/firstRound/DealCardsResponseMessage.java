@@ -22,15 +22,21 @@ public class DealCardsResponseMessage extends Message {
      */
     private final List<Integer> handCards;
 
+    private final int deckResourceCardID;
+
+    private final int deckGoldenCardID;
+
     /**
      * This message is used to give the client his 3 cards
      * @param handCards is the list of the 3 cards of the client
      * @param clientNickname is the name of the active client
      */
-    public DealCardsResponseMessage(String clientNickname, List<Integer> handCards) {
+    public DealCardsResponseMessage(String clientNickname, List<Integer> handCards, int deckResourceCardID, int deckGoldenCardID) {
         super("DEAL_CARDS_RESPONSE",clientNickname);
         this.clientNickname = clientNickname;
         this.handCards = handCards;
+        this.deckResourceCardID = deckResourceCardID;
+        this.deckGoldenCardID = deckGoldenCardID;
     }
 
     /**
@@ -39,6 +45,8 @@ public class DealCardsResponseMessage extends Message {
      * @param context is the context of the client with his view and his network communication protocol
      */
     public void process(Client context) {
+
+        // **TO FIX** update commonBoard
 
         if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
 

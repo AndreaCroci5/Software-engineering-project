@@ -2,6 +2,7 @@ package it.polimi.ingsw.am40.data.passive.flow;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow.LastRoundInfoMessage;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
 
@@ -28,6 +29,6 @@ public class LastRoundsInfoData extends Data {
     }
 
     public Message onClient() {
-        return null;
+        return new LastRoundInfoMessage(this.getNickname());
     }
 }

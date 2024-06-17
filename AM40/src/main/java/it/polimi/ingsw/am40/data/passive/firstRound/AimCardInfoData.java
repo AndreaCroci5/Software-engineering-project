@@ -2,8 +2,12 @@ package it.polimi.ingsw.am40.data.passive.firstRound;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound.AimCardInfoMessage;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
+
+import java.util.Arrays;
+import java.util.List;
 
 @JsonTypeName("AIM_CARD_INFO")
 public class AimCardInfoData extends Data {
@@ -32,6 +36,7 @@ public class AimCardInfoData extends Data {
     }
 
     public Message onClient() {
-        return null;
+        return new AimCardInfoMessage(getNickname(), Arrays.asList(aimID1, aimID2));
     }
 }
+
