@@ -2,6 +2,7 @@ package it.polimi.ingsw.am40.client.view.GUI;
 
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
+import it.polimi.ingsw.am40.client.view.GUI.FXexamples.HelloApplication;
 import it.polimi.ingsw.am40.client.view.ViewManager;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class GUIManager implements ViewManager {
 
     ///ATTRIBUTES
+    HelloApplication GUIApplication;
 
     private Client client;
 
@@ -28,6 +30,15 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void initView() {
+        try {
+            this.GUIApplication = new HelloApplication();
+            this.GUIApplication.startGUI();
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println(e.getCause());
+            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getStackTrace());
+        }
 
     }
 

@@ -300,8 +300,8 @@ public class CodexNaturalisClient {
         switch (networkPref.toLowerCase()){
             case "tui":
                 break;
-            //case "gui": //fixme link with the gui
-            //break;
+            case "gui": //fixme link with the gui
+            break;
             default: throw new IllegalValueException();
         }
 
