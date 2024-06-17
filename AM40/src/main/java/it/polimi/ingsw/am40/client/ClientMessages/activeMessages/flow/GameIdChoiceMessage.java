@@ -32,3 +32,4 @@ public class GameIdChoiceMessage extends Message {
         return new GameIDChoiceData(this.clientNickname,this.gameIdChoice);
     }
 }
+

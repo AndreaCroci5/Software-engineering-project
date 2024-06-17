@@ -41,3 +41,4 @@ public interface NetworkManagerClient extends ConcreteContext {
     void receive(Data data);
 
 }
+

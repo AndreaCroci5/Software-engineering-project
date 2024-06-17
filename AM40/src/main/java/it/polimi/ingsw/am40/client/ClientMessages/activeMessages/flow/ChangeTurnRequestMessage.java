@@ -27,3 +27,4 @@ public class ChangeTurnRequestMessage extends Message {
     }
 
 }
+

@@ -34,3 +34,4 @@ public class AimCardChoiceMessage extends Message {
         return new AimCardChoiceData(this.clientNickname,this.cardID);
     }
 }
+

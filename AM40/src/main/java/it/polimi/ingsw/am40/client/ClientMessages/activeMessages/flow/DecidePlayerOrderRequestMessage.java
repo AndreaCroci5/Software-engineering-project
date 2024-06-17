@@ -11,3 +11,4 @@ public class DecidePlayerOrderRequestMessage extends Message {
         this.clientNickname = nickname;
     }
 }
+

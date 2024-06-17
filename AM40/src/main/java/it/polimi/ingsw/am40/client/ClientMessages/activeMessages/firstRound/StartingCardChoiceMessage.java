@@ -32,3 +32,4 @@ public class StartingCardChoiceMessage extends Message {
         return new StartingCardChoiceData(this.clientNickname,this.face);
     }
 }
+

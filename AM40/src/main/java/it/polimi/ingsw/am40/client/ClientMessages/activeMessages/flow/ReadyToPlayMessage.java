@@ -26,3 +26,4 @@ public class ReadyToPlayMessage extends Message {
         return new ReadyToPlayData(this.clientNickname);
     }
 }
+

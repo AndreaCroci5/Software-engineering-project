@@ -52,3 +52,4 @@ public class PlacingMessage extends Message {
     }
 
 }
+

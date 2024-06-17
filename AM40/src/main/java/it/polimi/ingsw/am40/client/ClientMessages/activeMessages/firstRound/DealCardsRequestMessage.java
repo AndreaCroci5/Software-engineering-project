@@ -24,3 +24,4 @@ public class DealCardsRequestMessage extends Message {
         return new DealCardsData(this.clientNickname);
     }
 }
+

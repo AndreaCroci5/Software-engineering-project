@@ -190,3 +190,4 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
 
     }
 }
+

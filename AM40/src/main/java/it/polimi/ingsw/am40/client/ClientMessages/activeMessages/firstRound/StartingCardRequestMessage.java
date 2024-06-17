@@ -25,3 +25,4 @@ public class StartingCardRequestMessage extends Message {
         return new StartingCardRequestData(this.clientNickname);
     }
 }
+

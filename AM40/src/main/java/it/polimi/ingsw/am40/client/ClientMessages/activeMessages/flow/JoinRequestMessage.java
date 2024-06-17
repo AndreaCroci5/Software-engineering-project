@@ -25,6 +25,4 @@ public class JoinRequestMessage extends Message {
     public Data messageToData() {
         return new JoinRequestData(this.clientNickname);
     }
-
-
 }

@@ -26,3 +26,4 @@ public class AimCardRequestMessage extends Message {
         return new AimCardRequestData(this.clientNickname);
     }
 }
+
