@@ -202,9 +202,10 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         try {
             Data myObject = objectMapper.readValue(message, Data.class);
             System.out.println("Deserialized object: " + myObject);
-
-            //fixme A+S
-
+            //fixme A+S A added the filter for the starting game
+            if (myObject.getDescription().equalsIgnoreCase("CREATE_GAME")) {
+                this.mainServerClass.onEvent(myObject.onServer());
+            }
             this.mainServerClass.notifyListeners(myObject.onServer(), this.mainServerClass.getListeners());
         } catch (Exception e) {
             e.printStackTrace();
