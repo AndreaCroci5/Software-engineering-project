@@ -9,6 +9,7 @@ import it.polimi.ingsw.am40.data.active.round.DrawData;
 import it.polimi.ingsw.am40.data.active.round.PlacingData;
 import it.polimi.ingsw.am40.data.passive.firstRound.*;
 import it.polimi.ingsw.am40.data.passive.flow.ChangeTurnInfoData;
+import it.polimi.ingsw.am40.data.passive.flow.CreateResultData;
 import it.polimi.ingsw.am40.data.passive.flow.LastRoundsInfoData;
 import it.polimi.ingsw.am40.data.passive.round.*;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -28,6 +29,10 @@ import it.polimi.ingsw.am40.server.actions.Action;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         //Active Data
+        @JsonSubTypes.Type(value = CreateRequestData.class, name = "CREATE_GAME"),
+        @JsonSubTypes.Type(value = GameIDChoiceData.class, name = "GAME_ID_CHOICE"),
+        @JsonSubTypes.Type(value = JoinRequestData.class, name = "JOIN_GAME"),
+        @JsonSubTypes.Type(value = ReadyToPlayData.class, name = "READY_TO_PLAY"),
         @JsonSubTypes.Type(value = StartingCardRequestData.class, name = "STARTING_CARD_REQUEST"),
         @JsonSubTypes.Type(value = StartingCardChoiceData.class, name = "STARTING_CARD_CHOICE"),
         @JsonSubTypes.Type(value = TokenChoiceData.class, name = "TOKEN_SELECTION"),
@@ -40,10 +45,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
         @JsonSubTypes.Type(value = DrawData.class, name = "DRAW"),
         @JsonSubTypes.Type(value = ChangeTurnRequestData.class, name = "CHANGE_TURN"),
         //Passive Data
-        @JsonSubTypes.Type(value = CreateRequestData.class, name = "CREATE_GAME"),
-        @JsonSubTypes.Type(value = GameIDChoiceData.class, name = "GAME_ID_CHOICE"),
-        @JsonSubTypes.Type(value = JoinRequestData.class, name = "JOIN_GAME"),
-        @JsonSubTypes.Type(value = ReadyToPlayData.class, name = "READY_TO_PLAY"),
+        @JsonSubTypes.Type(value = CreateResultData.class, name = "CREATE_RESULT"),
         @JsonSubTypes.Type(value = StartingCardInfoData.class, name = "STARTING_INFO"),
         @JsonSubTypes.Type(value = StartingCardResultData.class, name = "POSITIVE_STARTING_CARD"),
         @JsonSubTypes.Type(value = TokenInfoData.class, name = "TOKEN_INFO"),
