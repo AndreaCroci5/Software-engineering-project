@@ -17,8 +17,8 @@ public class AimCardChoiceMessage extends Message {
      * @param cardID it's the int associated at the card choose by the client
      *               It could be 0 or 1
      */
-    public AimCardChoiceMessage(int cardID) {
-        super("AIM_CARD_SELECTION");
+    public AimCardChoiceMessage(String nickname, int cardID) {
+        super("AIM_CARD_SELECTION",nickname);
         this.cardID = cardID;
     }
 

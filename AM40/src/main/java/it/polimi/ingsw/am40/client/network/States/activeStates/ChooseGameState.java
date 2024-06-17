@@ -37,7 +37,7 @@ public class ChooseGameState implements State {
         try {
             Integer.parseInt(input);
             if (this.gameIds.contains(Integer.parseInt(input))) {
-                context.getNetworkManager().send(new GameIdChoiceMessage(Integer.parseInt(input)));
+                context.getNetworkManager().send(new GameIdChoiceMessage(context.getNickname(), Integer.parseInt(input)));
             }
             else {
                 System.out.println(">Wrong input");

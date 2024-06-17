@@ -9,8 +9,8 @@ public class JoinRequestMessage extends Message {
      * Constructor fot the JoinMessage
      * This message it's the request of the client to join an existing game
      */
-    public JoinRequestMessage() {
-        super("JOIN_GAME");
+    public JoinRequestMessage(String nickname) {
+        super("JOIN_GAME",nickname);
     }
 
     /**

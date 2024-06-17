@@ -9,8 +9,8 @@ public class ChangeTurnRequestMessage extends Message {
      * Constructor for the ChangeTurnMessage
      * This message is sent by the client after he finished the draw phase
      */
-    public ChangeTurnRequestMessage() {
-        super("CHANGE_TURN");
+    public ChangeTurnRequestMessage(String nickname) {
+        super("CHANGE_TURN",nickname);
     }
 
     /**

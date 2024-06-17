@@ -21,7 +21,7 @@ public class ChangeTurnResponseMessage extends Message {
      * @param clientNickname is the name of the new active client
      */
     public ChangeTurnResponseMessage(String clientNickname) {
-        super("CHANGE_TURN");
+        super("CHANGE_TURN",clientNickname);
         this.clientNickname = clientNickname;
     }
 
@@ -32,13 +32,13 @@ public class ChangeTurnResponseMessage extends Message {
     public void process(Client context) {
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
             if (context.getCurrentState().getClass().equals(PassiveTokenChoiceState.class)) {
-                context.getNetworkManager().send(new TokenRequestMessage());
+                context.getNetworkManager().send(new TokenRequestMessage(context.getNickname()));
             }
             if (context.getCurrentState().getClass().equals(PassiveStartingCardChoiceState.class)) {
-                context.getNetworkManager().send(new StartingCardRequestMessage());
+                context.getNetworkManager().send(new StartingCardRequestMessage(context.getNickname()));
             }
             if (context.getCurrentState().getClass().equals(PassiveAimCardChoiceState.class)) {
-                context.getNetworkManager().send(new AimCardRequestMessage());
+                context.getNetworkManager().send(new AimCardRequestMessage(context.getNickname()));
             }
 
             if (context.getCurrentState().getClass().equals(PassivePlacingState.class)) {
@@ -49,7 +49,7 @@ public class ChangeTurnResponseMessage extends Message {
             }
 
             if (context.getCurrentState().getClass().equals(ReadyToRoundState.class)) {
-                context.getNetworkManager().send(new DecidePlayerOrderRequestMessage());
+                context.getNetworkManager().send(new DecidePlayerOrderRequestMessage(context.getNickname()));
             }
         }
     }

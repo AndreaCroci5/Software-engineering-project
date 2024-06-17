@@ -25,7 +25,7 @@ public class CreateState implements State {
         try {
             Integer.parseInt(input);
             if (Integer.parseInt(input) == 2 || Integer.parseInt(input) == 3 || Integer.parseInt(input) == 4) {
-                context.getNetworkManager().send(new CreateRequestMessage(Integer.parseInt(input)));
+                context.getNetworkManager().send(new CreateRequestMessage(context.getNickname(),Integer.parseInt(input)));
             }
             else {
                 System.out.println(">Players must be 2,3 or 4");

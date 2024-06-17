@@ -9,8 +9,8 @@ public class ReadyToPlayMessage extends Message {
      * This message is used for the client to let the server know he wants to start the game
      * The server will respond with start game or waiting for other player
      */
-    public ReadyToPlayMessage() {
-        super("READY_TO_PLAY");
+    public ReadyToPlayMessage(String nickname) {
+        super("READY_TO_PLAY",nickname);
     }
 
     /**

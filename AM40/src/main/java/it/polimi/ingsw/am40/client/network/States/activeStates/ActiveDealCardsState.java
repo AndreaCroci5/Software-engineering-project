@@ -12,7 +12,7 @@ public class ActiveDealCardsState implements State {
      */
     @Override
     public void execute(Client context) {
-        context.getNetworkManager().send(new DealCardsRequestMessage());
+        context.getNetworkManager().send(new DealCardsRequestMessage(context.getNickname()));
     }
 
     /**

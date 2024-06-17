@@ -14,8 +14,8 @@ public class GameIdChoiceMessage extends Message {
      * This message contains the ID of the game that the client wants to join
      * @param gameIdChoice is the ID of the game the client wants to join
      */
-    public GameIdChoiceMessage(int gameIdChoice) {
-        super("GAME_ID_CHOICE");
+    public GameIdChoiceMessage(String nickname, int gameIdChoice) {
+        super("GAME_ID_CHOICE",nickname);
         this.gameIdChoice = gameIdChoice;
     }
 

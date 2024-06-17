@@ -4,6 +4,8 @@ import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.data.Data;
 
 public abstract class Message {
+
+    private final String nickname;
     /**
      * It's the description of which information the message transport
      */
@@ -13,8 +15,9 @@ public abstract class Message {
      * Constructor for messages
      * @param description it's the description of which information the message transport
      */
-    public Message(String description) {
+    public Message(String description, String nickname) {
         this.description = description;
+        this.nickname = nickname;
     }
 
     /**

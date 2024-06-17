@@ -15,7 +15,7 @@ public class ReadyToPlayState implements State {
     public void execute(Client context) {
 
         // send the message to the server in order to start the game
-        context.getNetworkManager().send(new ReadyToPlayMessage());
+        context.getNetworkManager().send(new ReadyToPlayMessage(context.getNickname()));
     }
 
     /**

@@ -16,7 +16,7 @@ public class PositiveDrawMessage extends Message {
     private final int cardOnTopOfDeck;
 
     public PositiveDrawMessage(String clientNickname, int cardDrawnID, int cardReplacedID, int replacePosition, int cardOnTopOfDeck) {
-        super("POSITIVE_DRAW");
+        super("POSITIVE_DRAW",clientNickname);
         this.clientNickname = clientNickname;
         this.cardDrawnID = cardDrawnID;
         this.cardReplacedID = cardReplacedID;

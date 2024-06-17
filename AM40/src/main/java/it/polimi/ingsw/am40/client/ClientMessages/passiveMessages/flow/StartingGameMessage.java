@@ -7,8 +7,8 @@ public class StartingGameMessage extends Message {
 
     // TO FIX
 
-    public StartingGameMessage() {
-        super("STARTING_GAME");
+    public StartingGameMessage(String clientNickname) {
+        super("STARTING_GAME",clientNickname);
     }
 
 

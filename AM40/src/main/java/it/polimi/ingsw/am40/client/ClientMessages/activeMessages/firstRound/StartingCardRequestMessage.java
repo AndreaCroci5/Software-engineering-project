@@ -8,8 +8,8 @@ public class StartingCardRequestMessage extends Message {
     /**
      * This message is a request from the client to the server for the starting card
      */
-    public StartingCardRequestMessage() {
-        super("STARTING_CARD_REQUEST");
+    public StartingCardRequestMessage(String nickname) {
+        super("STARTING_CARD_REQUEST",nickname);
     }
 
     /**

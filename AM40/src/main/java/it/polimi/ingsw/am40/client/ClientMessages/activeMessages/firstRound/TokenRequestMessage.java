@@ -9,8 +9,8 @@ public class TokenRequestMessage extends Message {
      * This message is a request from the client to the server in which the client
      * asks the list of the token he can choose
      */
-    public TokenRequestMessage() {
-        super("TOKEN_REQUEST");
+    public TokenRequestMessage(String nickname) {
+        super("TOKEN_REQUEST",nickname);
     }
 
     /**

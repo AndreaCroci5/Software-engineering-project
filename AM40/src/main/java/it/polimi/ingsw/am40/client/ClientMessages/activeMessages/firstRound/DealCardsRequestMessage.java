@@ -9,8 +9,8 @@ public class DealCardsRequestMessage extends Message {
     /**
      * This message is used to ask the server the 3 cards of the player hand
      */
-    public DealCardsRequestMessage() {
-        super("CARDS_DEAL");
+    public DealCardsRequestMessage(String nickname) {
+        super("CARDS_DEAL",nickname);
     }
 
     /**

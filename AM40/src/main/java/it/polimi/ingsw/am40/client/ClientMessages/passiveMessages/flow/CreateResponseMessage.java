@@ -18,7 +18,7 @@ public class CreateResponseMessage extends Message {
      * @param clientNickname is the name of the active client
      */
     public CreateResponseMessage(String clientNickname,int numOfFinalPlayer) {
-        super("POSITIVE_CREATE");
+        super("POSITIVE_CREATE",clientNickname);
         this.clientNickname = clientNickname;
         this.NumOfFinalPlayer = numOfFinalPlayer;
     }

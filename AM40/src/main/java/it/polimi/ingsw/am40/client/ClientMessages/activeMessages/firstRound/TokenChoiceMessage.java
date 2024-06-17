@@ -16,8 +16,8 @@ public class TokenChoiceMessage extends Message {
      * This message it's the token request from the client
      * @param token it's the color of the token choose by the client
      */
-    public TokenChoiceMessage(String token) {
-        super("TOKEN_SELECTION");
+    public TokenChoiceMessage(String nickname,String token) {
+        super("TOKEN_SELECTION",nickname);
         this.token = token;
     }
 

@@ -26,7 +26,7 @@ public class AimCardResultMessage extends Message {
      * @param aimCardIdChosen it's the ID of the card chosen by the client
      */
     public AimCardResultMessage(String clientNickname, int aimCardIdChosen) {
-        super("AIM_CARD_SELECTED");
+        super("AIM_CARD_SELECTED",clientNickname);
         this.clientNickname = clientNickname;
         this.aimCardIdChosen = aimCardIdChosen;
     }
@@ -41,7 +41,7 @@ public class AimCardResultMessage extends Message {
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
             context.getSmallModel().setMyAimCard(SmallCardLoader.findCardById(this.aimCardIdChosen));
             context.setState(new ReadyToRoundState());
-            context.getNetworkManager().send(new ChangeTurnRequestMessage());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage(context.getNickname()));
         }
         else {
             context.getViewManager().showPassiveAimCardResult(this.clientNickname);

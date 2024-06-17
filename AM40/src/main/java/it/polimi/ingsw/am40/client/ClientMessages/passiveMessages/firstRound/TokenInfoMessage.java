@@ -24,7 +24,7 @@ public class TokenInfoMessage extends Message {
      * @param tokens is the list of the color of the possible tokens that the client can choose
      */
     public TokenInfoMessage(String clientNickname, List<String> tokens) {
-        super("TOKEN_INFO");
+        super("TOKEN_INFO",clientNickname);
         this.clientNickname = clientNickname;
         this.tokens = tokens;
     }

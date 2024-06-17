@@ -29,8 +29,8 @@ public class DrawMessage extends Message {
      *                  1 (second card of the plate) or
      *                  2 (deck)
      */
-    public DrawMessage(String choice, int selection) {
-        super("DRAW");
+    public DrawMessage(String nickname, String choice, int selection) {
+        super("DRAW",nickname);
         this.choice = choice;
         this.selection = selection;
     }

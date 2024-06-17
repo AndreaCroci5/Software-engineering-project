@@ -17,7 +17,7 @@ public class LastRoundInfoMessage extends Message {
      * @param clientNickname is the name of the active player
      */
     public LastRoundInfoMessage(String clientNickname) {
-        super("LAST_ROUNDS");
+        super("LAST_ROUNDS",clientNickname);
         this.clientNickname = clientNickname;
     }
 

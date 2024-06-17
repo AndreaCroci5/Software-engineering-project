@@ -25,7 +25,7 @@ public class DecidePlayerOrderResponse extends Message {
      * @param playersOrder is the order of the players
      */
     public DecidePlayerOrderResponse(String clientNickname, List<String> playersOrder) {
-        super("PLAYER_ORDER_RESPONSE");
+        super("PLAYER_ORDER_RESPONSE",clientNickname);
         this.clientNickname = clientNickname;
         this.playersOrder = playersOrder;
     }

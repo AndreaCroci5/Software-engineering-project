@@ -19,12 +19,12 @@ public class StartingCardResultMessage extends Message {
 
     /**
      * This message contains the ID of the starting card given to the client
-     * @param playerNickname is the name of the active client
+     * @param clientNickname is the name of the active client
      * @param cardID is the ID of the starting card given to the client
      */
-    public StartingCardResultMessage(String playerNickname, int cardID) {
-        super("POSITIVE_STARTING_CARD");
-        this.clientNickname = playerNickname;
+    public StartingCardResultMessage(String clientNickname, int cardID) {
+        super("POSITIVE_STARTING_CARD",clientNickname);
+        this.clientNickname = clientNickname;
         this.cardID = cardID;
     }
 
@@ -37,11 +37,11 @@ public class StartingCardResultMessage extends Message {
 
         // TO DO: UPDATE SMALL MODEL
         // Set grid
-        
+
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
             context.getViewManager().displayStartingCardInfo(cardID);
             context.setState(new PassiveTokenChoiceState());
-            context.getNetworkManager().send(new ChangeTurnRequestMessage());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage(context.getNickname()));
         }
         else {
             context.getViewManager().showPassiveStartingCard(this.clientNickname,this.cardID);

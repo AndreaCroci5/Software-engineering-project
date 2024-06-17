@@ -15,8 +15,8 @@ public class StartingCardChoiceMessage extends Message {
      * This message contains the face that the client choose in order to place his starting card
      * @param face is the face that the client choose in order to play his starting card
      */
-    public StartingCardChoiceMessage(String face) {
-        super("STARTING_CARD_CHOICE");
+    public StartingCardChoiceMessage(String nickname,String face) {
+        super("STARTING_CARD_CHOICE",nickname);
         this.face = face;
     }
 

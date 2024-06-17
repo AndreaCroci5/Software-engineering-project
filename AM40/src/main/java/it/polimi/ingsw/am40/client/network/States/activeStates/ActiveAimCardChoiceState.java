@@ -38,7 +38,7 @@ public class ActiveAimCardChoiceState implements State {
                 System.out.println(">Wrong input");
             }
             else {
-                context.getNetworkManager().send(new AimCardChoiceMessage(Integer.parseInt(input)));
+                context.getNetworkManager().send(new AimCardChoiceMessage(context.getNickname(),Integer.parseInt(input)));
             }
         }
         catch (NumberFormatException e) {

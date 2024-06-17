@@ -24,7 +24,7 @@ public class PositiveTokenColorMessage extends Message {
      * @param token is the color of the token choose by the client
      */
     public PositiveTokenColorMessage(String clientNickname, String token) {
-        super("POSITIVE_TOKEN_COLOR");
+        super("POSITIVE_TOKEN_COLOR",clientNickname);
         this.clientNickname = clientNickname;
         this.token = token;
     }
@@ -41,7 +41,7 @@ public class PositiveTokenColorMessage extends Message {
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
             context.getSmallModel().setToken(this.token);
             context.setState(new PassiveDealCardsState());
-            context.getNetworkManager().send(new ChangeTurnRequestMessage());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage(context.getNickname()));
         }
     }
 }

@@ -15,8 +15,8 @@ public class CreateRequestMessage extends Message {
      * This message is the request of the client of creating a new game
      * @param numOfPlayer it's the number of player that the client wants in the new game he created
      */
-    public CreateRequestMessage(int numOfPlayer) {
-        super("CREATE_GAME");
+    public CreateRequestMessage(String nickname, int numOfPlayer) {
+        super("CREATE_GAME", nickname);
         this.numOfPlayer = numOfPlayer;
     }
 

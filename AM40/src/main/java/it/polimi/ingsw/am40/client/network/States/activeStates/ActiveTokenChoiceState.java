@@ -32,7 +32,7 @@ public class ActiveTokenChoiceState implements State {
     public void checkInput(Client context, String input) {
         for (String token : possibleTokens) {
             if (input.equalsIgnoreCase(token)) {
-                context.getNetworkManager().send(new TokenChoiceMessage(token));
+                context.getNetworkManager().send(new TokenChoiceMessage(context.getNickname(), token));
                 return;
             }
         }

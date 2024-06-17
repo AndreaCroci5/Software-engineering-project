@@ -25,7 +25,7 @@ public class GameIdResponseMessage extends Message {
      * This message is sent by the server, and it's an ack that client joined the game he chose
      */
     public GameIdResponseMessage(String clientNickname, int numOfActualPlayers, int numOfFinalPlayers) {
-        super("POSITIVE_GAME_CHOICE");
+        super("POSITIVE_GAME_CHOICE",clientNickname);
         this.clientNickname = clientNickname;
         this.numOfActualPlayers = numOfActualPlayers;
         this.numOfFinalPlayers = numOfFinalPlayers;

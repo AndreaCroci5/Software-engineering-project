@@ -21,8 +21,8 @@ public class StartingCardInfoMessage extends Message {
      * @param startingCardID is the ID of the starting card of the client
      * @param clientNickname is the name of the active client
      */
-    public StartingCardInfoMessage(int startingCardID, String clientNickname) {
-        super("STARTING_CARD_INFO");
+    public StartingCardInfoMessage(String clientNickname, int startingCardID) {
+        super("STARTING_CARD_INFO",clientNickname);
         this.clientNickname = clientNickname;
         this.StartingCardID = startingCardID;
     }

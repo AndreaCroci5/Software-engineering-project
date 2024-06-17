@@ -16,7 +16,7 @@ public class RepeatDrawMessage extends Message {
      * @param clientNickname is the name of the active client
      */
     public RepeatDrawMessage(String clientNickname) {
-        super("REPEAT_DRAW");
+        super("REPEAT_DRAW",clientNickname);
         this.clientNickname = clientNickname;
     }
 

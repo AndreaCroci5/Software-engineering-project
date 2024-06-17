@@ -27,8 +27,8 @@ public class DealCardsResponseMessage extends Message {
      * @param handCards is the list of the 3 cards of the client
      * @param clientNickname is the name of the active client
      */
-    public DealCardsResponseMessage(List<Integer> handCards, String clientNickname) {
-        super("DEAL_CARDS_RESPONSE");
+    public DealCardsResponseMessage(String clientNickname, List<Integer> handCards) {
+        super("DEAL_CARDS_RESPONSE",clientNickname);
         this.clientNickname = clientNickname;
         this.handCards = handCards;
     }
@@ -51,7 +51,7 @@ public class DealCardsResponseMessage extends Message {
             context.getSmallModel().setMyHand(myHandCards);
             context.getViewManager().displayMyHand(context.getSmallModel().getMyHand());
             context.setState(new PassiveAimCardChoiceState());
-            context.getNetworkManager().send(new ChangeTurnRequestMessage());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage(context.getNickname()));
         }
     }
 }

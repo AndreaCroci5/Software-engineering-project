@@ -17,7 +17,7 @@ public class RepeatPlacingMessage extends Message {
      * @param clientNickname is the name of the active client
      */
     public RepeatPlacingMessage(String clientNickname) {
-        super("REPEAT_PLACING");
+        super("REPEAT_PLACING",clientNickname);
         this.clientNickname = clientNickname;
     }
 

@@ -28,7 +28,7 @@ public class SetUpState implements State {
             System.out.println(">Wrong input");
         }
         else if (input.equalsIgnoreCase("join")) {
-            context.getNetworkManager().send(new JoinRequestMessage());
+            context.getNetworkManager().send(new JoinRequestMessage(context.getNickname()));
         }
         else if (input.equalsIgnoreCase("create")) {
             context.setState(new CreateState());

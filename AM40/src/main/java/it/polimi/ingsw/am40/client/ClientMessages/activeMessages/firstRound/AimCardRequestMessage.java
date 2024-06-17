@@ -9,8 +9,8 @@ public class AimCardRequestMessage extends Message {
      * It's the message that ask the server to send the two aim cards
      * The client will choose which one of the two aim cards he wants
      */
-    public AimCardRequestMessage() {
-        super("AIM_CARD_REQUEST");
+    public AimCardRequestMessage(String nickname) {
+        super("AIM_CARD_REQUEST",nickname);
     }
 
     /**

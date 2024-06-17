@@ -31,8 +31,8 @@ public class PlacingMessage extends Message {
      * @param cardFace is the face of the card that is going to be placed
      *                 it could be front or back
      */
-    public PlacingMessage(int handCard, Coordinates coordsToPlace, String cardFace) {
-        super("PLACING");
+    public PlacingMessage(String nickname, int handCard, Coordinates coordsToPlace, String cardFace) {
+        super("PLACING",nickname);
         this.handCard = handCard;
         this.coordsToPlace = coordsToPlace;
         this.cardFace = cardFace;

@@ -20,7 +20,7 @@ public class PositivePlacingMessage extends Message {
     private final int cardID;
 
     public PositivePlacingMessage(String clientNickname, int score, Map<CardElements, Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates, int cardID) {
-        super("POSITIVE_PLACING");
+        super("POSITIVE_PLACING",clientNickname);
         this.clientNickname = clientNickname;
         this.score = score;
         this.elementsCounter = elementsCounter;

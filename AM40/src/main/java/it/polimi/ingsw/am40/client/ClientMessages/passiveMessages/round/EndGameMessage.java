@@ -16,8 +16,8 @@ public class EndGameMessage extends Message {
      * This message is sent at the end game
      * @param winners is the name of the winners
      */
-    public EndGameMessage(List<String> winners) {
-        super("END_GAME_MESSAGE");
+    public EndGameMessage(String clientNickname, List<String> winners) {
+        super("END_GAME_MESSAGE",clientNickname);
         this.winners = winners;
     }
 

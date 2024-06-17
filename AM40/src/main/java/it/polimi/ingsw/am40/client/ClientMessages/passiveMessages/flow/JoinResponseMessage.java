@@ -24,7 +24,7 @@ public class JoinResponseMessage extends Message {
      * @param gameIDs is the list of the possible game that the client can join
      */
     public JoinResponseMessage(String clientNickname,ArrayList<Integer> gameIDs) {
-        super("POSITIVE_JOIN");
+        super("POSITIVE_JOIN",clientNickname);
         this.clientNickname = clientNickname;
         this.gamesIDs = gameIDs;
     }

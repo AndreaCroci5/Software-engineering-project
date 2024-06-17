@@ -22,8 +22,8 @@ public class AimCardInfoMessage extends Message {
      * This message contains the two aim cards for the client choice
      * @param amiCardsID is the list of the two cards in which the client has to choose one of them
      */
-    public AimCardInfoMessage(List<Integer> amiCardsID, String clientNickname) {
-        super("AIM_CARD_INFO");
+    public AimCardInfoMessage(String clientNickname, List<Integer> amiCardsID) {
+        super("AIM_CARD_INFO",clientNickname);
         this.clientNickname = clientNickname;
         this.aimCardsID = amiCardsID;
     }
