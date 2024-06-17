@@ -73,7 +73,8 @@ public class GameManager implements ActionListener {
 
     }
 
-
+    //TODO ANDREA delete the method below because the logic is implemented in InitializationAction,
+    // instead add the getter method for activeGames
     //PRIVATE METHODS
 //fixme incongruenza username e id player
     private void createNewGame(int gameID/*, List<Integer>*/){

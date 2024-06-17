@@ -409,7 +409,8 @@ public class VVServer implements ActionPoster, ActionListener  {
         p.logClient(c);
 
         if(p.getCurrentNumOfClients() == p.getTotalNumOfClients()){
-            this.notifyListeners(new InitializationAction(partyID, -1),this.listeners);
+            //FIXME add the parameters to the constructor below
+            //this.notifyListeners(new InitializationAction(partyID, -1),this.listeners);
         }
 
     }
