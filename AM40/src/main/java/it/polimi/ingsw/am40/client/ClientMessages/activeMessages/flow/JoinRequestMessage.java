@@ -1,9 +1,12 @@
 package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.flow.JoinRequestData;
 
 public class JoinRequestMessage extends Message {
+
+    private final String clientNickname;
 
     /**
      * Constructor fot the JoinMessage
@@ -11,6 +14,7 @@ public class JoinRequestMessage extends Message {
      */
     public JoinRequestMessage(String nickname) {
         super("JOIN_GAME",nickname);
+        this.clientNickname = nickname;
     }
 
     /**
@@ -18,8 +22,8 @@ public class JoinRequestMessage extends Message {
      * a data that is the object that is going through the network
      * @return the data that is going to the network
      */
-    public JoinRequestData messageToData() {
-        return new JoinRequestData();
+    public Data messageToData() {
+        return new JoinRequestData(this.clientNickname);
     }
 
 

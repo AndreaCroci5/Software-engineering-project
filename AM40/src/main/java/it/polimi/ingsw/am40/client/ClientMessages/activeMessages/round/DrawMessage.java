@@ -1,9 +1,12 @@
 package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.round.DrawData;
 
 public class DrawMessage extends Message {
+
+    private final String clientNickname;
 
     /**
      * It's the choice between golden and resource card
@@ -31,6 +34,7 @@ public class DrawMessage extends Message {
      */
     public DrawMessage(String nickname, String choice, int selection) {
         super("DRAW",nickname);
+        this.clientNickname = nickname;
         this.choice = choice;
         this.selection = selection;
     }
@@ -40,8 +44,8 @@ public class DrawMessage extends Message {
      * a data that is the object that is going through the network
      * @return the data that is going to the network
      */
-    public DrawData messageToData() {
-        return new DrawData(this.choice,this.selection);
+    public Data messageToData() {
+        return new DrawData(this.clientNickname,this.choice,this.selection);
     }
 
 }

@@ -1,9 +1,12 @@
 package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.flow.ChangeTurnRequestData;
 
 public class ChangeTurnRequestMessage extends Message {
+
+    private final String clientNickname;
 
     /**
      * Constructor for the ChangeTurnMessage
@@ -11,6 +14,7 @@ public class ChangeTurnRequestMessage extends Message {
      */
     public ChangeTurnRequestMessage(String nickname) {
         super("CHANGE_TURN",nickname);
+        this.clientNickname = nickname;
     }
 
     /**
@@ -18,8 +22,8 @@ public class ChangeTurnRequestMessage extends Message {
      * a data that is the object that is going through the network
      * @return the data that is going to the network
      */
-    public ChangeTurnRequestData messageToData() {
-        return new ChangeTurnRequestData();
+    public Data messageToData() {
+        return new ChangeTurnRequestData(this.clientNickname);
     }
 
 }

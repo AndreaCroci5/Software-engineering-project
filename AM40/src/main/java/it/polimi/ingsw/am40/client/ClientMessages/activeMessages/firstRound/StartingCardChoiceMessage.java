@@ -6,6 +6,8 @@ import it.polimi.ingsw.am40.data.active.firstRound.StartingCardChoiceData;
 
 public class StartingCardChoiceMessage extends Message {
 
+    private final String clientNickname;
+
     /**
      * It's the face that the client choose in order to place his starting card
      */
@@ -17,6 +19,7 @@ public class StartingCardChoiceMessage extends Message {
      */
     public StartingCardChoiceMessage(String nickname,String face) {
         super("STARTING_CARD_CHOICE",nickname);
+        this.clientNickname = nickname;
         this.face = face;
     }
 
@@ -26,6 +29,6 @@ public class StartingCardChoiceMessage extends Message {
      * @return the data that is going to the network
      */
     public Data messageToData() {
-        return new StartingCardChoiceData(this.face);
+        return new StartingCardChoiceData(this.clientNickname,this.face);
     }
 }

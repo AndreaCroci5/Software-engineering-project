@@ -1,9 +1,12 @@
 package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.flow.CreateRequestData;
 
 public class CreateRequestMessage extends Message {
+
+    private final String clientNickname;
 
     /**
      * It's the number of player that the client wants in the new game he created
@@ -17,6 +20,7 @@ public class CreateRequestMessage extends Message {
      */
     public CreateRequestMessage(String nickname, int numOfPlayer) {
         super("CREATE_GAME", nickname);
+        this.clientNickname = nickname;
         this.numOfPlayer = numOfPlayer;
     }
 
@@ -25,8 +29,8 @@ public class CreateRequestMessage extends Message {
      * a data that is the object that is going through the network
      * @return the data that is going to the network
      */
-    public CreateRequestData messageToData() {
-        return new CreateRequestData(this.numOfPlayer);
+    public Data messageToData() {
+        return new CreateRequestData(this.clientNickname,this.numOfPlayer);
     }
 
 }

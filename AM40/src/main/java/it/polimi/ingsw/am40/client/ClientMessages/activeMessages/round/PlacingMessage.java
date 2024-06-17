@@ -1,10 +1,13 @@
 package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.round.PlacingData;
 import it.polimi.ingsw.am40.server.model.Coordinates;
 
 public class PlacingMessage extends Message {
+
+    private final String clientNickname;
 
     /**
      * This is the ID of the card that the client want to place
@@ -33,6 +36,7 @@ public class PlacingMessage extends Message {
      */
     public PlacingMessage(String nickname, int handCard, Coordinates coordsToPlace, String cardFace) {
         super("PLACING",nickname);
+        this.clientNickname = nickname;
         this.handCard = handCard;
         this.coordsToPlace = coordsToPlace;
         this.cardFace = cardFace;
@@ -43,8 +47,8 @@ public class PlacingMessage extends Message {
      * a data that is the object that is going through the network
      * @return the data that is going to the network
      */
-    public PlacingData messageToData() {
-        return new PlacingData(this.handCard, this.coordsToPlace, this.cardFace);
+    public Data messageToData() {
+        return new PlacingData(this.clientNickname,this.handCard, this.coordsToPlace, this.cardFace);
     }
 
 }

@@ -287,13 +287,14 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
 
     // **TO FIX**
     @Override
-    public Message send(Message message) {
-        return null;
+    public void send(Message message) {
+        Data data = message.messageToData();
+        sendSerializedMessage(data);
     }
 
     // **TO FIX**
     @Override
-    public Message receive(Message message) {
-        return null;
+    public void receive(Data data) {
+
     }
 }

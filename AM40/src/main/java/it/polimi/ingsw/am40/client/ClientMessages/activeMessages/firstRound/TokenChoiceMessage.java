@@ -1,9 +1,12 @@
 package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.firstRound.TokenChoiceData;
 
 public class TokenChoiceMessage extends Message {
+
+    private final String clientNickname;
 
     /**
      * It's the color of the token choose by the client
@@ -18,6 +21,7 @@ public class TokenChoiceMessage extends Message {
      */
     public TokenChoiceMessage(String nickname,String token) {
         super("TOKEN_SELECTION",nickname);
+        this.clientNickname = nickname;
         this.token = token;
     }
 
@@ -26,8 +30,8 @@ public class TokenChoiceMessage extends Message {
      * a data that is the object that is going through the network
      * @return the data that is going to the network
      */
-    public TokenChoiceData messageToData() {
-        return new TokenChoiceData(this.token);
+    public Data messageToData() {
+        return new TokenChoiceData(this.clientNickname,this.token);
     }
 
 }

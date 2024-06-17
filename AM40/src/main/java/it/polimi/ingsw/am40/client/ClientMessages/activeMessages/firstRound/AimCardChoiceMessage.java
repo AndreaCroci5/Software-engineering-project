@@ -1,11 +1,13 @@
 package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.firstRound.AimCardChoiceData;
 
 
 public class AimCardChoiceMessage extends Message {
 
+    private final String clientNickname;
     /**
      * This attribute represents the ID of the AimCard chosen by the Client
      */
@@ -19,6 +21,7 @@ public class AimCardChoiceMessage extends Message {
      */
     public AimCardChoiceMessage(String nickname, int cardID) {
         super("AIM_CARD_SELECTION",nickname);
+        this.clientNickname = nickname;
         this.cardID = cardID;
     }
 
@@ -27,7 +30,7 @@ public class AimCardChoiceMessage extends Message {
      * a data that is the object that is going through the network
      * @return the data that is going to the network
      */
-    public AimCardChoiceData messageToData() {
-        return new AimCardChoiceData(cardID);
+    public Data messageToData() {
+        return new AimCardChoiceData(this.clientNickname,this.cardID);
     }
 }

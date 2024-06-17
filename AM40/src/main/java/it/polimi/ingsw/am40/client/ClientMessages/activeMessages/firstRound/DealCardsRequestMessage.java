@@ -6,11 +6,13 @@ import it.polimi.ingsw.am40.data.active.firstRound.DealCardsData;
 
 public class DealCardsRequestMessage extends Message {
 
+    private final String clientNickname;
     /**
      * This message is used to ask the server the 3 cards of the player hand
      */
     public DealCardsRequestMessage(String nickname) {
         super("CARDS_DEAL",nickname);
+        this.clientNickname = nickname;
     }
 
     /**
@@ -19,6 +21,6 @@ public class DealCardsRequestMessage extends Message {
      * @return the data that is going to the network
      */
     public Data messageToData() {
-        return new DealCardsData();
+        return new DealCardsData(this.clientNickname);
     }
 }

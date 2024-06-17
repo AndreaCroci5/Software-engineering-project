@@ -3,6 +3,7 @@ package it.polimi.ingsw.am40.client.network;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ConcreteContext;
+import it.polimi.ingsw.am40.data.Data;
 
 /**
  * The NetworkManagerInterface defines methods that each class which communicates through
@@ -36,7 +37,7 @@ public interface NetworkManagerClient extends ConcreteContext {
 
     Protocol getUsedProtocol();
 
-    Message send(Message message);
-    Message receive(Message message);
+    void send(Message message);
+    void receive(Data data);
 
 }

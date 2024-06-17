@@ -4,6 +4,7 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.NetworkManagerClient;
 import it.polimi.ingsw.am40.client.network.Protocol;
+import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.NoSuchObjectException;
@@ -180,12 +181,12 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
     }
 
     @Override
-    public Message send(Message message) {
-        return null;
+    public void send(Message message) {
+
     }
 
     @Override
-    public Message receive(Message message) {
-        return null;
+    public void receive(Data data) {
+
     }
 }
