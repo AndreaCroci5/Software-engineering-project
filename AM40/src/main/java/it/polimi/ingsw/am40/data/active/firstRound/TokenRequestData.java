@@ -17,6 +17,6 @@ public class TokenRequestData extends Data {
     //PUBLIC METHODS
 
     public Action onServer() {
-        return new TokenRequestAction(this.getGameID(),this.getPlayerID());
+        return new TokenRequestAction(this.getNickname(), this.getGameID(),this.getPlayerID());
     }
 }

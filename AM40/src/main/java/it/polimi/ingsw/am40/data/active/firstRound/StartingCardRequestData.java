@@ -24,7 +24,7 @@ public class StartingCardRequestData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return new StartingCardRequestAction(this.getGameID(), this.getPlayerID());
+        return new StartingCardRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }
 
     public Message onClient() {

@@ -26,7 +26,7 @@ public class DealCardsData extends Data {
 
 
     public Action onServer(){
-        return new DealCardsRequestAction(this.getGameID(), this.getPlayerID());
+        return new DealCardsRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }
 
     public Message onClient() {

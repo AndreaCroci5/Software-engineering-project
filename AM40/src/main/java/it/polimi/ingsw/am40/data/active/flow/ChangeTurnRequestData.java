@@ -23,7 +23,7 @@ public class ChangeTurnRequestData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return new ChangeTurnRequestAction(this.getGameID(), this.getPlayerID());
+        return new ChangeTurnRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }
 
     public Message onClient() {

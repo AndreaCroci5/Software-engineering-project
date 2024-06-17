@@ -21,6 +21,6 @@ public class AimCardRequestData extends Data {
     //PUBLIC METHODS
 
     public Action onServer() {
-        return new AimCardRequestAction(this.getGameID(), this.getPlayerID());
+        return new AimCardRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }
 }

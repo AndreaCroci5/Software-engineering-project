@@ -35,7 +35,7 @@ public class AimCardChoiceData extends Data {
      * @return an AimCardChoiceAction
      */
     public Action onServer(){
-        return new AimCardChoiceAction(this.getGameID(), this.getPlayerID(), this.choice);
+        return new AimCardChoiceAction(this.getNickname(),this.getGameID(), this.getPlayerID(), this.choice);
     }
 
     public Message onClient() {

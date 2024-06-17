@@ -22,7 +22,7 @@ public class PlayersOrderRequestData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return new PlayersOrderRequestAction(this.getGameID(), this.getPlayerID());
+        return new PlayersOrderRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }
 
     public Message onClient() {

@@ -37,7 +37,7 @@ public class DrawData extends Data {
         } else {
             source = 1;
         }
-        return new DrawAction(this.getGameID(), this.getPlayerID(), source, selection);
+        return new DrawAction(this.getNickname(), this.getGameID(), this.getPlayerID(), source, selection);
     }
 
     public Message onClient() {

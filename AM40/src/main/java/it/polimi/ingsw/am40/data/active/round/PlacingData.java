@@ -37,7 +37,7 @@ public class PlacingData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return new PlacingAction(this.getGameID(), this.getPlayerID(), this.choice, this.coordsToPlace, CardFace.valueOf(this.face.toUpperCase()));
+        return new PlacingAction(this.getNickname(), this.getGameID(), this.getPlayerID(), this.choice, this.coordsToPlace, CardFace.valueOf(this.face.toUpperCase()));
     }
 
     public Message onClient() {

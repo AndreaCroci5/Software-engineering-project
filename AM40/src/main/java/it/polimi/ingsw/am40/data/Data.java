@@ -106,6 +106,14 @@ public abstract class Data {
         return null;
     }
 
+
+    public String getNickname() {
+        return nickname;
+    }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     //GETTER AND SETTERS
     public String getDescription() {
         return description;

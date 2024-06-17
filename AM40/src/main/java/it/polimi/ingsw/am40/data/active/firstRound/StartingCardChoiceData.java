@@ -27,7 +27,7 @@ public class StartingCardChoiceData extends Data {
     //PUBLIC METHODS
 
     public Action onServer(){
-        return new StartingCardChoiceAction(this.getGameID(), this.getPlayerID(), CardFace.valueOf(this.face.toUpperCase()));
+        return new StartingCardChoiceAction(this.getNickname(), this.getGameID(), this.getPlayerID(), CardFace.valueOf(this.face.toUpperCase()));
     }
 
     public Message onClient() {

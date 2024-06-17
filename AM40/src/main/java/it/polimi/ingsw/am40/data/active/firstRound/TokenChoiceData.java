@@ -29,7 +29,7 @@ public class TokenChoiceData extends Data {
 
     public Action onServer(){
         Color color = Color.valueOf(this.token.toUpperCase());
-        return new TokenChoiceAction(this.getGameID(), this.getPlayerID(), color);
+        return new TokenChoiceAction(this.getNickname(), this.getGameID(), this.getPlayerID(), color);
     }
 
     public Message onClient() {
