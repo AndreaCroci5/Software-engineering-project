@@ -26,8 +26,8 @@ public class StartingCardResultAction extends Action {
     /**
      * Constructor for Positive Starting Card CardFace selection response
      */
-    public StartingCardResultAction(int gameID, int playerID, int startingCardID, Coordinates startingCardCoords, String cardFace, ArrayList<Coordinates> placingCoordinates, Map<CardElements,Integer> elementsCounter){
-        super("POSITIVE_STARTING_CARD", gameID, playerID);
+    public StartingCardResultAction(String nickname, int gameID, int playerID, int startingCardID, Coordinates startingCardCoords, String cardFace, ArrayList<Coordinates> placingCoordinates, Map<CardElements,Integer> elementsCounter){
+        super("POSITIVE_STARTING_CARD", nickname, gameID, playerID);
         this.startingCardID = startingCardID;
         this.startingCardCoords = startingCardCoords;
         this.cardFace = cardFace;
@@ -45,6 +45,6 @@ public class StartingCardResultAction extends Action {
     }
 
     public Data dataCreator() {
-        return null;
+        return new StartingCardResultData(this.getNickname(), this.startingCardID, this.startingCardCoords, this.cardFace, this.placingCoordinates, this.elementsCounter);
     }
 }

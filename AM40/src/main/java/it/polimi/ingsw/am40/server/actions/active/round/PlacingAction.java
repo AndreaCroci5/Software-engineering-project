@@ -29,8 +29,8 @@ public class PlacingAction extends Action {
     /**
      * Constructor for PLACING action
      */
-    public PlacingAction(int gameID, int playerID, int choice, Coordinates coordsToPlace, CardFace face ){
-        super("PLACING", gameID, playerID);
+    public PlacingAction(String nickname, int gameID, int playerID, int choice, Coordinates coordsToPlace, CardFace face ){
+        super("PLACING", nickname, gameID, playerID);
         this.choice = choice;
         this.coordsToPlace = coordsToPlace;
         this.face = face;
@@ -63,12 +63,12 @@ public class PlacingAction extends Action {
                 Map<CardElements,Integer> elementsCounter = playerData.getPrivateBoard().elementsCounterDifferences(tmpElementsCounter);
                 ArrayList<Coordinates> placingCoordinates = playerData.getPrivateBoard().getPlacingCoordinates();
                 //Response Action creation
-                gameContext.notifyListeners(new PositivePlacingAction(this.getGameID(), this.getPlayerID(), cardID, coordsCardPlaced, cardFace, score, elementsCounter, placingCoordinates), gameContext.getListeners());
+                gameContext.notifyListeners(new PositivePlacingAction(this.getNickname(), this.getGameID(), this.getPlayerID(), cardID, coordsCardPlaced, cardFace, score, elementsCounter, placingCoordinates), gameContext.getListeners());
             } else {
                 throw new RepeatPlacingException();
             }
         } catch (RepeatPlacingException e) {
-            gameContext.notifyListeners(new RepeatPlacingAction(this.getGameID(),this.getPlayerID()), gameContext.getListeners());
+            gameContext.notifyListeners(new RepeatPlacingAction(this.getNickname(), this.getGameID(),this.getPlayerID()), gameContext.getListeners());
         }
     }
 }

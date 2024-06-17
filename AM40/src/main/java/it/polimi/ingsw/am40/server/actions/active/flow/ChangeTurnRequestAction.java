@@ -23,8 +23,8 @@ public class ChangeTurnRequestAction extends Action {
     /**
      * Constructor for ChangeTurnRequestAction
      */
-    public ChangeTurnRequestAction(int gameID, int playerID){
-        super("CHANGE_TURN", gameID, playerID);
+    public ChangeTurnRequestAction(String nickname, int gameID, int playerID){
+        super("CHANGE_TURN", nickname, gameID, playerID);
     }
 
     /**
@@ -41,13 +41,13 @@ public class ChangeTurnRequestAction extends Action {
         if (gameContext.checkEndGame()) {
             //Last Rounds Triggered
             gameContext.calculateRemainingRounds();
-            gameContext.notifyListeners(new LastRoundsInfoAction(this.getGameID(),this.getPlayerID()), gameContext.getListeners());
+            gameContext.notifyListeners(new LastRoundsInfoAction(this.getNickname(), this.getGameID(),this.getPlayerID()), gameContext.getListeners());
             //Turn Change
             try{
                 gameContext.changePlayersTurn(gameContext.getIndexOfPlayingPlayer());
                 //Notification
                 int nextActivePlayerIndex = gameContext.getIndexOfPlayingPlayer();
-                gameContext.notifyListeners(new ChangeTurnInfoAction(this.getGameID(), this.getPlayerID(), nextActivePlayerIndex), gameContext.getListeners());
+                gameContext.notifyListeners(new ChangeTurnInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), nextActivePlayerIndex), gameContext.getListeners());
             } catch (TurnException e) {
                 //Forced Endgame
                 gameContext.calculateFinalScore();
@@ -57,7 +57,7 @@ public class ChangeTurnRequestAction extends Action {
                 for (Player p : winners) {
                     winnersNames.add(p.getNickname());
                 }
-                gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
+                gameContext.notifyListeners(new EndGameAction(this.getNickname(), this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
             }
         }
         else if (gameContext.getRemainingRounds() == 0) {
@@ -69,14 +69,14 @@ public class ChangeTurnRequestAction extends Action {
             for (Player p : winners) {
                 winnersNames.add(p.getNickname());
             }
-            gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
+            gameContext.notifyListeners(new EndGameAction(this.getNickname(), this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
         } else {
             //Normal Turn Change
             try{
                 gameContext.changePlayersTurn(gameContext.getIndexOfPlayingPlayer());
                 //Notification
                 int nextActivePlayerIndex = gameContext.getIndexOfPlayingPlayer();
-                gameContext.notifyListeners(new ChangeTurnInfoAction(this.getGameID(), this.getPlayerID(), nextActivePlayerIndex), gameContext.getListeners());
+                gameContext.notifyListeners(new ChangeTurnInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), nextActivePlayerIndex), gameContext.getListeners());
             } catch (TurnException e) {
                 //Forced Endgame
                 gameContext.calculateFinalScore();
@@ -86,7 +86,7 @@ public class ChangeTurnRequestAction extends Action {
                 for (Player p : winners) {
                     winnersNames.add(p.getNickname());
                 }
-                gameContext.notifyListeners(new EndGameAction(this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
+                gameContext.notifyListeners(new EndGameAction(this.getNickname(), this.getGameID(),this.getPlayerID(), winnersNames), gameContext.getListeners());
             }
         }
     }

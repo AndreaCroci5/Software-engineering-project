@@ -16,12 +16,12 @@ public class RepeatPlacingAction extends Action {
     /**
      * Constructor for Negative placing action response
      */
-    public RepeatPlacingAction(int gameID, int playerID){
-        super("REPEAT_PLACING", gameID, playerID);
+    public RepeatPlacingAction(String nickname, int gameID, int playerID){
+        super("REPEAT_PLACING", nickname, gameID, playerID);
     }
 
 
     public Data dataCreator() {
-        return null;
+        return new RepeatPlacingData(this.getNickname());
     }
 }

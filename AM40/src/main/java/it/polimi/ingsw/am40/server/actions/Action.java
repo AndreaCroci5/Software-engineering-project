@@ -18,6 +18,9 @@ public abstract class Action {
      */
     private final String description;
 
+    //TODO javadoc
+    private final String nickname;
+
     /**
      * The Actions are strictly connected with a specific game, which has a gameID (before partyID) thanks to the
      * NetworkParty class
@@ -38,8 +41,9 @@ public abstract class Action {
      * Constructor for action
      * @param description the description of the action
      */
-    public Action(String description, int gameID, int playerID){
+    public Action(String description, String nickname, int gameID, int playerID){
         this.gameID = gameID;
+        this.nickname = nickname;
         this.playerID = playerID;
         this.description = description;
     }
@@ -54,6 +58,10 @@ public abstract class Action {
      */
     public String getDescription() {
         return description;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     /**

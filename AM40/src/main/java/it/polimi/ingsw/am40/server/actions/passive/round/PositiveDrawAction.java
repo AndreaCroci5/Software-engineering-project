@@ -25,8 +25,8 @@ public class PositiveDrawAction extends Action {
     /** ID of the new Card on the top of the Deck*/
     private final int cardOnTopOfDeck;
 
-    public PositiveDrawAction(int gameID, int playerID, int cardDrawnID, int cardReplacedID, int replacePosition, int cardOnTopOfDeck) {
-        super("POSITIVE_DRAW", gameID, playerID);
+    public PositiveDrawAction(String nickname, int gameID, int playerID, int cardDrawnID, int cardReplacedID, int replacePosition, int cardOnTopOfDeck) {
+        super("POSITIVE_DRAW", nickname, gameID, playerID);
         this.cardDrawnID = cardDrawnID;
         this.cardReplacedID = cardReplacedID;
         this.replacePosition = replacePosition;
@@ -34,6 +34,6 @@ public class PositiveDrawAction extends Action {
     }
 
     public Data dataCreator() {
-        return null;
+        return new PositiveDrawData(this.getNickname(), this.cardDrawnID, this.cardReplacedID, this.replacePosition, this.cardOnTopOfDeck);
     }
 }

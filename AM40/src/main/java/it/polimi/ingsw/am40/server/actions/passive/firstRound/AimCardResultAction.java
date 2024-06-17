@@ -20,8 +20,8 @@ public class AimCardResultAction extends Action {
     /**
      * Constructor for AimCard choice selection response
      */
-    public AimCardResultAction(int gameID, int playerID, int aimCardChosenID){
-        super("AIM_CARD_SELECTED", gameID, playerID);
+    public AimCardResultAction(String nickname, int gameID, int playerID, int aimCardChosenID){
+        super("AIM_CARD_SELECTED", nickname, gameID, playerID);
         this.aimCardChosenID = aimCardChosenID;
     }
 
@@ -33,7 +33,7 @@ public class AimCardResultAction extends Action {
 
     @Override
     public Data dataCreator() {
-        return new AimCardResultData(this.aimCardChosenID);
+        return new AimCardResultData(this.getNickname(), this.aimCardChosenID);
     }
 
 }

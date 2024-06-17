@@ -23,8 +23,8 @@ public class DrawAction extends Action {
     /**
      * Constructor for DRAW action
      */
-    public DrawAction(int gameID, int playerID, int choice, int selection ){
-        super("DRAW", gameID, playerID);
+    public DrawAction(String nickname, int gameID, int playerID, int choice, int selection ){
+        super("DRAW", nickname, gameID, playerID);
         this.choice = choice;
         this.selection = selection;
     }
@@ -49,10 +49,10 @@ public class DrawAction extends Action {
             int cardReplacedID = gameContext.getCommonBoard().boardCardDifference(this.choice, this.selection);
             int deckCardReplacedID = gameContext.getCommonBoard().deckDifference(this.choice);
             //Positive Draw Notify
-            gameContext.notifyListeners(new PositiveDrawAction(this.getGameID(),this.getPlayerID(), cardDrawnID, cardReplacedID, this.selection, deckCardReplacedID), gameContext.getListeners());
+            gameContext.notifyListeners(new PositiveDrawAction(this.getNickname(), this.getGameID(),this.getPlayerID(), cardDrawnID, cardReplacedID, this.selection, deckCardReplacedID), gameContext.getListeners());
             
         } catch (RepeatDrawException e) {
-            gameContext.notifyListeners(new RepeatDrawAction(this.getGameID(), this.getPlayerID()), gameContext.getListeners());
+            gameContext.notifyListeners(new RepeatDrawAction(this.getNickname(), this.getGameID(), this.getPlayerID()), gameContext.getListeners());
         }
     }
 }

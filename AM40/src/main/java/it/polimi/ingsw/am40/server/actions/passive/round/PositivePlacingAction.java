@@ -36,8 +36,8 @@ public class PositivePlacingAction extends Action {
     /**
      * Constructor for Positive placing action response
      */
-    public PositivePlacingAction(int gameID, int playerID, int cardID, Coordinates coordsCardPlaced, String cardFace, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
-        super("POSITIVE_PLACING", gameID, playerID);
+    public PositivePlacingAction(String nickname, int gameID, int playerID, int cardID, Coordinates coordsCardPlaced, String cardFace, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
+        super("POSITIVE_PLACING", nickname, gameID, playerID);
         this.cardID = cardID;
         this.coordsCardPlaced = coordsCardPlaced;
         this.cardFace = cardFace;
@@ -57,7 +57,7 @@ public class PositivePlacingAction extends Action {
     }
 
     public Data dataCreator() {
-        return null;
+        return new PositivePlacingData(this.getNickname(), this.cardID, this.coordsCardPlaced, this.cardFace, this.score, this.elementsCounter, this.placingCoordinates);
     }
 
 }

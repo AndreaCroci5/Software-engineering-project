@@ -29,8 +29,8 @@ public class DealCardsResultAction extends Action {
     /**
      * Constructor for DealCardsResult Action
      */
-    public DealCardsResultAction(int gameID, int playerID, ArrayList<Integer> handDeckIDs, int deckResourceCardID, int deckGoldenCardID){
-        super("CARDS_DEAL_RESULT", gameID, playerID);
+    public DealCardsResultAction(String nickname, int gameID, int playerID, ArrayList<Integer> handDeckIDs, int deckResourceCardID, int deckGoldenCardID){
+        super("CARDS_DEAL_RESULT", nickname, gameID, playerID);
         this.handDeckIDs = handDeckIDs;
         this.deckResourceCardID = deckResourceCardID;
         this.deckGoldenCardID = deckGoldenCardID;
@@ -47,6 +47,6 @@ public class DealCardsResultAction extends Action {
 
 
     public Data dataCreator() {
-        return null;
+        return new DealCardsResultData(this.getNickname(), this.handDeckIDs, this.deckResourceCardID, this.deckGoldenCardID);
     }
 }

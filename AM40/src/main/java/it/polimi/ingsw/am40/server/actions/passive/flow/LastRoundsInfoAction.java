@@ -14,12 +14,12 @@ public class LastRoundsInfoAction extends Action {
     /**
      * Constructor for Last Rounds Information response when Endgame phase is triggered
      */
-    public LastRoundsInfoAction(int gameID, int playerID){
-        super("LAST_ROUNDS", gameID, playerID);
+    public LastRoundsInfoAction(String nickname, int gameID, int playerID){
+        super("LAST_ROUNDS", nickname, gameID, playerID);
     }
 
 
     public Data dataCreator() {
-        return null;
+        return  new LastRoundsInfoData(this.getNickname());
     }
 }

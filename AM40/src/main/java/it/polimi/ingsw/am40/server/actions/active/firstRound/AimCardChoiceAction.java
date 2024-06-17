@@ -19,8 +19,8 @@ public class AimCardChoiceAction extends Action {
     /**
      * Constructor for AimCardChoiceAction
      */
-    public AimCardChoiceAction(int gameID, int playerID, int choice){
-        super("AIM_CARD_SELECTION", gameID, playerID);
+    public AimCardChoiceAction(String nickname, int gameID, int playerID, int choice){
+        super("AIM_CARD_SELECTION", nickname, gameID, playerID);
         this.choice = choice;
     }
 
@@ -38,6 +38,6 @@ public class AimCardChoiceAction extends Action {
         int playerIndex = gameContext.getIndexOfPlayingPlayer();
         int aimCardChosenID = gameContext.getPlayers().get(playerIndex).getPrivateAim().getCardID();
         //Notification
-        gameContext.notifyListeners(new AimCardResultAction(this.getGameID(), this.getPlayerID(), aimCardChosenID), gameContext.getListeners());
+        gameContext.notifyListeners(new AimCardResultAction(this.getNickname(), this.getGameID(), this.getPlayerID(), aimCardChosenID), gameContext.getListeners());
     }
 }

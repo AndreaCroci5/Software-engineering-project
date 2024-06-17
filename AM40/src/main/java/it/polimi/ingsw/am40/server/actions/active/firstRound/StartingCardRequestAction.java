@@ -13,8 +13,8 @@ public class StartingCardRequestAction extends Action {
     /**
      * Constructor for StartingCardRequestAction
      */
-    public StartingCardRequestAction(int gameID, int playerID){
-        super("STARTING_CARD_REQUEST", gameID, playerID);
+    public StartingCardRequestAction(String nickname, int gameID, int playerID){
+        super("STARTING_CARD_REQUEST", nickname, gameID, playerID);
     }
 
     /**
@@ -29,6 +29,6 @@ public class StartingCardRequestAction extends Action {
         activePP.addCardToHand(gameContext.getCommonBoard().getStartingDeck().pickFromTop());
         int startingCardID = activePP.getHandDeck().getFirst().getCardID();
         //Changes Notification
-        gameContext.notifyListeners(new StartingCardInfoAction(this.getGameID(), this.getPlayerID(), startingCardID), gameContext.getListeners());
+        gameContext.notifyListeners(new StartingCardInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), startingCardID), gameContext.getListeners());
     }
 }

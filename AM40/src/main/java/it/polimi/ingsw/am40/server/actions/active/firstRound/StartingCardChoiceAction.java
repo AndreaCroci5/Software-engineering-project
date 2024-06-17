@@ -24,8 +24,8 @@ public class StartingCardChoiceAction extends Action{
     /**
      * Constructor for StartingCardChoiceAction
      */
-    public StartingCardChoiceAction(int gameID, int playerID, CardFace cardFace){
-        super("STARTING_CARD_CHOICE", gameID, playerID);
+    public StartingCardChoiceAction(String nickname, int gameID, int playerID, CardFace cardFace){
+        super("STARTING_CARD_CHOICE", nickname, gameID, playerID);
         this.cardFace = cardFace;
     }
 
@@ -44,6 +44,6 @@ public class StartingCardChoiceAction extends Action{
         ArrayList<Coordinates> placingCoordinates = gameContext.getPlayers().get(gameContext.getIndexOfPlayingPlayer()).getPrivateBoard().getPlacingCoordinates();
         Map<CardElements,Integer> elementsCounter = gameContext.getPlayers().get(gameContext.getIndexOfPlayingPlayer()).getPrivateBoard().getElementsCounter();
         //Changes Notification
-        gameContext.notifyListeners(new StartingCardResultAction(this.getGameID(), this.getPlayerID(), startingCardID, startingCardCoords, this.cardFace.toString(), placingCoordinates, elementsCounter), gameContext.getListeners());
+        gameContext.notifyListeners(new StartingCardResultAction(this.getNickname(), this.getGameID(), this.getPlayerID(), startingCardID, startingCardCoords, this.cardFace.toString(), placingCoordinates, elementsCounter), gameContext.getListeners());
     }
 }

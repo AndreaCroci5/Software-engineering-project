@@ -14,12 +14,12 @@ public class RepeatDrawAction extends Action {
     /**
      * Constructor for Negative Draw action response
      */
-    public RepeatDrawAction(int gameID, int playerID){
-        super("REPEAT_DRAW", gameID, playerID);
+    public RepeatDrawAction(String nickname, int gameID, int playerID){
+        super("REPEAT_DRAW", nickname, gameID, playerID);
     }
 
 
     public Data dataCreator() {
-        return null;
+        return new RepeatDrawData(this.getNickname());
     }
 }

@@ -15,8 +15,8 @@ public class TokenInfoAction extends Action {
     /**
      * Constructor for TokenInfoAction
      */
-    public TokenInfoAction(int gameID, int playerID, List<String> remainingColors){
-        super("TOKEN_INFO", gameID, playerID);
+    public TokenInfoAction(String nickname, int gameID, int playerID, List<String> remainingColors){
+        super("TOKEN_INFO", nickname, gameID, playerID);
         this.remainingColors = remainingColors;
     }
 
@@ -30,6 +30,6 @@ public class TokenInfoAction extends Action {
     }
 
     public Data dataCreator() {
-        return null;
+        return new TokenInfoData(this.getNickname(), this.remainingColors);
     }
 }

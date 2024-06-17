@@ -19,8 +19,8 @@ public class PlayersOrderInfoAction extends Action {
     /**
      * Constructor for AimCard choice selection response
      */
-    public PlayersOrderInfoAction(int gameID, int playerID, ArrayList<String> nicknames){
-        super("PLAYERS_ORDER_INFO", gameID, playerID);
+    public PlayersOrderInfoAction(String nickname, int gameID, int playerID, ArrayList<String> nicknames){
+        super("PLAYERS_ORDER_INFO", nickname, gameID, playerID);
         this.nicknames = nicknames;
     }
 
@@ -36,7 +36,7 @@ public class PlayersOrderInfoAction extends Action {
     }
 
     public Data dataCreator() {
-        return new PlayersOrderInfoData(this.nicknames);
+        return new PlayersOrderInfoData(this.getNickname(), this.nicknames);
     }
 
 }

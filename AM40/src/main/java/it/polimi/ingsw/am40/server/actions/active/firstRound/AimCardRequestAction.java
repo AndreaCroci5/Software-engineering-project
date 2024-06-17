@@ -17,8 +17,8 @@ public class AimCardRequestAction extends Action {
     /**
      * Constructor for AimCardRequestAction
      */
-    public AimCardRequestAction(int gameID, int playerID){
-        super("AIM_CARD_REQUEST", gameID, playerID);
+    public AimCardRequestAction(String nickname, int gameID, int playerID){
+        super("AIM_CARD_REQUEST", nickname, gameID, playerID);
     }
 
     /**
@@ -36,7 +36,7 @@ public class AimCardRequestAction extends Action {
         gameContext.getCommonBoard().getAimDeck().addToTop(tmp);
 
         //Notification
-        gameContext.notifyListeners(new AimCardInfoAction(this.getGameID(), this.getPlayerID(), aimID1, aimID2), gameContext.getListeners());
+        gameContext.notifyListeners(new AimCardInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), aimID1, aimID2), gameContext.getListeners());
     }
 
 }

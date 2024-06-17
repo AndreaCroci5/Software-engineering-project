@@ -13,8 +13,8 @@ public class StartingCardInfoAction extends Action {
     /**
      * Constructor for StartingCardInfoAction
      */
-    public StartingCardInfoAction(int gameID, int playerID, int startingCardID){
-        super("STARTING_CARD_INFO", gameID, playerID);
+    public StartingCardInfoAction(String nickname, int gameID, int playerID, int startingCardID){
+        super("STARTING_CARD_INFO", nickname, gameID, playerID);
         this.startingCardID = startingCardID;
     }
 
@@ -28,6 +28,6 @@ public class StartingCardInfoAction extends Action {
     }
 
     public Data dataCreator() {
-        return null;
+        return new StartingCardInfoData(this.getNickname(), this.startingCardID);
     }
 }

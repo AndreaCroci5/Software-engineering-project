@@ -19,8 +19,8 @@ public class DealCardsRequestAction extends Action {
     /**
      * Constructor for DealCardsRequestAction
      */
-    public DealCardsRequestAction(int gameID, int playerID){
-        super("CARDS_DEAL", gameID, playerID);
+    public DealCardsRequestAction(String nickname,int gameID, int playerID){
+        super("CARDS_DEAL", nickname, gameID, playerID);
     }
 
     /**
@@ -46,7 +46,7 @@ public class DealCardsRequestAction extends Action {
         int deckGoldenCardID = gameContext.getCommonBoard().getGoldenResourceDeck().peekFirstCard();
 
         //Notify listeners
-        gameContext.notifyListeners(new DealCardsResultAction(this.getGameID(), this.getPlayerID(), handDeckIDs, deckResourceCardID, deckGoldenCardID), gameContext.getListeners());
+        gameContext.notifyListeners(new DealCardsResultAction(this.getNickname(), this.getGameID(), this.getPlayerID(), handDeckIDs, deckResourceCardID, deckGoldenCardID), gameContext.getListeners());
 
     }
 

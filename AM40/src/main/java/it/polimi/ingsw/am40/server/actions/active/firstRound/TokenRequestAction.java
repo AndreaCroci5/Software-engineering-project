@@ -14,8 +14,8 @@ public class TokenRequestAction extends Action {
     /**
      * Constructor for TokenRequestAction
      */
-    public TokenRequestAction(int gameID, int playerID){
-        super("TOKEN_REQUEST", gameID, playerID);
+    public TokenRequestAction(String nickname, int gameID, int playerID){
+        super("TOKEN_REQUEST", nickname, gameID, playerID);
     }
 
     /**
@@ -30,6 +30,6 @@ public class TokenRequestAction extends Action {
         //Remaining colors check
         colors = gameContext.remainingTokenColors();
         //Changes Notification
-        gameContext.notifyListeners(new TokenInfoAction(this.getGameID(), this.getPlayerID(), colors), gameContext.getListeners());
+        gameContext.notifyListeners(new TokenInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), colors), gameContext.getListeners());
     }
 }

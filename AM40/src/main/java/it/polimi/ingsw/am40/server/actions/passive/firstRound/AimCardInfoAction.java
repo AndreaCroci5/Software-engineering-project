@@ -19,8 +19,8 @@ public class AimCardInfoAction extends Action {
     /**
      * Constructor for AimCardInfoAction
      */
-    public AimCardInfoAction(int gameID, int playerID, int aimID1, int aimID2){
-        super("AIM_CARD_INFO", gameID, playerID);
+    public AimCardInfoAction(String nickname, int gameID, int playerID, int aimID1, int aimID2){
+        super("AIM_CARD_INFO", nickname, gameID, playerID);
         this.aimID1 = aimID1;
         this.aimID2 = aimID2;
     }
@@ -37,7 +37,7 @@ public class AimCardInfoAction extends Action {
 
     @Override
     public Data dataCreator() {
-        return new AimCardInfoData(this.aimID1, this.aimID2);
+        return new AimCardInfoData(this.getNickname(),this.aimID1, this.aimID2);
     }
 
 }

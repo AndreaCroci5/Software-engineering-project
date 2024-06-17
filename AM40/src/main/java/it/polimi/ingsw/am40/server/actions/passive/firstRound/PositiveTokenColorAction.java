@@ -16,8 +16,8 @@ public class PositiveTokenColorAction extends Action {
     /**
      * Constructor for PositiveTokenAction response
      */
-    public PositiveTokenColorAction(int gameID, int playerID, String color){
-        super("POSITIVE_TOKEN_COLOR", gameID, playerID);
+    public PositiveTokenColorAction(String nickname, int gameID, int playerID, String color){
+        super("POSITIVE_TOKEN_COLOR", nickname, gameID, playerID);
         this.color = color;
     }
 
@@ -31,6 +31,6 @@ public class PositiveTokenColorAction extends Action {
     }
 
     public Data dataCreator() {
-        return null;
+        return new PositiveTokenColorData(this.getNickname(), this.color);
     }
 }

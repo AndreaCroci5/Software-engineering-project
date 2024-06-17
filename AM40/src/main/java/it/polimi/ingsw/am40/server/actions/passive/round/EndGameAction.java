@@ -22,8 +22,8 @@ public class EndGameAction extends Action {
     /**
      * Constructor for EndGameAction
      */
-    public EndGameAction(int gameID, int playerID, List<String> winners){
-        super("ENDGAME", gameID, playerID);
+    public EndGameAction(String nickname, int gameID, int playerID, List<String> winners){
+        super("ENDGAME", nickname, gameID, playerID);
         this.winners = winners;
     }
 
@@ -37,6 +37,6 @@ public class EndGameAction extends Action {
     }
 
     public Data dataCreator() {
-        return new EndGameData(this.winners);
+        return new EndGameData(this.getNickname(), this.winners);
     }
 }

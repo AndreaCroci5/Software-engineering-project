@@ -13,8 +13,8 @@ public class PlayersOrderRequestAction extends Action {
     /**
      * Constructor for PlayersOrderRequestAction
      */
-    public PlayersOrderRequestAction(int gameID, int playerID){
-        super("PLAYERS_ORDER_REQUEST", gameID, playerID);
+    public PlayersOrderRequestAction(String nickname, int gameID, int playerID){
+        super("PLAYERS_ORDER_REQUEST", nickname, gameID, playerID);
     }
 
     /**
@@ -34,7 +34,7 @@ public class PlayersOrderRequestAction extends Action {
         }
 
         //Notification
-        gameContext.notifyListeners(new PlayersOrderInfoAction(this.getGameID(), this.getPlayerID(), nicknames), gameContext.getListeners());
+        gameContext.notifyListeners(new PlayersOrderInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), nicknames), gameContext.getListeners());
     }
 
 }
