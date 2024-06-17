@@ -14,8 +14,6 @@ import java.util.Map;
 @JsonTypeName("POSITIVE_STARTING_CARD")
 public class StartingCardResultData extends Data {
     //ATTRIBUTES
-    /** Nickname of the Player that has just chosen the StartingCard CardFace*/
-    private String playerNickname;
     private int startingCardID;
     private Coordinates startingCardCoords;
     private String cardFace;
@@ -25,9 +23,8 @@ public class StartingCardResultData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public StartingCardResultData(String playerNickname, int startingCardID, Coordinates startingCardCoords, String cardFace, ArrayList<Coordinates> placingCoordinates, Map<CardElements,Integer> elementsCounter) {
-        super("POSITIVE_STARTING_CARD");
-        this.playerNickname = playerNickname;
+    public StartingCardResultData(String nickname, int startingCardID, Coordinates startingCardCoords, String cardFace, ArrayList<Coordinates> placingCoordinates, Map<CardElements,Integer> elementsCounter) {
+        super("POSITIVE_STARTING_CARD", nickname);
         this.startingCardID = startingCardID;
         this.startingCardCoords = startingCardCoords;
         this.cardFace = cardFace;

@@ -17,8 +17,8 @@ public class DrawData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public DrawData(String choice, int selection) {
-        super("DRAW");
+    public DrawData(String nickname, String choice, int selection) {
+        super("DRAW", nickname);
         this.choice = choice;
         this.selection = selection;
     }

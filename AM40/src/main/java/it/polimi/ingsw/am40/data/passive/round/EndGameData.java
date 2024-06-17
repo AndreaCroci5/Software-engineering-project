@@ -16,8 +16,8 @@ public class EndGameData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public EndGameData(List<String> winners) {
-        super("ENDGAME");
+    public EndGameData(String nickname, List<String> winners) {
+        super("ENDGAME", nickname);
         this.winners = winners;
     }
     //Json constructor

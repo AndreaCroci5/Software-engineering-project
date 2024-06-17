@@ -8,9 +8,6 @@ import it.polimi.ingsw.am40.server.actions.Action;
 @JsonTypeName("POSITIVE_TOKEN_COLOR")
 public class PositiveTokenColorData extends Data {
     //ATTRIBUTES
-    /** Nickname of the Player that has just chosen the Token Color*/
-    private String playerNickname;
-
     /** Color of the Token chosen by the Player*/
     private String color;
 
@@ -19,9 +16,8 @@ public class PositiveTokenColorData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public PositiveTokenColorData(String playerNickname, String color) {
-        super("POSITIVE_TOKEN_COLOR");
-        this.playerNickname = playerNickname;
+    public PositiveTokenColorData(String nickname, String color) {
+        super("POSITIVE_TOKEN_COLOR", nickname);
         this.color = color;
     }
     //Json constructor

@@ -14,8 +14,8 @@ public class AimCardResultData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public AimCardResultData(int aimCardChosenID) {
-        super("AIM_CARD_SELECTED");
+    public AimCardResultData(String nickname, int aimCardChosenID) {
+        super("AIM_CARD_SELECTED", nickname);
         this.aimCardChosenID = aimCardChosenID;
     }
     //Json constructor

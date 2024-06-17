@@ -6,7 +6,11 @@ import it.polimi.ingsw.am40.data.Data;
 @JsonTypeName("JOIN_GAME")
 public class JoinRequestData extends Data {
 
-    public JoinRequestData() {
-        super("JOIN_GAME");
+    public JoinRequestData(String nickname) {
+        super("JOIN_GAME", nickname);
+    }
+
+    public JoinRequestData(){
+
     }
 }

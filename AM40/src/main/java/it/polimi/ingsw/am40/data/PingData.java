@@ -9,7 +9,7 @@ public class PingData extends Data{
     //FIXME *
     //Json constructor
     public PingData(){
-        super("PING");
+        super("PING", "PING_USER");
     }
 
     //PUBLIC METHODS

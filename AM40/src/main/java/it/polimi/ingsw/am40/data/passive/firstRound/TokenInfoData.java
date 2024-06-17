@@ -15,8 +15,8 @@ public class TokenInfoData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public TokenInfoData(List<String> colors) {
-        super("TOKEN_INFO");
+    public TokenInfoData(String nickname, List<String> colors) {
+        super("TOKEN_INFO", nickname);
         this.colors = colors;
     }
     //Json constructor

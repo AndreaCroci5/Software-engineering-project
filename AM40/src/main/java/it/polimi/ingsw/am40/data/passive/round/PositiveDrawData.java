@@ -8,9 +8,6 @@ import it.polimi.ingsw.am40.server.actions.Action;
 @JsonTypeName("POSITIVE_DRAW")
 public class PositiveDrawData extends Data {
     //ATTRIBUTES+
-    /** Nickname of the Player that has just made the draw*/
-    private String playerNickname;
-
     /** ID of the Card drawn*/
     private int cardDrawnID;
 
@@ -28,9 +25,8 @@ public class PositiveDrawData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public PositiveDrawData(String playerNickname, int cardDrawnID, int cardReplacedID, int replacePosition, int cardOnTopOfDeck) {
-        super("POSITIVE_DRAW");
-        this.playerNickname = playerNickname;
+    public PositiveDrawData(String nickname, int cardDrawnID, int cardReplacedID, int replacePosition, int cardOnTopOfDeck) {
+        super("POSITIVE_DRAW", nickname);
         this.cardDrawnID = cardDrawnID;
         this.cardReplacedID = cardReplacedID;
         this.replacePosition = replacePosition;

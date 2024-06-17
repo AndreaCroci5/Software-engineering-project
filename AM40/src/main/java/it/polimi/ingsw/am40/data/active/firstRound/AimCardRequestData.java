@@ -9,11 +9,15 @@ import it.polimi.ingsw.am40.server.actions.active.firstRound.AimCardRequestActio
 public class AimCardRequestData extends Data {
 
     //CONSTRUCTOR
-    //Logic and Json constructor for subclasses
-    public AimCardRequestData () {
-        super("AIM_CARD_REQUEST");
+    //Logic constructor for subclasses
+    public AimCardRequestData (String nickname) {
+        super("AIM_CARD_REQUEST", nickname);
     }
 
+    //Json constructor
+    public AimCardRequestData(){
+
+    }
     //PUBLIC METHODS
 
     public Action onServer() {

@@ -13,10 +13,14 @@ public class StartingCardChoiceData extends Data {
     private final String face;
 
     //CONSTRUCTOR
-    //Logic and Json constructor for subclasses
-    public StartingCardChoiceData(String face) {
-        super("STARTING_CARD_CHOICE");
+    //Logic constructor for subclasses
+    public StartingCardChoiceData(String nickname, String face) {
+        super("STARTING_CARD_CHOICE", nickname);
         this.face = face;
+    }
+    //Json constructor
+    public StartingCardChoiceData(){
+
     }
 
 

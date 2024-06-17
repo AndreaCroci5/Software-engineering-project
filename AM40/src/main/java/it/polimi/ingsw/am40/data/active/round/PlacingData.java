@@ -21,8 +21,8 @@ public class PlacingData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public PlacingData(int choice, Coordinates coordsToPlace, String face) {
-        super("PLACING");
+    public PlacingData(String nickname, int choice, Coordinates coordsToPlace, String face) {
+        super("PLACING", nickname);
         this.choice = choice;
         this.coordsToPlace = coordsToPlace;
         this.face = face;

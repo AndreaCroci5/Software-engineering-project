@@ -8,15 +8,12 @@ import it.polimi.ingsw.am40.server.actions.Action;
 @JsonTypeName("REPEAT_DRAW")
 public class RepeatDrawData extends Data {
     //ATTRIBUTES
-    /** Nickname of the Player that has just made the draw*/
-    private String playerNickname;
 
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public RepeatDrawData(String playerNickname){
-        super("REPEAT_DRAW");
-        this.playerNickname = playerNickname;
+    public RepeatDrawData(String nickname){
+        super("REPEAT_DRAW", nickname);
     }
     //Json constructor
     public RepeatDrawData(){

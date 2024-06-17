@@ -8,8 +8,12 @@ public class GameIDChoiceData extends Data {
 
     private int gameIDChoice;
 
-    public GameIDChoiceData(int gameIDChoice) {
-        super("GAME_ID_CHOICE");
+    public GameIDChoiceData(String nickname, int gameIDChoice) {
+        super("GAME_ID_CHOICE", nickname);
         this.gameIDChoice = gameIDChoice;
+    }
+
+    public GameIDChoiceData(){
+
     }
 }

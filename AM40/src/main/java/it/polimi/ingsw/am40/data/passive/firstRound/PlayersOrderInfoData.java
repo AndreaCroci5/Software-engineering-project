@@ -14,8 +14,8 @@ public class PlayersOrderInfoData extends Data {
 
     //CONSTRUCTOR
     //Logic constructor for subclasses
-    public PlayersOrderInfoData(ArrayList<String> players) {
-        super("PLAYERS_ORDER_INFO");
+    public PlayersOrderInfoData(String nickname, ArrayList<String> players) {
+        super("PLAYERS_ORDER_INFO", nickname);
         this.players = players;
     }
 

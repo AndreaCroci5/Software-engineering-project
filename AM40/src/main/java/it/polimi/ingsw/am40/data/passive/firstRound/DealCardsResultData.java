@@ -10,9 +10,6 @@ import java.util.ArrayList;
 @JsonTypeName("CARDS_DEAL_RESULT")
 public class DealCardsResultData extends Data {
     //ATTRIBUTES
-    /** Nickname of the Player that just got the cards dealt*/
-    private String playerNickname;
-
     /** Reference to the Array of Integers that represents the cardIDs of the Cards held in a Player's PrivateBoard's handDeck*/
     private ArrayList<Integer> handDeckIDs;
 
@@ -25,9 +22,8 @@ public class DealCardsResultData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public DealCardsResultData(String playerNickname, ArrayList<Integer> handDeckIDs, int deckResourceCardID, int deckGoldenCardID){
-        super("CARDS_DEAL_RESULT");
-        this.playerNickname = playerNickname;
+    public DealCardsResultData(String nickname, ArrayList<Integer> handDeckIDs, int deckResourceCardID, int deckGoldenCardID){
+        super("CARDS_DEAL_RESULT", nickname);
         this.handDeckIDs = handDeckIDs;
         this.deckResourceCardID = deckResourceCardID;
         this.deckGoldenCardID = deckGoldenCardID;

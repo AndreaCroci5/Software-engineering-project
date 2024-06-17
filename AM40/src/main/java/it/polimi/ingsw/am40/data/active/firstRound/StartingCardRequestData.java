@@ -11,9 +11,13 @@ public class StartingCardRequestData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses and Json constructor
+    //Logic constructor for subclasses
+    public StartingCardRequestData(String nickname) {
+        super("STARTING_CARD_REQUEST", nickname);
+    }
+    //Json constructor
     public StartingCardRequestData() {
-        super("STARTING_CARD_REQUEST");
+
     }
 
 

@@ -8,16 +8,12 @@ import it.polimi.ingsw.am40.server.actions.Action;
 @JsonTypeName("LAST_ROUNDS")
 public class LastRoundsInfoData extends Data {
     //ATTRIBUTES
-    /** Nickname of the Player that has triggered the Last Rounds Phase*/
-    private String playerNickname;
 
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public LastRoundsInfoData(String playerNickname) {
-        super("LAST_ROUNDS");
-        this.playerNickname = playerNickname;
-
+    public LastRoundsInfoData(String nickname) {
+        super("LAST_ROUNDS", nickname);
     }
     //Json constructor
     public LastRoundsInfoData(){

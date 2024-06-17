@@ -68,6 +68,8 @@ public abstract class Data {
      */
     private String description;
 
+    private String nickname;
+
     //Attributes used to orientate on the server, not useful for the Data itself, only for the Action creation
     private int gameID;
     private int playerID;
@@ -76,7 +78,7 @@ public abstract class Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public Data(String description) {
+    public Data(String description, String nickname) {
         this.description = description;
     }
     //Json Constructor

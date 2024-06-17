@@ -15,8 +15,8 @@ public class TokenChoiceData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public TokenChoiceData(String token) {
-        super("TOKEN_SELECTION");
+    public TokenChoiceData(String nickname, String token) {
+        super("TOKEN_SELECTION", nickname);
         this.token = token;
     }
 

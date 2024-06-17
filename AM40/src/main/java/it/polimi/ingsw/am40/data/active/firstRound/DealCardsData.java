@@ -12,11 +12,18 @@ public class DealCardsData extends Data {
 
     //CONSTRUCTOR
     //Logic constructor and Json constructor for subclasses
-    public  DealCardsData() {
-        super("CARDS_DEAL");
+    public DealCardsData(String nickname) {
+        super("CARDS_DEAL", nickname);
     }
 
+    //Json constructor
+    public DealCardsData() {
+
+    }
+
+
     //PUBLIC METHODS
+
 
     public Action onServer(){
         return new DealCardsRequestAction(this.getGameID(), this.getPlayerID());

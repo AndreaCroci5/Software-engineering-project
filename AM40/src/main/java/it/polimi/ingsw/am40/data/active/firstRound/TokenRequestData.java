@@ -10,8 +10,8 @@ public class TokenRequestData extends Data {
 
     //CONSTRUCTOR
     //Logic and Json constructor for subclasses
-    public TokenRequestData() {
-        super("TOKEN_REQUEST");
+    public TokenRequestData(String nickname) {
+        super("TOKEN_REQUEST", nickname);
     }
 
     //PUBLIC METHODS

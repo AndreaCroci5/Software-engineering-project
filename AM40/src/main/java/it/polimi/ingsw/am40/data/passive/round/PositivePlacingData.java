@@ -13,9 +13,6 @@ import java.util.Map;
 @JsonTypeName("POSITIVE_PLACING")
 public class PositivePlacingData extends Data {
     //ATTRIBUTES
-    /** Nickname of the Player that has just made the draw*/
-    private String playerNickname;
-
     /** Amount of points that a Player has*/
     private int score;
 
@@ -34,9 +31,8 @@ public class PositivePlacingData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public PositivePlacingData(String playerNickname, int cardID, Coordinates coordsCardPlaced, String cardFace, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
-        super("POSITIVE_PLACING");
-        this.playerNickname = playerNickname;
+    public PositivePlacingData(String nickname, int cardID, Coordinates coordsCardPlaced, String cardFace, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
+        super("POSITIVE_PLACING", nickname);
         this.cardID = cardID;
         this.coordsCardPlaced = coordsCardPlaced;
         this.cardFace = cardFace;

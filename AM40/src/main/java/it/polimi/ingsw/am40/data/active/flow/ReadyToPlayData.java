@@ -6,7 +6,11 @@ import it.polimi.ingsw.am40.data.Data;
 @JsonTypeName("READY_TO_PLAY")
 public class ReadyToPlayData extends Data {
 
-    public ReadyToPlayData() {
-        super("READY_TO_PLAY");
+    public ReadyToPlayData(String nickname) {
+        super("READY_TO_PLAY", nickname);
+    }
+
+    public ReadyToPlayData(){
+
     }
 }

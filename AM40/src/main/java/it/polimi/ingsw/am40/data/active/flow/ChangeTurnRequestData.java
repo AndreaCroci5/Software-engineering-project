@@ -11,8 +11,13 @@ public class ChangeTurnRequestData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor and Json constructor for subclasses
+    public ChangeTurnRequestData(String nickname) {
+        super("CHANGE_TURN", nickname);
+    }
+
+    //Json constructor
     public ChangeTurnRequestData() {
-        super("CHANGE_TURN");
+
     }
 
     //PUBLIC METHODS

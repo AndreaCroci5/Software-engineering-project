@@ -14,8 +14,8 @@ public class ChangeTurnInfoData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public ChangeTurnInfoData(String nextActivePlayer) {
-        super("CHANGE_TURN_INFO");
+    public ChangeTurnInfoData(String nickname, String nextActivePlayer) {
+        super("CHANGE_TURN_INFO", nickname);
         this.nextActivePlayer = nextActivePlayer;
     }
     //Json constructor

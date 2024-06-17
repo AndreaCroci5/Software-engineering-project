@@ -13,8 +13,8 @@ public class StartingCardInfoData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public StartingCardInfoData(int startingCardID) {
-        super("AIM_CARD_INFO");
+    public StartingCardInfoData(String nickname, int startingCardID) {
+        super("AIM_CARD_INFO", nickname);
         this.startingCardID = startingCardID;
     }
     //Json constructor

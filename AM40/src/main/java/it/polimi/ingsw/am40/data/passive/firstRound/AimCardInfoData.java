@@ -14,8 +14,8 @@ public class AimCardInfoData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public AimCardInfoData(int aimID1, int aimID2) {
-        super("AIM_CARD_INFO");
+    public AimCardInfoData(String nickname, int aimID1, int aimID2) {
+        super("AIM_CARD_INFO", nickname);
         this.aimID1 = aimID1;
         this.aimID2 = aimID2;
     }
