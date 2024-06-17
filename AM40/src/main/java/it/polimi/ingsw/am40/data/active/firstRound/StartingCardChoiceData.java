@@ -10,7 +10,7 @@ import it.polimi.ingsw.am40.server.model.CardFace;
 @JsonTypeName("STARTING_CARD_CHOICE")
 public class StartingCardChoiceData extends Data {
     //ATTRIBUTES
-    private final String face;
+    private  String face;
 
     //CONSTRUCTOR
     //Logic constructor for subclasses
