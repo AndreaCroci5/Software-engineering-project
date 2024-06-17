@@ -13,6 +13,7 @@ module it.polimi.ingsw.am40 {
     exports it.polimi.ingsw.am40.server.controller;
     exports it.polimi.ingsw.am40.client.view.GUI.FXexamples;
     exports it.polimi.ingsw.am40.server.exceptions.model;
+    exports it.polimi.ingsw.am40.data;
     opens it.polimi.ingsw.am40.client.view.GUI.FXexamples to javafx.fxml;
     opens it.polimi.ingsw.am40.server to javafx.fxml;
     exports it.polimi.ingsw.am40.client.view.GUI;
