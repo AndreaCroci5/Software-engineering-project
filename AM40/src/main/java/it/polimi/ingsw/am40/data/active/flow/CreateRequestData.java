@@ -19,7 +19,8 @@ public class CreateRequestData extends Data {
 
     }
 
+    @Override
     public Action onServer(){
-        return new CreateRequestAction(this.getNickname(),this.getGameID(), this.getPlayerID());
+        return new CreateRequestAction(this.getNickname(),this.getGameID(), this.getPlayerID(), this.numOfPlayers);
     }
 }

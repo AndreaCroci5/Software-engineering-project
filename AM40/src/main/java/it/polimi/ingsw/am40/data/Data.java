@@ -8,9 +8,7 @@ import it.polimi.ingsw.am40.data.active.flow.*;
 import it.polimi.ingsw.am40.data.active.round.DrawData;
 import it.polimi.ingsw.am40.data.active.round.PlacingData;
 import it.polimi.ingsw.am40.data.passive.firstRound.*;
-import it.polimi.ingsw.am40.data.passive.flow.ChangeTurnInfoData;
-import it.polimi.ingsw.am40.data.passive.flow.CreateResultData;
-import it.polimi.ingsw.am40.data.passive.flow.LastRoundsInfoData;
+import it.polimi.ingsw.am40.data.passive.flow.*;
 import it.polimi.ingsw.am40.data.passive.round.*;
 import it.polimi.ingsw.am40.server.actions.Action;
 
@@ -28,11 +26,16 @@ import it.polimi.ingsw.am40.server.actions.Action;
 //on polymorphism
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
+
+        @JsonSubTypes.Type(value = PingData.class, name = "PING"),
+
         //Active Data
+
         @JsonSubTypes.Type(value = CreateRequestData.class, name = "CREATE_GAME"),
         @JsonSubTypes.Type(value = GameIDChoiceData.class, name = "GAME_ID_CHOICE"),
         @JsonSubTypes.Type(value = JoinRequestData.class, name = "JOIN_GAME"),
         @JsonSubTypes.Type(value = ReadyToPlayData.class, name = "READY_TO_PLAY"),
+
         @JsonSubTypes.Type(value = StartingCardRequestData.class, name = "STARTING_CARD_REQUEST"),
         @JsonSubTypes.Type(value = StartingCardChoiceData.class, name = "STARTING_CARD_CHOICE"),
         @JsonSubTypes.Type(value = TokenChoiceData.class, name = "TOKEN_SELECTION"),
@@ -41,11 +44,22 @@ import it.polimi.ingsw.am40.server.actions.Action;
         @JsonSubTypes.Type(value = AimCardRequestData.class, name = "AIM_CARD_REQUEST"),
         @JsonSubTypes.Type(value = AimCardChoiceData.class, name = "AIM_CARD_SELECTION"),
         @JsonSubTypes.Type(value = PlayersOrderRequestData.class, name = "PLAYERS_ORDER_REQUEST"),
+
         @JsonSubTypes.Type(value = PlacingData.class, name = "PLACING"),
         @JsonSubTypes.Type(value = DrawData.class, name = "DRAW"),
         @JsonSubTypes.Type(value = ChangeTurnRequestData.class, name = "CHANGE_TURN"),
+
         //Passive Data
+
         @JsonSubTypes.Type(value = CreateResultData.class, name = "CREATE_RESULT"),
+        @JsonSubTypes.Type(value = FailedCreationData.class, name = "FAILED_CREATION"),
+        @JsonSubTypes.Type(value = JoinResponseData.class, name = "JOIN_RESPONSE"),
+        @JsonSubTypes.Type(value = NoActivePartiesData.class, name = "NO_ACTIVE_PARTIES"),
+        @JsonSubTypes.Type(value = GameIDResultData.class, name = "GAME_ID_RESULT"),
+        @JsonSubTypes.Type(value = FailedGameIDData.class, name = "FAILED_GAME_ID"),
+        @JsonSubTypes.Type(value = GameInitResultData.class, name = "GAME_INIT_RESULT"),
+
+
         @JsonSubTypes.Type(value = StartingCardInfoData.class, name = "STARTING_INFO"),
         @JsonSubTypes.Type(value = StartingCardResultData.class, name = "POSITIVE_STARTING_CARD"),
         @JsonSubTypes.Type(value = TokenInfoData.class, name = "TOKEN_INFO"),

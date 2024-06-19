@@ -51,6 +51,12 @@ public class GameManager implements ActionListener {
      */
     @Override
     public void onEvent(Action event) {
+        //Filter in case a party triggers the Game Creation by reaching the necessary amount of Players
+        if (event.getDescription().equalsIgnoreCase("GAME_INIT")) {
+            Game newGame = new Game();
+            this.activeGames.put(event.getGameID(), newGame);
+        }
+        //Normal behaviour
         Game game = this.activeGames.get(event.getGameID());
         event.doAction(game);
     }
@@ -71,15 +77,5 @@ public class GameManager implements ActionListener {
         server.initServer(portTCP, portRMI, hostName);
         server.addListener(this, server.getListeners());
 
-    }
-
-    //TODO ANDREA delete the method below because the logic is implemented in InitializationAction,
-    // instead add the getter method for activeGames
-    //PRIVATE METHODS
-//fixme incongruenza username e id player
-    private void createNewGame(int gameID/*, List<Integer>*/){
-        Game newGame = new Game();
-        this.activeGames.put(gameID, newGame);
-        /*newGame.startGame();*/
     }
 }

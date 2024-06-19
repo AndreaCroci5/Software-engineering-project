@@ -3,6 +3,7 @@ package it.polimi.ingsw.am40.server.network.virtual_view;
 
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.passive.flow.GameIDResultData;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -350,13 +351,13 @@ public class VVServer implements ActionPoster, ActionListener  {
      *                         Once reached, a new game will start
      * @return the PartyID
      */
-    private int createNewParty(int totalNumOfClients){
+    public int createNewParty(int totalNumOfClients){
         NetworkParty p;
         this.activeParties.add(p = new NetworkParty(totalNumOfClients));
         return p.getPartyID();
     }
 
-    private int createNewParty(int totalNumOfClients, NetworkClient creator) throws ClientAlreadyLoggedException, NonExistentPartyException, NonExistentClientException {
+    public int createNewParty(int totalNumOfClients, NetworkClient creator) throws ClientAlreadyLoggedException, NonExistentPartyException, NonExistentClientException {
         NetworkParty p;
         this.activeParties.add(p = new NetworkParty(totalNumOfClients));
         this.logClientInAParty(p.getPartyID(), creator.getClientID());
@@ -408,9 +409,19 @@ public class VVServer implements ActionPoster, ActionListener  {
 
         p.logClient(c);
 
+        //Client Notification
+        int currentNumOfPlayer = p.getCurrentNumOfClients();
+        int totalNumOfPlayer = p.getTotalNumOfClients();
+
+        this.sendOnNetworkBroadcastInAParty(p.getPartyID(), new GameIDResultData(c.getUsername(), partyID, currentNumOfPlayer, totalNumOfPlayer));
+
         if(p.getCurrentNumOfClients() == p.getTotalNumOfClients()){
-            //FIXME add the parameters to the constructor below
-            //this.notifyListeners(new InitializationAction(partyID, -1),this.listeners);
+            //Information collection
+            ArrayList<String> nicknames = new ArrayList<>();
+            for (NetworkClient nC : p.getClients()) {
+                nicknames.add(nC.getUsername());
+            }
+            this.notifyListeners(new InitializationAction(c.getUsername(),p.getPartyID(), c.getClientID(), nicknames, this), this.listeners);
         }
 
     }

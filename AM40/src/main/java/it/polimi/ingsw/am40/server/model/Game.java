@@ -184,14 +184,12 @@ public class Game implements ActionPoster {
         setRemainingRounds(res);
     }
 
-    //TODO Need to add the VVServer listener here, so we must add it as a parameter
     /**
      * This method execute the starting game flow of the game.
      * 1st) It loads the cards from JSON
      * 2nd) It creates a new common board and initialises it
      * 3rd) It creates the players with their own private board
      * 4th) It decides the player order and the first player (starting player)
-     * 5th) It calls the methods for the first run
      * @param nicknames List of player nicknames from controller
      */
     public void startGame(List<String> nicknames){
@@ -209,36 +207,6 @@ public class Game implements ActionPoster {
 
         //4th) It decides the player order and the first player (starting player)
         this.decidePlayerOrder();
-        //5th) It calls the methods for the first run
-        this.playFirstRound();
-    }
-
-    //FIXME let's discuss if it's worth keeping the method below, because first round must be fragmented
-    // UPDATE remove the method below, but modify if needed and take a look at the method up here
-    //TO CHECK (MESSAGES)
-    /**
-     * This method calls other sub-methods to play the first round of the game
-     */
-    private void playFirstRound() {
-        for (Player p : this.players) {
-            /*
-            p.chooseInitialColor()
-            p.choosePrivateAim()
-            p.chooseInitialCardFacing()
-            */
-            for (int i = 0; i < 2; i++) {
-                p.getPrivateBoard()
-                        .getHandDeck()
-                        .add(this.commonBoard.getResourceDeck().
-                                pickFromTop());
-            }
-
-            p.getPrivateBoard()
-                    .getHandDeck()
-                    .add(this.commonBoard.getGoldenResourceDeck()
-                            .pickFromTop());
-
-        }
     }
 
     /**

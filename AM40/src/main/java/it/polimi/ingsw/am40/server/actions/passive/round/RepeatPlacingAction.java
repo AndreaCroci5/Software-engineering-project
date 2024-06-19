@@ -21,6 +21,7 @@ public class RepeatPlacingAction extends Action {
     }
 
 
+    @Override
     public Data dataCreator() {
         return new RepeatPlacingData(this.getNickname());
     }

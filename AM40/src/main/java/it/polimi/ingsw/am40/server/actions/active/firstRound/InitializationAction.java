@@ -2,12 +2,13 @@ package it.polimi.ingsw.am40.server.actions.active.firstRound;
 
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
-import it.polimi.ingsw.am40.server.controller.GameManager;
+import it.polimi.ingsw.am40.server.actions.passive.setup.GameInitResultAction;
 import it.polimi.ingsw.am40.server.model.*;
 import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InitializationAction extends Action {
     //ATTRIBUTES
@@ -31,15 +32,42 @@ public class InitializationAction extends Action {
      */
     @Override
     public void doAction(ActionAgent agent){
-        //TODO add the filter in onEvent() in GameManager for this Action, in order to put this(GameManager) as ActionAgent
-        GameManager controller = (GameManager) agent;
+        Game gameContext = (Game) agent;
         //New Game Creation
         //TODO card load is missing somewhere, now added in startGame method but game never get set the VVServer as listener
-        // so we need to pass it as an attribute of this Action
-        Game newGame = new Game();
-        newGame.startGame(this.players);
-        newGame.addListener(this.gameListener, newGame.getListeners());
-        //Game registration to activeGames
-        //controller.getActiveGames.put(this.getGameID(), newGame);
+        // so we need to pass it as an attribute of this Action (RESOLVED, only discuss)
+        gameContext.startGame(this.players);
+        gameContext.addListener(this.gameListener, gameContext.getListeners());
+
+        //Information fetch
+        //Nicknames with implicit order
+        ArrayList<String> nicknames = new ArrayList<>();
+        for (Player p : gameContext.getPlayers()) {
+            nicknames.add(p.getNickname());
+        }
+        //Boards Card
+        Map<String, ArrayList<Integer>> commonboard = new HashMap<>();
+        //ResourceCards
+        ArrayList<Integer> resourceIDs = new ArrayList<>();
+        //FIXME Possible CommonBoard static problem
+        resourceIDs.add(CommonBoard.plateResourceCard[0].getCardID());
+        resourceIDs.add(CommonBoard.plateResourceCard[1].getCardID());
+        resourceIDs.add(gameContext.getCommonBoard().getResourceDeck().peekFirstCard());
+        commonboard.put("RESOURCE", resourceIDs);
+        //GoldenResourceCards
+        ArrayList<Integer> goldenIDs = new ArrayList<>();
+        goldenIDs.add(CommonBoard.plateGoldenResourceCard[0].getCardID());
+        goldenIDs.add(CommonBoard.plateGoldenResourceCard[1].getCardID());
+        goldenIDs.add(gameContext.getCommonBoard().getGoldenResourceDeck().peekFirstCard());
+        commonboard.put("GOLDEN", goldenIDs);
+        //AimCards
+        ArrayList<Integer> aimIDs = new ArrayList<>();
+        aimIDs.add(CommonBoard.plateAimCard[0].getCardID());
+        aimIDs.add(CommonBoard.plateAimCard[1].getCardID());
+        aimIDs.add(gameContext.getCommonBoard().getAimDeck().peekFirstCard());
+        commonboard.put("AIM", aimIDs);
+
+        //Client notification
+        gameContext.notifyListeners(new GameInitResultAction(this.getNickname(), this.getGameID(), this.getPlayerID(), nicknames, commonboard), gameContext.getListeners());
     }
 }

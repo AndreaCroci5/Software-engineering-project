@@ -7,10 +7,16 @@ import it.polimi.ingsw.am40.server.actions.Action;
 
 @JsonTypeName("CREATE_RESULT")
 public class CreateResultData extends Data {
+    //ATTRIBUTES
+    private int numOfPlayers;
+    private int playersLogged;
 
     //Logic constructor for subclasses
-    public CreateResultData(String nickname) {
-        super("CREATE_RESULT", nickname);}
+    public CreateResultData(String nickname, int numOfPlayers, int playersLogged) {
+        super("CREATE_RESULT", nickname);
+        this.numOfPlayers = numOfPlayers;
+        this.playersLogged = playersLogged;
+    }
     //Json constructor
     public CreateResultData(){
 
@@ -24,6 +30,6 @@ public class CreateResultData extends Data {
     }
 
     public Message onClient() {
-        return ;
+        return null;
     }
 }
