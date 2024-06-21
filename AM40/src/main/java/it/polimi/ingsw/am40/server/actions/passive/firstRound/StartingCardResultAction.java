@@ -6,6 +6,7 @@ import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.model.CardElements;
 import it.polimi.ingsw.am40.server.model.Coordinates;
+import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -41,7 +42,8 @@ public class StartingCardResultAction extends Action {
      */
     @Override
     public void doAction(ActionAgent agent){
-
+        VVServer v = (VVServer) agent;
+        v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
     public Data dataCreator() {

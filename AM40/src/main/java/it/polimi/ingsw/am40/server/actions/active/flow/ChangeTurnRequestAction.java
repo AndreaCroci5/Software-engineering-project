@@ -47,7 +47,8 @@ public class ChangeTurnRequestAction extends Action {
                 gameContext.changePlayersTurn(gameContext.getIndexOfPlayingPlayer());
                 //Notification
                 int nextActivePlayerIndex = gameContext.getIndexOfPlayingPlayer();
-                gameContext.notifyListeners(new ChangeTurnInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), nextActivePlayerIndex), gameContext.getListeners());
+                String nextActivePlayerNick = gameContext.getPlayers().get(nextActivePlayerIndex).getNickname();
+                gameContext.notifyListeners(new ChangeTurnInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), nextActivePlayerNick), gameContext.getListeners());
             } catch (TurnException e) {
                 //Forced Endgame
                 gameContext.calculateFinalScore();
@@ -76,7 +77,8 @@ public class ChangeTurnRequestAction extends Action {
                 gameContext.changePlayersTurn(gameContext.getIndexOfPlayingPlayer());
                 //Notification
                 int nextActivePlayerIndex = gameContext.getIndexOfPlayingPlayer();
-                gameContext.notifyListeners(new ChangeTurnInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), nextActivePlayerIndex), gameContext.getListeners());
+                String nextActivePlayerNick = gameContext.getPlayers().get(nextActivePlayerIndex).getNickname();
+                gameContext.notifyListeners(new ChangeTurnInfoAction(this.getNickname(), this.getGameID(), this.getPlayerID(), nextActivePlayerNick), gameContext.getListeners());
             } catch (TurnException e) {
                 //Forced Endgame
                 gameContext.calculateFinalScore();

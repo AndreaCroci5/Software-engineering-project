@@ -53,7 +53,7 @@ public class PositivePlacingAction extends Action {
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
-        v.sendOnNetworkUnicast(this.getPlayerID(), this.dataCreator());
+        v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
     public Data dataCreator() {

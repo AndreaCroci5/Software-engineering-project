@@ -5,6 +5,7 @@ import it.polimi.ingsw.am40.data.passive.round.EndGameData;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
 import it.polimi.ingsw.am40.server.model.Player;
+import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,8 @@ public class EndGameAction extends Action {
      */
     @Override
     public void doAction(ActionAgent agent){
-
+        VVServer v = (VVServer) agent;
+        v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
     public Data dataCreator() {

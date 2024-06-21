@@ -43,6 +43,7 @@ public class DealCardsResultAction extends Action {
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
+        v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
 
