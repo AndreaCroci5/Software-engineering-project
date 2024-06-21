@@ -37,5 +37,8 @@ public class StartingCardInfoMessage extends Message {
             context.getViewManager().displayStartingCardInfo(this.StartingCardID);
             context.setState(new ActiveStartingCardChoiceState());
         }
+        else {
+            context.getViewManager().showPassiveStartingCardState(this.clientNickname);
+        }
     }
 }

@@ -25,13 +25,13 @@ public abstract class Action {
      * The Actions are strictly connected with a specific game, which has a gameID (before partyID) thanks to the
      * NetworkParty class
      */
-    private final int gameID;
+    private  int gameID;
 
     /**
      * The Actions are strictly connected with a specific player, which has a playerID (before clientID) thanks to the
      * NetworkClient class
      */
-    private final int playerID;
+    private  int playerID;
 
 
 
@@ -80,9 +80,15 @@ public abstract class Action {
         return playerID;
     }
 
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
+    }
 
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
 
-    //ACTION METHODS
+//ACTION METHODS
 
     /**
      * Method to run the instructions transported by the action object

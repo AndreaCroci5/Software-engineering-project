@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JoinRequestAction extends Action {
+
     public JoinRequestAction(String nickname, int gameID, int playerID) {
         super("JOIN_GAME", nickname, gameID, playerID);
     }

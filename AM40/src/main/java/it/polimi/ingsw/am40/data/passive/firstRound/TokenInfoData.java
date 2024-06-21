@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.passive.firstRound;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound.TokenInfoMessage;
@@ -15,14 +17,19 @@ public class TokenInfoData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public TokenInfoData(String nickname, List<String> colors) {
+    @JsonCreator
+    public TokenInfoData(@JsonProperty("nickname") String nickname,
+                         @JsonProperty("colors") List<String> colors) {
         super("TOKEN_INFO", nickname);
         this.colors = colors;
     }
-    //Json constructor
-    public TokenInfoData(){
 
+    public List<String> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<String> colors) {
+        this.colors = colors;
     }
 
     //PUBLIC METHODS

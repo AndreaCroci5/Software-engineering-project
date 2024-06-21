@@ -13,7 +13,7 @@ public class PassivePlacingState implements State {
      */
     @Override
     public void execute(Client context) {
-        context.getViewManager().showNotYouTurn();
+
     }
 
     /**

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ReadyToPlayMessage;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ReadyToPlayState;
 
@@ -10,6 +11,8 @@ public class GameIdResponseMessage extends Message {
      * It's the name of the active client
      */
     private final String clientNickname;
+
+    private int partyId;
 
     /**
      * It's the numbers of the players already logged
@@ -24,7 +27,7 @@ public class GameIdResponseMessage extends Message {
     /**
      * This message is sent by the server, and it's an ack that client joined the game he chose
      */
-    public GameIdResponseMessage(String clientNickname, int numOfActualPlayers, int numOfFinalPlayers) {
+    public GameIdResponseMessage(String clientNickname,int partyId, int numOfActualPlayers, int numOfFinalPlayers) {
         super("POSITIVE_GAME_CHOICE",clientNickname);
         this.clientNickname = clientNickname;
         this.numOfActualPlayers = numOfActualPlayers;
@@ -38,6 +41,10 @@ public class GameIdResponseMessage extends Message {
     public void process(Client context) {
         if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
             context.getViewManager().displayWaitingForPlayers(this.numOfActualPlayers,this.numOfFinalPlayers);
+            if (!context.getCurrentState().getClass().equals(ReadyToPlayState.class)) {
+                // send the message to the server in order to start the game
+                context.getNetworkManager().send(new ReadyToPlayMessage(context.getNickname()));
+            }
             context.setState(new ReadyToPlayState());
         }
         else {

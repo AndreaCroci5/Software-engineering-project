@@ -409,21 +409,6 @@ public class VVServer implements ActionPoster, ActionListener  {
 
         p.logClient(c);
 
-        //Client Notification
-        int currentNumOfPlayer = p.getCurrentNumOfClients();
-        int totalNumOfPlayer = p.getTotalNumOfClients();
-
-        this.sendOnNetworkBroadcastInAParty(p.getPartyID(), new GameIDResultData(c.getUsername(), partyID, currentNumOfPlayer, totalNumOfPlayer));
-
-        if(p.getCurrentNumOfClients() == p.getTotalNumOfClients()){
-            //Information collection
-            ArrayList<String> nicknames = new ArrayList<>();
-            for (NetworkClient nC : p.getClients()) {
-                nicknames.add(nC.getUsername());
-            }
-            this.notifyListeners(new InitializationAction(c.getUsername(),p.getPartyID(), c.getClientID(), nicknames, this), this.listeners);
-        }
-
     }
 
 
@@ -448,7 +433,7 @@ public class VVServer implements ActionPoster, ActionListener  {
                 }
             }
             nm.initCommunication();
-            nm.initPing();
+            //nm.initPing();
         }
 
 
@@ -498,8 +483,12 @@ public class VVServer implements ActionPoster, ActionListener  {
             throw new RuntimeException(e);
         }
 
-        c.getManager().sendSerializedMessage(data, c);
-
+        NetworkManagerServer manager = c.getManager();
+        try {
+            manager.sendSerializedMessage(data, c);
+        } catch (Exception e) {
+            System.out.println("Failed to send message: " + e.getMessage());
+        }
     }
 
     public void sendOnNetworkBroadcastInAParty(int partyID, Data data){

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.passive.firstRound;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound.AimCardResultMessage;
@@ -14,14 +16,19 @@ public class AimCardResultData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public AimCardResultData(String nickname, int aimCardChosenID) {
+    @JsonCreator
+    public AimCardResultData(@JsonProperty("nickname") String nickname,
+                             @JsonProperty("aimCardChosenID") int aimCardChosenID) {
         super("AIM_CARD_SELECTED", nickname);
         this.aimCardChosenID = aimCardChosenID;
     }
-    //Json constructor
-    public AimCardResultData(){
 
+    public int getAimCardChosenID() {
+        return aimCardChosenID;
+    }
+
+    public void setAimCardChosenID(int aimCardChosenID) {
+        this.aimCardChosenID = aimCardChosenID;
     }
 
     //PUBLIC METHODS

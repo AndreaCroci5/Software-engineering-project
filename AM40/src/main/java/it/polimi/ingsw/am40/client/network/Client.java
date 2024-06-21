@@ -6,6 +6,7 @@ import it.polimi.ingsw.am40.client.smallModel.SmallModel;
 import it.polimi.ingsw.am40.client.view.ViewFactory;
 import it.polimi.ingsw.am40.client.view.ViewFactoryException;
 import it.polimi.ingsw.am40.client.view.ViewManager;
+import it.polimi.ingsw.am40.server.model.Coordinates;
 
 import java.util.Scanner;
 
@@ -71,6 +72,8 @@ public class Client implements AbstractContext{
     public void setInputReader(UserInputReader inputReader) {
         this.inputReader = inputReader;
     }
+
+
 //ABSTRACT CONTEXT METHODS
 
     /**
@@ -162,6 +165,9 @@ public class Client implements AbstractContext{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        //Initializing small model
+        this.smallModel = new SmallModel();
 
         //Initializing the concrete view
         this.viewManager.initView();

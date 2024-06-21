@@ -4,6 +4,7 @@ import it.polimi.ingsw.am40.client.ConcreteContext;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,12 +27,12 @@ public interface ViewManager extends ConcreteContext {
     void displayInitialisation();
     void displaySetUp();
     void displayCreate();
-    void displayAllGameIds(List<Integer> gamesIDs);
+    void displayAllGameIds(Map<Integer, ArrayList<Integer>> gamesIDs);
 
     // First round
     void displayStartingCardInfo(int startingCardID);
     void askStartingFace();
-    void showPassiveStartingCard(String nickname, int startingCardID);
+    void showPassiveStartingCard(String nickname, int startingCardID, String cardFace);
 
     void displayPossibleTokens(List<String> tokens);
     void showPositiveTokenColor(String clientNickname, String token);
@@ -65,4 +66,22 @@ public interface ViewManager extends ConcreteContext {
     void showNotYouTurn();
     void displayWaitingForPlayers(int numOfActualPlayers, int NumOfFinalPlayers);
     void displayError();
+
+    void showNoActiveParties();
+
+    void showFailedGameID();
+
+    void displayStartingGame(ArrayList<String> nicknames,List<SmallCard> commonBoard);
+
+    void showPassiveAimState(String clientNickname);
+
+    void showPassiveStartingCardState(String clientNickname);
+
+    void showPassiveTokenState(String clientNickname);
+
+    void displayStartingCardResult(int cardID, String cardFace);
+
+    void displayDealCardState(List<SmallCard> myHand);
+
+    void displayPositiveAimCardChoice();
 }

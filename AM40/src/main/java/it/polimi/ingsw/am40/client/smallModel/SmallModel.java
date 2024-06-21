@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am40.client.smallModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

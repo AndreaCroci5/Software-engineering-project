@@ -166,28 +166,7 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
                         throw new NetworkServerCutOffException();//fixme il client entra in mod offline
                 }
 
-                switch(response.toLowerCase()){
-                    case "ping":
-                        System.out.println("ping received");
-                       this.streams.getOut().println("pong");
-                        break;
-                    case "message"://fixme A+S remove (all with data)
-                        String subResponse;
-                        StringBuilder jsonBuilder = new StringBuilder();
-                        while ((subResponse = this.streams.getIn().readLine()) != null && !subResponse.isEmpty()) {
-                            if (subResponse.equals("endmessage")){
-                                String json = jsonBuilder.toString();
-                                this.handleJSONMessage(json);
-                                break;
-                            }else{
-                                jsonBuilder.append(subResponse);
-                            }
-                        }
-                        break;
-                    default:
-                        System.out.println(response);
-                        break;
-                }
+                this.handleJSONMessage(response);
             } catch (IOException e) {
                 System.out.println("Disconnected from the server");
                 throw new NetworkServerCutOffException();
@@ -217,7 +196,6 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Data myObject = objectMapper.readValue(json, Data.class);
-            //System.out.println("Deserialized object: " + myObject);
             Message message = myObject.onClient();
             client.handleMessage(message);
         } catch (Exception e) {

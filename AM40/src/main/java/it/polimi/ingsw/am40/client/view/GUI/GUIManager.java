@@ -5,6 +5,7 @@ import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 import it.polimi.ingsw.am40.client.view.GUI.FXexamples.HelloApplication;
 import it.polimi.ingsw.am40.client.view.ViewManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ public class GUIManager implements ViewManager {
     }
 
     @Override
-    public void displayAllGameIds(List<Integer> gamesIDs) {
+    public void displayAllGameIds(Map<Integer, ArrayList<Integer>> gamesIDs) {
 
     }
 
@@ -83,7 +84,7 @@ public class GUIManager implements ViewManager {
     }
 
     @Override
-    public void showPassiveStartingCard(String nickname, int startingCardID) {
+    public void showPassiveStartingCard(String nickname, int startingCardID, String cardFace) {
 
     }
 
@@ -184,6 +185,50 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayError() {
+
+    }
+
+    @Override
+    public void showNoActiveParties() {
+
+    }
+
+    @Override
+    public void showFailedGameID() {
+
+    }
+
+    @Override
+    public void displayStartingGame(ArrayList<String> nicknames,List<SmallCard> commonBoard) {
+    }
+
+    @Override
+    public void showPassiveAimState(String clientNickname) {
+
+    }
+
+    @Override
+    public void showPassiveStartingCardState(String clientNickname) {
+
+    }
+
+    @Override
+    public void showPassiveTokenState(String clientNickname) {
+
+    }
+
+    @Override
+    public void displayStartingCardResult(int cardID, String cardFace) {
+
+    }
+
+    @Override
+    public void displayDealCardState(List<SmallCard> myHand) {
+
+    }
+
+    @Override
+    public void displayPositiveAimCardChoice() {
 
     }
 }

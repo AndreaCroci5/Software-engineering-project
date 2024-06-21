@@ -7,6 +7,7 @@ import it.polimi.ingsw.am40.data.passive.flow.JoinResponseData;
 import it.polimi.ingsw.am40.data.passive.flow.NoActivePartiesData;
 import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
+import it.polimi.ingsw.am40.server.network.virtual_view.NetworkClient;
 import it.polimi.ingsw.am40.server.network.virtual_view.NetworkParty;
 import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
@@ -27,8 +28,20 @@ public class GameIDChoiceAction extends Action {
     @Override
     public void doAction(ActionAgent agent){
         VVServer server = (VVServer) agent;
+        int currentNumOfPlayer = 0;
+        int totalNumOfPlayer = 0;
+        this.setGameID(this.gameIDChoice);
+
         try {
             server.logClientInAParty(gameIDChoice, this.getPlayerID());
+            for (NetworkParty p : server.getActiveParties()) {
+                if (p.getPartyID() == gameIDChoice) {
+                    currentNumOfPlayer = p.getCurrentNumOfClients();
+                    totalNumOfPlayer = p.getTotalNumOfClients();
+                }
+            }
+
+            server.sendOnNetworkBroadcastInAParty(this.gameIDChoice, new GameIDResultData(this.getNickname(),this.gameIDChoice, this.gameIDChoice, currentNumOfPlayer, totalNumOfPlayer));
         } catch (Exception e) {
             server.sendOnNetworkUnicast(this.getPlayerID(), new FailedGameIDData(this.getNickname()));
         }

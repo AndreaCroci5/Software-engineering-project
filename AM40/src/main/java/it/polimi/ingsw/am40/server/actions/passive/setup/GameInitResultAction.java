@@ -2,7 +2,9 @@ package it.polimi.ingsw.am40.server.actions.passive.setup;
 
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.passive.flow.GameInitResultData;
+import it.polimi.ingsw.am40.server.ActionAgent;
 import it.polimi.ingsw.am40.server.actions.Action;
+import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,6 +28,12 @@ public class GameInitResultAction extends Action {
 
     @Override
     public Data dataCreator() {
-        return new GameInitResultData();
+        return new GameInitResultData(this.getNickname(),this.nicknames,this.commonboard);
+    }
+
+    @Override
+    public void doAction(ActionAgent agent) {
+        VVServer v = (VVServer) agent;
+        v.sendOnNetworkBroadcastInAParty(this.getGameID(),dataCreator());
     }
 }

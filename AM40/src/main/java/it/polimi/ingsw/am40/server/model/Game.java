@@ -291,6 +291,9 @@ public class Game implements ActionPoster {
                 remainingColors.add(c);
             }
         }
+
+        remainingColors.remove(Color.NONE);
+
         //List<String> creation
         return remainingColors.stream()
                 .map(Color::toString)
@@ -462,14 +465,15 @@ public class Game implements ActionPoster {
         if (remainingRounds == 0) {
             throw new ForceEndgameTurnException();
         }
+        int next_index = index + 1;
         //Check if the next Player is Online and in that case puts him as CurrentlyPlaying for the nextTurn recursively
         if (remainingRounds != 0) {
             this.players.get(index).setCurrentlyPlaying(false);
             if (index != this.players.size()-1) {
-                if(this.players.get(++index).isOnline()){
-                    this.players.get(++index).setCurrentlyPlaying(true);
+                if(this.players.get(next_index).isOnline()){
+                    this.players.get(next_index).setCurrentlyPlaying(true);
                 } else {
-                    changePlayersTurn(++index);
+                    changePlayersTurn(next_index);
                 }
             } else {
                 if(this.players.get(0).isOnline()){

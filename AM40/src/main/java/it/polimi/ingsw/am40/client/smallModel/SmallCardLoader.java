@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SmallCardLoader {
 
-    private static final List<SmallCard> TuiCards = loadCards("Cards.json");
+    public static final List<SmallCard> TuiCards = loadCards("Cards.json");
 
     public List<SmallCard> getCards() {
         return TuiCards;

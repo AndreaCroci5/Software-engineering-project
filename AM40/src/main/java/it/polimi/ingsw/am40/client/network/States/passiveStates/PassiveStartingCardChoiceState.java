@@ -11,7 +11,6 @@ public class PassiveStartingCardChoiceState implements State {
      */
     @Override
     public void execute(Client context) {
-        context.getViewManager().showNotYouTurn();
     }
 
     /**

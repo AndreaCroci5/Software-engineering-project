@@ -13,15 +13,21 @@ public class CreateRequestMessage extends Message {
      */
     private final int numOfPlayer;
 
+    private final String IpAddress;
+
+    private final int port;
+
     /**
      * Constructor for the CreateMessage
      * This message is the request of the client of creating a new game
      * @param numOfPlayer it's the number of player that the client wants in the new game he created
      */
-    public CreateRequestMessage(String nickname, int numOfPlayer) {
+    public CreateRequestMessage(String nickname, int numOfPlayer, String ipAddress, int port) {
         super("CREATE_GAME", nickname);
         this.clientNickname = nickname;
         this.numOfPlayer = numOfPlayer;
+        this.IpAddress = ipAddress;
+        this.port = port;
     }
 
     /**
@@ -30,7 +36,7 @@ public class CreateRequestMessage extends Message {
      * @return the data that is going to the network
      */
     public Data messageToData() {
-        return new CreateRequestData(this.clientNickname,this.numOfPlayer);
+        return new CreateRequestData(this.clientNickname,this.numOfPlayer,this.IpAddress,this.port);
     }
 
 }

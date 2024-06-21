@@ -11,6 +11,14 @@ public abstract class Message {
      */
     private final String description;
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Constructor for messages
      * @param description it's the description of which information the message transport

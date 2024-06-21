@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
@@ -58,6 +60,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
         @JsonSubTypes.Type(value = GameIDResultData.class, name = "GAME_ID_RESULT"),
         @JsonSubTypes.Type(value = FailedGameIDData.class, name = "FAILED_GAME_ID"),
         @JsonSubTypes.Type(value = GameInitResultData.class, name = "GAME_INIT_RESULT"),
+        @JsonSubTypes.Type(value = NotEnoughPlayersData.class, name = "NOT_ENOUGH_PLAYERS"),
 
 
         @JsonSubTypes.Type(value = StartingCardInfoData.class, name = "STARTING_INFO"),
@@ -66,7 +69,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
         @JsonSubTypes.Type(value = PositiveTokenColorData.class, name = "POSITIVE_TOKEN_COLOR"),
         @JsonSubTypes.Type(value = DealCardsResultData.class, name = "CARDS_DEAL_RESULT"),
         @JsonSubTypes.Type(value = AimCardInfoData.class, name = "AIM_CARD_INFO"),
-        @JsonSubTypes.Type(value = AimCardChoiceData.class, name = "AIM_CARD_SELECTED"),
+        @JsonSubTypes.Type(value = AimCardResultData.class, name = "AIM_CARD_SELECTED"),
         @JsonSubTypes.Type(value = PlayersOrderInfoData.class, name = "PLAYERS_ORDER_INFO"),
         @JsonSubTypes.Type(value = PositivePlacingData.class, name = "POSITIVE_PLACING"),
         @JsonSubTypes.Type(value = RepeatPlacingData.class, name = "REPEAT_PLACING"),
@@ -74,7 +77,9 @@ import it.polimi.ingsw.am40.server.actions.Action;
         @JsonSubTypes.Type(value = RepeatDrawData.class, name = "REPEAT_DRAW"),
         @JsonSubTypes.Type(value = ChangeTurnInfoData.class, name = "CHANGE_TURN_INFO"),
         @JsonSubTypes.Type(value = LastRoundsInfoData.class, name = "LAST_ROUNDS"),
-        @JsonSubTypes.Type(value = EndGameData.class, name = "ENDGAME")
+        @JsonSubTypes.Type(value = EndGameData.class, name = "ENDGAME"),
+        @JsonSubTypes.Type(value = EndGameData.class, name = "PING")
+
 })
 public abstract class Data {
 
@@ -94,12 +99,17 @@ public abstract class Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
-    public Data(String description, String nickname) {
-        this.description = description;
-    }
+
     //Json Constructor
     public Data(){
 
+    }
+
+    @JsonCreator
+    public Data(@JsonProperty ("description") String description,
+                @JsonProperty ("nickname") String nickname) {
+        this.nickname = nickname;
+        this.description = description;
     }
 
 

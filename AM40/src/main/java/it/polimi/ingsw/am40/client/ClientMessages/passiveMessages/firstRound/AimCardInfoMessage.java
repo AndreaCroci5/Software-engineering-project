@@ -39,5 +39,8 @@ public class AimCardInfoMessage extends Message {
             context.getViewManager().displayAimCardsToChoose(this.aimCardsID);
             context.setState(new ActiveAimCardChoiceState(this.aimCardsID));
         }
+        else {
+            context.getViewManager().showPassiveAimState(this.clientNickname);
+        }
     }
 }

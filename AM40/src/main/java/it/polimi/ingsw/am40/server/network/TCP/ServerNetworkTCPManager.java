@@ -5,11 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.PingData;
+import it.polimi.ingsw.am40.data.active.flow.CreateRequestData;
+import it.polimi.ingsw.am40.data.active.flow.JoinRequestData;
+import it.polimi.ingsw.am40.data.passive.flow.CreateResultData;
+import it.polimi.ingsw.am40.server.actions.active.setup.GameIDChoiceAction;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
-import it.polimi.ingsw.am40.server.network.virtual_view.NetworkClient;
-import it.polimi.ingsw.am40.server.network.virtual_view.NonExistentClientException;
-import it.polimi.ingsw.am40.server.network.virtual_view.Protocol;
-import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
+import it.polimi.ingsw.am40.server.network.virtual_view.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -196,34 +197,85 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     *
     * @param message the message to pars as serialized string
     */
-    public synchronized void handleJSONMessage(String message) {
+    public  void handleJSONMessage(String message) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Data myObject = objectMapper.readValue(message, Data.class);
-            System.out.println("Deserialized object: " + myObject);
-            //fixme A+S A added the filter for the starting game
+            Data myObject = objectMapper.readValue(message,Data.class);
+
+
+            if (myObject.getDescription().equalsIgnoreCase("JOIN_GAME")) {
+                JoinRequestData data = (JoinRequestData) myObject;
+                System.out.println("Ip address : " + data.getIpAddress());
+                System.out.println("Port : " + data.getPort());
+                for (NetworkClient c : this.mainServerClass.getOrphanClients()) {
+                    System.out.println("C ipAddress : " + c.getSocket().getLocalAddress().getHostAddress());
+                    System.out.println("C port : " + c.getSocket().getPort());
+                    if (c.getSocket().getLocalAddress().getHostAddress().equals(data.getIpAddress()) && c.getSocket().getPort() == data.getPort()) {
+                        c.setUsername(data.getNickname());
+                    }
+                }
+            }
+
+            if (myObject.getDescription().equalsIgnoreCase("CREATE_GAME")) {
+                CreateRequestData data = (CreateRequestData) myObject;
+                System.out.println("Ip address : " + data.getIpAddress());
+                System.out.println("Port : " + data.getPort());
+                for (NetworkClient c : this.mainServerClass.getOrphanClients()) {
+                    System.out.println("C ipAddress : " + c.getSocket().getLocalAddress().getHostAddress());
+                    System.out.println("C port : " + c.getSocket().getPort());
+                    if (c.getSocket().getLocalAddress().getHostAddress().equals(data.getIpAddress()) && c.getSocket().getPort() == data.getPort()) {
+                        c.setUsername(data.getNickname());
+                    }
+                }
+            }
+
+
+            // Fetching client network information based on client's username
+            for (NetworkClient c : this.mainServerClass.getOrphanClients()) {
+                if (c.getUsername().equals(myObject.getNickname())) {
+                    myObject.setPlayerID(c.getClientID());
+                }
+            }
+            // Server filter
             if (myObject.getDescription().equalsIgnoreCase("CREATE_GAME")) {
                 this.mainServerClass.onEvent(myObject.onServer());
+            } else if (myObject.getDescription().equalsIgnoreCase("GAME_ID_CHOICE")) {
+                this.mainServerClass.onEvent(myObject.onServer());
+            } else if (myObject.getDescription().equalsIgnoreCase("JOIN_GAME")) {
+                this.mainServerClass.onEvent(myObject.onServer());
+            }else if (myObject.getDescription().equalsIgnoreCase("READY_TO_PLAY")){
+                this.mainServerClass.onEvent(myObject.onServer());
+            }else {
+                // once the game is initialised filter
+                for (NetworkParty p : this.mainServerClass.getActiveParties()) {
+                    for (NetworkClient c : p.getClients()) {
+                        if (c.getClientID() == myObject.getPlayerID()) {
+                            // GameID/PartyID fetch
+                            myObject.setGameID(p.getPartyID());
+                        }
+                    }
+                }
+                this.mainServerClass.notifyListeners(myObject.onServer(), this.mainServerClass.getListeners());
             }
-            this.mainServerClass.notifyListeners(myObject.onServer(), this.mainServerClass.getListeners());
         } catch (Exception e) {
             e.printStackTrace();
-        } //fixme azione
+        }
     }
 
     @Override
-    public synchronized void sendSerializedMessage(Data message, NetworkClient client){
+    public  void sendSerializedMessage(Data message, NetworkClient client){
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String json = null; //fixme A+S
+        String json = ""; //fixme A+S
         try {
             json = objectMapper.writeValueAsString(message);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         client.getStreams().getOut().println(json);
+        client.getStreams().getOut().flush();
         //fixme A+S rimuovere message e end*/
     }
 
@@ -281,7 +333,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
 
     @Override
-    public synchronized int newConnectedClientNotification(Socket clientSocket, RemoteInterfaceClient remoteInterface){
+    public  int newConnectedClientNotification(Socket clientSocket, RemoteInterfaceClient remoteInterface){
 
 
         int clientID = this.mainServerClass.createNewOrphanClient(Protocol.TCP, clientSocket, null);
@@ -314,7 +366,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
 
     @Override
-    public synchronized void disconnectedClientNotification(NetworkClient client) throws IOException {
+    public  void disconnectedClientNotification(NetworkClient client) throws IOException {
 
         if(client != null && client.isOnline()){
             try {

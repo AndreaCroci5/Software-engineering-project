@@ -2,6 +2,7 @@ package it.polimi.ingsw.am40.client.network.States.activeStates;
 
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.JoinRequestMessage;
 import it.polimi.ingsw.am40.client.network.Client;
+import it.polimi.ingsw.am40.client.network.ClientNetworkTCPManager;
 import it.polimi.ingsw.am40.client.network.State;
 
 public class SetUpState implements State {
@@ -24,11 +25,14 @@ public class SetUpState implements State {
      */
     @Override
     public void checkInput(Client context, String input) {
+        ClientNetworkTCPManager tcp = (ClientNetworkTCPManager) context.getNetworkManager(); //FIXME
+        String ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
+        int port = tcp.getSocket().getLocalPort(); //FIXME
         if (!input.equalsIgnoreCase("join") && !input.equalsIgnoreCase("create")) {
             System.out.println(">Wrong input");
         }
         else if (input.equalsIgnoreCase("join")) {
-            context.getNetworkManager().send(new JoinRequestMessage(context.getNickname()));
+            context.getNetworkManager().send(new JoinRequestMessage(context.getNickname(),ipAddress,port));
         }
         else if (input.equalsIgnoreCase("create")) {
             context.setState(new CreateState());

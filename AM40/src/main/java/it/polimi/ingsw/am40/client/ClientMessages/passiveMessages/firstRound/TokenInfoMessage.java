@@ -39,5 +39,8 @@ public class TokenInfoMessage extends Message {
             context.getViewManager().displayPossibleTokens(this.tokens);
             context.setState(new ActiveTokenChoiceState(this.tokens));
         }
+        else {
+            context.getViewManager().showPassiveTokenState(this.clientNickname);
+        }
     }
 }

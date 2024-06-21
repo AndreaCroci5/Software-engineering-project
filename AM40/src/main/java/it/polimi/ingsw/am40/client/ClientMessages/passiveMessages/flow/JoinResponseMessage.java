@@ -4,6 +4,7 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ChooseGameState;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class JoinResponseMessage extends Message {
 
@@ -15,18 +16,14 @@ public class JoinResponseMessage extends Message {
     /**
      * It's a list with all the gameIds of the possible games that the client can join
      */
-    private final ArrayList<Integer> gamesIDs;
+    private Map<Integer, ArrayList<Integer>> currentParties;
 
 
-    /**
-     * This message contains all the IDs of the client that he can join
-     * @param clientNickname is the name of the active client
-     * @param gameIDs is the list of the possible game that the client can join
-     */
-    public JoinResponseMessage(String clientNickname,ArrayList<Integer> gameIDs) {
+
+    public JoinResponseMessage(String clientNickname,Map<Integer, ArrayList<Integer>> currentParties) {
         super("POSITIVE_JOIN",clientNickname);
         this.clientNickname = clientNickname;
-        this.gamesIDs = gameIDs;
+        this.currentParties = currentParties;
     }
 
     /**
@@ -39,8 +36,8 @@ public class JoinResponseMessage extends Message {
         // display all possible games
         // set the new state
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
-            context.getViewManager().displayAllGameIds(this.gamesIDs);
-            context.setState(new ChooseGameState(this.gamesIDs));
+            context.getViewManager().displayAllGameIds(this.currentParties);
+            context.setState(new ChooseGameState(this.currentParties));
         }
     }
 }

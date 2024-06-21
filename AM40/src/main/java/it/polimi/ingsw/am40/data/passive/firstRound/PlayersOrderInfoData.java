@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.passive.firstRound;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow.DecidePlayerOrderResponse;
@@ -14,12 +16,21 @@ public class PlayersOrderInfoData extends Data {
     private ArrayList<String> players;
 
     //CONSTRUCTOR
-    //Logic constructor for subclasses
-    public PlayersOrderInfoData(String nickname, ArrayList<String> players) {
+
+    @JsonCreator
+    public PlayersOrderInfoData(@JsonProperty("nickname") String nickname,
+                                @JsonProperty("players") ArrayList<String> players) {
         super("PLAYERS_ORDER_INFO", nickname);
         this.players = players;
     }
 
+    public ArrayList<String> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<String> players) {
+        this.players = players;
+    }
 
     //PUBLIC METHODS
 

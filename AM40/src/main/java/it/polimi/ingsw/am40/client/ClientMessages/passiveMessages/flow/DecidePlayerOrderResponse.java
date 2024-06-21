@@ -39,12 +39,16 @@ public class DecidePlayerOrderResponse extends Message {
 
         context.getViewManager().displayPlayerOrder(this.playersOrder);
 
-        if (context.getNickname().equalsIgnoreCase(this.playersOrder.getFirst())) {
+        //FIXME
+        context.getViewManager().displayChat();
+
+        //FIXME
+        /*if (context.getNickname().equalsIgnoreCase(this.playersOrder.getFirst())) {
             context.setState(new ActivePlacingState());
         }
         else {
             context.setState(new PassivePlacingState());
-        }
+        }*/
     }
 
 }

@@ -88,10 +88,11 @@ public class TUIManager implements ViewManager {
     }
 
     @Override
-    public void displayAllGameIds(List<Integer> gamesIDs) {
+    public void displayAllGameIds(Map<Integer, ArrayList<Integer>> gamesIDs) {
+        System.out.println("\n");
         System.out.println(">Here are all the possible games you can choose: ");
-        for (Integer gameId : gamesIDs) {
-            System.out.println(">Game ID: " + gameId);
+        for (Integer gameID : gamesIDs.keySet()) {
+            System.out.println(">Game ID: " + gameID);
         }
         System.out.println(">Write the ID of the game you want to join: ");
     }
@@ -102,6 +103,7 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displayStartingCardInfo(int startingCardID) {
+        System.out.println("\n");
         System.out.println(">Here is your starting card: ");
         SmallCard card = SmallCardLoader.findCardById(startingCardID);
         System.out.println(">Here are all the card information: ");
@@ -119,16 +121,19 @@ public class TUIManager implements ViewManager {
     }
 
     @Override
-   public void showPassiveStartingCard(String nickname,int startingCardID) {
-        System.out.println(">The player: " + nickname + "has this starting card");
-       SmallCard card = SmallCardLoader.findCardById(startingCardID);
+   public void showPassiveStartingCard(String nickname,int startingCardID,String cardFace) {
+        System.out.println("\n");
+        System.out.println(">The player: " + nickname + " has chosen this starting card");
+        SmallCard card = SmallCardLoader.findCardById(startingCardID);
         assert card != null;
         printStartingFrontFace(card);
         printStartingBackFace(card);
+        System.out.println(">And he placed it in his " + cardFace + " face");
    }
 
     @Override
     public void displayPossibleTokens(List<String> tokens) {
+        System.out.println("\n");
         System.out.println(">Now you need to choose the color of the token you want to use ");
         String result = String.join(", ", tokens);
         System.out.println(">The color of the tokens are: " + result);
@@ -137,11 +142,13 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void showPositiveTokenColor(String clientNickname, String token) {
+        System.out.println("\n");
         System.out.println(">" + clientNickname + " choose the " + token + " token");
     }
 
     @Override
     public void displayAimCardsToChoose(List<Integer> aimCardsId) {
+        System.out.println("\n");
         System.out.println(">Here are the two possible aim cards you can choose ");
         System.out.println(">You have to choose one of them ");
         for (Integer aimCardId : aimCardsId) {
@@ -154,11 +161,15 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void showPassiveAimCardResult(String nickname) {
+        System.out.println("\n");
         System.out.println(">" + nickname + " has chosen his aim card ");
     }
 
     @Override
     public void displayPlayerOrder(List<String> playerOrder) {
+        System.out.println("\n");
+        System.out.println(">Well done, we finished the first phase of the game");
+        System.out.println(">Let's start with the round");
         int i=0;
         System.out.println(">The order of the players is: ");
         for (String player : playerOrder) {
@@ -284,7 +295,7 @@ public class TUIManager implements ViewManager {
     }
 
     public void displayChat() {
-        System.out.println("\n>Chat is not implemented yet\n");
+        System.out.println("\n>TO BE IMPLEMENTED\n");
     }
 
     @Override
@@ -321,6 +332,68 @@ public class TUIManager implements ViewManager {
         System.out.println(">The input you send is not a valid input ");
     }
 
+    @Override
+    public void showNoActiveParties() {
+        System.out.println(">There are no active parties, you must create a new game");
+    }
+
+    @Override
+    public void showFailedGameID() {
+        System.out.println(">Something went wrong while joining the game");
+    }
+
+    @Override
+    public void displayStartingGame(ArrayList<String> nicknames, List<SmallCard> commonBoard) {
+        System.out.println("\n");
+        System.out.println(">Game is starting");
+        for (String nickname : nicknames) {
+            System.out.println(">" + nickname + " has joined the game");
+        }
+        System.out.println("\n");
+        displayCommonBoard(commonBoard);
+        System.out.println(">The game is started ");
+        System.out.println(">Up here you can find all the information of the game");
+        System.out.println(">Let's start with the first phase");
+    }
+
+    @Override
+    public void showPassiveAimState(String clientNickname) {
+        System.out.println("\n");
+        System.out.println(">" + clientNickname + " is choosing his personal aim card ");
+        System.out.println(">Wait for him to finish ");
+    }
+
+    @Override
+    public void showPassiveStartingCardState(String clientNickname) {
+        System.out.println("\n");
+        System.out.println(">" + clientNickname + " is choosing how to place his starting card");
+        System.out.println(">Wait for him to finish ");
+    }
+
+    @Override
+    public void showPassiveTokenState(String clientNickname) {
+        System.out.println("\n");
+        System.out.println(">" + clientNickname + " is choosing his token color");
+        System.out.println(">Wait for him to finish ");
+    }
+
+    @Override
+    public void displayStartingCardResult(int cardID, String cardFace) {
+        System.out.println(">Well done, you chose to place your starting card in his " + cardFace + " face");
+    }
+
+    @Override
+    public void displayDealCardState(List<SmallCard> myHand) {
+        displayMyHand(myHand);
+        System.out.println(">Up here you can see the common board updated after dealing the cards to all players ");
+        System.out.println(">You can also see the cards in your hand");
+    }
+
+    @Override
+    public void displayPositiveAimCardChoice() {
+        System.out.println(">Well done, you choose your personal aim card ");
+        System.out.println(">Remember to create his pattern in order to gain points at the end of the game");
+    }
 
 
     // Printer
@@ -372,6 +445,51 @@ public class TUIManager implements ViewManager {
 
         else if (card.getChecker().equalsIgnoreCase("AimCheckerLPattern")) {
             System.out.println("You score " + card.getPoints() + " points every time you have this pattern in your board: ");
+            if (card.getRotation().equalsIgnoreCase("x")) {
+                System.out.println(" _____ ");
+                System.out.println("| " + CardElementsToString(card.getCheckResources().get(0)) + " |");
+                System.out.println(" ----- ");
+                System.out.println("        _____ ");
+                System.out.println("       | " + CardElementsToString(card.getCheckResources().get(1)) + " |");
+                System.out.println("        ----- ");
+                System.out.println("        _____ ");
+                System.out.println("       | " + CardElementsToString(card.getCheckResources().get(1)) + " |");
+                System.out.println("        ----- ");
+
+            }
+            else if (card.getRotation().equalsIgnoreCase("y")) {
+                System.out.println("        _____ ");
+                System.out.println("       | " + CardElementsToString(card.getCheckResources().get(1)) + " |");
+                System.out.println("        ----- ");
+                System.out.println("        _____ ");
+                System.out.println("       | " + CardElementsToString(card.getCheckResources().get(1)) + " |");
+                System.out.println("        ----- ");
+                System.out.println(" _____ ");
+                System.out.println("| " + CardElementsToString(card.getCheckResources().get(0)) + " |");
+                System.out.println(" ----- ");
+            }
+            else if (card.getRotation().equalsIgnoreCase("-x")) {
+                System.out.println(" _____ ");
+                System.out.println("| " + CardElementsToString(card.getCheckResources().get(1)) + " |");
+                System.out.println(" ----- ");
+                System.out.println(" _____ ");
+                System.out.println("| " + CardElementsToString(card.getCheckResources().get(1)) + " |");
+                System.out.println(" ----- ");
+                System.out.println("        _____ ");
+                System.out.println("       | " + CardElementsToString(card.getCheckResources().get(0)) + " |");
+                System.out.println("        ----- ");
+            }
+            else if (card.getRotation().equalsIgnoreCase("-y")) {
+                System.out.println("        _____ ");
+                System.out.println("       | " + CardElementsToString(card.getCheckResources().get(0)) + " |");
+                System.out.println("        ----- ");
+                System.out.println(" _____ ");
+                System.out.println("| " + CardElementsToString(card.getCheckResources().get(1)) + " |");
+                System.out.println(" ----- ");
+                System.out.println(" _____ ");
+                System.out.println("| " + CardElementsToString(card.getCheckResources().get(1)) + " |");
+                System.out.println(" ----- ");
+            }
         }
         else if (card.getChecker().equalsIgnoreCase("AimCheckerResource")) {
             List<String> res = new ArrayList<>();
@@ -396,20 +514,32 @@ public class TUIManager implements ViewManager {
     }
 
     private void printGoldFrontFace(SmallCard card) {
-        if (card.getScoreType().equalsIgnoreCase("CoverageScoreType")) {
-            System.out.println("You score " + card.getScorePoints() + " points for every corner you cover when you place this card");
-        }
-        if (card.getScoreType().equalsIgnoreCase("ObjectScoreType")) {
-            System.out.println("You score " + card.getScorePoints() + " points for every " + CardElementsToString(card.getObjectScoreType()) + " you have in your personal board");
-        }
-        if (card.getScoreType().equalsIgnoreCase("NormalScoreType")) {
+        if (card.getScoreType() == null) {
             System.out.println("Points of the card: " + card.getScorePoints());
         }
-        List<String> res = new ArrayList<>();
-        for (String req : card.getRequires()) {
-            res.add(CardElementsToString(req));
+
+        else {
+            if (card.getScoreType().equalsIgnoreCase("CoverageScoreType")) {
+                System.out.println("You score " + card.getScorePoints() + " points for every corner you cover when you place this card");
+            }
+            if (card.getScoreType().equalsIgnoreCase("ObjectScoreType")) {
+                System.out.println("You score " + card.getScorePoints() + " points for every " + CardElementsToString(card.getObjectScoreType()) + " you have in your personal board");
+            }
+            if (card.getScoreType().equalsIgnoreCase("NormalScoreType")) {
+                System.out.println("Points of the card: " + card.getScorePoints());
+            }
         }
-        System.out.println("Resource require in order to place the card in its front face: " + String.join(" ",res));
+
+        if (card.getRequires() == null) {
+            System.out.println(">No requires in order to play this card");
+        }
+        else {
+            List<String> res = new ArrayList<>();
+            for (String req : card.getRequires()) {
+                res.add(CardElementsToString(req));
+            }
+            System.out.println("Resource require in order to place the card in its front face: " + String.join(" ",res));
+        }
         printResourceFrontFace(card);
     }
 
@@ -447,7 +577,7 @@ public class TUIManager implements ViewManager {
     }
 
     private String CardElementsToString(String cardElement) {
-        if (cardElement.equalsIgnoreCase("animal")) {
+        if (  cardElement.equalsIgnoreCase("animal")) {
             return "🐺";
         }
         if (cardElement.equalsIgnoreCase("fungi")) {

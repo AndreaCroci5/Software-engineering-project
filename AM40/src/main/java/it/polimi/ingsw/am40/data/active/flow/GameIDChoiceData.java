@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.active.flow;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -10,13 +12,19 @@ public class GameIDChoiceData extends Data {
 
     private int gameIDChoice;
 
-    public GameIDChoiceData(String nickname, int gameIDChoice) {
-        super("GAME_ID_CHOICE", nickname);
+    public int getGameIDChoice() {
+        return gameIDChoice;
+    }
+
+    public void setGameIDChoice(int gameIDChoice) {
         this.gameIDChoice = gameIDChoice;
     }
 
-    public GameIDChoiceData(){
-
+    @JsonCreator
+    public GameIDChoiceData(@JsonProperty("nickname") String nickname,
+                            @JsonProperty("gameIDChoice") int gameIDChoice) {
+        super("GAME_ID_CHOICE", nickname);
+        this.gameIDChoice = gameIDChoice;
     }
 
     @Override

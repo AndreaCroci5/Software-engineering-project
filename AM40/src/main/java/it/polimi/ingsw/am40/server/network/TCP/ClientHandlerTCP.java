@@ -38,33 +38,9 @@ public class ClientHandlerTCP implements Runnable{
         String line;
 
         while (true) {
-             line = in.nextLine();;
-            switch (line.toLowerCase()){
-                case "message":{                      //todo logica
-                    String subResponse;
-                    StringBuilder jsonBuilder = new StringBuilder();
-                    while (true) {
-                        if (!((subResponse = in.nextLine()) != null && !subResponse.isEmpty()))
-                            break;
-                        if (subResponse.equals("endmessage")){
-                            String json = jsonBuilder.toString();
-                            this.getTCPManager().handleJSONMessage(json); //fixme metodi per ricevere e mandare
-                            break;
-                        }else{
-                            jsonBuilder.append(subResponse);
-                        }
-                    }
-                    out.flush();
-                    break;
-                }
-                case "ping" :
-                    System.out.println("ping received");
-                   out.println("pong");
-                    break;
-                default:
-                    break;
-            }
-
+            line = in.nextLine();;
+            this.getTCPManager().handleJSONMessage(line);
+            out.flush();
         }
 
     }

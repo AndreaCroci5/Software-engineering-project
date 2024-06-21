@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.passive.flow;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow.ChangeTurnResponseMessage;
@@ -14,14 +16,20 @@ public class ChangeTurnInfoData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public ChangeTurnInfoData(String nickname, String nextActivePlayer) {
+    //Json constructor
+    @JsonCreator
+    public ChangeTurnInfoData(@JsonProperty("nickname") String nickname,
+                              @JsonProperty("nextActivePlayer") String nextActivePlayer) {
         super("CHANGE_TURN_INFO", nickname);
         this.nextActivePlayer = nextActivePlayer;
     }
-    //Json constructor
-    public ChangeTurnInfoData(){
 
+    public String getNextActivePlayer() {
+        return nextActivePlayer;
+    }
+
+    public void setNextActivePlayer(String nextActivePlayer) {
+        this.nextActivePlayer = nextActivePlayer;
     }
 
     //PUBLIC METHODS

@@ -16,7 +16,7 @@ public class ActiveStartingCardChoiceState implements State {
      */
     @Override
     public void execute(Client context) {
-        // Nothing to do
+        context.getViewManager().askStartingFace();
     }
 
     /**
@@ -32,7 +32,9 @@ public class ActiveStartingCardChoiceState implements State {
         if (!possibleChoices.contains(input.toLowerCase())) {
             System.out.println(">Wrong input");
         }
-        context.getNetworkManager().send(new StartingCardChoiceMessage(context.getNickname(),input));
+        else {
+            context.getNetworkManager().send(new StartingCardChoiceMessage(context.getNickname(),input));
+        }
     }
 
 }

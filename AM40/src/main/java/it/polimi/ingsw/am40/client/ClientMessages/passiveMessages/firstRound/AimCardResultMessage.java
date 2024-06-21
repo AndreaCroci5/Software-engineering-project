@@ -39,6 +39,7 @@ public class AimCardResultMessage extends Message {
     public void process(Client context) {
 
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
+            context.getViewManager().displayPositiveAimCardChoice();
             context.getSmallModel().setMyAimCard(SmallCardLoader.findCardById(this.aimCardIdChosen));
             context.setState(new ReadyToRoundState());
             context.getNetworkManager().send(new ChangeTurnRequestMessage(context.getNickname()));

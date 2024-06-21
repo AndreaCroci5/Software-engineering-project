@@ -11,7 +11,6 @@ public class PassiveDealCardsState implements State {
      */
     @Override
     public void execute(Client context) {
-        context.getViewManager().showNotYouTurn();
     }
 
     /**

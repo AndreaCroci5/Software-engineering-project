@@ -74,8 +74,8 @@ public class GameManager implements ActionListener {
     public void initApplication(int portTCP, int portRMI, String hostName){
 
         VVServer server = new VVServer();
-        server.initServer(portTCP, portRMI, hostName);
         server.addListener(this, server.getListeners());
+        server.initServer(portTCP, portRMI, hostName);
 
     }
 }

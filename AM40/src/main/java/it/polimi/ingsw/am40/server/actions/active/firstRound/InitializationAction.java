@@ -45,6 +45,7 @@ public class InitializationAction extends Action {
         for (Player p : gameContext.getPlayers()) {
             nicknames.add(p.getNickname());
         }
+
         //Boards Card
         Map<String, ArrayList<Integer>> commonboard = new HashMap<>();
         //ResourceCards

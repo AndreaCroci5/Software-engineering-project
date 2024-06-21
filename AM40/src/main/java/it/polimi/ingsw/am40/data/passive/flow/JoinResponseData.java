@@ -1,6 +1,10 @@
 package it.polimi.ingsw.am40.data.passive.flow;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow.JoinResponseMessage;
 import it.polimi.ingsw.am40.data.Data;
 
 import java.util.ArrayList;
@@ -16,12 +20,23 @@ public class JoinResponseData extends Data {
      */
     private Map<Integer, ArrayList<Integer>> currentParties;
 
+    public Map<Integer, ArrayList<Integer>> getCurrentParties() {
+        return currentParties;
+    }
 
-    public JoinResponseData(String nickname, Map<Integer, ArrayList<Integer>> currentParties) {
+    public void setCurrentParties(Map<Integer, ArrayList<Integer>> currentParties) {
+        this.currentParties = currentParties;
+    }
+
+    @JsonCreator
+    public JoinResponseData(@JsonProperty("nickname") String nickname,
+                            @JsonProperty("currentParties") Map<Integer, ArrayList<Integer>> currentParties) {
         super("JOIN_RESPONSE", nickname);
         this.currentParties = currentParties;
     }
 
-    public JoinResponseData() {
+
+    public Message onClient() {
+        return new JoinResponseMessage(getNickname(), this.currentParties);
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.active.firstRound;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
@@ -10,15 +12,13 @@ import it.polimi.ingsw.am40.server.actions.active.firstRound.PlayersOrderRequest
 @JsonTypeName("PLAYERS_ORDER_REQUEST")
 public class PlayersOrderRequestData extends Data {
     //CONSTRUCTOR
-    //Logic constructor for subclasses
-    public PlayersOrderRequestData(String nickname) {
+
+    @JsonCreator
+    public PlayersOrderRequestData(@JsonProperty("nickname") String nickname) {
         super("PLAYERS_ORDER_REQUEST", nickname);
     }
 
-    //Json constructor
-    public PlayersOrderRequestData(){
 
-    }
     //PUBLIC METHODS
 
     public Action onServer(){

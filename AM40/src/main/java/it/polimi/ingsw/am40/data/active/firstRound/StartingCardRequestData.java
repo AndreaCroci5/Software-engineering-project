@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.active.firstRound;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
@@ -11,14 +13,13 @@ public class StartingCardRequestData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public StartingCardRequestData(String nickname) {
+    //Json constructor
+    @JsonCreator
+    public StartingCardRequestData(@JsonProperty("nickname") String nickname) {
         super("STARTING_CARD_REQUEST", nickname);
     }
-    //Json constructor
-    public StartingCardRequestData() {
 
-    }
+
 
 
     //PUBLIC METHODS

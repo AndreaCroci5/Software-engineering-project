@@ -50,6 +50,12 @@ public class DealCardsResponseMessage extends Message {
 
         if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
 
+            SmallCard resCard = SmallCardLoader.findCardById(deckResourceCardID);
+            SmallCard goldCard = SmallCardLoader.findCardById(deckGoldenCardID);
+            context.getSmallModel().getCommonBoard().set(0,resCard);
+            context.getSmallModel().getCommonBoard().set(3,goldCard);
+            context.getViewManager().displayCommonBoard(context.getSmallModel().getCommonBoard());
+
             List<SmallCard> myHandCards = new ArrayList<SmallCard>();
             for (Integer cardID : handCards) {
                 SmallCard card = SmallCardLoader.findCardById(cardID);
@@ -57,7 +63,7 @@ public class DealCardsResponseMessage extends Message {
             }
 
             context.getSmallModel().setMyHand(myHandCards);
-            context.getViewManager().displayMyHand(context.getSmallModel().getMyHand());
+            context.getViewManager().displayDealCardState(context.getSmallModel().getMyHand());
             context.setState(new PassiveAimCardChoiceState());
             context.getNetworkManager().send(new ChangeTurnRequestMessage(context.getNickname()));
         }

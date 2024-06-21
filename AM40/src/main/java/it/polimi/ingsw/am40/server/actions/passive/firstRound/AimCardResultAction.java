@@ -28,7 +28,7 @@ public class AimCardResultAction extends Action {
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
-        v.sendOnNetworkUnicast(this.getPlayerID(), this.dataCreator());
+        v.sendOnNetworkBroadcastInAParty(this.getGameID(), this.dataCreator());
     }
 
     @Override

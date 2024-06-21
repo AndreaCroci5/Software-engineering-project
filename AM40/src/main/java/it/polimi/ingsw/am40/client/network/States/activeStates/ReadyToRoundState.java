@@ -11,7 +11,7 @@ public class ReadyToRoundState implements State {
      */
     @Override
     public void execute(Client context) {
-        context.getViewManager().showNotYouTurn();
+
     }
 
     /**

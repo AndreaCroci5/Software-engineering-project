@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.active.firstRound;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -14,18 +16,23 @@ import it.polimi.ingsw.am40.server.actions.active.firstRound.AimCardChoiceAction
 public class AimCardChoiceData extends Data {
     //ATTRIBUTES
     /** This attribute represents one the AimCard chosen by the Client: (0) the first, (1) the second*/
-    private int choice;
+    private int aimCardChosenID;
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public AimCardChoiceData(String nickname,int choice) {
+    @JsonCreator
+    public AimCardChoiceData(@JsonProperty("nickname") String nickname,
+                             @JsonProperty("aimCardChosenID") int aimCardChosenID) {
         super("AIM_CARD_SELECTION", nickname);
-        this.choice = choice;
+        this.aimCardChosenID = aimCardChosenID;
     }
-    //Json constructor
-    public AimCardChoiceData() {
 
+    public int getAimCardChosenID() {
+        return aimCardChosenID;
+    }
+
+    public void setAimCardChosenID(int aimCardChosenID) {
+        this.aimCardChosenID = aimCardChosenID;
     }
 
     //PUBLIC METHODS
@@ -35,7 +42,7 @@ public class AimCardChoiceData extends Data {
      * @return an AimCardChoiceAction
      */
     public Action onServer(){
-        return new AimCardChoiceAction(this.getNickname(),this.getGameID(), this.getPlayerID(), this.choice);
+        return new AimCardChoiceAction(this.getNickname(),this.getGameID(), this.getPlayerID(), this.aimCardChosenID);
     }
 
     public Message onClient() {

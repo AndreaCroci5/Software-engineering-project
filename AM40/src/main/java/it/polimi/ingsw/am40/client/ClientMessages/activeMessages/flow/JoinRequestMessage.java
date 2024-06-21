@@ -8,13 +8,19 @@ public class JoinRequestMessage extends Message {
 
     private final String clientNickname;
 
+    private final String IpAddress;
+
+    private final int port;
+
     /**
      * Constructor fot the JoinMessage
      * This message it's the request of the client to join an existing game
      */
-    public JoinRequestMessage(String nickname) {
+    public JoinRequestMessage(String nickname, String ipAddress, int port) {
         super("JOIN_GAME",nickname);
         this.clientNickname = nickname;
+        this.IpAddress = ipAddress;
+        this.port = port;
     }
 
     /**
@@ -23,6 +29,6 @@ public class JoinRequestMessage extends Message {
      * @return the data that is going to the network
      */
     public Data messageToData() {
-        return new JoinRequestData(this.clientNickname);
+        return new JoinRequestData(this.clientNickname,this.IpAddress,this.port);
     }
 }

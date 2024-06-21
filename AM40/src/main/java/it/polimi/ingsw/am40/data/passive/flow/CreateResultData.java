@@ -1,7 +1,10 @@
 package it.polimi.ingsw.am40.data.passive.flow;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow.CreateResponseMessage;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
 
@@ -11,15 +14,30 @@ public class CreateResultData extends Data {
     private int numOfPlayers;
     private int playersLogged;
 
-    //Logic constructor for subclasses
-    public CreateResultData(String nickname, int numOfPlayers, int playersLogged) {
+    //Json constructor
+    @JsonCreator
+    public CreateResultData(@JsonProperty("nickname") String nickname,
+                            @JsonProperty("numOfPlayers") int numOfPlayers,
+                            @JsonProperty("playersLogged") int playersLogged) {
         super("CREATE_RESULT", nickname);
         this.numOfPlayers = numOfPlayers;
         this.playersLogged = playersLogged;
     }
-    //Json constructor
-    public CreateResultData(){
 
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+    }
+
+    public int getPlayersLogged() {
+        return playersLogged;
+    }
+
+    public void setPlayersLogged(int playersLogged) {
+        this.playersLogged = playersLogged;
     }
 
     //PUBLIC METHODS
@@ -30,6 +48,6 @@ public class CreateResultData extends Data {
     }
 
     public Message onClient() {
-        return null;
+        return new CreateResponseMessage(this.getNickname(),this.numOfPlayers);
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.passive.firstRound;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound.AimCardResultMessage;
@@ -23,18 +25,41 @@ public class DealCardsResultData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public DealCardsResultData(String nickname, ArrayList<Integer> handDeckIDs, int deckResourceCardID, int deckGoldenCardID){
-        super("CARDS_DEAL_RESULT", nickname);
+
+    @JsonCreator
+    public DealCardsResultData(@JsonProperty("nickname") String nickname,
+                               @JsonProperty("handDeckIDs") ArrayList<Integer> handDeckIDs,
+                               @JsonProperty("deckResourceCardID") int deckResourceCardID,
+                               @JsonProperty("deckGoldenCardID") int deckGoldenCardID){
+        super("CARD_DEAL_RESULT", nickname);
         this.handDeckIDs = handDeckIDs;
         this.deckResourceCardID = deckResourceCardID;
         this.deckGoldenCardID = deckGoldenCardID;
     }
-    //Json constructor
-    public DealCardsResultData(){
 
+    public ArrayList<Integer> getHandDeckIDs() {
+        return handDeckIDs;
     }
 
+    public void setHandDeckIDs(ArrayList<Integer> handDeckIDs) {
+        this.handDeckIDs = handDeckIDs;
+    }
+
+    public int getDeckResourceCardID() {
+        return deckResourceCardID;
+    }
+
+    public void setDeckResourceCardID(int deckResourceCardID) {
+        this.deckResourceCardID = deckResourceCardID;
+    }
+
+    public int getDeckGoldenCardID() {
+        return deckGoldenCardID;
+    }
+
+    public void setDeckGoldenCardID(int deckGoldenCardID) {
+        this.deckGoldenCardID = deckGoldenCardID;
+    }
 
     //PUBLIC METHODS
 

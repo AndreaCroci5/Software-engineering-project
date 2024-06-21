@@ -57,12 +57,12 @@ public class StartingCardResultMessage extends Message {
         // Set grid
 
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
-            context.getViewManager().displayStartingCardInfo(cardID);
+            context.getViewManager().displayStartingCardResult(cardID,this.cardFace);
             context.setState(new PassiveTokenChoiceState());
             context.getNetworkManager().send(new ChangeTurnRequestMessage(context.getNickname()));
         }
         else {
-            context.getViewManager().showPassiveStartingCard(this.clientNickname,this.cardID);
+            context.getViewManager().showPassiveStartingCard(this.clientNickname,this.cardID,this.cardFace);
         }
     }
 }

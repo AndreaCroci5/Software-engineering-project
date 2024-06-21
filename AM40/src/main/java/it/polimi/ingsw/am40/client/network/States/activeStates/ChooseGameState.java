@@ -4,15 +4,17 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.GameIdChoi
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class ChooseGameState implements State {
 
-    private final List<Integer> gameIds;
+    private Map<Integer, ArrayList<Integer>> currentParties;
 
-    public ChooseGameState(List<Integer> gameIds) {
-        this.gameIds = gameIds;
+    public ChooseGameState(Map<Integer, ArrayList<Integer>> currentParties) {
+        this.currentParties = currentParties;
     }
 
     /**
@@ -36,7 +38,7 @@ public class ChooseGameState implements State {
         // check if it's an integer and send back message
         try {
             Integer.parseInt(input);
-            if (this.gameIds.contains(Integer.parseInt(input))) {
+            if (this.currentParties.containsKey(Integer.parseInt(input))) {
                 context.getNetworkManager().send(new GameIdChoiceMessage(context.getNickname(), Integer.parseInt(input)));
             }
             else {

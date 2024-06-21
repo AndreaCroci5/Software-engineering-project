@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.active.firstRound;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -14,15 +16,19 @@ public class TokenChoiceData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public TokenChoiceData(String nickname, String token) {
+    @JsonCreator
+    public TokenChoiceData(@JsonProperty("nickname") String nickname,
+                           @JsonProperty("token") String token) {
         super("TOKEN_SELECTION", nickname);
         this.token = token;
     }
 
-    //Json constructor
-    public TokenChoiceData() {
+    public String getToken() {
+        return token;
+    }
 
+    public void setToken(String token) {
+        this.token = token;
     }
 
     //PUBLIC METHODS

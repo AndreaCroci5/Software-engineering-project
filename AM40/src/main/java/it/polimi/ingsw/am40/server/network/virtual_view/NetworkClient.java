@@ -82,8 +82,8 @@ public class NetworkClient {
     public NetworkClient(Protocol protocol, Socket socket, RemoteInterfaceClient remoteInterface, List<NetworkManagerServer> managerContainer) {
         //More than one thread could access to this block of code, but each client must have a different ID
         switch (protocol){
-            case TCP -> this.manager = managerContainer.get(0);
-            case RMI -> this.manager = managerContainer.get(1);
+            case TCP -> this.manager = managerContainer.get(1);
+            case RMI -> this.manager = managerContainer.get(0);
             case null, default -> throw new RuntimeException();
         }
         synchronized (lock) {
