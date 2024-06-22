@@ -1,0 +1,21 @@
+.button{
+    -fx-background-image: url("../images/perg.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+    -fx-font-size: 30px;
+}
+
+
+.button:pressed{
+    -fx-background-image: url("../images/perg.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+    -fx-font-size: 28px;
+}
+
+
+.button:hover {
+    -fx-opacity: 0.8;
+}

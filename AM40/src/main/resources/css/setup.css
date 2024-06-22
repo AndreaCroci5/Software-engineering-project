@@ -1,0 +1,49 @@
+.players{
+    -fx-background-image: url("../images/others/list.png");
+    -fx-background-size: stretch;
+}
+
+.chatButton{
+    -fx-background-image: url("../images/board/chatButton.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+}
+
+.chatButton:hover{
+    -fx-opacity: 0.9;
+}
+
+.chatButton:pressed{
+    -fx-background-image: url("../images/board/chatButton.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+}
+
+.boardsButton{
+    -fx-background-image: url("../images/wood4.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}
+
+.boardsButton:hover{
+    -fx-opacity: 0.9;
+}
+
+.boardsButton:pressed{
+    -fx-background-image: url("../images/wood4.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+}
+
+.faceButton{
+    -fx-background-image: url("../images/wood4.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+}
+
+.faceButton:hover{
+    -fx-opacity: 0.9;
+}
