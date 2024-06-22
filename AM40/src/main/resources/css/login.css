@@ -20,3 +20,25 @@
 .button:hover {
     -fx-opacity: 0.9;
 }
+
+
+.sendButton{
+    -fx-background-image: url("../images/arrow.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+    -fx-font-size: 13px;
+}
+
+
+.sendButton:hover{
+    -fx-opacity: 0.8;
+}
+
+
+.sendButton:pressed{
+    -fx-background-image: url("../images/arrow.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-size: 12px;
+}

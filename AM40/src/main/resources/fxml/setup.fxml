@@ -38,22 +38,22 @@
       <ScrollBar layoutX="465.0" layoutY="452.0" />
       <VBox id="players" layoutX="805.0" prefHeight="350.0" prefWidth="225.0" styleClass="players" stylesheets="@../css/setup.css">
          <children>
-            <Label text="Player1" translateX="30.0" translateY="80.0">
+            <Label text="Player1" translateX="30.0" translateY="80.0" visible="false">
                <font>
                   <Font name="Papyrus" size="20.0" />
                </font>
             </Label>
-            <Label text="Player2" translateX="30.0" translateY="95.0">
+            <Label text="Player2" translateX="30.0" translateY="95.0" visible="false">
                <font>
                   <Font name="Papyrus" size="20.0" />
                </font>
             </Label>
-            <Label text="Player3" translateX="30.0" translateY="110.0">
+            <Label text="Player3" translateX="30.0" translateY="110.0" visible="false">
                <font>
                   <Font name="Papyrus" size="20.0" />
                </font>
             </Label>
-            <Label text="Player4" translateX="30.0" translateY="125.0">
+            <Label text="Player4" translateX="30.0" translateY="125.0" visible="false">
                <font>
                   <Font name="Papyrus" size="20.0" />
                </font>
@@ -66,15 +66,28 @@
             <ImageView fitHeight="73.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" translateX="20.0" />
          </children>
       </HBox>
-      <GridPane layoutX="30.0" layoutY="430.0" prefHeight="120.0" prefWidth="180.0">
+      <GridPane layoutX="30.0" layoutY="420.0" prefHeight="140.0" prefWidth="200.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
+         <children>
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+         </children>
       </GridPane>
       <Button id="chatButton" fx:id="chatButton" layoutX="755.0" layoutY="45.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#chat" prefHeight="60.0" prefWidth="60.0" styleClass="chatButton" stylesheets="@../css/setup.css" translateX="-520.0">
          <font>
@@ -93,5 +106,15 @@
       </Button>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="809.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="73.0" fitWidth="110.0" layoutX="705.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="425.0" layoutY="20.0" text="player ha piezzato:" visible="false">
+         <font>
+            <Font name="Papyrus" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="456.0" layoutY="50.0" text="è il turno di:" visible="false">
+         <font>
+            <Font name="Papyrus" size="20.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
