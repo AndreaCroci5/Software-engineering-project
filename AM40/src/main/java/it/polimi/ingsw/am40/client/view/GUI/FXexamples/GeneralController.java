@@ -1,7 +1,5 @@
 package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
 
-import it.polimi.ingsw.am40.client.smallModel.SmallCard;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,7 @@ public class GeneralController {
 
     }
 
-    public void startingGame(ArrayList<String> nicknames, List<SmallCard> commonBoard) throws IOException {
+    public void startingGame(ArrayList<String> nicknames, List<Integer> resource, List<Integer> golden, List<Integer> aim) throws IOException {
     }
 
     //FIRST ROUND METHODS

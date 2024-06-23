@@ -19,8 +19,10 @@ public class GraphicResourceFetcher {
         } else {
             fileName += "backCards/";
         }
-        if (cardID < 100) {
+        if (cardID < 100 && cardID>=10) {
             fileName = fileName + "0" + cardID;
+        } else if (cardID<10) {
+            fileName = fileName + "00" + cardID;
         } else {
             fileName += cardID;
         }

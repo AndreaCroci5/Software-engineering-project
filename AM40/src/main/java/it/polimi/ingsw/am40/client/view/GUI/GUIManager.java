@@ -89,7 +89,6 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayAllGameIds(Map<Integer, ArrayList<Integer>> gamesIDs) {
-        LoginController contextController = (LoginController) HelloApplication.controller;
         String gameIDsNotification = "Here are all the possible games you can choose:\n";
         for (Integer gameID : gamesIDs.keySet()) {
             gameIDsNotification += "Game ID: " + gameID + "\n" ;
@@ -250,12 +249,32 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayStartingGame(ArrayList<String> nicknames,List<SmallCard> commonBoard) {
-        LoginController contextController = (LoginController) HelloApplication.controller;
         final ArrayList<String> finalNicknames = nicknames;
-        final List<SmallCard> finalCommonBoard = commonBoard;
+        final List<Integer> resource = new ArrayList<>();
+        final List<Integer> golden = new ArrayList<>();
+        final List<Integer> aim = new ArrayList<>();
+        //FIXME Check index problems in case
+        int slider;
+        for (int i = 0; i<3; i++) {
+            resource.add(commonBoard.get(i).getCardID());
+        }
+        slider = resource.removeLast();
+        resource.addFirst(slider);
+        for (int i = 3; i<6; i++) {
+            golden.add(commonBoard.get(i).getCardID());
+        }
+        slider = golden.removeLast();
+        golden.addFirst(slider);
+        for (int i = 6; i<9; i++) {
+            aim.add(commonBoard.get(i).getCardID());
+        }
+        slider = aim.removeLast();
+        aim.addFirst(slider);
+
+
         Platform.runLater( () -> {
             try {
-                HelloApplication.controller.startingGame(finalNicknames, finalCommonBoard);
+                HelloApplication.controller.startingGame(finalNicknames, resource, golden, aim);
             } catch (Exception e) {
                 System.out.println("Error in loading the fxml file");
                 System.out.println(e.getMessage());

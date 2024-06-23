@@ -5,12 +5,14 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.Toke
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,6 +26,9 @@ public class InGameController extends GeneralController {
 
     @FXML
     private VBox playersTab;
+
+    @FXML
+    private GridPane commonBoard;
 
     private Stage stage;
     private Scene scene;
@@ -90,25 +95,67 @@ public class InGameController extends GeneralController {
     }
 
 
-    public void startingSetup(ArrayList<String> nicknames, List<SmallCard> commonBoard) {
-        String partyList = "Players: ";
-        for (String s : nicknames) {
-            partyList += s + " ";
-        }
+    /**
+     * This method is called when the Game is starting in order to load the first graphical components
+     * @param nicknames is a reference to an ArrayList containing the name of the players
+     * @param resource is a reference to a List containing the IDs of CommonBoard ResourceCards
+     * @param golden is a reference to a List containing the IDs of CommonBoard GoldenResourceCards
+     * @param aim is a reference to a List containing the IDs of CommonBoard AimCards
+     */
+    public void startingSetup(ArrayList<String> nicknames,  List<Integer> resource, List<Integer> golden, List<Integer> aim) {
+        //PlayersTAB Update
         for (int i = 0; i < nicknames.size(); i++) {
             Label playerLabel =(Label) this.playersTab.getChildren().get(i);
             playerLabel.setText(nicknames.get(i));
         }
-
-
+        //TODO set draw Action and disable for plate and deck
+        //CommonBoard update
+        //Resource
+        for (int i = 0; i < 3 ; i++) {
+            ImageView imageView = (ImageView) this.commonBoard.getChildren().get(i);
+            GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
+            Image cardImg;
+            if (i == 0) {
+                cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(resource.get(i), "BACK")));
+            } else {
+                cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(resource.get(i), "FRONT")));
+            }
+            imageView.setImage(cardImg);
+        }
+        //Golden
+        for (int i = 0; i<3; i++) {
+            ImageView imageView = (ImageView) this.commonBoard.getChildren().get(i+3);
+            GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
+            Image cardImg;
+            if (i == 0) {
+                cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(golden.get(i), "BACK")));
+            } else {
+                cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(golden.get(i), "FRONT")));
+            }
+            imageView.setImage(cardImg);
+        }
+        //Aim
+        for (int i = 0; i<3; i++) {
+            ImageView imageView = (ImageView) this.commonBoard.getChildren().get(i+6);
+            GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
+            Image cardImg;
+            if (i == 0) {
+                cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(aim.get(i), "BACK")));
+            } else {
+                cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(aim.get(i), "FRONT")));
+            }
+            imageView.setImage(cardImg);
+        }
     }
+
+
+
 
     //EVENT
     public void startingCardSelection (MouseEvent e) {
         ImageView panel = (ImageView) e.getSource();
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
-        //FIXME REMOVECARDID
-        int cardID = fetcher.cardIDFromURL(panel.getId());
+
         String cardFace = fetcher.faceFromURL(panel.getId());
         Pane paneToOperate = (Pane) this.root;
         paneToOperate.getChildren().removeLast();
@@ -138,7 +185,7 @@ public class InGameController extends GeneralController {
     //NET
     @Override
     public void startingCardInfo(int cardID) {
-        //FIXME finire
+        //FIXME finish
         Pane paneToOperate = (Pane) this.root;
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         Image frontCard = new Image(getClass().getResourceAsStream(fetcher.findCardResource(cardID, "FRONT")));
@@ -158,8 +205,6 @@ public class InGameController extends GeneralController {
         startingCardBack.setY(200);
         startingCardBack.setId(fetcher.findCardResource(cardID, "BACK"));
         startingCardFront.setId(fetcher.findCardResource(cardID, "FRONT"));
-        System.out.println(startingCardFront.getId());
-
         startingCardFront.setOnMouseClicked(this::startingCardSelection);
 
         startingCardBack.setOnMouseClicked(this::startingCardSelection);

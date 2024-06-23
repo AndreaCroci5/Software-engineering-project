@@ -5,7 +5,6 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.GameIdChoi
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.JoinRequestMessage;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.ClientNetworkTCPManager;
-import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -133,19 +132,19 @@ public class LoginController extends GeneralController {
     @FXML
     public void join(ActionEvent e) {
         //Gets the username written by the Client in the TextField
-        this.username = usernameField.getText();
+        this.username = this.usernameField.getText();
         this.client.setNickname(this.username);
-        usernameField.clear();
+        this.usernameField.clear();
 
         //Disables the unnecessary Buttons
         this.createButton.setDisable(true);
         this.joinButton.setDisable(true);
 
         //Send the Join request
-        ClientNetworkTCPManager net = (ClientNetworkTCPManager) client.getNetworkManager();
+        ClientNetworkTCPManager net = (ClientNetworkTCPManager) this.client.getNetworkManager();
         String ipAddress = net.getSocket().getLocalAddress().getHostAddress();
         int port = net.getSocket().getLocalPort();
-        client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port));
+        this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port));
     }
 
 
@@ -166,13 +165,13 @@ public class LoginController extends GeneralController {
         //Disables the unnecessary Buttons
         this.createButton.setDisable(true);
         this.joinButton.setDisable(true);
-        usernameField.clear();
+        this.usernameField.clear();
 
         //Activate the sendButton onActionEvent
-        sendButton.setOnAction(event -> {
+        this.sendButton.setOnAction(event -> {
             this.selectSizeOfParty();
         });
-        sendButton.setVisible(true);
+        this.sendButton.setVisible(true);
     }
 
     /**
@@ -184,10 +183,10 @@ public class LoginController extends GeneralController {
         //TODO add parse exception
 
         //Send the CreateRequest
-        ClientNetworkTCPManager net = (ClientNetworkTCPManager) client.getNetworkManager();
+        ClientNetworkTCPManager net = (ClientNetworkTCPManager) this.client.getNetworkManager();
         String ipAddress = net.getSocket().getLocalAddress().getHostAddress();
         int port = net.getSocket().getLocalPort();
-        client.getNetworkManager().send(new CreateRequestMessage(username, sizeParsed, ipAddress, port));
+        this.client.getNetworkManager().send(new CreateRequestMessage(this.username, sizeParsed, ipAddress, port));
     }
 
 
@@ -196,11 +195,11 @@ public class LoginController extends GeneralController {
      * the available GameIDs by the method displayAllGameIDs
      */
     public void gameIDChoice() {
-        int gameIDChoice = Integer.parseInt(usernameField.getText());
+        int gameIDChoice = Integer.parseInt(this.usernameField.getText());
         //TODO add parse exception
 
         //Send the gameIDChoice
-        client.getNetworkManager().send(new GameIdChoiceMessage(username, gameIDChoice));
+        this.client.getNetworkManager().send(new GameIdChoiceMessage(this.username, gameIDChoice));
 
     }
 
@@ -222,7 +221,7 @@ public class LoginController extends GeneralController {
         this.eventsNotificator.setLayoutY(10);
         this.usernameField.setDisable(true);
         this.sendButton.setDisable(true);
-        usernameField.clear();
+        this.usernameField.clear();
 
         if(paneToOperate.getChildren().getLast() instanceof Label) paneToOperate.getChildren().removeLast();
         paneToOperate.getChildren().add(this.eventsNotificator);
@@ -244,22 +243,25 @@ public class LoginController extends GeneralController {
         Pane paneToOperate =  (Pane) this.root;
         paneToOperate.getChildren().add(gameIDs);
 
-        sendButton.setOnAction(event -> {
+        this.sendButton.setOnAction(event -> {
             this.gameIDChoice();
         });
-        sendButton.setVisible(true);
+        this.sendButton.setVisible(true);
     }
 
 
     /**
      * This method is called by the GUIManger through override, when the party reaches the required size and through the net arrives at the Client a GameInitData
      * that triggers a StartingGameMessage
+     *
      * @param nicknames are the nicknames chosen by the Players
-     * @param commonBoard is the situation of the CommonBoard
+     * @param resource  is the situation of the ResourceCards in CommonBoard
+     * @param golden is the situation of the GoldenResourceCards in CommonBoard
+     * @param aim is the situation of the AimCards in CommonBoard
      * @throws IOException in case the FXML file is not found
      */
     @Override
-    public void startingGame(ArrayList<String> nicknames, List<SmallCard> commonBoard) throws IOException {
+    public void startingGame(ArrayList<String> nicknames, List<Integer> resource, List<Integer> golden, List<Integer> aim) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/setup.fxml"));
         this.root = fxmlLoader.load();
@@ -273,7 +275,7 @@ public class LoginController extends GeneralController {
         inGameController.setStage(this.stage);
         inGameController.setScene(this.scene);
         inGameController.setRoot(this.root);
-        inGameController.startingSetup(nicknames, commonBoard);
+        inGameController.startingSetup(nicknames, resource, golden, aim);
 
         this.stage.show();
     }
