@@ -4,6 +4,8 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveTokenChoiceState;
+import it.polimi.ingsw.am40.client.smallModel.SmallCard;
+import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 import it.polimi.ingsw.am40.server.model.CardElements;
 import it.polimi.ingsw.am40.server.model.Coordinates;
 
@@ -53,10 +55,20 @@ public class StartingCardResultMessage extends Message {
      */
     public void process(Client context) {
 
-        // TO DO: UPDATE SMALL MODEL
-        // Set grid
-
         if (this.clientNickname.equalsIgnoreCase(context.getNickname())) {
+
+            // Update small model
+            SmallCard startingCard = SmallCardLoader.findCardById(this.cardID);
+            assert startingCard != null;
+            startingCard.setCoordinates(this.startingCardCoords);
+            startingCard.setFace(this.cardFace);
+            context.getSmallModel().setMyGrid(new ArrayList<>());
+            context.getSmallModel().getMyGrid().add(startingCard);
+            context.getSmallModel().setElementsCounter(new HashMap<>());
+            context.getSmallModel().setElementsCounter(this.elementsCounter);
+
+
+            // Update view and state
             context.getViewManager().displayStartingCardResult(cardID,this.cardFace);
             context.setState(new PassiveTokenChoiceState());
             context.getNetworkManager().send(new ChangeTurnRequestMessage(context.getNickname()));

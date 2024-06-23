@@ -1,7 +1,10 @@
 package it.polimi.ingsw.am40.data.passive.round;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round.RepeatDrawMessage;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
 
@@ -11,13 +14,9 @@ public class RepeatDrawData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public RepeatDrawData(String nickname){
+    @JsonCreator
+    public RepeatDrawData(@JsonProperty("nickname") String nickname) {
         super("REPEAT_DRAW", nickname);
-    }
-    //Json constructor
-    public RepeatDrawData(){
-
     }
 
 
@@ -28,6 +27,6 @@ public class RepeatDrawData extends Data {
     }
 
     public Message onClient() {
-        return null;
+        return new RepeatDrawMessage(this.getNickname());
     }
 }

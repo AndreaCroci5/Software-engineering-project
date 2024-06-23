@@ -3,6 +3,7 @@ package it.polimi.ingsw.am40.client.view;
 import it.polimi.ingsw.am40.client.ConcreteContext;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
+import it.polimi.ingsw.am40.server.model.CardElements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public interface ViewManager extends ConcreteContext {
 
 
     // Round
+    void displayPlacingCardChoice(List<SmallCard> myHand, List<SmallCard> myGrid);
     void displayLastRoundMessage(String clientNickname);
     void displayEndGame(List<String> winners);
 
@@ -84,4 +86,22 @@ public interface ViewManager extends ConcreteContext {
     void displayDealCardState(List<SmallCard> myHand);
 
     void displayPositiveAimCardChoice();
+
+    void displayPassivePlacingState(String clientNickname);
+
+    void displayPlacingCardToCoverChoice(List<SmallCard> myGrid);
+
+    void displayPlacingFaceChoice();
+
+    void displayPlacingCornerCover();
+
+    void displayPositivePlacing();
+
+    void displayPassivePlacingResult(String clientNickname);
+
+    void displayDrawChoice(List<SmallCard> commonBoard);
+
+    void displayPositiveDraw();
+
+    void diplayElementsCounter(Map<CardElements, Integer> elementsCounter);
 }

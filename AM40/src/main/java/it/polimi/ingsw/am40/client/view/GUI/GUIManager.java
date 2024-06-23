@@ -5,6 +5,7 @@ import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 import it.polimi.ingsw.am40.client.view.GUI.FXexamples.HelloApplication;
 import it.polimi.ingsw.am40.client.view.GUI.FXexamples.LoginController;
 import it.polimi.ingsw.am40.client.view.ViewManager;
+import it.polimi.ingsw.am40.server.model.CardElements;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -146,6 +147,11 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayPlayerOrder(List<String> playerOrder) {
+
+    }
+
+    @Override
+    public void displayPlacingCardChoice(List<SmallCard> myHand, List<SmallCard> myGrid) {
 
     }
 
@@ -312,6 +318,51 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayPositiveAimCardChoice() {
+
+    }
+
+    @Override
+    public void displayPassivePlacingState(String clientNickname) {
+
+    }
+
+    @Override
+    public void displayPlacingCardToCoverChoice(List<SmallCard> myGrid) {
+
+    }
+
+    @Override
+    public void displayPlacingFaceChoice() {
+
+    }
+
+    @Override
+    public void displayPlacingCornerCover() {
+
+    }
+
+    @Override
+    public void displayPositivePlacing() {
+
+    }
+
+    @Override
+    public void displayPassivePlacingResult(String clientNickname) {
+
+    }
+
+    @Override
+    public void displayDrawChoice(List<SmallCard> commonBoard) {
+
+    }
+
+    @Override
+    public void displayPositiveDraw() {
+
+    }
+
+    @Override
+    public void diplayElementsCounter(Map<CardElements, Integer> elementsCounter) {
 
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.client.smallModel;
 
-import java.util.ArrayList;
+import it.polimi.ingsw.am40.server.model.CardElements;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ public class SmallModel {
     private List<SmallCard> myGrid;
 
     private Map<String,Integer> scoreBoard;
+
+    Map<CardElements, Integer> elementsCounter;
 
     public List<SmallCard> getMyHand() {
         return myHand;
@@ -74,5 +77,13 @@ public class SmallModel {
 
     public void setScoreBoard(Map<String, Integer> scoreBoard) {
         this.scoreBoard = scoreBoard;
+    }
+
+    public Map<CardElements, Integer> getElementsCounter() {
+        return elementsCounter;
+    }
+
+    public void setElementsCounter(Map<CardElements, Integer> elementsCounter) {
+        this.elementsCounter = elementsCounter;
     }
 }

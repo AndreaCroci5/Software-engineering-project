@@ -2,7 +2,7 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
-import it.polimi.ingsw.am40.client.network.States.activeStates.ActivePlacingState;
+import it.polimi.ingsw.am40.client.network.States.activeStates.ActivePlacingCardChoiceState;
 
 
 public class RepeatPlacingMessage extends Message {
@@ -29,7 +29,7 @@ public class RepeatPlacingMessage extends Message {
     public void process(Client context) {
         if (context.getNickname().equalsIgnoreCase(clientNickname)) {
             context.getViewManager().displayError();
-            context.setState(new ActivePlacingState());
+            context.setState(new ActivePlacingCardChoiceState());
         }
     }
 }

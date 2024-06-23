@@ -1,7 +1,10 @@
 package it.polimi.ingsw.am40.data.passive.round;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round.PositiveDrawMessage;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
 
@@ -24,17 +27,49 @@ public class PositiveDrawData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public PositiveDrawData(String nickname, int cardDrawnID, int cardReplacedID, int replacePosition, int cardOnTopOfDeck) {
+    @JsonCreator
+    public PositiveDrawData(@JsonProperty("nickname") String nickname,
+                            @JsonProperty("cardDrawnID") int cardDrawnID,
+                            @JsonProperty("cardReplaceID") int cardReplacedID,
+                            @JsonProperty("replacePosition") int replacePosition,
+                            @JsonProperty("cardOnTopOfDeck") int cardOnTopOfDeck) {
         super("POSITIVE_DRAW", nickname);
         this.cardDrawnID = cardDrawnID;
         this.cardReplacedID = cardReplacedID;
         this.replacePosition = replacePosition;
         this.cardOnTopOfDeck = cardOnTopOfDeck;
     }
-    //Json constructor
-    public PositiveDrawData(){
 
+    public int getCardDrawnID() {
+        return cardDrawnID;
+    }
+
+    public void setCardDrawnID(int cardDrawnID) {
+        this.cardDrawnID = cardDrawnID;
+    }
+
+    public int getCardReplacedID() {
+        return cardReplacedID;
+    }
+
+    public void setCardReplacedID(int cardReplacedID) {
+        this.cardReplacedID = cardReplacedID;
+    }
+
+    public int getReplacePosition() {
+        return replacePosition;
+    }
+
+    public void setReplacePosition(int replacePosition) {
+        this.replacePosition = replacePosition;
+    }
+
+    public int getCardOnTopOfDeck() {
+        return cardOnTopOfDeck;
+    }
+
+    public void setCardOnTopOfDeck(int cardOnTopOfDeck) {
+        this.cardOnTopOfDeck = cardOnTopOfDeck;
     }
 
     //PUBLIC METHODS
@@ -45,6 +80,6 @@ public class PositiveDrawData extends Data {
     }
 
     public Message onClient() {
-        return null;
+        return new PositiveDrawMessage(this.getNickname(),this.cardDrawnID,this.cardReplacedID,this.replacePosition,this.cardOnTopOfDeck);
     }
 }

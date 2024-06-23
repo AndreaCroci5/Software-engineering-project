@@ -2,7 +2,7 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
-import it.polimi.ingsw.am40.client.network.States.activeStates.ActivePlacingState;
+import it.polimi.ingsw.am40.client.network.States.activeStates.ActivePlacingCardChoiceState;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassivePlacingState;
 
 import java.util.List;
@@ -40,15 +40,13 @@ public class DecidePlayerOrderResponse extends Message {
         context.getViewManager().displayPlayerOrder(this.playersOrder);
 
         //FIXME
-        context.getViewManager().displayChat();
-
-        //FIXME
-        /*if (context.getNickname().equalsIgnoreCase(this.playersOrder.getFirst())) {
-            context.setState(new ActivePlacingState());
+        if (context.getNickname().equalsIgnoreCase(this.playersOrder.getFirst())) {
+            context.setState(new ActivePlacingCardChoiceState());
         }
         else {
             context.setState(new PassivePlacingState());
-        }*/
+            context.getViewManager().displayPassivePlacingState(this.playersOrder.getFirst());
+        }
     }
 
 }

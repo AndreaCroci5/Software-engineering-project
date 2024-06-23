@@ -2,7 +2,7 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
-import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveDrawState;
+import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveDrawChoiceState;
 
 public class RepeatDrawMessage extends Message {
 
@@ -28,7 +28,7 @@ public class RepeatDrawMessage extends Message {
     public void process(Client context) {
         if (context.getNickname().equalsIgnoreCase(clientNickname)) {
             context.getViewManager().displayError();
-            context.setState(new ActiveDrawState());
+            context.setState(new ActiveDrawChoiceState());
         }
     }
 }

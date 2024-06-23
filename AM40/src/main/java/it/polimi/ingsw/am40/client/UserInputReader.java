@@ -80,9 +80,16 @@ public class UserInputReader implements Runnable {
         }
 
         if (input.equalsIgnoreCase("legend")) {
-            // TO DO
+            client.getViewManager().displaySymbolLegend();
+            client.getCurrentState().execute(client);
+            return true;
         }
 
+        if (input.equalsIgnoreCase("elementsCounters")) {
+            client.getViewManager().diplayElementsCounter(client.getSmallModel().getElementsCounter());
+            client.getCurrentState().execute(client);
+            return true;
+        }
         return false;
     }
 }

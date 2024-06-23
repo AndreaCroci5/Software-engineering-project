@@ -42,7 +42,7 @@ public class ChangeTurnResponseMessage extends Message {
             }
 
             if (context.getCurrentState().getClass().equals(PassivePlacingState.class)) {
-                context.setState(new ActivePlacingState());
+                context.setState(new ActivePlacingCardChoiceState());
             }
             if (context.getCurrentState().getClass().equals(PassiveDealCardsState.class)) {
                 context.setState(new ActiveDealCardsState());

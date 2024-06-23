@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.active.round;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -20,19 +22,40 @@ public class PlacingData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public PlacingData(String nickname, int choice, Coordinates coordsToPlace, String face) {
+    @JsonCreator
+    public PlacingData(@JsonProperty("nickname") String nickname,
+                       @JsonProperty("choice") int choice,
+                       @JsonProperty("Coordinates") Coordinates coordinates,
+                       @JsonProperty("face") String face) {
         super("PLACING", nickname);
         this.choice = choice;
-        this.coordsToPlace = coordsToPlace;
+        this.coordsToPlace = coordinates;
         this.face = face;
     }
 
-    //Json constructor
-    public PlacingData() {
-
+    public int getChoice() {
+        return choice;
     }
 
+    public void setChoice(int choice) {
+        this.choice = choice;
+    }
+
+    public Coordinates getCoordsToPlace() {
+        return coordsToPlace;
+    }
+
+    public void setCoordsToPlace(Coordinates coordsToPlace) {
+        this.coordsToPlace = coordsToPlace;
+    }
+
+    public String getFace() {
+        return face;
+    }
+
+    public void setFace(String face) {
+        this.face = face;
+    }
 
     //PUBLIC METHODS
 

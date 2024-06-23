@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.active.round;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -16,16 +18,30 @@ public class DrawData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public DrawData(String nickname, String choice, int selection) {
+    @JsonCreator
+    public DrawData(@JsonProperty("nickname") String nickname,
+                    @JsonProperty("choice") String choice,
+                    @JsonProperty("selection") int selection) {
         super("DRAW", nickname);
         this.choice = choice;
         this.selection = selection;
     }
-    //Json constructor
-    public DrawData() {
+
+    public String getChoice() {
+        return choice;
     }
 
+    public void setChoice(String choice) {
+        this.choice = choice;
+    }
+
+    public int getSelection() {
+        return selection;
+    }
+
+    public void setSelection(int selection) {
+        this.selection = selection;
+    }
 
     //PUBLIC METHODS
 

@@ -46,14 +46,19 @@ public class DealCardsResponseMessage extends Message {
      */
     public void process(Client context) {
 
-        // **TO FIX** update commonBoard
+        // Update commonBoard
+        SmallCard resCard = SmallCardLoader.findCardById(this.deckResourceCardID);
+        assert resCard != null;
+        SmallCard goldCard = SmallCardLoader.findCardById(this.deckGoldenCardID);
+        assert goldCard != null;
+
+        context.getSmallModel().getCommonBoard().set(2,resCard);
+        context.getSmallModel().getCommonBoard().set(5,goldCard);
+
+
 
         if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
 
-            SmallCard resCard = SmallCardLoader.findCardById(deckResourceCardID);
-            SmallCard goldCard = SmallCardLoader.findCardById(deckGoldenCardID);
-            context.getSmallModel().getCommonBoard().set(0,resCard);
-            context.getSmallModel().getCommonBoard().set(3,goldCard);
             context.getViewManager().displayCommonBoard(context.getSmallModel().getCommonBoard());
 
             List<SmallCard> myHandCards = new ArrayList<SmallCard>();

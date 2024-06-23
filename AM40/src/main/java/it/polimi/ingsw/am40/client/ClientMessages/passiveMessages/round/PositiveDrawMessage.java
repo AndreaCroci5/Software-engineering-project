@@ -1,7 +1,11 @@
 package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurnRequestMessage;
 import it.polimi.ingsw.am40.client.network.Client;
+import it.polimi.ingsw.am40.client.network.States.passiveStates.PassivePlacingState;
+import it.polimi.ingsw.am40.client.smallModel.SmallCard;
+import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 
 public class PositiveDrawMessage extends Message {
 
@@ -24,9 +28,43 @@ public class PositiveDrawMessage extends Message {
         this.cardOnTopOfDeck = cardOnTopOfDeck;
     }
 
-    public void process(Client clientContext) {
-        // UPDATE SMALL MODEL
-        // SHOW INFORMATION
-        // SET NEW STATE
+    public void process(Client context) {
+
+        // Update commonBoard
+        SmallCard cardReplaced = SmallCardLoader.findCardById(cardReplacedID);
+        assert cardReplaced != null;
+        context.getSmallModel().getCommonBoard().set(replacePosition, cardReplaced);
+
+        SmallCard cardDeck = SmallCardLoader.findCardById(cardOnTopOfDeck);
+        assert cardDeck != null;
+
+        if (cardDeck.getRequires() == null ) {
+            context.getSmallModel().getCommonBoard().set(2,cardDeck);
+        }
+        else {
+            context.getSmallModel().getCommonBoard().set(5,cardDeck);
+        }
+
+
+        if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
+
+            // Update small model
+            SmallCard cardDrawn = SmallCardLoader.findCardById(cardDrawnID);
+            assert cardDrawn != null;
+
+            int myHandIndex = 0;
+            for (int i=0; i < context.getSmallModel().getMyHand().size(); i++) {
+                if (context.getSmallModel().getMyHand().get(i).getFace() != null) {
+                    myHandIndex = i;
+                }
+            }
+
+            context.getSmallModel().getMyHand().set(myHandIndex, cardDrawn);
+
+            context.getViewManager().displayPositiveDraw();
+
+            context.setState(new PassivePlacingState());
+            context.getNetworkManager().send(new ChangeTurnRequestMessage(this.clientNickname));
+        }
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.am40.client.smallModel;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.polimi.ingsw.am40.server.model.Coordinates;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 
@@ -22,6 +23,9 @@ public class SmallCard {
     private String checker;
     private List<String> startingResource;
     private List<String> backEdgeResources;
+    private String face;
+
+    private Coordinates coordinates;
 
     // Getters and setters for all fields
 
@@ -135,6 +139,22 @@ public class SmallCard {
 
     public void setBackEdgeResources(List<String> backEdgeResources) {
         this.backEdgeResources = backEdgeResources;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getFace() {
+        return face;
+    }
+
+    public void setFace(String face) {
+        this.face = face;
     }
 
     @Override
