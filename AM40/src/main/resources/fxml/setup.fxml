@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am40.client.view.GUI.FXexamples.InGameController">
    <children>
       <ImageView fitWidth="1030.0" pickOnBounds="true" preserveRatio="true" translateY="-20.0">
             <image>
@@ -36,24 +36,24 @@
          </content></ScrollPane>
       <ScrollBar layoutX="692.0" layoutY="225.0" orientation="VERTICAL" />
       <ScrollBar layoutX="465.0" layoutY="452.0" />
-      <VBox id="players" layoutX="805.0" prefHeight="350.0" prefWidth="225.0" styleClass="players" stylesheets="@../css/setup.css">
+      <VBox id="players" fx:id="playersTab" layoutX="805.0" prefHeight="350.0" prefWidth="225.0" styleClass="players" stylesheets="@../css/setup.css">
          <children>
-            <Label text="Player1" translateX="30.0" translateY="80.0" visible="false">
+            <Label translateX="30.0" translateY="80.0">
                <font>
                   <Font name="Papyrus" size="20.0" />
                </font>
             </Label>
-            <Label text="Player2" translateX="30.0" translateY="95.0" visible="false">
+            <Label translateX="30.0" translateY="95.0">
                <font>
                   <Font name="Papyrus" size="20.0" />
                </font>
             </Label>
-            <Label text="Player3" translateX="30.0" translateY="110.0" visible="false">
+            <Label translateX="30.0" translateY="110.0">
                <font>
                   <Font name="Papyrus" size="20.0" />
                </font>
             </Label>
-            <Label text="Player4" translateX="30.0" translateY="125.0" visible="false">
+            <Label translateX="30.0" translateY="125.0">
                <font>
                   <Font name="Papyrus" size="20.0" />
                </font>
@@ -106,12 +106,12 @@
       </Button>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="809.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="73.0" fitWidth="110.0" layoutX="705.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="425.0" layoutY="20.0" text="player ha piezzato:" visible="false">
+      <Label fx:id="globalEventLabel" layoutX="348.0" layoutY="20.0" prefHeight="38.0" prefWidth="350.0" text="GAME HAS STARTED">
          <font>
             <Font name="Papyrus" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="456.0" layoutY="50.0" text="è il turno di:" visible="false">
+      <Label fx:id="turnEventLabel" layoutX="341.0" layoutY="50.0" prefHeight="38.0" prefWidth="350.0" visible="false">
          <font>
             <Font name="Papyrus" size="20.0" />
          </font>

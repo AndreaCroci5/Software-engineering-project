@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am40.client.view.GUI.FXexamples.LoginController">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1030.0">
          <children>
@@ -25,7 +24,7 @@
                   <GaussianBlur />
                </effect>
               </ImageView>
-            <Label text="Username" translateX="447.5" translateY="160.0">
+            <Label id="info" fx:id="info" text="Username" translateX="447.5" translateY="160.0">
                <font>
                   <Font name="Papyrus" size="30.0" />
                </font>
@@ -57,7 +56,7 @@
                   </Button>
                </children>
             </HBox>
-            <Button id="sendButton" fx:id="sendButton" layoutX="625.0" layoutY="223.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#send" prefHeight="30.0" prefWidth="50.0" styleClass="sendButton" stylesheets="@../css/login.css" text="Send">
+            <Button id="sendButton" fx:id="sendButton" layoutX="625.0" layoutY="223.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" styleClass="sendButton" stylesheets="@../css/login.css" text="Send" visible="false">
                <font>
                   <Font name="Papyrus" size="10.0" />
                </font>

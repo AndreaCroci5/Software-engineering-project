@@ -202,7 +202,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Data myObject = objectMapper.readValue(message,Data.class);
-
+            System.out.println("SIAMO QUI: " + myObject.getDescription());
 
             if (myObject.getDescription().equalsIgnoreCase("JOIN_GAME")) {
                 JoinRequestData data = (JoinRequestData) myObject;
