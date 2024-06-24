@@ -42,6 +42,7 @@ public class HelloApplication extends Application {
         HelloController introController = (HelloController) fxmlLoader.getController();
         HelloApplication.controller = introController;
         introController.setClient(tmp);
+        stage.setResizable(false);
         stage.setTitle("Codex Naturalis");
         stage.setScene(scene);
         stage.show();

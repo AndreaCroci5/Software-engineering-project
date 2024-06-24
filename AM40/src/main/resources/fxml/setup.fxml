@@ -59,7 +59,7 @@
                </font>
             </Label>
          </children></VBox>
-      <HBox layoutX="340.0" layoutY="480.0" prefHeight="73.0" prefWidth="350.0" translateY="10.0">
+      <HBox fx:id="handDeck" layoutX="340.0" layoutY="480.0" prefHeight="73.0" prefWidth="350.0" translateY="10.0">
          <children>
             <ImageView fitHeight="73.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fitHeight="73.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" translateX="10.0" />
@@ -105,7 +105,7 @@
          </font>
       </Button>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="809.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="73.0" fitWidth="110.0" layoutX="705.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="aimCard" fitHeight="73.0" fitWidth="110.0" layoutX="705.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="globalEventLabel" layoutX="348.0" layoutY="20.0" prefHeight="38.0" prefWidth="350.0" text="GAME HAS STARTED">
          <font>
             <Font name="Papyrus" size="20.0" />

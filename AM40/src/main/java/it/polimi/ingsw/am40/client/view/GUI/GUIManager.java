@@ -3,7 +3,6 @@ package it.polimi.ingsw.am40.client.view.GUI;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 import it.polimi.ingsw.am40.client.view.GUI.FXexamples.HelloApplication;
-import it.polimi.ingsw.am40.client.view.GUI.FXexamples.LoginController;
 import it.polimi.ingsw.am40.client.view.ViewManager;
 import it.polimi.ingsw.am40.server.model.CardElements;
 import javafx.application.Platform;
@@ -11,8 +10,8 @@ import javafx.application.Platform;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 //TODO add a lock for startingcard and startingGame if needed
+
 /**
  * The GUIManager is the class which make possible to display the information
  * and to manage the inputs with JavaFX
@@ -116,7 +115,8 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void showPassiveStartingCard(String nickname, int startingCardID, String cardFace) {
-
+        final String currentPlayer = nickname;
+        Platform.runLater( () -> HelloApplication.controller.showPassiveStartingCard(currentPlayer));
     }
 
     /**
@@ -135,8 +135,11 @@ public class GUIManager implements ViewManager {
 
     }
 
+    //FIXME amiCards typo in aimCards in parameters signature
     @Override
     public void displayAimCardsToChoose(List<Integer> amiCardsID) {
+        final List<Integer> aimIDs = amiCardsID;
+        Platform.runLater( () -> HelloApplication.controller.aimCardsInfo(aimIDs));
 
     }
 
@@ -170,8 +173,41 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is used when the CommonBoard gets a change
+     * @param commonBoard is the CommonBoard situation
+     */
     @Override
     public void displayCommonBoard(List<SmallCard> commonBoard) {
+        final List<Integer> resource = new ArrayList<>();
+        final List<Integer> golden = new ArrayList<>();
+        final List<Integer> aim = new ArrayList<>();
+        //FIXME Check index problems in case
+        int slider;
+        for (int i = 0; i<3; i++) {
+            resource.add(commonBoard.get(i).getCardID());
+        }
+
+        for (int i = 3; i<6; i++) {
+            golden.add(commonBoard.get(i).getCardID());
+        }
+
+        for (int i = 6; i<9; i++) {
+            aim.add(commonBoard.get(i).getCardID());
+        }
+
+
+        Platform.runLater( () -> {
+            try {
+                HelloApplication.controller.updateCommonBoard(resource, golden, aim);
+            } catch (Exception e) {
+                System.out.println("Error in loading the fxml file");
+                System.out.println(e.getMessage());
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(e.getCause());
+                System.out.println(e.getStackTrace());
+            }
+        });
 
     }
 
@@ -227,9 +263,8 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayWaitingForPlayers(int numOfActualPlayers, int NumOfFinalPlayers) {
-        LoginController contextController = (LoginController) HelloApplication.controller;
         final int playersRequired = NumOfFinalPlayers - numOfActualPlayers;
-        Platform.runLater( () -> contextController.waitingForPlayersEvent(playersRequired));
+        Platform.runLater( () -> HelloApplication.controller.waitingForPlayersEvent(playersRequired));
     }
 
     @Override
@@ -293,17 +328,20 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void showPassiveAimState(String clientNickname) {
+        Platform.runLater( () -> HelloApplication.controller.showPassiveAimCard(clientNickname));
 
     }
 
     @Override
     public void showPassiveStartingCardState(String clientNickname) {
+        Platform.runLater( () -> HelloApplication.controller.showPassiveStartingCard(clientNickname));
 
     }
 
     @Override
     public void showPassiveTokenState(String clientNickname) {
-
+        //TODO add in the signature the token color
+        Platform.runLater( () -> HelloApplication.controller.showPassiveToken(clientNickname));
     }
 
     @Override
@@ -313,6 +351,24 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayDealCardState(List<SmallCard> myHand) {
+        final ArrayList<Integer> handDeck = new ArrayList<>();
+        for (SmallCard card : myHand) {
+            handDeck.add(card.getCardID());
+        }
+
+
+        Platform.runLater( () -> {
+            try {
+                HelloApplication.controller.dealCards(handDeck);
+            } catch (Exception e) {
+                System.out.println("Error in loading the fxml file");
+                System.out.println(e.getMessage());
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(e.getCause());
+                System.out.println(e.getStackTrace());
+            }
+        });
+
 
     }
 

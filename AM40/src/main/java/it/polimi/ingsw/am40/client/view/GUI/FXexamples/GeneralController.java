@@ -23,7 +23,31 @@ public class GeneralController {
         System.out.println("Scheduler is messing up");
     }
 
+    public void showPassiveStartingCard (String nickname){
+
+    }
+
+    public void showPassiveToken (String nickname) {
+
+    }
+
     public void tokenInfo(List<String> tokens) {
+    }
+
+    public void updateCommonBoard( List<Integer> resource, List<Integer> golden, List<Integer> aim) {
+
+    }
+
+    public void dealCards (ArrayList<Integer> handDeckIDs) {
+
+    }
+
+    public void aimCardsInfo(List<Integer> aimIDs) {
+
+    }
+
+    public void showPassiveAimCard (String nickname) {
+
     }
 
 }
