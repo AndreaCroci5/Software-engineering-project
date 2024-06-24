@@ -143,6 +143,7 @@ public class TUIManager implements ViewManager {
    public void showPassiveStartingCard(String nickname,int startingCardID,String cardFace) {
         System.out.println("\n");
         System.out.println(">The player: " + nickname + " has chosen this starting card");
+        System.out.println(">Here are all the information of " + nickname + " starting card");
         SmallCard card = SmallCardLoader.findCardById(startingCardID);
         assert card != null;
         printStartingFrontFace(card);
@@ -209,10 +210,10 @@ public class TUIManager implements ViewManager {
     @Override
     public void displayPlacingCardChoice(List<SmallCard> myHand, List<SmallCard> myGrid) {
         System.out.println("\n");
-        System.out.println(">Now you need to place a card");
-        System.out.println(">First of all you need to chose the card in your hand that you want to place");
         displayMyHand(myHand);
         System.out.println(">Up here you can see the card in your hand ");
+        System.out.println(">Now you need to place a card");
+        System.out.println(">First of all you need to chose the card in your hand that you want to place");
         System.out.println(">Remember rules of the card");
         System.out.println("1- In order to place a gold card you have to posses the requirements resources in you board");
         System.out.println("2- Some card gives you points as soon as you place them while other can help you gain points during the match");
@@ -222,9 +223,9 @@ public class TUIManager implements ViewManager {
     @Override
     public void displayPlacingCardToCoverChoice(List<SmallCard> myGrid) {
         System.out.println("\n");
-        System.out.println(">Now you need to chose in which coordinates you want to place the card ");
         displayPersonalGrid(myGrid);
         System.out.println(">Up here you can see your personal grid");
+        System.out.println(">Now you need to chose the position on which you want to place the card ");
         System.out.println(">Remember rules of the placing: ");
         System.out.println("1- The card must cover one or several visible corners of cards already present in their play area ");
         System.out.println("2- It cannot cover more than one corner of the same card ");
@@ -236,7 +237,7 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displayPlacingFaceChoice() {
-        System.out.println(">Now you need to choose the face on which you want to place you card ");
+        System.out.println(">Now you need to choose the face on which you want to place your card ");
         System.out.println(">Choose (front/back)");
     }
 
@@ -287,12 +288,13 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void showPossibleInputs() {
-        System.out.println(">These are the command you can use in order to see the information you want: ");
+        System.out.println(">These are the inputs you can use in order to see the information you want: ");
         System.out.println(">To see the common board write: CommonBoard");
         System.out.println(">To see your board write: MyBoard");
         System.out.println(">To see your aim card write: MyAimCard");
         System.out.println(">To see your hand cards write: MyHand");
         System.out.println(">To see your token color write: myToken");
+        System.out.println(">To see the counter of the elements in your private board write: counter");
         System.out.println(">To see the scoreboard write: Scoreboard");
         System.out.println(">To see the legend of the symbols write: Legends");
         System.out.println(">To see other player board write: OtherBoard");
@@ -304,18 +306,18 @@ public class TUIManager implements ViewManager {
         System.out.println(">The cards in the common board are: ");
 
         System.out.println(">Position: ResDeck");
-        printResourceBackFace(commonBoard.get(2));
+        displayResourceCard(commonBoard.get(2),"back");
         System.out.println(">Position: ResPlate1");
-        printResourceFrontFace(commonBoard.get(0));
+        displayResourceCard(commonBoard.get(0),"front");
         System.out.println(">Position: ResPlate2");
-        printResourceFrontFace(commonBoard.get(1));
+        displayResourceCard(commonBoard.get(1),"front");
 
         System.out.println(">Position: GoldDeck");
-        printResourceBackFace(commonBoard.get(5));
+        displayGoldCard(commonBoard.get(5),"back");
         System.out.println(">Position: GoldPlate1");
-        printGoldFrontFace(commonBoard.get(3));
+        displayGoldCard(commonBoard.get(3),"front");
         System.out.println(">Position: GoldPlate2");
-        printGoldFrontFace(commonBoard.get(4));
+        displayGoldCard(commonBoard.get(4),"front");
 
         System.out.println(">Position: AimDeck");
         printAimBackCard();
@@ -382,13 +384,28 @@ public class TUIManager implements ViewManager {
                 System.out.println(">Coordinates : (" + card.getCoordinates().getX() + ", " + card.getCoordinates().getY() + ")");
                 displayGoldCard(card,card.getFace());
             }
-            else {
+            else if (card.getStartingResource() == null) {
                 System.out.println(">Coordinates : (" + card.getCoordinates().getX() + ", " + card.getCoordinates().getY() + ")");
                 displayResourceCard(card,card.getFace());
+            }
+            else {
+                System.out.println(">Coordinates : (" + card.getCoordinates().getX() + ", " + card.getCoordinates().getY() + ")");
+                displayStartingCardInfo(card,card.getFace());
             }
             System.out.println("\n");
         }
         System.out.println("\n");
+    }
+
+    private void displayStartingCardInfo(SmallCard card, String face) {
+        System.out.println(">Here are all the card information: ");
+        System.out.println("ID of the card: " + card.getCardID());
+        if (face.equalsIgnoreCase("front")) {
+            printStartingFrontFace(card);
+        }
+        else {
+            printStartingBackFace(card);
+        }
     }
 
     @Override
@@ -402,7 +419,7 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displaySymbolLegend() {
-        System.out.println("\uD83D\uDD8B : INKWELL");
+        System.out.println("\uD83D\uDD8B  : INKWELL");
         System.out.println("\uD83C\uDF44 : FUNGI");
         System.out.println("\uD83D\uDC3A : ANIMAL");
         System.out.println("\uD83C\uDF43 : PLANT");
@@ -410,7 +427,7 @@ public class TUIManager implements ViewManager {
         System.out.println("\uD83E\uDD8B : INSECT");
         System.out.println("\uD83E\uDEB6 : QUILL");
         System.out.println("❌ : HIDDEN CORNER (no corner)");
-        System.out.println("✔ : EMPTY Corner (there is the corner but no resource)");
+        System.out.println("✔  : EMPTY CORNER (there is the corner but no resource on it)");
     }
 
 
@@ -461,7 +478,7 @@ public class TUIManager implements ViewManager {
     @Override
     public void displayPositiveAimCardChoice() {
         System.out.println(">Well done, you choose your personal aim card ");
-        System.out.println(">Remember to create his pattern in order to gain points at the end of the game");
+        System.out.println(">Remember to create its pattern in order to gain points at the end of the game");
     }
 
     @Override
@@ -479,10 +496,26 @@ public class TUIManager implements ViewManager {
     @Override
     public void diplayElementsCounter(Map<CardElements, Integer> elementsCounter) {
 
+        System.out.println(">This is the counter of the elements in your board: ");
+
         for (CardElements elements : elementsCounter.keySet()) {
-            String element = elementsCounter.get(elements).toString();
-            System.out.println(">" + CardElementsToString(element) + " : " + elementsCounter.get(elements));
+            System.out.println(">" + CardElementsToString(String.valueOf(elements)) + " : " + elementsCounter.get(elements));
         }
+    }
+
+    @Override
+    public void displayNegativeDraw() {
+        System.out.println("\n");
+        System.out.println(">Something went wrong with the draw, please choose another card");
+    }
+
+    @Override
+    public void displayNegativePlacing() {
+        System.out.println("\n");
+        System.out.println(">Something went wrong with the placing ");
+        System.out.println(">Problems could be: ");
+        System.out.println("1- Placing a gold card without having the requirements on your board ");
+        System.out.println("2- The position where you want to place the card is not a valid position ");
     }
 
     @Override
@@ -551,6 +584,7 @@ public class TUIManager implements ViewManager {
 
     // **TO FINISH**
     private void printAimCard(SmallCard card) {
+        System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
         if (card.getChecker().equalsIgnoreCase("AimCheckerDiagonalPattern")) {
             System.out.println("You score " + card.getPoints() + " points every time you have this pattern in your board");
@@ -674,7 +708,7 @@ public class TUIManager implements ViewManager {
             for (String req : card.getRequires()) {
                 res.add(CardElementsToString(req));
             }
-            System.out.println("Resource require in order to place the card in its front face: " + String.join(" ",res));
+            System.out.println("Resource required in order to place the card in its front face: " + String.join(" ",res));
         }
         printResourceFrontFace(card);
     }
@@ -695,18 +729,20 @@ public class TUIManager implements ViewManager {
     }
 
     public void displayResourceCard(SmallCard card) {
+        System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
         System.out.println("The type of card is: RESOURCE");
-        System.out.println("Element of the card " + card.getCardElement());
+        System.out.println("Element of the card " + CardElementsToString(card.getCardElement()));
         System.out.println("Points of the card: " + card.getScorePoints());
         printResourceFrontFace(card);
         printResourceBackFace(card);
     }
 
     public void displayResourceCard(SmallCard card,String face) {
+        System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
         System.out.println("The type of card is: RESOURCE");
-        System.out.println("Element of the card " + card.getCardElement());
+        System.out.println("Element of the card " + CardElementsToString(card.getCardElement()));
         System.out.println("Points of the card: " + card.getScorePoints());
         if (face.equalsIgnoreCase("front")) {
             printResourceFrontFace(card);
@@ -718,17 +754,19 @@ public class TUIManager implements ViewManager {
 
 
     public void displayGoldCard(SmallCard card) {
+        System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
         System.out.println("The type of card is: GOLD");
-        System.out.println("Element of the card " + card.getCardElement());
+        System.out.println("Element of the card " + CardElementsToString(card.getCardElement()));
         printGoldFrontFace(card);
         printResourceBackFace(card);
     }
 
     public void displayGoldCard(SmallCard card,String face) {
+        System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
         System.out.println("The type of card is: GOLD");
-        System.out.println("Element of the card " + card.getCardElement());
+        System.out.println("Element of the card " + CardElementsToString(card.getCardElement()));
         if (face.equalsIgnoreCase("front")) {
             printGoldFrontFace(card);
         }

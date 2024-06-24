@@ -55,11 +55,10 @@ public class DealCardsResponseMessage extends Message {
         context.getSmallModel().getCommonBoard().set(2,resCard);
         context.getSmallModel().getCommonBoard().set(5,goldCard);
 
-
+        context.getViewManager().displayCommonBoard(context.getSmallModel().getCommonBoard());
 
         if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
 
-            context.getViewManager().displayCommonBoard(context.getSmallModel().getCommonBoard());
 
             List<SmallCard> myHandCards = new ArrayList<SmallCard>();
             for (Integer cardID : handCards) {

@@ -28,7 +28,7 @@ public class ActivePlacingCornerCoverState implements State {
         try {
             Integer.parseInt(input);
             if (Integer.parseInt(input) < 1 || Integer.parseInt(input) > 4) {
-                System.out.println(">Wrong input");
+                System.out.println(">You must insert a number that is 1,2,3,4, no other numbers are accepted ");
             }
             else {
                 int x = 0;

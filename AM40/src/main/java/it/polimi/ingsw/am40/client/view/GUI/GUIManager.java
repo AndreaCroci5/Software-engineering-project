@@ -421,4 +421,14 @@ public class GUIManager implements ViewManager {
     public void diplayElementsCounter(Map<CardElements, Integer> elementsCounter) {
 
     }
+
+    @Override
+    public void displayNegativeDraw() {
+
+    }
+
+    @Override
+    public void displayNegativePlacing() {
+
+    }
 }

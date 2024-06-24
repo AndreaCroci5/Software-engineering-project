@@ -21,5 +21,6 @@ public class PassiveStartingCardChoiceState implements State {
     @Override
     public void checkInput(Client context, String input) {
         context.getViewManager().showNotYouTurn();
+        context.getViewManager().showPossibleInputs();
     }
 }

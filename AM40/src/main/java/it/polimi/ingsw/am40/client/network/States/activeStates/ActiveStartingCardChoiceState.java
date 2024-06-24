@@ -30,7 +30,7 @@ public class ActiveStartingCardChoiceState implements State {
         possibleChoices.add("front");
         possibleChoices.add("back");
         if (!possibleChoices.contains(input.toLowerCase())) {
-            System.out.println(">Wrong input");
+            System.out.println(">You must insert 'front' or 'back' ");
         }
         else {
             context.getNetworkManager().send(new StartingCardChoiceMessage(context.getNickname(),input));

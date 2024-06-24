@@ -35,7 +35,7 @@ public class ActivePlacingCardToCoverChoiceState implements State {
                 context.getCurrentState().execute(context);
             }
             else {
-                System.out.println(">Wrong input ");
+                System.out.println(">You insert a number that is not in the available IDs ");
             }
         }catch (NumberFormatException e){
             System.out.println(">You must insert a number");

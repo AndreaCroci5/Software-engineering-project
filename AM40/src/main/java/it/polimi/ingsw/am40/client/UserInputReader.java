@@ -85,7 +85,7 @@ public class UserInputReader implements Runnable {
             return true;
         }
 
-        if (input.equalsIgnoreCase("elementsCounters")) {
+        if (input.equalsIgnoreCase("counter")) {
             client.getViewManager().diplayElementsCounter(client.getSmallModel().getElementsCounter());
             client.getCurrentState().execute(client);
             return true;

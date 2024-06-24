@@ -104,4 +104,8 @@ public interface ViewManager extends ConcreteContext {
     void displayPositiveDraw();
 
     void diplayElementsCounter(Map<CardElements, Integer> elementsCounter);
+
+    void displayNegativeDraw();
+
+    void displayNegativePlacing();
 }

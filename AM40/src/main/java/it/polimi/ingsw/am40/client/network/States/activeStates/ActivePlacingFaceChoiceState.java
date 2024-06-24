@@ -25,12 +25,9 @@ public class ActivePlacingFaceChoiceState implements State {
     @Override
     public void checkInput(Client context, String input) {
         if (!input.equalsIgnoreCase("front") && !input.equalsIgnoreCase("back")) {
-            System.out.println(">Wrong input ");
+            System.out.println(">You must insert 'front' or 'back' ");
         }
         else {
-            System.out.println(">Index : " + cardToPlaceID);
-            System.out.println(">Coordinate x : " + coordinates.getX());
-            System.out.println(">Coordinate y : " + coordinates.getY());
             context.getNetworkManager().send(new PlacingMessage(context.getNickname(),this.cardToPlaceID,this.coordinates,input));
         }
     }

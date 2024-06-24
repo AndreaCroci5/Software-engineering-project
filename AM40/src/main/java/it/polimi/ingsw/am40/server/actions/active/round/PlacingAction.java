@@ -48,9 +48,7 @@ public class PlacingAction extends Action {
             if(gameContext.checkPlaceCard(this.choice, this.coordsToPlace, this.face)) {
                 //Data Setup for the response
                 Player playerData = gameContext.getPlayers().get(gameContext.getIndexOfPlayingPlayer());
-                //PrivateBoard State Save
-                Map<CardElements, Integer> tmpElementsCounter = new HashMap<>();
-                tmpElementsCounter.putAll(playerData.getPrivateBoard().getElementsCounter());
+
 
                 //Placing
                 gameContext.placeCard(this.choice, this.coordsToPlace, this.face);
@@ -60,7 +58,7 @@ public class PlacingAction extends Action {
                 String cardFace = playerData.getPrivateBoard().getCardGrid().getLast().getCardFace().toString();
                 Coordinates coordsCardPlaced = playerData.getPrivateBoard().getCardGrid().getLast().getCoordinates();
                 int score = playerData.getScore();
-                Map<CardElements,Integer> elementsCounter = playerData.getPrivateBoard().elementsCounterDifferences(tmpElementsCounter);
+                Map<CardElements,Integer> elementsCounter = playerData.getPrivateBoard().getElementsCounter();
                 ArrayList<Coordinates> placingCoordinates = playerData.getPrivateBoard().getPlacingCoordinates();
                 //Response Action creation
                 gameContext.notifyListeners(new PositivePlacingAction(this.getNickname(), this.getGameID(), this.getPlayerID(), cardID, coordsCardPlaced, cardFace, score, elementsCounter, placingCoordinates), gameContext.getListeners());

@@ -25,7 +25,7 @@ public class ActiveDrawChoiceState implements State {
         possibleInputs.add("goldplate2");
 
         if (!possibleInputs.contains(input.toLowerCase())) {
-            System.out.println(">Wrong input ");
+            System.out.println(">The position you choose is not an available position ");
         }
         else {
             if (input.equalsIgnoreCase("resdeck")) {

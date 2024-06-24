@@ -29,7 +29,7 @@ public class SetUpState implements State {
         String ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
         int port = tcp.getSocket().getLocalPort(); //FIXME
         if (!input.equalsIgnoreCase("join") && !input.equalsIgnoreCase("create")) {
-            System.out.println(">Wrong input");
+            System.out.println(">You must insert 'join' or 'create' ");
         }
         else if (input.equalsIgnoreCase("join")) {
             context.getNetworkManager().send(new JoinRequestMessage(context.getNickname(),ipAddress,port));

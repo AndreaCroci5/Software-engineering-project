@@ -28,7 +28,7 @@ public class RepeatPlacingMessage extends Message {
      */
     public void process(Client context) {
         if (context.getNickname().equalsIgnoreCase(clientNickname)) {
-            context.getViewManager().displayError();
+            context.getViewManager().displayNegativePlacing();
             context.setState(new ActivePlacingCardChoiceState());
         }
     }
