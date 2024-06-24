@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
 
+import it.polimi.ingsw.am40.client.smallModel.SmallCard;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,10 @@ public class GeneralController {
 
     }
 
+    public void acceptedToken (String clientNickname, String token) {
+
+    }
+
     public void tokenInfo(List<String> tokens) {
     }
 
@@ -47,6 +53,14 @@ public class GeneralController {
     }
 
     public void showPassiveAimCard (String nickname) {
+
+    }
+
+    public void playersOrder(List<String> namesInOrder) {
+
+    }
+
+    public void placing (List<Integer> myHand, List<SmallCard> myGrid) {
 
     }
 

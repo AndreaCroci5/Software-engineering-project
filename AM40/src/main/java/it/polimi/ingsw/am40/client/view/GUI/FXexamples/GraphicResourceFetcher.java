@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
 
+import it.polimi.ingsw.am40.server.model.Coordinates;
+
 /**
  * This class purpose is to serve as URL builder and interpreter for the GUI, in order to link the Application and the
  * resources
@@ -78,5 +80,14 @@ public class GraphicResourceFetcher {
         } else {
             return "BACK";
         }
+    }
+
+    public Coordinates coordinatesFromString (String text) {
+        char charX = text.charAt(1);
+        char charY = text.charAt(3);
+        int x = (int) charX;
+        int y = (int) charY;
+
+        return new Coordinates(x, y);
     }
 }

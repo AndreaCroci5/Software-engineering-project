@@ -106,12 +106,12 @@
       </Button>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="809.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="aimCard" fitHeight="73.0" fitWidth="110.0" layoutX="705.0" layoutY="490.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="globalEventLabel" layoutX="348.0" layoutY="20.0" prefHeight="38.0" prefWidth="350.0" text="GAME HAS STARTED">
+      <Label fx:id="globalEventLabel" layoutX="341.0" layoutY="20.0" prefHeight="38.0" prefWidth="350.0" text="GAME HAS STARTED">
          <font>
             <Font name="Papyrus" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="turnEventLabel" layoutX="341.0" layoutY="50.0" prefHeight="38.0" prefWidth="350.0" visible="false">
+      <Label fx:id="turnEventLabel" layoutX="360.0" layoutY="50.0" prefHeight="38.0" prefWidth="350.0" visible="false">
          <font>
             <Font name="Papyrus" size="20.0" />
          </font>

@@ -3,9 +3,13 @@ package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.AimCardChoiceMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.StartingCardChoiceMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.TokenChoiceMessage;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.round.PlacingMessage;
 import it.polimi.ingsw.am40.client.network.Client;
+import it.polimi.ingsw.am40.client.smallModel.SmallCard;
+import it.polimi.ingsw.am40.server.model.Coordinates;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,12 +22,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SimpleTimeZone;
 
+//TODO PRIMARY finish placing and make draw
 //TODO add JAVADOC
 public class InGameController extends GeneralController {
     //ATTRIBUTES
@@ -47,10 +53,15 @@ public class InGameController extends GeneralController {
     private Parent root;
 
 
-    //FIXME add a new Node as temporary node in order to delete all the tokens
-    private int groupQuantity;
+    private Group primaryEvent;
 
+    private Group tokenTab;
 
+    private Group commonBoardTokens;
+
+    private String placingChoice;
+
+    private Group placingCoordinatesPrevisions;
 
     //ATTRIBUTES FXML
     /**
@@ -94,6 +105,9 @@ public class InGameController extends GeneralController {
      */
     @FXML
     private Label globalEventLabel;
+
+    @FXML
+    private Label turnEventLabel;
 
 
 
@@ -165,6 +179,7 @@ public class InGameController extends GeneralController {
         //PlayersTAB Update
         for (int i = 0; i < nicknames.size(); i++) {
             Label playerLabel =(Label) this.playersTab.getChildren().get(i);
+            playerLabel.setId(nicknames.get(i));
             playerLabel.setText(nicknames.get(i));
         }
         //CommonBoard update
@@ -172,6 +187,16 @@ public class InGameController extends GeneralController {
         //TODO set draw Action and disable for plate and deck
         //Deactivate the FaceButton
         this.faceButton.setDisable(true);
+        //Initialize the primaryEventGroup
+        this.primaryEvent = new Group();
+        //Initialize TokenTab
+        this.tokenTab = new Group();
+        //Initialize CommonBoardTokens
+        this.commonBoardTokens = new Group();
+
+        Pane paneToOperate = (Pane) this.root;
+        paneToOperate.getChildren().add(this.tokenTab);
+        paneToOperate.getChildren().add(this.commonBoardTokens);
     }
 
 
@@ -182,7 +207,6 @@ public class InGameController extends GeneralController {
 
         String cardFace = fetcher.faceFromURL(panel.getId());
         Pane paneToOperate = (Pane) this.root;
-        paneToOperate.getChildren().removeLast();
         paneToOperate.getChildren().removeLast();
         this.client.getNetworkManager().send(new StartingCardChoiceMessage(client.getNickname(), cardFace));
     }
@@ -195,9 +219,9 @@ public class InGameController extends GeneralController {
         //FIXME for, make it for each by putting the tokens in the last node
         String color = fetcher.tokenFromURL(panel.getId());
         Pane paneToOperate = (Pane) this.root;
-        for (int i = 0; i<this.groupQuantity; i++) {
-            paneToOperate.getChildren().removeLast();
-        }
+
+        paneToOperate.getChildren().removeLast();
+
         this.client.getNetworkManager().send(new TokenChoiceMessage(client.getNickname(), color));
     }
 
@@ -212,8 +236,9 @@ public class InGameController extends GeneralController {
         Pane paneToOperate = (Pane) this.root;
         String url = panel.getId();
         this.aimCard.setImage(new Image(getClass().getResourceAsStream(url)));
+
         paneToOperate.getChildren().removeLast();
-        paneToOperate.getChildren().removeLast();
+
         this.client.getNetworkManager().send(new AimCardChoiceMessage(client.getNickname(), aimChoiceID));
     }
 
@@ -224,7 +249,7 @@ public class InGameController extends GeneralController {
     //NET METHODS
     @Override
     public void startingCardInfo(int cardID) {
-        //FIXME finish
+        //FIXME add rectangle to primaryEvent
         this.globalEventLabel.setText("Choose a StartingCard");
 
         Pane paneToOperate = (Pane) this.root;
@@ -232,25 +257,28 @@ public class InGameController extends GeneralController {
         Image frontCard = new Image(getClass().getResourceAsStream(fetcher.findCardResource(cardID, "FRONT")));
         Image backCard = new Image(getClass().getResourceAsStream(fetcher.findCardResource(cardID, "BACK")));
 
+
         ImageView startingCardFront = new ImageView(frontCard);
         startingCardFront.setFitHeight(73);
         startingCardFront.setFitWidth(110);
-        startingCardFront.setX(400);
-        startingCardFront.setY(200);
+        startingCardFront.setX(350);
+        startingCardFront.setY(150);
         ImageView startingCardBack = new ImageView(backCard);
         startingCardBack.setFitHeight(73);
         startingCardBack.setFitWidth(110);
-        startingCardBack.setX(600);
-        startingCardBack.setY(200);
+        startingCardBack.setX(570);
+        startingCardBack.setY(150);
         startingCardBack.setId(fetcher.findCardResource(cardID, "BACK"));
         startingCardFront.setId(fetcher.findCardResource(cardID, "FRONT"));
         startingCardFront.setOnMouseClicked(this::startingCardSelection);
 
         startingCardBack.setOnMouseClicked(this::startingCardSelection);
 
+        this.primaryEvent.getChildren().add(this.eventRectangleCreator());
+        this.primaryEvent.getChildren().add(startingCardFront);
+        this.primaryEvent.getChildren().add(startingCardBack);
 
-        paneToOperate.getChildren().add(startingCardFront);
-        paneToOperate.getChildren().add(startingCardBack);
+        paneToOperate.getChildren().add(this.primaryEvent);
     }
 
 
@@ -265,21 +293,23 @@ public class InGameController extends GeneralController {
     public void tokenInfo(List<String> tokens) {
         this.globalEventLabel.setText("Choose a Token");
         Pane paneToOperate = (Pane) this.root;
-        this.groupQuantity = tokens.size();
-        int tokenpadding = 100;
+        this.primaryEvent = new Group();
+        this.primaryEvent.getChildren().add(this.eventRectangleCreator());
+        int tokenPadding = 100;
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         for (String color: tokens) {
             Image tokenColor = new Image(getClass().getResourceAsStream(fetcher.findTokenResource(color)));
             ImageView tokenView = new ImageView(tokenColor);
-            tokenView.setY(200);
-            tokenView.setX(150+tokenpadding);
+            tokenView.setY(150);
+            tokenView.setX(229+tokenPadding);
             tokenView.setFitHeight(70);
             tokenView.setFitWidth(70);
             tokenView.setOnMouseClicked(this::tokenSelection);
             tokenView.setId(fetcher.findTokenResource(color));
-            paneToOperate.getChildren().add(tokenView);
-            tokenpadding += 100;
+            this.primaryEvent.getChildren().add(tokenView);
+            tokenPadding += 100;
         }
+        paneToOperate.getChildren().add(this.primaryEvent);
 
     }
 
@@ -288,6 +318,40 @@ public class InGameController extends GeneralController {
         this.globalEventLabel.setText(nickname + " is choosing his Token");
     }
 
+    public void acceptedToken (String clientNickname, String token) {
+        this.globalEventLabel.setText("");
+        GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
+        ImageView billBoardToken = new ImageView();
+        ImageView scoreBoardToken = new ImageView();
+
+        if (this.tokenTab.getChildren().size() > 0) {
+            ImageView lastToken = (ImageView) this.tokenTab.getChildren().getLast();
+            billBoardToken.setY(lastToken.getY() + 55);
+        } else {
+            billBoardToken.setY(80);
+        }
+        billBoardToken.setX(950);
+        billBoardToken.setFitHeight(30);
+        billBoardToken.setFitWidth(30);
+        Image colorImg = new Image(getClass().getResourceAsStream(fetcher.findTokenResource(token)));
+        billBoardToken.setImage(colorImg);
+        billBoardToken.setId(clientNickname);
+        this.tokenTab.getChildren().add(billBoardToken);
+
+
+        if (this.commonBoardTokens.getChildren().size() > 0) {
+            ImageView lastToken = (ImageView) this.commonBoardTokens.getChildren().getLast();
+            scoreBoardToken.setX(lastToken.getX() + 6);
+        } else {
+            scoreBoardToken.setX(35);
+        }
+        scoreBoardToken.setY(325);
+        scoreBoardToken.setFitHeight(20);
+        scoreBoardToken.setFitWidth(20);
+        scoreBoardToken.setImage(colorImg);
+        scoreBoardToken.setId(clientNickname);
+        this.commonBoardTokens.getChildren().add(scoreBoardToken);
+    }
 
 
     @Override
@@ -296,6 +360,11 @@ public class InGameController extends GeneralController {
         this.cardFaceShown = true;
         this.updateHandDeck(handDeckIDs);
         this.faceButton.setDisable(false);
+        for (Node n : this.handDeck.getChildren()) {
+            ImageView handCard = (ImageView) n;
+            handCard.setOnMouseClicked(this::placingCardSelection);
+            handCard.setDisable(true);
+        }
         this.globalEventLabel.setText("");
     }
 
@@ -303,6 +372,7 @@ public class InGameController extends GeneralController {
     @Override
     public void aimCardsInfo(List<Integer> aimIDs) {
         this.globalEventLabel.setText("Choose an AimCard");
+        this.primaryEvent = new Group();
         Pane paneToOperate = (Pane) this.root;
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         Image aimImg1 = new Image(getClass().getResourceAsStream(fetcher.findCardResource(aimIDs.getFirst(), "FRONT")));
@@ -311,22 +381,23 @@ public class InGameController extends GeneralController {
         ImageView aimCard1 = new ImageView(aimImg1);
         aimCard1.setFitHeight(73);
         aimCard1.setFitWidth(110);
-        aimCard1.setX(400);
-        aimCard1.setY(200);
+        aimCard1.setX(350);
+        aimCard1.setY(150);
         ImageView aimCard2 = new ImageView(aimImg2);
         aimCard2.setFitHeight(73);
         aimCard2.setFitWidth(110);
-        aimCard2.setX(600);
-        aimCard2.setY(200);
+        aimCard2.setX(570);
+        aimCard2.setY(150);
         aimCard1.setId(fetcher.findCardResource(aimIDs.getFirst(), "FRONT"));
         aimCard2.setId(fetcher.findCardResource(aimIDs.getLast(), "FRONT"));
         aimCard1.setOnMouseClicked(this::aimCardSelection);
 
         aimCard2.setOnMouseClicked(this::aimCardSelection);
 
-
-        paneToOperate.getChildren().add(aimCard1);
-        paneToOperate.getChildren().add(aimCard2);
+        this.primaryEvent.getChildren().add(this.eventRectangleCreator());
+        this.primaryEvent.getChildren().add(aimCard1);
+        this.primaryEvent.getChildren().add(aimCard2);
+        paneToOperate.getChildren().add(this.primaryEvent);
     }
 
 
@@ -335,6 +406,76 @@ public class InGameController extends GeneralController {
         this.globalEventLabel.setText(nickname + " is choosing his AimCard");
     }
 
+    @Override
+    public void playersOrder(List<String> namesInOrder) {
+        for (int i = 0; i < namesInOrder.size(); i++) {
+            Label playerLabel = (Label) this.playersTab.getChildren().get(i);
+            playerLabel.setId(namesInOrder.get(i));
+            playerLabel.setText(namesInOrder.get(i));
+        }
+        this.rearrangeTokenOnBillBoard();
+        this.globalEventLabel.setText(namesInOrder.getFirst() + " is playing...");
+        this.turnEventLabel.setText(namesInOrder.getFirst() + "'s turn");
+        this.turnEventLabel.setVisible(true);
+    }
+
+
+
+    //ROUND
+
+    @Override
+    public void placing (List<Integer> myHand, List<SmallCard> myGrid) {
+        this.globalEventLabel.setText("Select a Card to place from your hand");
+        this.updateHandDeck(myHand);
+        for (Node n : this.handDeck.getChildren()) {
+            ImageView card = (ImageView) n;
+            card.setDisable(false);
+        }
+    }
+
+    private void placingCardSelection (MouseEvent e) {
+        this.globalEventLabel.setText("Select the Coordinates");
+        ImageView panel = (ImageView) e.getSource();
+
+        this.placingChoice = panel.getId();
+
+
+        Pane paneToOperate = (Pane) this.root;
+        //FIXME take from smallmodel
+        //ArrayList<Coordinates> placingCoordinates = this.client.getSmallModel().getCoordinates;
+        ArrayList<Coordinates> placingCoordinates = new ArrayList<>();
+        placingCoordinates.add(new Coordinates(0,1));
+
+
+        this.placingCoordinatesPrevisions = new Group();
+        Label coordsPrevision;
+        for (Coordinates coordinates : placingCoordinates) {
+            int x = coordinates.getX();
+            int y = coordinates.getY();
+            coordsPrevision = new Label("(" + x + "," + y + ")");
+            this.coordinatePrevisionDecorator(coordsPrevision);
+            this.coordinatesPrevisionsLocation(coordsPrevision, coordinates);
+            coordsPrevision.setOnMouseClicked(this::coordinatesSelection);
+            this.placingCoordinatesPrevisions.getChildren().add(coordsPrevision);
+        }
+
+        paneToOperate.getChildren().add(this.placingCoordinatesPrevisions);
+    }
+
+
+    private void coordinatesSelection (MouseEvent e) {
+        Label coordsChosenLabel = (Label) e.getSource();
+        GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
+        int handCardChoice = 0;
+
+        for (int i=0; i<this.handDeck.getChildren().size(); i++) {
+            ImageView card = (ImageView) this.handDeck.getChildren().get(i);
+            if (this.placingChoice.equals(card.getId())) handCardChoice = i;
+        }
+        Coordinates coordsChosen = fetcher.coordinatesFromString(coordsChosenLabel.getText());
+        String cardFace = fetcher.faceFromURL(this.placingChoice);
+        this.client.getNetworkManager().send(new PlacingMessage(client.getNickname(), handCardChoice, coordsChosen,cardFace));
+    }
 
 
     //Utility methods
@@ -382,7 +523,7 @@ public class InGameController extends GeneralController {
         }
     }
 
-    public void updateHandDeck (ArrayList<Integer> handDeckIDs) {
+    public void updateHandDeck (List<Integer> handDeckIDs) {
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         for (int i=0; i<3; i++) {
             ImageView card = (ImageView) this.handDeck.getChildren().get(i);
@@ -407,5 +548,35 @@ public class InGameController extends GeneralController {
             handDeckIDs.add(id);
         }
         return handDeckIDs;
+    }
+
+    private Rectangle eventRectangleCreator() {
+        Rectangle r = new Rectangle(389,200, Paint.valueOf("white"));
+        r.setLayoutX(319);
+        r.setLayoutY(100);
+        return r;
+    }
+
+    private void rearrangeTokenOnBillBoard () {
+        for (Node n: this.tokenTab.getChildren()) {
+            ImageView tokenImgView = (ImageView) n;
+            for (int i = 0; i<this.playersTab.getChildren().size(); i++) {
+                Label playerLabel = (Label) this.playersTab.getChildren().get(i);
+                if (tokenImgView.getId().equalsIgnoreCase(playerLabel.getText()))  {
+                    if (i == 0) tokenImgView.setY(80);
+                    else tokenImgView.setY(80 + (55*i));
+                }
+            }
+        }
+    }
+
+    private void coordinatePrevisionDecorator (Label coordsLabel) {
+        coordsLabel.setStyle("-fx-text-fill: black; -fx-background-color: yellow");
+    }
+
+    private void coordinatesPrevisionsLocation (Label coordsLabel, Coordinates coordinates) {
+        //TODO create the prevision starting from the startingCard
+        coordsLabel.setLayoutX(300);
+        coordsLabel.setLayoutY(300);
     }
 }

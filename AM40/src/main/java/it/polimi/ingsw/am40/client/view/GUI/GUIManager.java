@@ -132,7 +132,10 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void showPositiveTokenColor(String clientNickname, String token) {
+        final String nickname = clientNickname;
+        final String color = token;
 
+        Platform.runLater( () -> HelloApplication.controller.acceptedToken(nickname, color));
     }
 
     //FIXME amiCards typo in aimCards in parameters signature
@@ -150,12 +153,19 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayPlayerOrder(List<String> playerOrder) {
-
+        final List<String> namesInOrder = playerOrder;
+        Platform.runLater( () -> HelloApplication.controller.playersOrder(namesInOrder));
     }
 
     @Override
     public void displayPlacingCardChoice(List<SmallCard> myHand, List<SmallCard> myGrid) {
+        final ArrayList<Integer> handDeck = new ArrayList<>();
+        for (SmallCard card : myHand) {
+            handDeck.add(card.getCardID());
+        }
+        final List<SmallCard> cardGrid = myGrid;
 
+        Platform.runLater( () -> HelloApplication.controller.placing(handDeck, cardGrid));
     }
 
     @Override
@@ -187,15 +197,18 @@ public class GUIManager implements ViewManager {
         for (int i = 0; i<3; i++) {
             resource.add(commonBoard.get(i).getCardID());
         }
-
+        slider = resource.removeLast();
+        resource.addFirst(slider);
         for (int i = 3; i<6; i++) {
             golden.add(commonBoard.get(i).getCardID());
         }
-
+        slider = golden.removeLast();
+        golden.addFirst(slider);
         for (int i = 6; i<9; i++) {
             aim.add(commonBoard.get(i).getCardID());
         }
-
+        slider = aim.removeLast();
+        aim.addFirst(slider);
 
         Platform.runLater( () -> {
             try {
