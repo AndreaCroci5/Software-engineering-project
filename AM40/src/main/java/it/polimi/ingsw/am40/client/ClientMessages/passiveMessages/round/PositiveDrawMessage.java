@@ -59,7 +59,8 @@ public class PositiveDrawMessage extends Message {
                 }
             }
 
-            context.getSmallModel().getMyHand().set(myHandIndex, cardDrawn);
+            context.getSmallModel().getMyHand().remove(context.getSmallModel().getMyHand().get(myHandIndex));
+            context.getSmallModel().getMyHand().add(cardDrawn);
 
             context.getViewManager().displayPositiveDraw();
 
