@@ -209,9 +209,9 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
                 System.out.println("Ip address : " + data.getIpAddress());
                 System.out.println("Port : " + data.getPort());
                 for (NetworkClient c : this.mainServerClass.getOrphanClients()) {
-                    System.out.println("C ipAddress : " + c.getSocket().getLocalAddress().getHostAddress());
+                    System.out.println("C ipAddress : " + c.getSocket().getInetAddress().getHostAddress());
                     System.out.println("C port : " + c.getSocket().getPort());
-                    if (c.getSocket().getLocalAddress().getHostAddress().equals(data.getIpAddress()) && c.getSocket().getPort() == data.getPort()) {
+                    if (c.getSocket().getInetAddress().getHostAddress().equals(data.getIpAddress()) && c.getSocket().getPort() == data.getPort()) {
                         c.setUsername(data.getNickname());
                     }
                 }
@@ -222,9 +222,9 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
                 System.out.println("Ip address : " + data.getIpAddress());
                 System.out.println("Port : " + data.getPort());
                 for (NetworkClient c : this.mainServerClass.getOrphanClients()) {
-                    System.out.println("C ipAddress : " + c.getSocket().getLocalAddress().getHostAddress());
+                    System.out.println("C ipAddress : " + c.getSocket().getInetAddress().getHostAddress());
                     System.out.println("C port : " + c.getSocket().getPort());
-                    if (c.getSocket().getLocalAddress().getHostAddress().equals(data.getIpAddress()) && c.getSocket().getPort() == data.getPort()) {
+                    if (c.getSocket().getInetAddress().getHostAddress().equals(data.getIpAddress()) && c.getSocket().getPort() == data.getPort()) {
                         c.setUsername(data.getNickname());
                     }
                 }
