@@ -1,0 +1,50 @@
+.players{
+    -fx-background-image: url("../images/others/list.png");
+    -fx-background-size: stretch;
+}
+
+.backButton{
+    -fx-background-image: url("../images/perg.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+    -fx-font-size: 15px;
+}
+
+.backButton:hover{
+    -fx-opacity: 0.9;
+}
+
+.backButton:pressed{
+    -fx-background-image: url("../images/perg.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+    -fx-font-size: 13px;
+}
+
+.sendButton{
+    -fx-background-image: url("../images/arrow.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+    -fx-font-size: 15px;
+}
+
+.sendButton:hover{
+    -fx-opacity: 0.9;
+}
+
+.sendButton:pressed{
+    -fx-background-image: url("../images/arrow.png");
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-family: Papyrus;
+    -fx-font-size: 13px;
+}
+
+
+.chatList{
+    -fx-background-image: url("../images/others/list.png");
+    -fx-background-size: stretch;
+}

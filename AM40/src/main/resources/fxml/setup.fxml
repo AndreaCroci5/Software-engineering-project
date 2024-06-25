@@ -21,11 +21,45 @@
                 <Image url="@../images/backgrounds/setup.png" />
             </image>
         </ImageView>
-      <ImageView fitHeight="350.0" fitWidth="175.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../images/board/scoreboard.png" />
-            </image>
-        </ImageView>
+      <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="175.0">
+         <children>
+            <ImageView fitHeight="350.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/board/scoreboard.png" />
+                  </image>
+              </ImageView>
+            <Pane fx:id="score0" layoutX="36.0" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score1" layoutX="77.5" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score2" layoutX="118.5" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score6" layoutX="15.5" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score5" layoutX="56.5" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score4" layoutX="98.0" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score3" layoutX="139.0" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score7" layoutX="15.5" layoutY="240.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score8" layoutX="56.5" layoutY="240.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score9" layoutX="98.0" layoutY="240.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score10" layoutX="139.0" layoutY="240.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score14" layoutX="15.5" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score13" layoutX="56.5" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score12" layoutX="98.0" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score11" layoutX="139.0" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score15" layoutX="15.5" layoutY="165.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score16" layoutX="56.5" layoutY="165.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score17" layoutX="98.0" layoutY="165.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score18" layoutX="139.0" layoutY="165.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score21" layoutX="15.5" layoutY="127.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score20" layoutX="77.5" layoutY="109.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score19" layoutX="139.0" layoutY="127.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score22" layoutX="15.5" layoutY="89.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score28" layoutX="139.0" layoutY="89.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score23" layoutX="15.5" layoutY="52.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score29" layoutX="77.5" layoutY="60.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score27" layoutX="139.0" layoutY="52.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score24" layoutX="39.5" layoutY="21.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score25" layoutX="77.5" layoutY="14.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score26" layoutX="115.5" layoutY="21.0" prefHeight="20.0" prefWidth="20.0" />
+         </children>
+      </Pane>
       <ScrollPane layoutX="340.0" layoutY="100.0" prefHeight="350.0" prefWidth="350.0">
          <content>
             <ImageView fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
@@ -66,7 +100,7 @@
             <ImageView fitHeight="73.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" translateX="20.0" />
          </children>
       </HBox>
-      <GridPane fx:id="commonBoard" layoutX="30.0" layoutY="420.0" prefHeight="140.0" prefWidth="200.0">
+      <GridPane fx:id="commonBoard" layoutX="10.0" layoutY="410.0" prefHeight="170.0" prefWidth="230.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -78,15 +112,15 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ImageView fitHeight="46.6" fitWidth="66.6" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <ImageView fitHeight="48.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
       <Button id="chatButton" fx:id="chatButton" layoutX="755.0" layoutY="45.0" minHeight="-Infinity" mnemonicParsing="false" onAction="#chat" prefHeight="60.0" prefWidth="60.0" styleClass="chatButton" stylesheets="@../css/setup.css" translateX="-520.0">
