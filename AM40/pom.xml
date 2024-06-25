@@ -15,6 +15,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+    </dependency>
+    <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
       <version>21-ea+24</version>
@@ -86,7 +91,9 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>it.polimi.ingsw.am40/it.polimi.ingsw.am40.client.view.GUI.FXexamples.HelloApplication</mainClass>
+              <manifest>
+                <mainClass>it.polimi.ingsw.am40.CodexNaturalis</mainClass>
+              </manifest>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
@@ -94,6 +101,28 @@
               <stripDebug>true</stripDebug>
               <noHeaderFiles>true</noHeaderFiles>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>it.polimi.ingsw.am40.CodexNaturalis</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
