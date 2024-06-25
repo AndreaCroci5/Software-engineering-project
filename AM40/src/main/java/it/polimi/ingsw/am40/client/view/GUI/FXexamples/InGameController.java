@@ -3,6 +3,7 @@ package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.AimCardChoiceMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.StartingCardChoiceMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.TokenChoiceMessage;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.round.DrawMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.round.PlacingMessage;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
@@ -29,7 +30,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO PRIMARY finish placing and make draw
+//TODO PRIMARY finish placing and make draw and buttons correct disable in the setup
 //TODO add JAVADOC
 public class InGameController extends GeneralController {
     //ATTRIBUTES
@@ -184,7 +185,6 @@ public class InGameController extends GeneralController {
         }
         //CommonBoard update
         this.updateCommonBoard(resource, golden, aim);
-        //TODO set draw Action and disable for plate and deck
         //Deactivate the FaceButton
         this.faceButton.setDisable(true);
         //Initialize the primaryEventGroup
@@ -360,6 +360,8 @@ public class InGameController extends GeneralController {
         this.cardFaceShown = true;
         this.updateHandDeck(handDeckIDs);
         this.faceButton.setDisable(false);
+        this.setCommonBoardActions();
+
         for (Node n : this.handDeck.getChildren()) {
             ImageView handCard = (ImageView) n;
             handCard.setOnMouseClicked(this::placingCardSelection);
@@ -433,12 +435,19 @@ public class InGameController extends GeneralController {
         }
     }
 
+    @Override
+    public void positivePlacing () {
+        this.cardGridUpdate();
+        this.activateCommonBoard();
+        this.globalEventLabel.setText("Draw a Card");
+    }
+
     private void placingCardSelection (MouseEvent e) {
         this.globalEventLabel.setText("Select the Coordinates");
         ImageView panel = (ImageView) e.getSource();
 
         this.placingChoice = panel.getId();
-
+        System.out.println("Placing selection " + this.placingChoice);
 
         Pane paneToOperate = (Pane) this.root;
         //FIXME take from smallmodel
@@ -478,6 +487,16 @@ public class InGameController extends GeneralController {
     }
 
 
+    @Override
+    public void positiveDraw (List<Integer> resource, List<Integer> golden, List<Integer> aim) {
+        this.updateCommonBoard(resource, golden, aim);
+    }
+
+    @Override
+    public void passiveDraw(List<Integer> resource, List<Integer> golden, List<Integer> aim) {
+        this.updateCommonBoard(resource, golden, aim);
+    }
+
     //Utility methods
 
 
@@ -491,11 +510,13 @@ public class InGameController extends GeneralController {
             Image cardImg;
             if (i == 0) {
                 cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(resource.get(i), "BACK")));
+                imageView.setImage(cardImg);
+                imageView.setId(fetcher.findCardResource(resource.get(i), "BACK"));
             } else {
                 cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(resource.get(i), "FRONT")));
+                imageView.setImage(cardImg);
+                imageView.setId(fetcher.findCardResource(resource.get(i), "FRONT"));
             }
-            imageView.setImage(cardImg);
-            System.out.println(resource.get(i));
         }
         //Golden
         for (int i = 0; i<3; i++) {
@@ -504,8 +525,12 @@ public class InGameController extends GeneralController {
             Image cardImg;
             if (i == 0) {
                 cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(golden.get(i), "BACK")));
+                imageView.setImage(cardImg);
+                imageView.setId(fetcher.findCardResource(golden.get(i), "BACK"));
             } else {
                 cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(golden.get(i), "FRONT")));
+                imageView.setImage(cardImg);
+                imageView.setId(fetcher.findCardResource(golden.get(i), "FRONT"));
             }
             imageView.setImage(cardImg);
         }
@@ -516,12 +541,17 @@ public class InGameController extends GeneralController {
             Image cardImg;
             if (i == 0) {
                 cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(aim.get(i), "BACK")));
+                imageView.setImage(cardImg);
+                imageView.setId(fetcher.findCardResource(aim.get(i), "BACK"));
             } else {
                 cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(aim.get(i), "FRONT")));
+                imageView.setImage(cardImg);
+                imageView.setId(fetcher.findCardResource(aim.get(i), "FRONT"));
             }
             imageView.setImage(cardImg);
         }
     }
+
 
     public void updateHandDeck (List<Integer> handDeckIDs) {
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
@@ -570,6 +600,85 @@ public class InGameController extends GeneralController {
         }
     }
 
+    private void cardGridUpdate() {
+        //TODO implementation
+    }
+
+
+    private void setCommonBoardActions() {
+        for (int i = 0; i < 6; i++) {
+            ImageView card = (ImageView) this.commonBoard.getChildren().get(i);
+            card.setOnMouseClicked(this::drawSelection);
+            card.setDisable(true);
+        }
+    }
+
+
+    private void drawSelection(MouseEvent e) {
+        ImageView cardSelected = (ImageView) e.getSource();
+
+        String url = cardSelected.getId();
+
+        String choice = this.choiceDrawSelector(url);
+        int selection = this.selectionDrawSelector(url);
+
+        System.out.println(choice + "  " + selection);
+
+        this.deactivateCommonBoard();
+
+        this.client.getNetworkManager().send(new DrawMessage(client.getNickname(), choice, selection));
+
+    }
+
+    private void activateCommonBoard() {
+        for (int i = 0; i < 6; i++) {
+            ImageView card = (ImageView) this.commonBoard.getChildren().get(i);
+            card.setDisable(false);
+        }
+    }
+
+    private void deactivateCommonBoard() {
+        for (int i = 0; i < 6; i++) {
+            ImageView card = (ImageView) this.commonBoard.getChildren().get(i);
+            card.setDisable(true);
+        }
+    }
+
+    private String choiceDrawSelector(String url) {
+        System.out.println(url);
+        int choice = -1;
+        for (int i=0; i<6; i++) {
+            if (url.equals(this.commonBoard.getChildren().get(i).getId()))
+                choice = i;
+        }
+        if (choice>=0 && choice<3) {
+            return "res";
+        } else if (choice>=3 && choice<6) {
+            return "gold";
+        } else {
+            //FIXME this serves as a checker
+            return null;
+        }
+    }
+
+    private int selectionDrawSelector(String url) {
+        System.out.println(url);
+        int choice = -1;
+        for (int i=0; i<6; i++) {
+            if (url.equals(this.commonBoard.getChildren().get(i).getId()))
+                choice = i;
+        }
+        if (choice == 0 || choice == 3) {
+            return 2;
+        } else if (choice == 1 || choice == 4) {
+            return 0;
+        } else if (choice == 2 || choice == 5) {
+            return 1;
+        } else return -44; //FIXME to remove
+    }
+
+
+    //Decorators
     private void coordinatePrevisionDecorator (Label coordsLabel) {
         coordsLabel.setStyle("-fx-text-fill: black; -fx-background-color: yellow");
     }

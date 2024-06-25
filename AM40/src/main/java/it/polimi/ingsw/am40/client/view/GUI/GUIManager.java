@@ -412,6 +412,7 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayPositivePlacing() {
+        Platform.runLater( () -> HelloApplication.controller.positivePlacing());
 
     }
 
@@ -427,7 +428,30 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayPositiveDraw() {
+        List<SmallCard> commonBoard = this.client.getSmallModel().getCommonBoard();
+        final List<Integer> resource = new ArrayList<>();
+        final List<Integer> golden = new ArrayList<>();
+        final List<Integer> aim = new ArrayList<>();
+        //FIXME Check index problems in case
+        int slider;
+        for (int i = 0; i<3; i++) {
+            resource.add(commonBoard.get(i).getCardID());
+        }
+        slider = resource.removeLast();
+        resource.addFirst(slider);
+        for (int i = 3; i<6; i++) {
+            golden.add(commonBoard.get(i).getCardID());
+        }
+        slider = golden.removeLast();
+        golden.addFirst(slider);
+        for (int i = 6; i<9; i++) {
+            aim.add(commonBoard.get(i).getCardID());
+        }
+        slider = aim.removeLast();
+        aim.addFirst(slider);
 
+
+        Platform.runLater( () -> HelloApplication.controller.positiveDraw(resource, golden, aim));
     }
 
     @Override
@@ -447,6 +471,29 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayPassiveDrawResult(String clientNickname) {
+        List<SmallCard> commonBoard = this.client.getSmallModel().getCommonBoard();
+        final List<Integer> resource = new ArrayList<>();
+        final List<Integer> golden = new ArrayList<>();
+        final List<Integer> aim = new ArrayList<>();
+        //FIXME Check index problems in case
+        int slider;
+        for (int i = 0; i<3; i++) {
+            resource.add(commonBoard.get(i).getCardID());
+        }
+        slider = resource.removeLast();
+        resource.addFirst(slider);
+        for (int i = 3; i<6; i++) {
+            golden.add(commonBoard.get(i).getCardID());
+        }
+        slider = golden.removeLast();
+        golden.addFirst(slider);
+        for (int i = 6; i<9; i++) {
+            aim.add(commonBoard.get(i).getCardID());
+        }
+        slider = aim.removeLast();
+        aim.addFirst(slider);
 
+
+        Platform.runLater( () -> HelloApplication.controller.passiveDraw(resource, golden, aim));
     }
 }

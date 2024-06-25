@@ -85,9 +85,8 @@ public class GraphicResourceFetcher {
     public Coordinates coordinatesFromString (String text) {
         char charX = text.charAt(1);
         char charY = text.charAt(3);
-        int x = (int) charX;
-        int y = (int) charY;
-
+        int x = Integer.parseInt(String.valueOf(charX));
+        int y = Integer.parseInt(String.valueOf(charY));
         return new Coordinates(x, y);
     }
 }

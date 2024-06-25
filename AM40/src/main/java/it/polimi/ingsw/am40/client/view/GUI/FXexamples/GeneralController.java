@@ -64,4 +64,16 @@ public class GeneralController {
 
     }
 
+    //FIXME add also in boards
+    public void positivePlacing () {
+
+    }
+
+    public void positiveDraw (List<Integer> resource, List<Integer> golden, List<Integer> aim) {
+
+    }
+
+    public void passiveDraw (List<Integer> resource, List<Integer> golden, List<Integer> aim) {
+
+    }
 }
