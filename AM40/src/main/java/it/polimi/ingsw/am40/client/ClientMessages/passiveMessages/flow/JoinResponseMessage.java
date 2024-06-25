@@ -19,7 +19,11 @@ public class JoinResponseMessage extends Message {
     private Map<Integer, ArrayList<Integer>> currentParties;
 
 
-
+    /**
+     * This message is sent by the server in order to let the client know all the possible games he can join
+     * @param clientNickname is the name of the active client
+     * @param currentParties are the IDs of the possible games the client can join
+     */
     public JoinResponseMessage(String clientNickname,Map<Integer, ArrayList<Integer>> currentParties) {
         super("POSITIVE_JOIN",clientNickname);
         this.clientNickname = clientNickname;

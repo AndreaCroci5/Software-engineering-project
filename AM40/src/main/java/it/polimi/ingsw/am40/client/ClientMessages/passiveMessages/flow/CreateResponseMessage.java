@@ -12,6 +12,9 @@ public class CreateResponseMessage extends Message {
      */
     private final String clientNickname;
 
+    /**
+     * It's the number of players that the client decided to have in your game
+     */
     private final int NumOfFinalPlayer;
 
     public String getClientNickname() {
@@ -34,6 +37,7 @@ public class CreateResponseMessage extends Message {
 
     /**
      * It sets the next state of the client state machine
+     * It displays waiting for players
      * @param context is the context of the client with his view and his network communication protocol
      */
     public void process(Client context) {

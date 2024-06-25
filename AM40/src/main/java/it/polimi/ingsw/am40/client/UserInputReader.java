@@ -68,7 +68,7 @@ public class UserInputReader implements Runnable {
         }
 
         if (input.equalsIgnoreCase("otherBoard")) {
-            client.getViewManager().displayOtherPlayersGrid();
+            client.getViewManager().displayOtherPlayersGrid(client.getSmallModel().getOtherPlayersGrid());
             client.getCurrentState().execute(client);
             return true;
         }

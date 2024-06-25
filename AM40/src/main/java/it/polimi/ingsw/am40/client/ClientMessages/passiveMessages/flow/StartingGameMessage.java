@@ -14,10 +14,22 @@ import java.util.Map;
 
 public class StartingGameMessage extends Message {
 
+    /**
+     * Names of all the players in the game
+     */
     private ArrayList<String> nicknames;
 
+    /**
+     * CommonBoard of the game
+     */
     private Map<String,ArrayList<Integer>> commonBoard;
 
+    /**
+     * This message is sent from the server and it is used to start the game
+     * @param clientNickname is the name of the active client
+     * @param nicknames are the names of all the players in the game
+     * @param commonBoard is common board of the game
+     */
     public StartingGameMessage(String clientNickname, ArrayList<String> nicknames, Map<String,ArrayList<Integer>> commonBoard) {
         super("GAME_INIT_RESULT",clientNickname);
         this.nicknames = nicknames;
@@ -25,6 +37,11 @@ public class StartingGameMessage extends Message {
     }
 
 
+    /**
+     * It sets the common board and scoreboard in the small model
+     * It sets the first player to start the first phase of the game
+     * @param context is the context of the client with his view and his network communication protocol
+     */
     public void process(Client context) {
 
         List<SmallCard> board = new ArrayList<>();
@@ -46,7 +63,6 @@ public class StartingGameMessage extends Message {
         }
         context.getViewManager().displayStartingGame(this.nicknames,context.getSmallModel().getCommonBoard());
 
-        // FIXME
         if (context.getNickname().equals(this.nicknames.getFirst())) {
             context.getNetworkManager().send(new StartingCardRequestMessage(context.getNickname()));
         }

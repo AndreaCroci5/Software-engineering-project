@@ -22,8 +22,14 @@ public class DealCardsResponseMessage extends Message {
      */
     private final List<Integer> handCards;
 
+    /**
+     * The ID of the new card on top of resource deck of the common board
+     */
     private final int deckResourceCardID;
 
+    /**
+     * The ID of the new card on top of gold deck of the common board
+     */
     private final int deckGoldenCardID;
 
     /**
@@ -40,6 +46,7 @@ public class DealCardsResponseMessage extends Message {
     }
 
     /**
+     * It updates the common board of all the clients
      * It updates the small model of the client with his 3 cards
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
@@ -55,7 +62,6 @@ public class DealCardsResponseMessage extends Message {
         context.getSmallModel().getCommonBoard().set(2,resCard);
         context.getSmallModel().getCommonBoard().set(5,goldCard);
 
-        context.getViewManager().displayCommonBoard(context.getSmallModel().getCommonBoard());
 
         if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
 

@@ -12,6 +12,9 @@ public class GameIdResponseMessage extends Message {
      */
     private final String clientNickname;
 
+    /**
+     * It's the ID of the party of the player
+     */
     private int partyId;
 
     /**

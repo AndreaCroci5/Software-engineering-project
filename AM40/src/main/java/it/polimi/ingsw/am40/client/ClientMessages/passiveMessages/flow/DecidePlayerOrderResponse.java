@@ -39,7 +39,6 @@ public class DecidePlayerOrderResponse extends Message {
 
         context.getViewManager().displayPlayerOrder(this.playersOrder);
 
-        //FIXME
         if (context.getNickname().equalsIgnoreCase(this.playersOrder.getFirst())) {
             context.setState(new ActivePlacingCardChoiceState());
         }

@@ -13,13 +13,10 @@ public class StartingCardRequestData extends Data {
 
     //CONSTRUCTOR
 
-    //Json constructor
     @JsonCreator
     public StartingCardRequestData(@JsonProperty("nickname") String nickname) {
         super("STARTING_CARD_REQUEST", nickname);
     }
-
-
 
 
     //PUBLIC METHODS

@@ -140,8 +140,8 @@ public class GUIManager implements ViewManager {
 
     //FIXME amiCards typo in aimCards in parameters signature
     @Override
-    public void displayAimCardsToChoose(List<Integer> amiCardsID) {
-        final List<Integer> aimIDs = amiCardsID;
+    public void displayAimCardsToChoose(List<Integer> aimCardsID) {
+        final List<Integer> aimIDs = aimCardsID;
         Platform.runLater( () -> HelloApplication.controller.aimCardsInfo(aimIDs));
 
     }
@@ -250,7 +250,7 @@ public class GUIManager implements ViewManager {
     }
 
     @Override
-    public void displayOtherPlayersGrid() {
+    public void displayOtherPlayersGrid(Map<String, ArrayList<SmallCard>> othersPlayersGrid) {
 
     }
 
@@ -442,6 +442,11 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayNegativePlacing() {
+
+    }
+
+    @Override
+    public void displayPassiveDrawResult(String clientNickname) {
 
     }
 }

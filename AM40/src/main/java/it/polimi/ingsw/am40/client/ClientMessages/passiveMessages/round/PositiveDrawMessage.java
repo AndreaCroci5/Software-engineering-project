@@ -9,9 +9,16 @@ import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 
 public class PositiveDrawMessage extends Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String clientNickname;
 
+    /**
+     * It's the ID of the card drawn by the client
+     */
     private final int cardDrawnID;
+
 
     private final int cardReplacedID;
 
@@ -33,7 +40,19 @@ public class PositiveDrawMessage extends Message {
         // Update commonBoard
         SmallCard cardReplaced = SmallCardLoader.findCardById(cardReplacedID);
         assert cardReplaced != null;
-        context.getSmallModel().getCommonBoard().set(replacePosition, cardReplaced);
+
+        int goldReplacePosition = 0;
+
+        if (replacePosition == 0 || replacePosition == 1) {
+            if (cardReplaced.getRequires() == null) {
+                context.getSmallModel().getCommonBoard().set(replacePosition, cardReplaced);
+            }
+            else {
+                goldReplacePosition = replacePosition + 3;
+                context.getSmallModel().getCommonBoard().set(goldReplacePosition, cardReplaced);
+            }
+        }
+
 
         SmallCard cardDeck = SmallCardLoader.findCardById(cardOnTopOfDeck);
         assert cardDeck != null;
@@ -66,6 +85,9 @@ public class PositiveDrawMessage extends Message {
 
             context.setState(new PassivePlacingState());
             context.getNetworkManager().send(new ChangeTurnRequestMessage(this.clientNickname));
+        }
+        else {
+            context.getViewManager().displayPassiveDrawResult(this.clientNickname);
         }
     }
 }

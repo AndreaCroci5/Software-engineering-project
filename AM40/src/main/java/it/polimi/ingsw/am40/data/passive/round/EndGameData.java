@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.passive.round;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.round.EndGameMessage;
@@ -16,14 +18,19 @@ public class EndGameData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public EndGameData(String nickname, List<String> winners) {
+    @JsonCreator
+    public EndGameData(@JsonProperty("nickname") String nickname,
+                       @JsonProperty("winners") List<String> winners) {
         super("ENDGAME", nickname);
         this.winners = winners;
     }
-    //Json constructor
-    public EndGameData(){
 
+    public List<String> getWinners() {
+        return winners;
+    }
+
+    public void setWinners(List<String> winners) {
+        this.winners = winners;
     }
 
     //PUBLIC METHODS

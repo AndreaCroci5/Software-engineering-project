@@ -15,8 +15,9 @@ import it.polimi.ingsw.am40.server.actions.active.firstRound.AimCardChoiceAction
 @JsonTypeName("AIM_CARD_SELECTION")
 public class AimCardChoiceData extends Data {
     //ATTRIBUTES
-    /** This attribute represents one the AimCard chosen by the Client: (0) the first, (1) the second*/
+    /** This attribute represents the ID of the card chosen by the client*/
     private int aimCardChosenID;
+
 
     //CONSTRUCTOR
 
@@ -27,10 +28,21 @@ public class AimCardChoiceData extends Data {
         this.aimCardChosenID = aimCardChosenID;
     }
 
+
+    // GETTER AND SETTER
+
+    /**
+     * Getter for aimCardChosenID
+     * @return the aimCardChosenID
+     */
     public int getAimCardChosenID() {
         return aimCardChosenID;
     }
 
+    /**
+     * Setter for aimCardChosenID
+     * @param aimCardChosenID sets the aimCardChosen attribute
+     */
     public void setAimCardChosenID(int aimCardChosenID) {
         this.aimCardChosenID = aimCardChosenID;
     }

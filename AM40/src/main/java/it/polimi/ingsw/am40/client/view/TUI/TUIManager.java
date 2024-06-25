@@ -164,16 +164,20 @@ public class TUIManager implements ViewManager {
     @Override
     public void displayDealCardState(List<SmallCard> myHand) {
         displayMyHand(myHand);
-        System.out.println(">Up here you can see the common board updated after dealing the cards to all players ");
-        System.out.println(">You can also see the cards in your hand");
+        System.out.println(">Every player has just received 2 resource card and a gold card ");
+        System.out.println(">Up here you can see the cards in your hand ");
+        System.out.println(">CommonBoard has been updated too, write (commonBoard) to see it ");
     }
 
     @Override
-    public void displayAimCardsToChoose(List<Integer> aimCardsId) {
+    public void displayAimCardsToChoose(List<Integer> aimCardsID) {
         System.out.println("\n");
+        System.out.println(">Now you need to choose you personal aim card ");
+        System.out.println(">Every aim card has a pattern that can give you points at the end of the game ");
+        System.out.println(">Choose the aim card based on the pattern you prefer to recreate with your cards on you personal board ");
         System.out.println(">Here are the two possible aim cards you can choose ");
         System.out.println(">You have to choose one of them ");
-        for (Integer aimCardId : aimCardsId) {
+        for (Integer aimCardId : aimCardsID) {
             SmallCard card = SmallCardLoader.findCardById(aimCardId);
             assert card != null;
             printAimCard(card);
@@ -232,7 +236,7 @@ public class TUIManager implements ViewManager {
         System.out.println("3- Only the card already present in the play area may contain the necessary visible corners ");
         System.out.println("4- If you cover a corner with a resource you lose that resource : ");
         System.out.println(">You need to choose a card and the corner of that card that you want to cover ");
-        System.out.println(">Write the ID of the card on which you want to cover the corer ");
+        System.out.println(">Write the ID of the card on which you want to cover the corner ");
     }
 
     @Override
@@ -409,8 +413,32 @@ public class TUIManager implements ViewManager {
     }
 
     @Override
-    public void displayOtherPlayersGrid() {
-        System.out.println("TO BE IMPLEMENTED");
+    public void displayOtherPlayersGrid(Map<String,ArrayList<SmallCard>> othersPlayerGrid) {
+        System.out.println(">These are the personal board of the other players: ");
+        for (String s : othersPlayerGrid.keySet()) {
+            System.out.println(s + " board: ");
+            printListCard(othersPlayerGrid.get(s));
+        }
+    }
+
+    private void printListCard(ArrayList<SmallCard> myGrid) {
+        System.out.println(">Here are all the card in his personal board");
+        for (SmallCard card : myGrid) {
+            if (card.getRequires() != null) {
+                System.out.println(">Coordinates : (" + card.getCoordinates().getX() + ", " + card.getCoordinates().getY() + ")");
+                displayGoldCard(card,card.getFace());
+            }
+            else if (card.getStartingResource() == null) {
+                System.out.println(">Coordinates : (" + card.getCoordinates().getX() + ", " + card.getCoordinates().getY() + ")");
+                displayResourceCard(card,card.getFace());
+            }
+            else {
+                System.out.println(">Coordinates : (" + card.getCoordinates().getX() + ", " + card.getCoordinates().getY() + ")");
+                displayStartingCardInfo(card,card.getFace());
+            }
+            System.out.println("\n");
+        }
+        System.out.println("\n");
     }
 
     public void displayChat() {
@@ -516,6 +544,12 @@ public class TUIManager implements ViewManager {
         System.out.println(">Problems could be: ");
         System.out.println("1- Placing a gold card without having the requirements on your board ");
         System.out.println("2- The position where you want to place the card is not a valid position ");
+    }
+
+    @Override
+    public void displayPassiveDrawResult(String clientNickname) {
+        System.out.println("\n");
+        System.out.println(">" + clientNickname + " has drawn a card");
     }
 
     @Override

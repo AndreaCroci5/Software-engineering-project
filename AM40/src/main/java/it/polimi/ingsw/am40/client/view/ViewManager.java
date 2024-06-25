@@ -38,7 +38,7 @@ public interface ViewManager extends ConcreteContext {
     void displayPossibleTokens(List<String> tokens);
     void showPositiveTokenColor(String clientNickname, String token);
 
-    void displayAimCardsToChoose(List<Integer> amiCardsID);
+    void displayAimCardsToChoose(List<Integer> aimCardsID);
     // The active resul is simply his card in his hand so the method is below in the possible inputs
     void showPassiveAimCardResult(String nickname);
 
@@ -59,7 +59,7 @@ public interface ViewManager extends ConcreteContext {
     void displayPersonalAimCard(SmallCard card);
     void displayPersonalToken(String token);
     void displayPersonalGrid(List<SmallCard> myGrid);
-    void displayOtherPlayersGrid();
+    void displayOtherPlayersGrid(Map<String,ArrayList<SmallCard>> othersPlayersGrid);
     void displayChat();
     void displaySymbolLegend();
 
@@ -108,4 +108,6 @@ public interface ViewManager extends ConcreteContext {
     void displayNegativeDraw();
 
     void displayNegativePlacing();
+
+    void displayPassiveDrawResult(String clientNickname);
 }

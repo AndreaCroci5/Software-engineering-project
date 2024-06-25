@@ -7,10 +7,18 @@ import it.polimi.ingsw.am40.client.network.States.activeStates.SetUpState;
 
 public class FailedGameIDMessage extends Message {
 
+    /**
+     * This message is sent by the server when something went wrong when joining a match
+     * @param nickname is the name of the active client
+     */
     public FailedGameIDMessage(String nickname) {
         super("FAILED_GAME_ID", nickname);
     }
 
+    /**
+     * It sets as the new state the previous state due to the joining error
+     * @param context is the context of the client with his view and his network communication protocol
+     */
     public void process(Client context) {
         if (context.getNickname().equalsIgnoreCase(this.getNickname())) {
             context.getViewManager().showFailedGameID();

@@ -28,7 +28,7 @@ public class StartingCardInfoMessage extends Message {
     }
 
     /**
-     * It shows the client his starting card
+     * It shows the client his starting card and it asks if he wants to place front or back
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */

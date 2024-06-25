@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.data.passive.flow;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow.LastRoundInfoMessage;
@@ -12,13 +14,9 @@ public class LastRoundsInfoData extends Data {
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-    public LastRoundsInfoData(String nickname) {
+    @JsonCreator
+    public LastRoundsInfoData(@JsonProperty("nickname") String nickname) {
         super("LAST_ROUNDS", nickname);
-    }
-    //Json constructor
-    public LastRoundsInfoData(){
-
     }
 
     //PUBLIC METHODS

@@ -23,6 +23,8 @@ public class TokenChoiceData extends Data {
         this.token = token;
     }
 
+    // GETTER AND SETTER
+
     public String getToken() {
         return token;
     }
