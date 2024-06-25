@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class CodexNaturalis {
     public static void main(String[] args) {
-        System.out.println("Welcome to Codex Naturalis!");
         //TODO add clearscreen
         System.out.println("Welcome to Codex Naturalis! What type of instance do you want to launch?");
         System.out.println("0 - Server");
