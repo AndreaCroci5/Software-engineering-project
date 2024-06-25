@@ -9,59 +9,55 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am40.client.view.GUI.FXexamples.LoginController">
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am40.client.view.GUI.FXexamples.LoginController">
    <children>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1030.0">
+      <ImageView fitHeight="591.0" fitWidth="1034.0" pickOnBounds="true" preserveRatio="true" translateX="-3.0" translateY="-1.0">
+            <image>
+                <Image url="@../images/backgrounds/background2.png" />
+            </image>
+         <effect>
+            <GaussianBlur />
+         </effect>
+        </ImageView>
+      <Label id="info" fx:id="info" text="Username" translateX="447.5" translateY="160.0">
+         <font>
+            <Font name="Papyrus" size="30.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameField" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="200.0" translateX="415.0" translateY="215.0">
+         <font>
+            <Font name="Papyrus" size="20.0" />
+         </font>
+      </TextField>
+      <Label fx:id="statusLabel" text="Username already taken" textFill="RED" translateX="435.0" translateY="265.0" visible="false">
+         <font>
+            <Font name="Papyrus" size="15.0" />
+         </font>
+      </Label>
+      <HBox prefHeight="64.0" prefWidth="435.0" translateX="297.5" translateY="302.5">
          <children>
-            <ImageView fitHeight="591.0" fitWidth="1034.0" pickOnBounds="true" preserveRatio="true" translateX="-3.0" translateY="-1.0">
-                  <image>
-                      <Image url="@../images/backgrounds/background2.png" />
-                  </image>
-               <effect>
-                  <GaussianBlur />
-               </effect>
-              </ImageView>
-            <Label id="info" fx:id="info" text="Username" translateX="447.5" translateY="160.0">
+            <Button fx:id="joinButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#join" prefHeight="64.0" prefWidth="175.0" stylesheets="@../css/login.css" text="Join a Party" translateX="25.0">
                <font>
-                  <Font name="Papyrus" size="30.0" />
-               </font>
-            </Label>
-            <TextField fx:id="usernameField" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="200.0" translateX="415.0" translateY="215.0">
-               <font>
-                  <Font name="Papyrus" size="20.0" />
-               </font>
-            </TextField>
-            <Label fx:id="statusLabel" text="Username already taken" textFill="RED" translateX="435.0" translateY="265.0" visible="false">
-               <font>
-                  <Font name="Papyrus" size="15.0" />
-               </font>
-            </Label>
-            <HBox prefHeight="64.0" prefWidth="435.0" translateX="297.5" translateY="302.5">
-               <children>
-                  <Button fx:id="joinButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#join" prefHeight="64.0" prefWidth="175.0" stylesheets="@../css/login.css" text="Join a Party" translateX="25.0">
-                     <font>
-                        <Font name="Papyrus" size="25.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="createButton" mnemonicParsing="false" onAction="#create" prefHeight="64.0" prefWidth="210.0" stylesheets="@../css/login.css" text="Create a Party" translateX="65.0">
-                     <font>
-                        <Font name="Papyrus" size="25.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Button>
-               </children>
-            </HBox>
-            <Button id="sendButton" fx:id="sendButton" layoutX="625.0" layoutY="223.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" styleClass="sendButton" stylesheets="@../css/login.css" text="Send" visible="false">
-               <font>
-                  <Font name="Papyrus" size="10.0" />
+                  <Font name="Papyrus" size="25.0" />
                </font>
             </Button>
+            <Button fx:id="createButton" mnemonicParsing="false" onAction="#create" prefHeight="64.0" prefWidth="210.0" stylesheets="@../css/login.css" text="Create a Party" translateX="65.0">
+               <font>
+                  <Font name="Papyrus" size="25.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
          </children>
-      </Pane>
+      </HBox>
+      <Button id="sendButton" fx:id="sendButton" layoutX="625.0" layoutY="223.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="50.0" styleClass="sendButton" stylesheets="@../css/login.css" text="Send" visible="false">
+         <font>
+            <Font name="Papyrus" size="10.0" />
+         </font>
+      </Button>
    </children>
-</StackPane>
+</Pane>
