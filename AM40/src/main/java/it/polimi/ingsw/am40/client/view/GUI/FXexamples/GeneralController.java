@@ -80,4 +80,8 @@ public class GeneralController {
     public void negativePlacing() {
 
     }
+
+    public void passivePlacingState(String nickname) {
+
+    }
 }

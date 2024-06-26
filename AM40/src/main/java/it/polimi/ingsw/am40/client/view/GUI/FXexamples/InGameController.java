@@ -469,7 +469,6 @@ public class InGameController extends GeneralController {
         this.rearrangeTokenOnBillBoard();
         this.globalEventLabel.setText(namesInOrder.getFirst() + " is playing...");
         this.turnEventLabel.setText(namesInOrder.getFirst() + "'s turn");
-        this.turnEventLabel.setVisible(true);
     }
 
 
@@ -479,6 +478,7 @@ public class InGameController extends GeneralController {
     @Override
     public void placing (List<Integer> myHand, List<SmallCard> myGrid) {
         this.globalEventLabel.setText("Select a Card to place from your hand");
+        this.turnEventLabel.setText(client.getNickname() + "'s turn");
         this.updateHandDeck(myHand);
         for (Node n : this.handDeck.getChildren()) {
             ImageView card = (ImageView) n;
@@ -555,6 +555,11 @@ public class InGameController extends GeneralController {
     @Override
     public void positiveDraw (List<Integer> resource, List<Integer> golden, List<Integer> aim) {
         this.updateCommonBoard(resource, golden, aim);
+        final List<Integer> handDeck = new ArrayList<>();
+        for (SmallCard s: this.client.getSmallModel().getMyHand()) {
+            handDeck.add(s.getCardID());
+        }
+        this.updateHandDeck(handDeck);
     }
 
     @Override
@@ -569,6 +574,11 @@ public class InGameController extends GeneralController {
             ImageView card = (ImageView) n;
             card.setDisable(false);
         }
+    }
+
+    public void passivePlacingState(String nickname) {
+        this.globalEventLabel.setText(nickname + " is playing...");
+        this.turnEventLabel.setText(nickname + "'s turn");
     }
 
     //Utility methods
