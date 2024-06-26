@@ -52,5 +52,10 @@ public class ChangeTurnResponseMessage extends Message {
                 context.getNetworkManager().send(new DecidePlayerOrderRequestMessage(context.getNickname()));
             }
         }
+        else {
+            if (context.getCurrentState().getClass().equals(PassivePlacingState.class)) {
+                context.getViewManager().displayPassivePlacingState(this.clientNickname);
+            }
+        }
     }
 }

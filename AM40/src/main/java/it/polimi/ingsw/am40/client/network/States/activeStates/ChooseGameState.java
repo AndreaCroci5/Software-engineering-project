@@ -42,7 +42,7 @@ public class ChooseGameState implements State {
                 context.getNetworkManager().send(new GameIdChoiceMessage(context.getNickname(), Integer.parseInt(input)));
             }
             else {
-                System.out.println(">The ID of the game you choose is not on the available IDs ");
+                System.out.println(">The ID of the game you choose is not among the available IDs ");
             }
         }
         catch (NumberFormatException e) {

@@ -35,7 +35,7 @@ public class ActiveAimCardChoiceState implements State {
         try {
             Integer.parseInt(input);
             if (!possibleInputs.contains(Integer.parseInt(input))) {
-                System.out.println(">You insert a number that is not in the available IDs ");
+                System.out.println(">You insert a number that is not among the available IDs ");
             }
             else {
                 context.getNetworkManager().send(new AimCardChoiceMessage(context.getNickname(),Integer.parseInt(input)));

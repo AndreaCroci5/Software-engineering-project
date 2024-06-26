@@ -28,7 +28,7 @@ public class ActivePlacingCardChoiceState implements State {
         try {
             Integer.parseInt(input);
             if (!possibleInputs.contains(Integer.parseInt(input))) {
-                System.out.println(">You insert a number that is not in the available IDs ");
+                System.out.println(">You insert a number that is not among the available IDs ");
             }
             else {
                 int index = 0;

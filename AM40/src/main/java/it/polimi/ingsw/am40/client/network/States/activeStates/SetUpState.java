@@ -25,9 +25,9 @@ public class SetUpState implements State {
      */
     @Override
     public void checkInput(Client context, String input) {
-        ClientNetworkTCPManager tcp = (ClientNetworkTCPManager) context.getNetworkManager(); //FIXME
-        String ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
-        int port = tcp.getSocket().getLocalPort(); //FIXME
+        ClientNetworkTCPManager tcp = (ClientNetworkTCPManager) context.getNetworkManager();
+        String ipAddress = tcp.getSocket().getLocalAddress().getHostAddress();
+        int port = tcp.getSocket().getLocalPort();
         if (!input.equalsIgnoreCase("join") && !input.equalsIgnoreCase("create")) {
             System.out.println(">You must insert 'join' or 'create' ");
         }

@@ -122,6 +122,7 @@ public class TUIManager implements ViewManager {
     @Override
     public void displayStartingCardInfo(int startingCardID) {
         System.out.println("\n");
+        System.out.println(">First of all you need to choose how you want to place your starting card ");
         System.out.println(">Here is your starting card: ");
         SmallCard card = SmallCardLoader.findCardById(startingCardID);
         System.out.println(">Here are all the card information: ");
@@ -142,7 +143,7 @@ public class TUIManager implements ViewManager {
     @Override
    public void showPassiveStartingCard(String nickname,int startingCardID,String cardFace) {
         System.out.println("\n");
-        System.out.println(">The player: " + nickname + " has chosen this starting card");
+        System.out.println(">The player: " + nickname + " chose this starting card");
         System.out.println(">Here are all the information of " + nickname + " starting card");
         SmallCard card = SmallCardLoader.findCardById(startingCardID);
         assert card != null;
@@ -163,10 +164,10 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displayDealCardState(List<SmallCard> myHand) {
+        System.out.println("\n");
         displayMyHand(myHand);
-        System.out.println(">Every player has just received 2 resource card and a gold card ");
+        System.out.println(">Every player has just received 2 resource cards and a gold card ");
         System.out.println(">Up here you can see the cards in your hand ");
-        System.out.println(">CommonBoard has been updated too, write (commonBoard) to see it ");
     }
 
     @Override
@@ -202,6 +203,9 @@ public class TUIManager implements ViewManager {
             System.out.println(">" + i + ": " + player);
             ++i;
         }
+        System.out.println(">A round is composed by two phases ");
+        System.out.println("1- Placing phase in which you have to select a card from your hand and place it in your board ");
+        System.out.println("2- Draw phase in which you select which card you want to draw from the common board ");
     }
 
 
@@ -219,8 +223,9 @@ public class TUIManager implements ViewManager {
         System.out.println(">Now you need to place a card");
         System.out.println(">First of all you need to chose the card in your hand that you want to place");
         System.out.println(">Remember rules of the card");
-        System.out.println("1- In order to place a gold card you have to posses the requirements resources in you board");
+        System.out.println("1- In order to place a gold card you have to posses the requirements resources in you board ");
         System.out.println("2- Some card gives you points as soon as you place them while other can help you gain points during the match");
+        System.out.println(">If you want to see the counter of the elements in your board in order to see if you have the requirements for placing a gold card write: (counter)");
         System.out.println(">Write the ID of the card you want to place: ");
     }
 
@@ -234,7 +239,7 @@ public class TUIManager implements ViewManager {
         System.out.println("1- The card must cover one or several visible corners of cards already present in their play area ");
         System.out.println("2- It cannot cover more than one corner of the same card ");
         System.out.println("3- Only the card already present in the play area may contain the necessary visible corners ");
-        System.out.println("4- If you cover a corner with a resource you lose that resource : ");
+        System.out.println("4- If you cover a corner with a resource you lose that resource ");
         System.out.println(">You need to choose a card and the corner of that card that you want to cover ");
         System.out.println(">Write the ID of the card on which you want to cover the corner ");
     }
@@ -272,6 +277,7 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displayEndGame(List<String> winners) {
+        printEndGame();
         if (winners.size()>1) {
             System.out.println(">The winners are: ");
             for (String winner : winners) {
@@ -293,16 +299,15 @@ public class TUIManager implements ViewManager {
     @Override
     public void showPossibleInputs() {
         System.out.println(">These are the inputs you can use in order to see the information you want: ");
-        System.out.println(">To see the common board write: CommonBoard");
-        System.out.println(">To see your board write: MyBoard");
-        System.out.println(">To see your aim card write: MyAimCard");
-        System.out.println(">To see your hand cards write: MyHand");
+        System.out.println(">To see the common board write: commonBoard");
+        System.out.println(">To see your board write: myBoard");
+        System.out.println(">To see your aim card write: myAimCard");
+        System.out.println(">To see your hand cards write: myHand");
         System.out.println(">To see your token color write: myToken");
         System.out.println(">To see the counter of the elements in your private board write: counter");
-        System.out.println(">To see the scoreboard write: Scoreboard");
-        System.out.println(">To see the legend of the symbols write: Legends");
-        System.out.println(">To see other player board write: OtherBoard");
-        System.out.println(">To enter the chat write: Chat");
+        System.out.println(">To see the scoreboard write: scoreboard");
+        System.out.println(">To see the legend of the symbols write: legends");
+        System.out.println(">To see other player board write: otherBoard");
     }
 
     @Override
@@ -500,7 +505,7 @@ public class TUIManager implements ViewManager {
     @Override
     public void showPositiveTokenColor(String clientNickname, String token) {
         System.out.println("\n");
-        System.out.println(">" + clientNickname + " choose the " + token + " token");
+        System.out.println(">" + clientNickname + " chose the " + token + " token");
     }
 
     @Override
@@ -511,12 +516,12 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displayPositivePlacing() {
-        System.out.println(">Well done you place the card ");
+        System.out.println(">Well done you placed the card ");
     }
 
     @Override
     public void displayPositiveDraw() {
-        System.out.println(">Well done you have drawn a card ");
+        System.out.println(">Well done you drawn a card ");
         System.out.println(">Common board, card in your hand and your grid have been updated ");
         System.out.println(">To show all the information you need write : (inputs) ");
     }
@@ -549,13 +554,13 @@ public class TUIManager implements ViewManager {
     @Override
     public void displayPassiveDrawResult(String clientNickname) {
         System.out.println("\n");
-        System.out.println(">" + clientNickname + " has drawn a card");
+        System.out.println(">" + clientNickname + " drawn a card");
     }
 
     @Override
     public void displayPassivePlacingResult(String clientNickname) {
         System.out.println("\n");
-        System.out.println(">" + clientNickname + " has placed a card ");
+        System.out.println(">" + clientNickname + " placed a card ");
         System.out.println(">" + clientNickname + " is choosing which card he wants to draw ");
         System.out.println(">Wait for him to finish ");
     }
@@ -614,6 +619,17 @@ public class TUIManager implements ViewManager {
                 " ██████  ██████  ██████  ███████ ██   ██     ██   ████ ██   ██    ██     ██████  ██   ██ ██   ██ ███████ ██ ███████ \n" +
                 "                                                                                                                    \n" +
                 "                                                                                                                    \n" );
+    }
+
+    private void printEndGame() {
+        System.out.println("\n" +
+                "███████ ███    ██ ██████       ██████   █████  ███    ███ ███████ \n" +
+                "██      ████   ██ ██   ██     ██       ██   ██ ████  ████ ██      \n" +
+                "█████   ██ ██  ██ ██   ██     ██   ███ ███████ ██ ████ ██ █████   \n" +
+                "██      ██  ██ ██ ██   ██     ██    ██ ██   ██ ██  ██  ██ ██      \n" +
+                "███████ ██   ████ ██████       ██████  ██   ██ ██      ██ ███████ \n" +
+                "                                                                  \n" +
+                "                                                                  \n");
     }
 
     // **TO FINISH**

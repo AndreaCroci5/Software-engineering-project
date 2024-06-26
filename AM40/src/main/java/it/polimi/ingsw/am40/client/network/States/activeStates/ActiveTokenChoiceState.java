@@ -36,6 +36,6 @@ public class ActiveTokenChoiceState implements State {
                 return;
             }
         }
-        System.out.println(">The token you selected is not on the available tokens ");
+        System.out.println(">The token you selected is not among the available tokens ");
     }
 }

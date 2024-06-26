@@ -33,61 +33,56 @@ public class UserInputReader implements Runnable {
 
         if (input.equalsIgnoreCase("myHand")) {
             client.getViewManager().displayMyHand(client.getSmallModel().getMyHand());
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("myAimCard")) {
             client.getViewManager().displayPersonalAimCard(client.getSmallModel().getMyAimCard());
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("myToken")) {
             client.getViewManager().displayPersonalToken(client.getSmallModel().getToken());
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("myBoard")) {
             client.getViewManager().displayPersonalGrid(client.getSmallModel().getMyGrid());
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("scoreBoard")) {
             client.getViewManager().displayScoreBoard(client.getSmallModel().getScoreBoard());
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("commonBoard")) {
             client.getViewManager().displayCommonBoard(client.getSmallModel().getCommonBoard());
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("otherBoard")) {
             client.getViewManager().displayOtherPlayersGrid(client.getSmallModel().getOtherPlayersGrid());
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("chat")) {
             client.getViewManager().displayChat();
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("legend")) {
             client.getViewManager().displaySymbolLegend();
-            client.getCurrentState().execute(client);
             return true;
         }
 
         if (input.equalsIgnoreCase("counter")) {
             client.getViewManager().diplayElementsCounter(client.getSmallModel().getElementsCounter());
-            client.getCurrentState().execute(client);
+            return true;
+        }
+
+        if (input.equalsIgnoreCase("inputs")) {
+            client.getViewManager().showPossibleInputs();
             return true;
         }
         return false;
