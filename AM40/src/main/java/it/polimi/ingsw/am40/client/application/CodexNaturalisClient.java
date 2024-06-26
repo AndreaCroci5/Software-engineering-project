@@ -12,6 +12,9 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,7 +30,7 @@ public class CodexNaturalisClient {
     /**
      * The path of the file JSON with the preferences
      */
-    private static String sourcePrefsFile="AM40/src/main/resources/it/polimi/ingsw/am40/ClientPrefs.json";
+    private static String sourcePrefsFile="ClientPrefs.json";
 
 
 
@@ -182,10 +185,23 @@ public class CodexNaturalisClient {
      *                                   if it's impossible to parse the file or if prefs values aren't valid
      */
     private List<Object> parsingJSONPrefs() throws InvalidJSONPrefsException{
+
+        InputStream is = null;
+
+        try {
+            is = getClass().getClassLoader().getResourceAsStream(sourcePrefsFile);
+            if (is == null) {
+                throw new IllegalArgumentException("Resource not found: " + sourcePrefsFile);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         JSONParser parser = new JSONParser();
 
-        try(FileReader reader = new FileReader(CodexNaturalisClient.sourcePrefsFile)) {
-            Object obj = parser.parse(reader);
+        try {
+            Object obj = parser.parse(new InputStreamReader(is, StandardCharsets.UTF_8));
             JSONObject prefs = (JSONObject) obj;
 
             //Reading the prefs parameters from JSON

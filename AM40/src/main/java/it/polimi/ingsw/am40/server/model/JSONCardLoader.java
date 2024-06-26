@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.server.model;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.am40.server.model.aimStrategy.AimChecker;
 import it.polimi.ingsw.am40.server.model.aimStrategy.AimCheckerDiagonalPattern;
 import it.polimi.ingsw.am40.server.model.aimStrategy.AimCheckerLPattern;
@@ -13,8 +15,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +32,7 @@ public class JSONCardLoader {
      * Unique attribute of this class (static attribute).
      * A string which indicates the path of the file in the project root
      */
-    private static final String sourceFile = "AM40/src/main/resources/it/polimi/ingsw/am40/Cards.json";
+    private static final String sourceFile = "Cards.json";
 
 
     /**
@@ -39,22 +41,25 @@ public class JSONCardLoader {
      */
     public List<Deck<? extends Card>> loadCards() {
 
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-  //      InputStream inputStream = JSONCardLoader.class.getResourceAsStream(JSONCardLoader.sourceFile);
+        InputStream is = null;
+        try {
+            is = getClass().getClassLoader().getResourceAsStream(sourceFile);
+            if (is == null) {
+                throw new IllegalArgumentException("Resource not found: " + sourceFile);
+            }
 
-        //if(inputStream != null){
-            JSONParser parser = new JSONParser();
-           /* FileReader reader = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JSONParser parser = new JSONParser();
+
+
             try {
-                reader = new FileReader(String.valueOf(inputStream));
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }*/
-
-
-            try (FileReader reader = new FileReader(JSONCardLoader.sourceFile)){
-                Object obj = parser.parse(reader);
-               //JSONObject obj = (JSONObject) parser.parse(reader/*inputStream*/);
+                Object obj = parser.parse(new InputStreamReader(is, StandardCharsets.UTF_8));
                 JSONArray cardArray = (JSONArray) obj;
 
                 //Creation of the decks

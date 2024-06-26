@@ -1,19 +1,15 @@
 package it.polimi.ingsw.am40.client.view.TUI;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 import it.polimi.ingsw.am40.client.view.ViewManager;
 import it.polimi.ingsw.am40.server.model.CardElements;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +31,7 @@ public class TUIManager implements ViewManager {
      */
     @Override
     public void initView() {
-        this.printPixelArt("AM40/src/main/resources/it/polimi/ingsw/am40/logo.txt");
+        this.printPixelArt("logo.txt");
         try {
             Thread.sleep(2000L);
         } catch (InterruptedException e) {
@@ -189,7 +185,7 @@ public class TUIManager implements ViewManager {
     @Override
     public void showPassiveAimCardResult(String nickname) {
         System.out.println("\n");
-        System.out.println(">" + nickname + " has chosen his aim card ");
+        System.out.println(">" + nickname + " chose his aim card ");
     }
 
     @Override
@@ -203,7 +199,7 @@ public class TUIManager implements ViewManager {
             System.out.println(">" + i + ": " + player);
             ++i;
         }
-        System.out.println(">A round is composed by two phases ");
+        System.out.println(">A round is composed by two phases: ");
         System.out.println("1- Placing phase in which you have to select a card from your hand and place it in your board ");
         System.out.println("2- Draw phase in which you select which card you want to draw from the common board ");
     }
@@ -232,6 +228,8 @@ public class TUIManager implements ViewManager {
     @Override
     public void displayPlacingCardToCoverChoice(List<SmallCard> myGrid) {
         System.out.println("\n");
+        //displayGridExample();
+        System.out.println("\n");
         displayPersonalGrid(myGrid);
         System.out.println(">Up here you can see your personal grid");
         System.out.println(">Now you need to chose the position on which you want to place the card ");
@@ -242,6 +240,19 @@ public class TUIManager implements ViewManager {
         System.out.println("4- If you cover a corner with a resource you lose that resource ");
         System.out.println(">You need to choose a card and the corner of that card that you want to cover ");
         System.out.println(">Write the ID of the card on which you want to cover the corner ");
+    }
+
+    private void displayGridExample() {
+        System.out.println(">Here is an example of a grid to understand how coordinates works ");
+        System.out.println("[ (x-1)  ]    [        ]    [        ]    [        ]    [ (y+1) ]  ");
+        System.out.println("[        ]    [ (-1,0) ]    [        ]    [ (0,+1) ]    [       ]  ");
+        System.out.println("[        ]    [        ]    [  (0,0) ]    [        ]    [       ]  ");
+        System.out.println("[        ]    [ (0,-1) ]    [        ]    [ (+1,0) ]    [       ]  ");
+        System.out.println("[ (y-1)  ]    [        ]    [        ]    [        ]    [ (x+1) ]  ");
+        System.out.println(">So if you see coordinates that has a +1 on the x of another card, that means they're placed on its bottom right corner");
+        System.out.println(">So if you see coordinates that has a -1 on the x of another card, that means they're placed on its top left corner");
+        System.out.println(">So if you see coordinates that has a +1 on the y of another card, that means they're placed on its top right corner");
+        System.out.println(">So if you see coordinates that has a -1 on the y of another card, that means they're placed on its bottom left corner");
     }
 
     @Override
@@ -385,6 +396,7 @@ public class TUIManager implements ViewManager {
         System.out.println(">You have the " + token + " token");
     }
 
+
     @Override
     public void displayPersonalGrid(List<SmallCard> myGrid) {
         System.out.println(">This is your personal grid ");
@@ -510,7 +522,7 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displayPositiveAimCardChoice() {
-        System.out.println(">Well done, you choose your personal aim card ");
+        System.out.println(">Well done, you chose your personal aim card ");
         System.out.println(">Remember to create its pattern in order to gain points at the end of the game");
     }
 
@@ -721,15 +733,22 @@ public class TUIManager implements ViewManager {
     }
 
     private void printPixelArt(String fileName){
-        try(BufferedReader reader = new BufferedReader(new FileReader(fileName))){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        try {
+            InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
+            if (is == null) {
+                throw new IllegalArgumentException("Resource not found: " + fileName);
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String line;
-            while((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -880,4 +899,5 @@ public class TUIManager implements ViewManager {
         System.out.println("|     |");
         System.out.println(" ----- ");
     }
+
 }
