@@ -83,10 +83,10 @@ public class GraphicResourceFetcher {
     }
 
     public Coordinates coordinatesFromString (String text) {
-        char charX = text.charAt(1);
-        char charY = text.charAt(3);
-        int x = Integer.parseInt(String.valueOf(charX));
-        int y = Integer.parseInt(String.valueOf(charY));
+        String cleanedInput = text.replaceAll("[()]", "");
+        String[] values = cleanedInput.split(",");
+        int x = Integer.parseInt(values[0]);
+        int y = Integer.parseInt(values[1]);
         return new Coordinates(x, y);
     }
 }

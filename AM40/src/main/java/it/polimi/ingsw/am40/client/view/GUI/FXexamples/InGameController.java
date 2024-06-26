@@ -19,10 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -63,6 +60,10 @@ public class InGameController extends GeneralController {
     private String placingChoice;
 
     private Group placingCoordinatesPrevisions;
+    private String token;
+
+    @FXML
+    private Group cardPlacedInGrid;
 
     //ATTRIBUTES FXML
     /**
@@ -109,6 +110,13 @@ public class InGameController extends GeneralController {
 
     @FXML
     private Label turnEventLabel;
+
+    @FXML
+    private Button boardsButton;
+
+
+    @FXML
+    private StackPane cardGrid;
 
 
 
@@ -185,14 +193,19 @@ public class InGameController extends GeneralController {
         }
         //CommonBoard update
         this.updateCommonBoard(resource, golden, aim);
+        //Deactivate commonBoard
+        this.deactivateCommonBoard();
         //Deactivate the FaceButton
         this.faceButton.setDisable(true);
+        //
+        this.boardsButton.setDisable(true);
         //Initialize the primaryEventGroup
         this.primaryEvent = new Group();
         //Initialize TokenTab
         this.tokenTab = new Group();
         //Initialize CommonBoardTokens
         this.commonBoardTokens = new Group();
+        //Initialize the cardGrid
 
         Pane paneToOperate = (Pane) this.root;
         paneToOperate.getChildren().add(this.tokenTab);
@@ -207,6 +220,10 @@ public class InGameController extends GeneralController {
 
         String cardFace = fetcher.faceFromURL(panel.getId());
         Pane paneToOperate = (Pane) this.root;
+        ImageView startingCardInGrid = new ImageView();
+        this.startingCardDecorator(startingCardInGrid);
+        startingCardInGrid.setImage(new Image(getClass().getResourceAsStream(panel.getId())));
+        this.cardPlacedInGrid.getChildren().add(startingCardInGrid);
         paneToOperate.getChildren().removeLast();
         this.client.getNetworkManager().send(new StartingCardChoiceMessage(client.getNickname(), cardFace));
     }
@@ -218,6 +235,13 @@ public class InGameController extends GeneralController {
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         //FIXME for, make it for each by putting the tokens in the last node
         String color = fetcher.tokenFromURL(panel.getId());
+        this.token = color;
+        //TOKEN
+        ImageView tokenImgView = new ImageView();
+        this.tokenOnCard(tokenImgView);
+        tokenImgView.setImage(new Image(getClass().getResourceAsStream(fetcher.findTokenResource(this.token))));
+        this.cardPlacedInGrid.getChildren().add(tokenImgView);
+
         Pane paneToOperate = (Pane) this.root;
 
         paneToOperate.getChildren().removeLast();
@@ -365,8 +389,34 @@ public class InGameController extends GeneralController {
         for (Node n : this.handDeck.getChildren()) {
             ImageView handCard = (ImageView) n;
             handCard.setOnMouseClicked(this::placingCardSelection);
-            handCard.setDisable(true);
+            this.disableHandDeck();
         }
+
+        List<SmallCard> cardsOnBoard = client.getSmallModel().getCommonBoard();
+        final List<Integer> resource = new ArrayList<>();
+        final List<Integer> golden = new ArrayList<>();
+        final List<Integer> aim = new ArrayList<>();
+        //FIXME Check index problems in case
+        int slider;
+        for (int i = 0; i<3; i++) {
+            resource.add(cardsOnBoard.get(i).getCardID());
+        }
+        slider = resource.removeLast();
+        resource.addFirst(slider);
+        for (int i = 3; i<6; i++) {
+            golden.add(cardsOnBoard.get(i).getCardID());
+        }
+        slider = golden.removeLast();
+        golden.addFirst(slider);
+        for (int i = 6; i<9; i++) {
+            aim.add(cardsOnBoard.get(i).getCardID());
+        }
+        slider = aim.removeLast();
+        aim.addFirst(slider);
+
+        this.updateCommonBoard(resource, golden, aim);
+
+
         this.globalEventLabel.setText("");
     }
 
@@ -392,6 +442,7 @@ public class InGameController extends GeneralController {
         aimCard2.setY(150);
         aimCard1.setId(fetcher.findCardResource(aimIDs.getFirst(), "FRONT"));
         aimCard2.setId(fetcher.findCardResource(aimIDs.getLast(), "FRONT"));
+
         aimCard1.setOnMouseClicked(this::aimCardSelection);
 
         aimCard2.setOnMouseClicked(this::aimCardSelection);
@@ -438,6 +489,19 @@ public class InGameController extends GeneralController {
     @Override
     public void positivePlacing () {
         this.cardGridUpdate();
+
+        //FIXME ADD NULL CARD WHEN UPGRADE HERE
+        /*
+        List<Integer> handDeck = new ArrayList<>();
+        for (SmallCard sC : this.client.getSmallModel().getMyHand()) {
+            handDeck.add(sC.getCardID());
+        }
+
+        this.updateHandDeck(handDeck);
+
+         */
+
+        this.disableHandDeck();
         this.activateCommonBoard();
         this.globalEventLabel.setText("Draw a Card");
     }
@@ -449,11 +513,9 @@ public class InGameController extends GeneralController {
         this.placingChoice = panel.getId();
         System.out.println("Placing selection " + this.placingChoice);
 
-        Pane paneToOperate = (Pane) this.root;
-        //FIXME take from smallmodel
-        //ArrayList<Coordinates> placingCoordinates = this.client.getSmallModel().getCoordinates;
-        ArrayList<Coordinates> placingCoordinates = new ArrayList<>();
-        placingCoordinates.add(new Coordinates(0,1));
+        this.disableHandDeck();
+
+        ArrayList<Coordinates> placingCoordinates = this.client.getSmallModel().getPlacingCoordinates();
 
 
         this.placingCoordinatesPrevisions = new Group();
@@ -468,7 +530,7 @@ public class InGameController extends GeneralController {
             this.placingCoordinatesPrevisions.getChildren().add(coordsPrevision);
         }
 
-        paneToOperate.getChildren().add(this.placingCoordinatesPrevisions);
+        this.cardGrid.getChildren().add(this.placingCoordinatesPrevisions);
     }
 
 
@@ -483,6 +545,9 @@ public class InGameController extends GeneralController {
         }
         Coordinates coordsChosen = fetcher.coordinatesFromString(coordsChosenLabel.getText());
         String cardFace = fetcher.faceFromURL(this.placingChoice);
+
+        this.cardGrid.getChildren().removeLast();
+
         this.client.getNetworkManager().send(new PlacingMessage(client.getNickname(), handCardChoice, coordsChosen,cardFace));
     }
 
@@ -495,6 +560,15 @@ public class InGameController extends GeneralController {
     @Override
     public void passiveDraw(List<Integer> resource, List<Integer> golden, List<Integer> aim) {
         this.updateCommonBoard(resource, golden, aim);
+    }
+
+    @Override
+    public void negativePlacing() {
+        this.globalEventLabel.setText("Something went wrong during the placing... Try again");
+        for (Node n : this.handDeck.getChildren()) {
+            ImageView card = (ImageView) n;
+            card.setDisable(false);
+        }
     }
 
     //Utility methods
@@ -555,17 +629,32 @@ public class InGameController extends GeneralController {
 
     public void updateHandDeck (List<Integer> handDeckIDs) {
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
-        for (int i=0; i<3; i++) {
-            ImageView card = (ImageView) this.handDeck.getChildren().get(i);
-            Image cardImg;
-            if (this.cardFaceShown) {
-                cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(handDeckIDs.get(i), "FRONT")));
-                card.setId(fetcher.findCardResource(handDeckIDs.get(i), "FRONT"));
-            } else {
-                cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(handDeckIDs.get(i), "BACK")));
-                card.setId(fetcher.findCardResource(handDeckIDs.get(i), "BACK"));
+        if (handDeckIDs.size()>2) {
+            for (int i=0; i<3; i++) {
+                ImageView card = (ImageView) this.handDeck.getChildren().get(i);
+                Image cardImg;
+                if (this.cardFaceShown) {
+                    cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(handDeckIDs.get(i), "FRONT")));
+                    card.setId(fetcher.findCardResource(handDeckIDs.get(i), "FRONT"));
+                } else {
+                    cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(handDeckIDs.get(i), "BACK")));
+                    card.setId(fetcher.findCardResource(handDeckIDs.get(i), "BACK"));
+                }
+                card.setImage(cardImg);
             }
-            card.setImage(cardImg);
+        } else {
+            for (int i=0; i<2; i++) {
+                ImageView card = (ImageView) this.handDeck.getChildren().get(i);
+                Image cardImg;
+                if (this.cardFaceShown) {
+                    cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(handDeckIDs.get(i), "FRONT")));
+                    card.setId(fetcher.findCardResource(handDeckIDs.get(i), "FRONT"));
+                } else {
+                    cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(handDeckIDs.get(i), "BACK")));
+                    card.setId(fetcher.findCardResource(handDeckIDs.get(i), "BACK"));
+                }
+                card.setImage(cardImg);
+            }
         }
     }
 
@@ -601,7 +690,25 @@ public class InGameController extends GeneralController {
     }
 
     private void cardGridUpdate() {
-        //TODO implementation
+            this.cardGrid.getChildren().removeLast();
+        List<SmallCard> cardGrid = new ArrayList<>(this.client.getSmallModel().getMyGrid());
+        this.cardPlacedInGrid = new Group();
+        GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
+        for (SmallCard s : cardGrid) {
+            ImageView cardToDraw = new ImageView();
+            cardToDraw.setFitWidth(72);
+            cardToDraw.setFitHeight(48);
+            Image cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(s.getCardID(), s.getFace())));
+            System.out.println(fetcher.findCardResource(s.getCardID(), s.getFace()));
+                cardToDraw.setImage(cardImg);
+            this.placeCard(cardToDraw, s.getCoordinates());
+        }
+        //TOKEN
+        ImageView tokenImgView = new ImageView();
+        this.tokenOnCard(tokenImgView);
+        tokenImgView.setImage(new Image(getClass().getResourceAsStream(fetcher.findTokenResource(this.token))));
+        this.cardPlacedInGrid.getChildren().add(tokenImgView);
+        this.cardGrid.getChildren().add(this.cardPlacedInGrid);
     }
 
 
@@ -678,14 +785,81 @@ public class InGameController extends GeneralController {
     }
 
 
+    private void placeCard(ImageView cardImgView, Coordinates coords) {
+
+        int x = coords.getX();
+        int y = coords.getY();
+
+        double xPrime = x * Math.cos(Math.toRadians(45)) + y * Math.sin(Math.toRadians(45));
+        double yPrime = x * Math.sin(Math.toRadians(45)) - y * Math.cos(Math.toRadians(45));
+        System.out.println(x +" "+ y +" --> "+ xPrime + " " + yPrime);
+        double xTranslation = 0.0;
+        double yTranslation = 0.0;
+        if (xPrime>0) {
+            xTranslation += 81.57 *xPrime;
+            yTranslation += 20.0;
+        } else if (xPrime<0){
+            xTranslation += 82.57*xPrime;
+            yTranslation += 20.0;
+        }
+        if (yPrime>0) {
+            yTranslation += -20 + 40*yPrime;
+        } else if (yPrime<0) {
+            yTranslation += -20 + 40 *yPrime;
+        }
+
+
+        cardImgView.setX(xTranslation);
+        cardImgView.setY(yTranslation);
+
+        this.cardPlacedInGrid.getChildren().add(cardImgView);
+
+    }
+
+
+    private void disableHandDeck() {
+        for (Node n : this.handDeck.getChildren()) {
+            ImageView handCard = (ImageView) n;
+            handCard.setDisable(true);
+        }
+    }
+
     //Decorators
     private void coordinatePrevisionDecorator (Label coordsLabel) {
         coordsLabel.setStyle("-fx-text-fill: black; -fx-background-color: yellow");
     }
 
     private void coordinatesPrevisionsLocation (Label coordsLabel, Coordinates coordinates) {
-        //TODO create the prevision starting from the startingCard
-        coordsLabel.setLayoutX(300);
-        coordsLabel.setLayoutY(300);
+        int x = coordinates.getX();
+        int y = coordinates.getY();
+
+        double xPrime = x * Math.cos(Math.toRadians(45)) + y * Math.sin(Math.toRadians(45));
+        double yPrime = x * Math.sin(Math.toRadians(45)) - y * Math.cos(Math.toRadians(45));
+        double xTranslation = 0.0;
+        double yTranslation = 0.0;
+        if (xPrime>0) {
+             xTranslation = 30 + 50*xPrime;
+        } else if (xPrime<0){
+            xTranslation = -40 + 50*xPrime;
+        }
+        if (yPrime>0) {
+            yTranslation = 15 + 50*yPrime;
+        } else if (yPrime<0) {
+            yTranslation = -15 + 50 *yPrime;
+        }
+
+        coordsLabel.setTranslateX(xTranslation);
+        coordsLabel.setTranslateY(yTranslation);
+    }
+
+    private void startingCardDecorator (ImageView startingCard) {
+        startingCard.setFitWidth(72);
+        startingCard.setFitHeight(48);
+    }
+
+    private void tokenOnCard(ImageView tokenImgView) {
+        tokenImgView.setFitHeight(20);
+        tokenImgView.setFitWidth(20);
+        tokenImgView.setTranslateX(25);
     }
 }

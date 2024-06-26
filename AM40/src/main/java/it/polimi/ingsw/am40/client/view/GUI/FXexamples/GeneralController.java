@@ -76,4 +76,8 @@ public class GeneralController {
     public void passiveDraw (List<Integer> resource, List<Integer> golden, List<Integer> aim) {
 
     }
+
+    public void negativePlacing() {
+
+    }
 }
