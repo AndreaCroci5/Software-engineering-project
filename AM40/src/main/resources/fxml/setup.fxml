@@ -22,7 +22,7 @@
                 <Image url="@../images/backgrounds/setup.png" />
             </image>
         </ImageView>
-      <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="175.0">
+      <Pane fx:id="scoreBoard" layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="175.0">
          <children>
             <ImageView fitHeight="350.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -32,33 +32,33 @@
             <Pane fx:id="score0" layoutX="36.0" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score1" layoutX="77.5" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score2" layoutX="118.5" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score6" layoutX="15.5" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score5" layoutX="56.5" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score4" layoutX="98.0" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score3" layoutX="139.0" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score4" layoutX="98.0" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score5" layoutX="56.5" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score6" layoutX="15.5" layoutY="278.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score7" layoutX="15.5" layoutY="240.5" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score8" layoutX="56.5" layoutY="240.5" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score9" layoutX="98.0" layoutY="240.5" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score10" layoutX="139.0" layoutY="240.5" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score14" layoutX="15.5" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score13" layoutX="56.5" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score12" layoutX="98.0" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score11" layoutX="139.0" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score12" layoutX="98.0" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score13" layoutX="56.5" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score14" layoutX="15.5" layoutY="203.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score15" layoutX="15.5" layoutY="165.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score16" layoutX="56.5" layoutY="165.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score17" layoutX="98.0" layoutY="165.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score18" layoutX="139.0" layoutY="165.0" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score21" layoutX="15.5" layoutY="127.5" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score20" layoutX="77.5" layoutY="109.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score19" layoutX="139.0" layoutY="127.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score20" layoutX="77.5" layoutY="109.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score21" layoutX="15.5" layoutY="127.5" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score22" layoutX="15.5" layoutY="89.5" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score28" layoutX="139.0" layoutY="89.5" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score23" layoutX="15.5" layoutY="52.0" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score29" layoutX="77.5" layoutY="60.0" prefHeight="20.0" prefWidth="20.0" />
-            <Pane fx:id="score27" layoutX="139.0" layoutY="52.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score24" layoutX="39.5" layoutY="21.0" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score25" layoutX="77.5" layoutY="14.5" prefHeight="20.0" prefWidth="20.0" />
             <Pane fx:id="score26" layoutX="115.5" layoutY="21.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score27" layoutX="139.0" layoutY="52.0" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score28" layoutX="139.0" layoutY="89.5" prefHeight="20.0" prefWidth="20.0" />
+            <Pane fx:id="score29" layoutX="77.5" layoutY="60.0" prefHeight="20.0" prefWidth="20.0" />
          </children>
       </Pane>
       <ImageView fitHeight="404.0" fitWidth="412.0" layoutX="314.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">

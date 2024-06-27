@@ -418,7 +418,7 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayPassivePlacingResult(String clientNickname) {
-
+        Platform.runLater( () -> HelloApplication.controller.passivePlacingResult(clientNickname));
     }
 
     @Override

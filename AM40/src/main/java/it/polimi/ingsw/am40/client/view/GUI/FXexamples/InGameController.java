@@ -8,8 +8,10 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.round.PlacingMe
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 import it.polimi.ingsw.am40.server.model.Coordinates;
+import it.polimi.ingsw.am40.server.model.Token;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -24,8 +26,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //TODO PRIMARY finish placing and make draw and buttons correct disable in the setup
 //TODO add JAVADOC
@@ -61,6 +66,8 @@ public class InGameController extends GeneralController {
 
     private Group placingCoordinatesPrevisions;
     private String token;
+
+    Map<String, String> playersNameAndToken;
 
     @FXML
     private Group cardPlacedInGrid;
@@ -110,6 +117,9 @@ public class InGameController extends GeneralController {
 
     @FXML
     private Label turnEventLabel;
+
+    @FXML
+    private Pane scoreBoard;
 
     @FXML
     private Button boardsButton;
@@ -172,8 +182,26 @@ public class InGameController extends GeneralController {
     }
 
     @FXML
-    public void boards() {
+    public void boards() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/boards.fxml"));
+        Parent root = fxmlLoader.load();
 
+        Scene s = new Scene(root);
+        BoardsController boardsController = fxmlLoader.getController();
+        boardsController.setClient(this.client);
+        //Fixme try without this
+        //HelloApplication.controller = inGameController;
+
+        boardsController.setStage(this.stage);
+        boardsController.setScene(s);
+        boardsController.setRoot(root);
+
+        boardsController.sceneSetup(this, this.playersNameAndToken);
+
+
+        this.stage.setScene(s);
+
+        this.stage.show();
     }
 
 
@@ -205,7 +233,7 @@ public class InGameController extends GeneralController {
         this.tokenTab = new Group();
         //Initialize CommonBoardTokens
         this.commonBoardTokens = new Group();
-        //Initialize the cardGrid
+        this.playersNameAndToken = new HashMap<>();
 
         Pane paneToOperate = (Pane) this.root;
         paneToOperate.getChildren().add(this.tokenTab);
@@ -360,21 +388,22 @@ public class InGameController extends GeneralController {
         Image colorImg = new Image(getClass().getResourceAsStream(fetcher.findTokenResource(token)));
         billBoardToken.setImage(colorImg);
         billBoardToken.setId(clientNickname);
+        this.playersNameAndToken.put(clientNickname, token);
         this.tokenTab.getChildren().add(billBoardToken);
 
+        Pane tokenLocation = (Pane) this.scoreBoard.getChildren().get(1);
 
-        if (this.commonBoardTokens.getChildren().size() > 0) {
-            ImageView lastToken = (ImageView) this.commonBoardTokens.getChildren().getLast();
-            scoreBoardToken.setX(lastToken.getX() + 6);
+        if (tokenLocation.getChildren().size() > 0) {
+            ImageView lastToken = (ImageView) tokenLocation.getChildren().getLast();
+            scoreBoardToken.setX(lastToken.getX() + 5);
         } else {
-            scoreBoardToken.setX(35);
+            scoreBoardToken.setX(-3);
         }
-        scoreBoardToken.setY(325);
         scoreBoardToken.setFitHeight(20);
         scoreBoardToken.setFitWidth(20);
         scoreBoardToken.setImage(colorImg);
         scoreBoardToken.setId(clientNickname);
-        this.commonBoardTokens.getChildren().add(scoreBoardToken);
+        tokenLocation.getChildren().add(scoreBoardToken);
     }
 
 
@@ -469,6 +498,7 @@ public class InGameController extends GeneralController {
         this.rearrangeTokenOnBillBoard();
         this.globalEventLabel.setText(namesInOrder.getFirst() + " is playing...");
         this.turnEventLabel.setText(namesInOrder.getFirst() + "'s turn");
+        this.boardsButton.setDisable(false);
     }
 
 
@@ -500,7 +530,7 @@ public class InGameController extends GeneralController {
         this.updateHandDeck(handDeck);
 
          */
-
+        this.updateScoreBoard(this.client.getNickname());
         this.disableHandDeck();
         this.activateCommonBoard();
         this.globalEventLabel.setText("Draw a Card");
@@ -576,11 +606,16 @@ public class InGameController extends GeneralController {
         }
     }
 
+    @Override
     public void passivePlacingState(String nickname) {
         this.globalEventLabel.setText(nickname + " is playing...");
         this.turnEventLabel.setText(nickname + "'s turn");
     }
 
+    @Override
+    public void passivePlacingResult (String nickname) {
+        this.updateScoreBoard(nickname);
+    }
     //Utility methods
 
 
@@ -826,6 +861,47 @@ public class InGameController extends GeneralController {
 
     }
 
+
+    public void updateScoreBoard (String nickname) {
+        int score = this.client.getSmallModel().getScoreBoard().get(nickname);
+        ImageView scoreBoardToken;
+
+        for (int i=1; i<this.scoreBoard.getChildren().size(); i++) {
+            if (score!=i-1) {
+                Pane tokenLocation = (Pane) this.scoreBoard.getChildren().get(i);
+                if (!tokenLocation.getChildren().isEmpty()) {
+                    for (int j=0; j<tokenLocation.getChildren().size(); j++) {
+                        ImageView tmpImgView = (ImageView) tokenLocation.getChildren().get(j);
+                        if (tmpImgView.getId().equalsIgnoreCase(nickname)) {
+                            scoreBoardToken = tmpImgView;
+                            tokenLocation.getChildren().remove(tmpImgView);
+                            if (score>0 && score<30) {
+                                Pane paneToOperate = (Pane) this.scoreBoard.getChildren().get(score+1);
+                                this.tokenScoreBoardDecorator(paneToOperate, scoreBoardToken);
+                                paneToOperate.getChildren().add(scoreBoardToken);
+                            } else {
+                                Pane paneToOperate = (Pane) this.scoreBoard.getChildren().getLast();
+                                this.tokenScoreBoardDecorator(paneToOperate, scoreBoardToken);
+                                paneToOperate.getChildren().add(scoreBoardToken);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    private void tokenScoreBoardDecorator (Pane p, ImageView tokenImgView) {
+        if (p.getChildren().size() > 0) {
+            ImageView lastToken = (ImageView) p.getChildren().getLast();
+            tokenImgView.setX(lastToken.getX() + 5);
+        } else {
+            tokenImgView.setX(-3);
+        }
+        tokenImgView.setFitHeight(20);
+        tokenImgView.setFitWidth(20);
+    }
 
     private void disableHandDeck() {
         for (Node n : this.handDeck.getChildren()) {

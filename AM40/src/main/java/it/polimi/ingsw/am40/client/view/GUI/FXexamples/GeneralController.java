@@ -84,4 +84,8 @@ public class GeneralController {
     public void passivePlacingState(String nickname) {
 
     }
+
+    public void passivePlacingResult (String nickname) {
+
+    }
 }

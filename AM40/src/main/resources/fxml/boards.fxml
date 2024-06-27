@@ -2,15 +2,17 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am40.client.view.GUI.FXexamples.BoardsController">
    <children>
       <ImageView fitWidth="1030.0" pickOnBounds="true" preserveRatio="true" translateY="-20.0">
             <image>
@@ -24,7 +26,7 @@
         </ImageView>
       <Pane layoutX="805.0" prefHeight="350.0" prefWidth="225.0" styleClass="players" stylesheets="@../css/boards.css">
          <children>
-            <GridPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" translateY="70.0">
+            <GridPane fx:id="billBoard" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" translateY="70.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -36,22 +38,22 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Label" translateX="30.0">
+                  <Label translateX="30.0">
                      <font>
                         <Font name="Papyrus" size="20.0" />
                      </font>
                   </Label>
-                  <Label text="Label" translateX="30.0" GridPane.rowIndex="1">
+                  <Label translateX="30.0" GridPane.rowIndex="1">
                      <font>
                         <Font name="Papyrus" size="20.0" />
                      </font>
                   </Label>
-                  <Label text="Label" translateX="30.0" GridPane.rowIndex="2">
+                  <Label translateX="30.0" GridPane.rowIndex="2">
                      <font>
                         <Font name="Papyrus" size="20.0" />
                      </font>
                   </Label>
-                  <Label text="Label" translateX="30.0" GridPane.rowIndex="3">
+                  <Label translateX="30.0" GridPane.rowIndex="3">
                      <font>
                         <Font name="Papyrus" size="20.0" />
                      </font>
@@ -68,5 +70,10 @@
          <font>
             <Font name="Papyrus" size="15.0" />
          </font></Button>
+      <ScrollPane layoutX="251.0" layoutY="82.0" prefHeight="435.0" prefWidth="437.0">
+         <content>
+            <StackPane fx:id="cardGrid" prefHeight="660.0" prefWidth="785.0" />
+         </content>
+      </ScrollPane>
    </children>
 </Pane>
