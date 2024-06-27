@@ -298,6 +298,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
             throw new RuntimeException(e);
         }
 
+        System.out.println(">Send serialised message " + json); // FIXME REMOVE
         client.getStreams().getOut().println(json);
         client.getStreams().getOut().flush();
         //fixme A+S rimuovere message e end*/

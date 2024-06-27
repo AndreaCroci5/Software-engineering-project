@@ -40,7 +40,10 @@ public class ChangeTurnRequestAction extends Action {
         //EndgameCheck / Final Rounds
         if (gameContext.checkEndGame()) {
             //Last Rounds Triggered
-            gameContext.calculateRemainingRounds();
+            if (!gameContext.isEnd_game()) {
+                gameContext.calculateRemainingRounds();
+                gameContext.setEnd_game(true);
+            }
             gameContext.notifyListeners(new LastRoundsInfoAction(this.getNickname(), this.getGameID(),this.getPlayerID()), gameContext.getListeners());
             //Turn Change
             try{

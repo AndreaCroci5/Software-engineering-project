@@ -36,6 +36,8 @@ public class Game implements ActionPoster {
      */
     private List<ActionListener> listeners;
 
+    private boolean end_game;
+
 
     //GAME ATTRIBUTES
 
@@ -48,6 +50,7 @@ public class Game implements ActionPoster {
         this.commonBoard = new CommonBoard(); ;
         this.remainingRounds = 70;
         this.listeners = new ArrayList<>();
+        this.end_game = false;
     }
 
     //GETTERS
@@ -76,6 +79,13 @@ public class Game implements ActionPoster {
         return remainingRounds;
     }
 
+    public boolean isEnd_game() {
+        return end_game;
+    }
+
+    public void setEnd_game(boolean end_game) {
+        this.end_game = end_game;
+    }
 
     //SETTER
 
