@@ -33,9 +33,13 @@ public class GameIDChoiceAction extends Action {
         this.setGameID(this.gameIDChoice);
 
         try {
-            server.logClientInAParty(gameIDChoice, this.getPlayerID());
             for (NetworkParty p : server.getActiveParties()) {
                 if (p.getPartyID() == gameIDChoice) {
+                    if (p.getCurrentNumOfClients() == p.getTotalNumOfClients()) {
+                        throw new Exception();
+                    } else {
+                        server.logClientInAParty(gameIDChoice, this.getPlayerID());
+                    }
                     currentNumOfPlayer = p.getCurrentNumOfClients();
                     totalNumOfPlayer = p.getTotalNumOfClients();
                 }

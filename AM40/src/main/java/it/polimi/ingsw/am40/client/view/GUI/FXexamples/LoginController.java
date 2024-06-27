@@ -24,7 +24,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO when ready add the "username already taken feature"
 
 /**
  * This class is the controller of the login scene
@@ -140,6 +139,7 @@ public class LoginController extends GeneralController {
      */
     @FXML
     public void join(ActionEvent e) {
+        this.parsingError.setVisible(false);
         //Gets the username written by the Client in the TextField
         this.username = this.usernameField.getText();
         System.out.println(this.username);
@@ -226,7 +226,7 @@ public class LoginController extends GeneralController {
         try {
             sizeParsed = Integer.parseInt(this.usernameField.getText());
 
-            if (sizeParsed<2 || sizeParsed > 5) throw new NumberFormatException();
+            if (sizeParsed<2 || sizeParsed > 4) throw new NumberFormatException();
 
             this.parsingError.setVisible(false);
             String ipAddress = null;
@@ -366,6 +366,11 @@ public class LoginController extends GeneralController {
     @Override
     public void failedGameID() {
         this.parsingError.setVisible(true);
+        this.joinButton.setDisable(false);
+        this.createButton.setDisable(false);
+        this.sendButton.setVisible(false);
+        this.info.setText("Username");
+        this.info.setLayoutX(this.info.getLayoutX()+200);
     }
 
     @Override

@@ -31,7 +31,7 @@
             <Font name="Papyrus" size="20.0" />
          </font>
       </TextField>
-      <Label fx:id="wrongUsername" text="Username already taken" textFill="RED" translateX="435.0" translateY="265.0" visible="false">
+      <Label fx:id="wrongUsername" layoutX="-87.0" layoutY="1.0" text="You must use the username that you used to log in" textFill="RED" translateX="435.0" translateY="265.0" visible="false">
          <font>
             <Font name="Papyrus" size="15.0" />
          </font>
