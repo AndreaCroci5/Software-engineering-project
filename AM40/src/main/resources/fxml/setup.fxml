@@ -159,5 +159,10 @@
             <Font name="Papyrus" size="12.0" />
          </font>
       </Label>
+      <Label fx:id="finalRounds" layoutX="875.0" layoutY="350.0" prefHeight="34.0" prefWidth="72.0" style="-fx-background-color: yellow;" text="FINALS" visible="false">
+         <font>
+            <Font name="Papyrus" size="18.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

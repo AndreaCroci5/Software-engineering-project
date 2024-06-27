@@ -89,6 +89,10 @@ public class GeneralController {
 
     }
 
+    public void negativeDraw() {
+
+    }
+
     public void passivePlacingState(String nickname) {
 
     }

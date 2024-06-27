@@ -134,6 +134,9 @@ public class InGameController extends GeneralController {
     @FXML
     private Button quitButton;
 
+    @FXML
+    private Label finalRounds;
+
 
 
     //GETTER AND SETTER
@@ -200,8 +203,6 @@ public class InGameController extends GeneralController {
         Scene s = new Scene(root);
         BoardsController boardsController = fxmlLoader.getController();
         boardsController.setClient(this.client);
-        //Fixme try without this
-        //HelloApplication.controller = inGameController;
 
         boardsController.setStage(this.stage);
         boardsController.setScene(s);
@@ -312,7 +313,6 @@ public class InGameController extends GeneralController {
     //NET METHODS
     @Override
     public void startingCardInfo(int cardID) {
-        //FIXME add rectangle to primaryEvent
         this.globalEventLabel.setText("Choose a StartingCard");
 
         Pane paneToOperate = (Pane) this.root;
@@ -436,7 +436,7 @@ public class InGameController extends GeneralController {
         final List<Integer> resource = new ArrayList<>();
         final List<Integer> golden = new ArrayList<>();
         final List<Integer> aim = new ArrayList<>();
-        //FIXME Check index problems in case
+
         int slider;
         for (int i = 0; i<3; i++) {
             resource.add(cardsOnBoard.get(i).getCardID());
@@ -620,6 +620,11 @@ public class InGameController extends GeneralController {
     }
 
     @Override
+    public void negativeDraw() {
+        activateCommonBoard();
+    }
+
+    @Override
     public void passivePlacingState(String nickname) {
         this.globalEventLabel.setText(nickname + " is playing...");
         this.turnEventLabel.setText(nickname + "'s turn");
@@ -795,8 +800,6 @@ public class InGameController extends GeneralController {
 
         String choice = this.choiceDrawSelector(url);
         int selection = this.selectionDrawSelector(url);
-
-        System.out.println(choice + "  " + selection);
 
         this.deactivateCommonBoard();
 
@@ -980,7 +983,7 @@ public class InGameController extends GeneralController {
 
     @Override
     public void lastRounds (String nickname) {
-        this.globalEventLabel.setText(nickname + " triggered the last rounds condition");
+        this.finalRounds.setVisible(true);
     }
 
     @Override

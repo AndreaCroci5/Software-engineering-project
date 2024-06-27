@@ -468,12 +468,11 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayNegativeDraw() {
-
+        Platform.runLater( () -> HelloApplication.controller.negativeDraw());
     }
 
     @Override
     public void displayNegativePlacing() {
-        //FIXME delay
         Platform.runLater( () -> HelloApplication.controller.negativePlacing());
     }
 
