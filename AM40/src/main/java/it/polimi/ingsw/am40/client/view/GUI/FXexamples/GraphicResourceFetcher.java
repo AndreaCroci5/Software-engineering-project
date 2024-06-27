@@ -39,7 +39,7 @@ public class GraphicResourceFetcher {
      */
     public String findTokenResource(String color) {
         String fileName = "/images/board/";
-        fileName = fileName + color + "Token";
+        fileName = fileName + color.toLowerCase() + "Token";
         fileName += ".png";
         return fileName;
     }
