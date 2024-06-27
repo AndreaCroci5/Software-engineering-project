@@ -7,11 +7,14 @@ import it.polimi.ingsw.am40.client.network.State;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * In this state after showing the client his starting card
+ * he will choose if place this card face up or face down
+ */
 public class ActiveStartingCardChoiceState implements State {
 
     /**
-     * In this state after showing the client his starting card
-     * he will choose if place this card face up or face down
+     * Asks on which face the client wants to place the starting card
      * @param context is the context of the client with his view and his network communication protocol
      */
     @Override

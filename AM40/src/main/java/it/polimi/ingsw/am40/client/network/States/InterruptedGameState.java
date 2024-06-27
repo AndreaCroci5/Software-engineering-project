@@ -3,13 +3,19 @@ package it.polimi.ingsw.am40.client.network.States;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
 
+/**
+ * This state show up the interrupted game condition (a client has disconnected)
+ */
 public class InterruptedGameState implements State {
 
+    /**
+     * Constructor for InterruptedGameState
+     */
     public InterruptedGameState() {
     }
 
     /**
-     * This state show up the interrupted game condition (a client has disconnected)
+     * Execute for this state
      * @param context is the context of the client with his view and his network communication protocol
      */
     @Override

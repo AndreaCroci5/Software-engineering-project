@@ -6,21 +6,31 @@ import it.polimi.ingsw.am40.client.network.State;
 
 import java.util.List;
 
+/**
+ * In this state the client choose which is the token he wants
+ */
 public class ActiveTokenChoiceState implements State {
 
+    /**
+     * These are the possible tokens the client can choose
+     */
     private final List<String> possibleTokens;
 
+    /**
+     * Constructor for the ActiveTokenChoiceState
+     * @param possibleTokens are the possible tokens the client can choose
+     */
     public ActiveTokenChoiceState(List<String> possibleTokens) {
         this.possibleTokens = possibleTokens;
     }
 
     /**
-     * In this state the client choose which is the token he wants
+     * Execute for this state
      * @param context is the context of the client with his view and network choices
      */
     @Override
     public void execute(Client context) {
-        // Nothing to do
+
     }
 
     /**

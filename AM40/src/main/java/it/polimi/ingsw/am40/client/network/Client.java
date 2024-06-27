@@ -2,7 +2,6 @@ package it.polimi.ingsw.am40.client.network;
 
 import it.polimi.ingsw.am40.client.ClientMessages.HostNameMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
-import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.CreateRequestMessage;
 import it.polimi.ingsw.am40.client.UserInputReader;
 import it.polimi.ingsw.am40.client.network.RMI.ClientNetworkRMIManager;
 import it.polimi.ingsw.am40.client.smallModel.SmallModel;
@@ -92,7 +91,7 @@ public class Client implements AbstractContext{
 
     /**
      * Getter for the nickname
-     * @return
+     * @return the nickname
      */
     public String getNickname() {
         return nickname;
@@ -110,7 +109,10 @@ public class Client implements AbstractContext{
 
     //SETTER METHODS
 
-    //fixme nickname
+    /**
+     * Setter for nickname
+     * @param nickname the nickname to set
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -187,7 +189,6 @@ public class Client implements AbstractContext{
 
 
         //Setting the host name and the server address on the networkManager
-        //fixme nickname
         this.networkManager.setHostName(hostPref);
         this.networkManager.setServerAddress(serverPref);
 

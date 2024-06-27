@@ -9,11 +9,14 @@ import it.polimi.ingsw.am40.client.network.State;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * In the set-up state the client decide if joining an existing game or create a new one
+ * The message send back will be a CreateMessage or a JoinMessage
+ */
 public class SetUpState implements State {
 
     /**
-     * In the set-up state the client decide if joining an existing game or create a new one
-     * The message send back will be a CreateMessage or a JoinMessage
+     * Asks for the set-up
      * @param context is the context of the client with his view and network choices
      */
     @Override

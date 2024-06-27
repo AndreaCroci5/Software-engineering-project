@@ -13,6 +13,9 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInterfaceClient{
 
+    /**
+     * Reference to the main class of the client
+     */
     private Client client;
 
 
@@ -343,12 +346,22 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
         this.client.handleMessage(m);
     }
 
+    /**
+     * Method for interrupting the game
+     * @param d is the data
+     * @throws RemoteException (standard RMI calls exception)
+     */
     @Override
     public void interruptedGame(Data d) throws RemoteException {
         Message m = d.onClient();
         this.client.handleMessage(m);
     }
 
+    /**
+     * Method for re-asking the client his name
+     * @param d is the data
+     * @throws RemoteException (standard RMI calls exception)
+     */
     @Override
     public void FailedHostNamePassiveFlow(Data d) {
         Message m = d.onClient();

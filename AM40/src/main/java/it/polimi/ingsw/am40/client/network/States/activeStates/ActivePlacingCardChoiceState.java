@@ -6,11 +6,13 @@ import it.polimi.ingsw.am40.client.network.State;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * In this state the client choose which card he wants to place
+ */
 public class ActivePlacingCardChoiceState implements State {
 
     /**
-     * In this state the client choose which card he wants to play and where
-     * A PlacingMessage with the input of the user will be sent back
+     * Asks for which card the client wants to place
      * @param context is the context of the client with his view and network choices
      */
     @Override
@@ -18,6 +20,11 @@ public class ActivePlacingCardChoiceState implements State {
         context.getViewManager().displayPlacingCardChoice(context.getSmallModel().getMyHand(),context.getSmallModel().getMyGrid());
     }
 
+    /**
+     * Input must be an ID of the card on client's hand
+     * @param context is the context of the client with his view and his network communication protocol
+     * @param input is the input of the client
+     */
     @Override
     public void checkInput(Client context,String input) {
         List<Integer> possibleInputs = new ArrayList<>();

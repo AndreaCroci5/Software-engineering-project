@@ -4,17 +4,18 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.CreateRequ
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.ClientNetworkTCPManager;
 import it.polimi.ingsw.am40.client.network.RMI.ClientNetworkRMIManager;
-import it.polimi.ingsw.am40.client.network.RMI.RemoteObjectClient;
 import it.polimi.ingsw.am40.client.network.State;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.rmi.server.RemoteObject;
 
+/**
+ * In this state the client has to choose how many players he wants in the new game that is going to be created
+ */
 public class CreateState implements State {
 
     /**
-     * In this state the client has to choose how many players he wants in the new game that is going to be created
+     * Asks for how many players the client wants in his game
      * @param context is the context of the client with his view and his network communication protocol
      */
     @Override

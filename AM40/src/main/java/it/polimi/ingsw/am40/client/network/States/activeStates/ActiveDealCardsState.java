@@ -4,10 +4,13 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.Deal
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
 
+/**
+ * In this state the client ask the server for his 3 cards
+ */
 public class ActiveDealCardsState implements State {
 
     /**
-     * In this state the client ask the server for his 3 cards
+     * Send a dealCardRequest
      * @param context is the context of the client with his view and his network communication protocol
      */
     @Override

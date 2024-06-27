@@ -6,23 +6,32 @@ import it.polimi.ingsw.am40.client.network.State;
 
 import java.util.List;
 
-
+/**
+ * In this state the client select which aimCard he wants between the two options
+ * A AimCardChoiceMessage with the user input will be sent back
+ */
 public class ActiveAimCardChoiceState implements State {
 
+    /**
+     * Possible inputs for the user
+     */
     private final List<Integer> possibleInputs;
 
+    /**
+     * Constructor for ActiveAimCardChoiceState
+     * @param possibleInputs are the possible inputs for the user
+     */
     public ActiveAimCardChoiceState(List<Integer> possibleInputs) {
         this.possibleInputs = possibleInputs;
     }
 
     /**
-     * In this state the client select which aimCard he wants between the two options
-     * A AimCardChoiceMessage with the user input will be sent back
+     * Execute for this state
      * @param context is the context of the client with his view and network choices
      */
     @Override
     public void execute(Client context) {
-        // NOTHING TO DO
+
     }
 
     /**

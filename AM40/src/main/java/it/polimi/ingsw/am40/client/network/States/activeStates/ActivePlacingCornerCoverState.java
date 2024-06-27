@@ -3,26 +3,48 @@ package it.polimi.ingsw.am40.client.network.States.activeStates;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
-import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 import it.polimi.ingsw.am40.server.model.Coordinates;
 
+/**
+ * In this state client decide which corner cover on the card in his board
+ */
 public class ActivePlacingCornerCoverState implements State {
 
+    /**
+     * ID of the card that he wants to place
+     */
     private int cardToPlaceID;
 
+    /**
+     * ID of the card that he wants to cover
+     */
     private int cardToCoverID;
 
+    /**
+     * Constructor for the ActivePlacingCornerCoverState
+     * @param cardToPlaceID is the ID of the card that he wants to place
+     * @param cardToCoverID is the ID of the card that he wants to cover
+     */
     public ActivePlacingCornerCoverState(int cardToPlaceID, int cardToCoverID) {
         this.cardToPlaceID = cardToPlaceID;
         this.cardToCoverID = cardToCoverID;
     }
 
 
+    /**
+     * Ask which corner he wants to cover
+     * @param context is the context of the client with his view and his network communication protocol
+     */
     @Override
     public void execute(Client context) {
         context.getViewManager().displayPlacingCornerCover();
     }
 
+    /**
+     * Input must be one of the four corners
+     * @param context is the context of the client with his view and his network communication protocol
+     * @param input is the input of the client
+     */
     @Override
     public void checkInput(Client context, String input) {
         try {

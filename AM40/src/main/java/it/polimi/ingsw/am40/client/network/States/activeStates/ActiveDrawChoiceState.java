@@ -6,14 +6,25 @@ import it.polimi.ingsw.am40.client.network.State;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * In this state the client choose which card to draw
+ */
 public class ActiveDrawChoiceState implements State {
 
+    /**
+     * Asks fro draw choice
+     * @param context is the context of the client with his view and his network communication protocol
+     */
     @Override
     public void execute(Client context) {
         context.getViewManager().displayDrawChoice(context.getSmallModel().getCommonBoard());
     }
 
+    /**
+     * Input must be a position in the commonBoard
+     * @param context is the context of the client with his view and his network communication protocol
+     * @param input is the input of the client
+     */
     @Override
     public void checkInput(Client context, String input) {
         List<String> possibleInputs = new ArrayList<>();

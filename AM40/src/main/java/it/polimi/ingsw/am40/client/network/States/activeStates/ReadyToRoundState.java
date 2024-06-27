@@ -3,10 +3,13 @@ package it.polimi.ingsw.am40.client.network.States.activeStates;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.State;
 
+/**
+ * This state is used to wait for all the client doing their first round of the game
+ */
 public class ReadyToRoundState implements State {
 
     /**
-     * This state is used to wait for all the client doing their first round of the game
+     * Execute for this state
      * @param context is the context of the client with his view and his network communication protocol
      */
     @Override
