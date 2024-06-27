@@ -1,5 +1,7 @@
 package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
 
+import it.polimi.ingsw.am40.client.ClientMessages.ClientDisconnectedMessage;
+import it.polimi.ingsw.am40.client.ClientMessages.InterruptedGameMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.AimCardChoiceMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.StartingCardChoiceMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.TokenChoiceMessage;
@@ -179,8 +181,8 @@ public class InGameController extends GeneralController {
     }
 
     @FXML
-    public void quit (ActionEvent e) {
-
+    public void quit (ActionEvent e) throws IOException {
+        this.client.getNetworkManager().send(new ClientDisconnectedMessage(this.client.getNickname()));
     }
 
     @FXML

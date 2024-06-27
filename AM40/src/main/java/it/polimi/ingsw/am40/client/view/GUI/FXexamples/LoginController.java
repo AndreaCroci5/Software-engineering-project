@@ -146,7 +146,7 @@ public class LoginController extends GeneralController {
         System.out.println(client.getNickname());
         this.usernameField.clear();
 
-        if (this.username.equalsIgnoreCase(this.client.getNetworkManager().getHostName())) {
+        if (this.username.equals(this.client.getNetworkManager().getHostName())) {
             this.client.setNickname(this.client.getNetworkManager().getHostName());
             this.wrongUsername.setVisible(false);
             //Disables the unnecessary Buttons
@@ -195,7 +195,7 @@ public class LoginController extends GeneralController {
         //Gets the username written by the Client in the TextField
         this.username = usernameField.getText();
         this.usernameField.clear();
-        if (this.username.equalsIgnoreCase(this.client.getNetworkManager().getHostName())) {
+        if (this.username.equals(this.client.getNetworkManager().getHostName())) {
             this.client.setNickname(this.client.getNetworkManager().getHostName());
             //Ask the Client the desired party size
             this.wrongUsername.setVisible(false);
