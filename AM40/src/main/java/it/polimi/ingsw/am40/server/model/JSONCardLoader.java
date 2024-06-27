@@ -15,13 +15,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static it.polimi.ingsw.am40.server.model.CardElements.NONE;
 
 
 /**
@@ -219,14 +219,13 @@ public class JSONCardLoader {
         }
 
         ScoreType scoreType;
-        CardElements objectScoreTypeElement = NONE;
         switch ((String) cardObj.get("scoreType")){
             case "NormalScoreType":
                 scoreType = new NormalScoreType();
                 break;
             case "ObjectScoreType":
                 scoreType = new ObjectScoreType();
-                objectScoreTypeElement = (CardElements) cardObj.get("ObjectScoreType");
+                CardElements objectScoreTypeElement = CardElements.valueOf((String) cardObj.get("objectScoreType"));
                 return new GoldResourceCard(Math.toIntExact(cardID), cardElement, frontEdgeResources, Math.toIntExact(scorePoints), requires, scoreType, objectScoreTypeElement);
             case "CoverageScoreType":
                 scoreType = new CoverageScoreType();
