@@ -228,7 +228,7 @@ public class TUIManager implements ViewManager {
     @Override
     public void displayPlacingCardToCoverChoice(List<SmallCard> myGrid) {
         System.out.println("\n");
-        //displayGridExample();
+        displayGridExample();
         System.out.println("\n");
         displayPersonalGrid(myGrid);
         System.out.println(">Up here you can see your personal grid");
@@ -243,12 +243,7 @@ public class TUIManager implements ViewManager {
     }
 
     private void displayGridExample() {
-        System.out.println(">Here is an example of a grid to understand how coordinates works ");
-        System.out.println("[ (x-1)  ]    [        ]    [        ]    [        ]    [ (y+1) ]  ");
-        System.out.println("[        ]    [ (-1,0) ]    [        ]    [ (0,+1) ]    [       ]  ");
-        System.out.println("[        ]    [        ]    [  (0,0) ]    [        ]    [       ]  ");
-        System.out.println("[        ]    [ (0,-1) ]    [        ]    [ (+1,0) ]    [       ]  ");
-        System.out.println("[ (y-1)  ]    [        ]    [        ]    [        ]    [ (x+1) ]  ");
+        System.out.println(">To understand how coordinates work: ");
         System.out.println(">So if you see coordinates that has a +1 on the x of another card, that means they're placed on its bottom right corner");
         System.out.println(">So if you see coordinates that has a -1 on the x of another card, that means they're placed on its top left corner");
         System.out.println(">So if you see coordinates that has a +1 on the y of another card, that means they're placed on its top right corner");
@@ -288,6 +283,10 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displayEndGame(List<String> winners) {
+        if (winners == null) {
+            displayInterruptedGame();
+            return;
+        }
         printEndGame();
         if (winners.size()>1) {
             System.out.println(">The winners are: ");
@@ -613,7 +612,11 @@ public class TUIManager implements ViewManager {
 
     @Override
     public void displayInterruptedGame() {
+        printEndGame();
+        System.out.println("\n");
         System.out.println("GAME HAS BEEN INTERRUPTED BY THE DISCONNECTION OF ANOTHER PLAYER!");
+        System.out.println("Closing application...");
+        System.exit(0);
     }
 
 

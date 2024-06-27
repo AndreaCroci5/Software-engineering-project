@@ -14,7 +14,6 @@ public class InterruptedGameState implements State {
      */
     @Override
     public void execute(Client context) {
-        //nothing
     }
 
     /**

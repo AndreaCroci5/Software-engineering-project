@@ -2,6 +2,7 @@ package it.polimi.ingsw.am40.server.network.RMI;
 
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.HostNameData;
 import it.polimi.ingsw.am40.data.active.flow.CreateRequestData;
 import it.polimi.ingsw.am40.data.active.flow.JoinRequestData;
 import it.polimi.ingsw.am40.server.actions.Action;
@@ -185,13 +186,6 @@ public class RemoteObjectServer extends UnicastRemoteObject implements RemoteInt
     @Override
     public void requestCreateActiveFlow(Data d) throws RemoteException {
         CreateRequestData data = (CreateRequestData) d;
-        System.out.println("Skeleton : " + data.getSkeleton());
-        for (NetworkClient c : this.manager.getMainServerClass().getOrphanClients()) {
-            System.out.println("C remoteInterface : " + c.getRemoteInterface());
-            if (c.getRemoteInterface().equals(data.getSkeleton())) {
-                c.setUsername(data.getNickname());
-            }
-        }
 
         // Fetching client network information based on client's username
         for (NetworkClient c : this.manager.getMainServerClass().getOrphanClients()) {
@@ -232,13 +226,6 @@ public class RemoteObjectServer extends UnicastRemoteObject implements RemoteInt
     @Override
     public void requestJoinActiveFlow(Data d) throws RemoteException {
         JoinRequestData data = (JoinRequestData) d;
-        System.out.println("Skeleton : " + data.getSkeleton());
-        for (NetworkClient c : this.manager.getMainServerClass().getOrphanClients()) {
-            System.out.println("C remoteInterface : " + c.getRemoteInterface());
-            if (c.getRemoteInterface().equals(data.getSkeleton())) {
-                c.setUsername(data.getNickname());
-            }
-        }
 
         // Fetching client network information based on client's username
         for (NetworkClient c : this.manager.getMainServerClass().getOrphanClients()) {
@@ -288,6 +275,20 @@ public class RemoteObjectServer extends UnicastRemoteObject implements RemoteInt
     @Override
     public void placingActiveRound(Data d) throws RemoteException {
         this.handleAndFilter(d);
+    }
+
+    @Override
+    public void HostNameActiveFlow(Data d) throws RemoteException {
+        HostNameData data = (HostNameData) d;
+        for (NetworkClient c : this.manager.getMainServerClass().getOrphanClients()) {
+            System.out.println(">Data skeleton: " + data.getSkeleton());
+            if (c.getRemoteInterface().equals(data.getSkeleton())) {
+                System.out.println(">C skeleton: " + c.getRemoteInterface());
+                c.setUsername(data.getNickname());
+                data.setPlayerID(c.getClientID());
+            }
+        }
+        this.manager.getMainServerClass().onEvent(data.onServer());
     }
 
     //fixme differenza tra newconnection e reconnection

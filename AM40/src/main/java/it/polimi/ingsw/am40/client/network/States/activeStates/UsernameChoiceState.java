@@ -11,8 +11,13 @@ public class UsernameChoiceState implements State {
 
     @Override
     public void checkInput(Client context, String input) {
-        context.setNickname(input);
-        context.setState(new SetUpState());
-        context.getCurrentState().execute(context);
+        if (!input.equalsIgnoreCase(context.getNetworkManager().getHostName())) {
+            System.out.println(">You must choose the username that you used to log in ");
+        }
+        else {
+            context.setNickname(input);
+            context.setState(new SetUpState());
+            context.getCurrentState().execute(context);
+        }
     }
 }

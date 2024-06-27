@@ -1,12 +1,17 @@
 package it.polimi.ingsw.am40.client.network;
 
+import it.polimi.ingsw.am40.client.ClientMessages.HostNameMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.CreateRequestMessage;
 import it.polimi.ingsw.am40.client.UserInputReader;
+import it.polimi.ingsw.am40.client.network.RMI.ClientNetworkRMIManager;
 import it.polimi.ingsw.am40.client.smallModel.SmallModel;
 import it.polimi.ingsw.am40.client.view.ViewFactory;
 import it.polimi.ingsw.am40.client.view.ViewFactoryException;
 import it.polimi.ingsw.am40.client.view.ViewManager;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 /**
@@ -197,6 +202,40 @@ public class Client implements AbstractContext{
 
         //Starting the application with all the correct parameters from the user
         System.out.println("Client '" + this.networkManager.getHostName() + "' is now running on the network with " + this.networkManager.getUsedProtocol() + " on port " + this.networkManager.getPort());
+
+        String ipAddress = null;
+        int port = -1;
+        ClientNetworkRMIManager rmi = null;
+        ClientNetworkTCPManager tcp = null;
+        switch(this.getNetworkManager().getUsedProtocol()){
+            case TCP:
+                tcp = (ClientNetworkTCPManager) this.getNetworkManager();
+                ipAddress = tcp.getSocket().getLocalAddress().getHostAddress();
+                port = tcp.getSocket().getLocalPort();
+
+                this.networkManager.send(new HostNameMessage(this.networkManager.getHostName(),ipAddress,port,null));
+
+                break;
+            case RMI:
+                rmi = (ClientNetworkRMIManager) this.getNetworkManager();
+                try {
+                    InetAddress localhost = InetAddress.getLocalHost();
+                    ipAddress = localhost.getHostAddress();
+                } catch (UnknownHostException e) {
+                    System.out.println("Error with the IP address");
+                    throw new RuntimeException(e);
+                }
+
+                this.networkManager.send(new HostNameMessage(this.networkManager.getHostName(),ipAddress,port,rmi.getSkeleton()));
+
+                break;
+
+
+            default:
+                System.out.println("Error with the network manager protocol getting");
+                throw new RuntimeException();
+        }
+
 
         //"Cleaning" of the CLI
         for (int i = 0; i < 100; i++) {

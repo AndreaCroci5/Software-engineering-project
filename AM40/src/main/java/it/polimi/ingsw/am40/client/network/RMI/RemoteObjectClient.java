@@ -349,4 +349,10 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
         this.client.handleMessage(m);
     }
 
+    @Override
+    public void FailedHostNamePassiveFlow(Data d) {
+        Message m = d.onClient();
+        this.client.handleMessage(m);
+    }
+
 }

@@ -25,10 +25,7 @@ public class InterruptedGameMessage extends Message {
      * @param context is the context of the client with his view and his network communication protocol
      */
     public void process(Client context) {
-
-        if (context.getNickname().equalsIgnoreCase(this.clientNickname)) {
-            context.getViewManager().displayInterruptedGame();
-            context.setState(new InterruptedGameState());
-        }
+        context.getViewManager().displayInterruptedGame();
+        context.setState(new InterruptedGameState());
     }
 }

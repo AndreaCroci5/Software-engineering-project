@@ -289,7 +289,7 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
      */
     @Override
     public void sendSerializedMessage(Data message) {
-        message.doRMI(null, stub);
+        message.doRMI(this.getSkeleton(), stub);
     }
 
 

@@ -82,7 +82,16 @@ import java.io.Serializable;
         @JsonSubTypes.Type(value = ChangeTurnInfoData.class, name = "CHANGE_TURN_INFO"),
         @JsonSubTypes.Type(value = LastRoundsInfoData.class, name = "LAST_ROUNDS"),
         @JsonSubTypes.Type(value = EndGameData.class, name = "ENDGAME"),
-        @JsonSubTypes.Type(value = EndGameData.class, name = "PING")
+        @JsonSubTypes.Type(value = PingData.class, name = "PING"),
+
+        @JsonSubTypes.Type(value = HostNameData.class, name = "HOST_NAME"),
+        @JsonSubTypes.Type(value = InterruptedGameData.class, name = "INTERRUPTED_GAME"),
+        @JsonSubTypes.Type(value = FailedHostNameData.class, name = "FAILED_HOST_NAME"),
+        @JsonSubTypes.Type(value = ClientDisconnectedData.class, name = "CLIENT_DISCONNECTED")
+
+
+
+
 
 })
 public abstract class Data implements Serializable {

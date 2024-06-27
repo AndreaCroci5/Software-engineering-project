@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.HostNameData;
 import it.polimi.ingsw.am40.data.active.flow.CreateRequestData;
 import it.polimi.ingsw.am40.data.active.flow.JoinRequestData;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
@@ -222,28 +223,10 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Data myObject = objectMapper.readValue(message,Data.class);
-            System.out.println("SIAMO QUI: " + myObject.getDescription());
 
-            if (myObject.getDescription().equalsIgnoreCase("JOIN_GAME")) {
-                JoinRequestData data = (JoinRequestData) myObject;
-                System.out.println("Ip address : " + data.getIpAddress());
-                System.out.println("Port : " + data.getPort());
+            if (myObject.getDescription().equalsIgnoreCase("HOST_NAME")) {
+                HostNameData data = (HostNameData) myObject;
                 for (NetworkClient c : this.mainServerClass.getOrphanClients()) {
-                    System.out.println("C ipAddress : " + c.getSocket().getInetAddress().getHostAddress());
-                    System.out.println("C port : " + c.getSocket().getPort());
-                    if (c.getSocket().getInetAddress().getHostAddress().equals(data.getIpAddress()) && c.getSocket().getPort() == data.getPort()) {
-                        c.setUsername(data.getNickname());
-                    }
-                }
-            }
-
-            if (myObject.getDescription().equalsIgnoreCase("CREATE_GAME")) {
-                CreateRequestData data = (CreateRequestData) myObject;
-                System.out.println("Ip address : " + data.getIpAddress());
-                System.out.println("Port : " + data.getPort());
-                for (NetworkClient c : this.mainServerClass.getOrphanClients()) {
-                    System.out.println("C ipAddress : " + c.getSocket().getInetAddress().getHostAddress());
-                    System.out.println("C port : " + c.getSocket().getPort());
                     if (c.getSocket().getInetAddress().getHostAddress().equals(data.getIpAddress()) && c.getSocket().getPort() == data.getPort()) {
                         c.setUsername(data.getNickname());
                     }
@@ -257,6 +240,8 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
                     myObject.setPlayerID(c.getClientID());
                 }
             }
+
+
             // Server filter
             if (myObject.getDescription().equalsIgnoreCase("CREATE_GAME")) {
                 this.mainServerClass.onEvent(myObject.onServer());
@@ -265,6 +250,18 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
             } else if (myObject.getDescription().equalsIgnoreCase("JOIN_GAME")) {
                 this.mainServerClass.onEvent(myObject.onServer());
             }else if (myObject.getDescription().equalsIgnoreCase("READY_TO_PLAY")){
+                this.mainServerClass.onEvent(myObject.onServer());
+            }else if (myObject.getDescription().equalsIgnoreCase("HOST_NAME")){
+                this.mainServerClass.onEvent(myObject.onServer());
+            }else if (myObject.getDescription().equalsIgnoreCase("CLIENT_DISCONNECTED")){
+                for (NetworkParty p : this.mainServerClass.getActiveParties()) {
+                    for (NetworkClient c : p.getClients()) {
+                        if (c.getClientID() == myObject.getPlayerID()) {
+                            // GameID/PartyID fetch
+                            myObject.setGameID(p.getPartyID());
+                        }
+                    }
+                }
                 this.mainServerClass.onEvent(myObject.onServer());
             }else {
                 // once the game is initialised filter

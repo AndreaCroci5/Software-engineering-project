@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.client.network.RMI;
 
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.FailedHostNameData;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -173,4 +174,6 @@ public interface RemoteInterfaceClient extends Remote {
     void repeatPlacingPassiveRound(Data d) throws RemoteException;
 
     void interruptedGame(Data d) throws RemoteException;
+
+    void FailedHostNamePassiveFlow(Data d) throws RemoteException;
 }

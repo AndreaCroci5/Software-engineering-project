@@ -57,6 +57,9 @@ public class VVServer implements ActionPoster, ActionListener  {
     public static int activeConnections = 0;
 
 
+    private List<String> clientsHostNames;
+
+
 
 
 
@@ -79,6 +82,7 @@ public class VVServer implements ActionPoster, ActionListener  {
         this.activeParties = new ArrayList<>();
         this.orphanClients = new ArrayList<>();
         this.listeners = new ArrayList<>();
+        this.clientsHostNames = new ArrayList<>();
     }
 
 
@@ -118,6 +122,10 @@ public class VVServer implements ActionPoster, ActionListener  {
     @Override
     public List<ActionListener> getListeners() {
         return this.listeners;
+    }
+
+    public List<String> getClientsHostNames() {
+        return clientsHostNames;
     }
 
     /**

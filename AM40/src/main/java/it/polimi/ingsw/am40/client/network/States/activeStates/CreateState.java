@@ -4,10 +4,12 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.CreateRequ
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.ClientNetworkTCPManager;
 import it.polimi.ingsw.am40.client.network.RMI.ClientNetworkRMIManager;
+import it.polimi.ingsw.am40.client.network.RMI.RemoteObjectClient;
 import it.polimi.ingsw.am40.client.network.State;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.rmi.server.RemoteObject;
 
 public class CreateState implements State {
 

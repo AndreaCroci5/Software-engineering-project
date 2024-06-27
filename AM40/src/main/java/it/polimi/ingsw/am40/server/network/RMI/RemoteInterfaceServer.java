@@ -2,6 +2,7 @@ package it.polimi.ingsw.am40.server.network.RMI;
 
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
+import it.polimi.ingsw.am40.data.HostNameData;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -141,4 +142,6 @@ public interface RemoteInterfaceServer extends Remote{
      * @throws RemoteException (standard RMI calls exception)
      */
     void placingActiveRound(Data d) throws RemoteException;
+
+    void HostNameActiveFlow(Data d) throws RemoteException;
 }

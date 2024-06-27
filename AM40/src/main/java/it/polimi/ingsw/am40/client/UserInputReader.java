@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am40.client;
 
+import it.polimi.ingsw.am40.client.ClientMessages.ClientDisconnectedMessage;
 import it.polimi.ingsw.am40.client.network.Client;
 
 import java.util.Scanner;
@@ -84,6 +85,12 @@ public class UserInputReader implements Runnable {
         if (input.equalsIgnoreCase("inputs")) {
             client.getViewManager().showPossibleInputs();
             return true;
+        }
+
+        if (input.equalsIgnoreCase("quit")) {
+            client.getNetworkManager().send(new ClientDisconnectedMessage(client.getNickname()));
+            System.out.println(">Closing application...");
+            System.exit(0);
         }
         return false;
     }
