@@ -6,6 +6,9 @@ import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveAimCardChoi
 
 import java.util.List;
 
+/**
+ * This message contains the two aim cards for the client choice
+ */
 public class AimCardInfoMessage extends Message {
 
     /**
@@ -19,7 +22,8 @@ public class AimCardInfoMessage extends Message {
     private final List<Integer> aimCardsID;
 
     /**
-     * This message contains the two aim cards for the client choice
+     * Constructor for aimCardInfoMessage
+     * @param clientNickname is the name of the active client
      * @param amiCardsID is the list of the two cards in which the client has to choose one of them
      */
     public AimCardInfoMessage(String clientNickname, List<Integer> amiCardsID) {

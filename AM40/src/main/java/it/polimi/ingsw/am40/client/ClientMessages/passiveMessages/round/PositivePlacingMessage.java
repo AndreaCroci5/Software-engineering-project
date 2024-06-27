@@ -10,6 +10,9 @@ import it.polimi.ingsw.am40.server.model.Coordinates;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This message is sent by the server, and it contains all the updates due to the placing
+ */
 public class PositivePlacingMessage extends Message {
 
     /**
@@ -48,7 +51,7 @@ public class PositivePlacingMessage extends Message {
     private final String face;
 
     /**
-     * This message is sent by the server and it contains all the updates due to the placing
+     * Constructor for the PositivePlacingMessage
      * @param clientNickname is the name of the active client
      * @param score is the score due to the card he placed
      * @param elementsCounter is the counter of the elements on the player private board

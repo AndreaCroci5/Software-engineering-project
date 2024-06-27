@@ -5,8 +5,14 @@ import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.round.PlacingData;
 import it.polimi.ingsw.am40.server.model.Coordinates;
 
+/**
+ * This message has all the parameters needed for the placing phase
+ */
 public class PlacingMessage extends Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String clientNickname;
 
     /**
@@ -27,7 +33,8 @@ public class PlacingMessage extends Message {
     private final String cardFace;
 
     /**
-     * This message has all the parameters needed for the placing phase
+     * Constructor for PlacingMessage
+     * @param nickname is the name of the active client
      * @param handCard is the ID of the card that the client wants to place
      *                 between the three cards that he has in his hand
      * @param coordsToPlace represents the place where the client want to place the card

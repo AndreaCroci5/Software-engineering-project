@@ -5,6 +5,9 @@ import it.polimi.ingsw.am40.client.network.Client;
 
 import java.util.List;
 
+/**
+ * This message is sent at the end game
+ */
 public class EndGameMessage extends Message {
 
     /**
@@ -13,7 +16,8 @@ public class EndGameMessage extends Message {
     List<String> winners;
 
     /**
-     * This message is sent at the end game
+     * Constructor for the EndGameMessage
+     * @param clientNickname is the name of the active client
      * @param winners is the name of the winners
      */
     public EndGameMessage(String clientNickname, List<String> winners) {

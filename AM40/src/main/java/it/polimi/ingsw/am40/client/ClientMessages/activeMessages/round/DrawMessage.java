@@ -4,8 +4,14 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.round.DrawData;
 
+/**
+ * This message contains all the parameters that the model need in the draw phase
+ */
 public class DrawMessage extends Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String clientNickname;
 
     /**
@@ -24,7 +30,7 @@ public class DrawMessage extends Message {
 
     /**
      * Constructor for the DrawMessage
-     * This message contains all the parameters that the model need in the draw phase
+     * @param nickname is the name of the active client
      * @param choice it's the choice between golden and resource card
      *               It could be res or gold
      * @param selection it's the choice between picking from the deck or from the plates

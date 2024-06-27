@@ -10,6 +10,9 @@ import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This message is used to give the client his 3 cards
+ */
 public class DealCardsResponseMessage extends Message {
 
     /**
@@ -33,9 +36,11 @@ public class DealCardsResponseMessage extends Message {
     private final int deckGoldenCardID;
 
     /**
-     * This message is used to give the client his 3 cards
-     * @param handCards is the list of the 3 cards of the client
+     * Constructor for DealCardsResponseMessage
      * @param clientNickname is the name of the active client
+     * @param handCards is the list of the 3 cards of the client
+     * @param deckResourceCardID is the ID of the card on top of deck after dealing the cards
+     * @param deckGoldenCardID is the ID of the card on top of deck after dealing the cards
      */
     public DealCardsResponseMessage(String clientNickname, List<Integer> handCards, int deckResourceCardID, int deckGoldenCardID) {
         super("DEAL_CARDS_RESPONSE",clientNickname);

@@ -4,6 +4,9 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveDrawChoiceState;
 
+/**
+ * It's a message that tells the client that something went wrong during the place
+ */
 public class RepeatDrawMessage extends Message {
 
     /**
@@ -12,7 +15,7 @@ public class RepeatDrawMessage extends Message {
     private final String clientNickname;
 
     /**
-     * It's a message that tells the client that something went wrong during the place
+     * Constructor for the RepeatDrawMessage
      * @param clientNickname is the name of the active client
      */
     public RepeatDrawMessage(String clientNickname) {

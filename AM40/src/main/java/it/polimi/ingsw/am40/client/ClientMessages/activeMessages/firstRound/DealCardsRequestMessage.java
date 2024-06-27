@@ -4,11 +4,18 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.firstRound.DealCardsData;
 
+/**
+ * This message is used to ask the server the 3 cards of the player hand
+ */
 public class DealCardsRequestMessage extends Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String clientNickname;
     /**
-     * This message is used to ask the server the 3 cards of the player hand
+     * Constructor for DealCardsRequestMessage
+     * @param nickname is the name of the active client
      */
     public DealCardsRequestMessage(String nickname) {
         super("CARDS_DEAL",nickname);

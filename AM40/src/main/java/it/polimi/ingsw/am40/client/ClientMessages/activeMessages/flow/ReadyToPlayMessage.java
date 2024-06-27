@@ -4,13 +4,20 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.flow.ReadyToPlayData;
 
+/**
+ * This message is used for the client to let the server know he wants to start the game
+ * The server will respond with start game or waiting for other player
+ */
 public class ReadyToPlayMessage extends Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String clientNickname;
 
     /**
-     * This message is used for the client to let the server know he wants to start the game
-     * The server will respond with start game or waiting for other player
+     * Constructor for ReadyToPlayMessage
+     * @param nickname is the name of the active client
      */
     public ReadyToPlayMessage(String nickname) {
         super("READY_TO_PLAY",nickname);

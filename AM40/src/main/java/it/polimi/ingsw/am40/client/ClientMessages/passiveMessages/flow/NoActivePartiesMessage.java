@@ -4,10 +4,13 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.SetUpState;
 
+/**
+ * This message is sent by the server when a client tries to join a game but there are no game available to be joined
+ */
 public class NoActivePartiesMessage extends Message {
 
     /**
-     * This message is sent by the server when a client tries to join a game but there are no game available to be joined
+     * Constructor for the NoActivePartiesMessage
      * @param nickname is the name of the active client
      */
     public NoActivePartiesMessage(String nickname) {

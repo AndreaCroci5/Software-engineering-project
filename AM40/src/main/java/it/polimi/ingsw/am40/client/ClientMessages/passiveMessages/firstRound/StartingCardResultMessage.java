@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This message contains the ID of the starting card given to the client and the face on which he placed it
+ * and all the information related
+ */
 public class StartingCardResultMessage extends Message {
 
     /**
@@ -26,7 +30,7 @@ public class StartingCardResultMessage extends Message {
     private final int cardID;
 
     /**
-     * This are the coordinates of the starting card
+     * These are the coordinates of the starting card
      */
     private final Coordinates startingCardCoords;
 
@@ -36,7 +40,7 @@ public class StartingCardResultMessage extends Message {
     private final String cardFace;
 
     /**
-     * This are the possible coordinates that the player can choose to place the next card
+     * These are the possible coordinates that the player can choose to place the next card
      */
     private final ArrayList<Coordinates> placingCoordinates;
 
@@ -46,9 +50,13 @@ public class StartingCardResultMessage extends Message {
     private final Map<CardElements,Integer> elementsCounter;
 
     /**
-     * This message contains the ID of the starting card given to the client
+     * Constructor for the StartingCardResultMessage
      * @param clientNickname is the name of the active client
      * @param cardID is the ID of the starting card given to the client
+     * @param startingCardCoords  are the coordinates of the starting card
+     * @param cardFace is the face on which the client placed it
+     * @param placingCoordinates  are the coordinate on which the client could place the next card
+     * @param elementsCounter is the counter of the elements in the private board of the client
      */
     public StartingCardResultMessage(String clientNickname, int cardID, Coordinates startingCardCoords, String cardFace, ArrayList<Coordinates> placingCoordinates, Map<CardElements,Integer> elementsCounter) {
         super("POSITIVE_STARTING_CARD",clientNickname);

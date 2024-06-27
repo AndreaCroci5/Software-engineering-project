@@ -3,6 +3,9 @@ package it.polimi.ingsw.am40.client.ClientMessages;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.InterruptedGameState;
 
+/**
+ * This message is sent by the server to interrupt the game
+ */
 public class InterruptedGameMessage extends Message {
 
     /**
@@ -12,7 +15,8 @@ public class InterruptedGameMessage extends Message {
 
 
     /**
-     * This message contains the two aim cards for the client choice
+     * Constructor for the InterruptedGameMessage
+     * @param clientNickname is the name of the active client
      */
     public InterruptedGameMessage(String clientNickname) {
         super("INTERRUPTED_GAME",clientNickname);

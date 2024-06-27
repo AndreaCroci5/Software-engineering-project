@@ -5,6 +5,9 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ReadyToPla
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ReadyToPlayState;
 
+/**
+ * This message is sent by the server, and it's an ack that client joined the game he chose
+ */
 public class GameIdResponseMessage extends Message {
 
     /**
@@ -28,7 +31,11 @@ public class GameIdResponseMessage extends Message {
     private final int numOfFinalPlayers;
 
     /**
-     * This message is sent by the server, and it's an ack that client joined the game he chose
+     * Constructor for the gameIdResponseMessage
+     * @param clientNickname is the name of the active client
+     * @param partyId is the ID of the party of the client
+     * @param numOfActualPlayers is the name of the actual players in the party
+     * @param numOfFinalPlayers is the final number of players
      */
     public GameIdResponseMessage(String clientNickname,int partyId, int numOfActualPlayers, int numOfFinalPlayers) {
         super("POSITIVE_GAME_CHOICE",clientNickname);

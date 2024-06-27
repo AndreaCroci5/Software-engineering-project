@@ -3,18 +3,32 @@ package it.polimi.ingsw.am40.client.ClientMessages;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.data.Data;
 
+/**
+ * This represents the abstract idea of a Message that is how the parts of the client communicate
+ */
 public abstract class Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String nickname;
     /**
      * It's the description of which information the message transport
      */
     private final String description;
 
+    /**
+     * Getter for nickname
+     * @return the nickname
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Getter for the description
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }

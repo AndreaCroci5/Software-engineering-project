@@ -6,7 +6,9 @@ import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ReadyToRoundState;
 import it.polimi.ingsw.am40.client.smallModel.SmallCardLoader;
 
-
+/**
+ * Represents a message indicating that an aim card has been selected by a client
+ */
 public class AimCardResultMessage extends Message {
     /**
      * The nickname of the active client
@@ -21,7 +23,6 @@ public class AimCardResultMessage extends Message {
 
     /**
      * Constructor for AimCardResultMessage
-     * Represents a message indicating that an aim card has been selected by a client
      * @param clientNickname it's the nickname of the active client
      * @param aimCardIdChosen it's the ID of the card chosen by the client
      */

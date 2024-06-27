@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This message is sent from the server, and it is used to start the game
+ */
 public class StartingGameMessage extends Message {
 
     /**
@@ -25,7 +28,7 @@ public class StartingGameMessage extends Message {
     private Map<String,ArrayList<Integer>> commonBoard;
 
     /**
-     * This message is sent from the server and it is used to start the game
+     * Constructor for the StartingGameMessage
      * @param clientNickname is the name of the active client
      * @param nicknames are the names of all the players in the game
      * @param commonBoard is common board of the game

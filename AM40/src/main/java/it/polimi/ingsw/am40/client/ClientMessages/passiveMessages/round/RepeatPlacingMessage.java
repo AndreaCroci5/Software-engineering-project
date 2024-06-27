@@ -4,7 +4,9 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ActivePlacingCardChoiceState;
 
-
+/**
+ * This message is used to tell the client that something went wrong during the placing phase
+ */
 public class RepeatPlacingMessage extends Message {
 
     /**
@@ -13,7 +15,7 @@ public class RepeatPlacingMessage extends Message {
     private final String clientNickname;
 
     /**
-     * This message is used to tell the client that something went wrong during the placing phase
+     * Constructor for the RepeatPlacingMessage
      * @param clientNickname is the name of the active client
      */
     public RepeatPlacingMessage(String clientNickname) {

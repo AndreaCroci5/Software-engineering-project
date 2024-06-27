@@ -6,6 +6,9 @@ import it.polimi.ingsw.am40.client.network.States.activeStates.ChooseGameState;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This message is sent by the server in order to let the client know all the possible games he can join
+ */
 public class JoinResponseMessage extends Message {
 
     /**
@@ -20,7 +23,7 @@ public class JoinResponseMessage extends Message {
 
 
     /**
-     * This message is sent by the server in order to let the client know all the possible games he can join
+     * Constructor for the JoinResponseMessage
      * @param clientNickname is the name of the active client
      * @param currentParties are the IDs of the possible games the client can join
      */

@@ -5,6 +5,10 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ChangeTurn
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.PassiveDealCardsState;
 
+/**
+ * This message is sent by the server to the client, and it is an okay on the choice
+ * of the client token
+ */
 public class PositiveTokenColorMessage extends Message {
 
     /**
@@ -18,8 +22,7 @@ public class PositiveTokenColorMessage extends Message {
     private final String token;
 
     /**
-     * This message is sent by the server to the client, and it is an okay on the choice
-     * of the client token
+     * Constructor for the PositiveTokenColorMessage
      * @param clientNickname is the name of the active client
      * @param token is the color of the token choose by the client
      */

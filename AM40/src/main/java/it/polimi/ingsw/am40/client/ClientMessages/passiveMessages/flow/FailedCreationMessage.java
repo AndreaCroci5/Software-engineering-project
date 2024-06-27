@@ -4,10 +4,13 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.SetUpState;
 
+/**
+ * This message is sent by the server went something went wrong with the creation of the game
+ */
 public class FailedCreationMessage extends Message {
 
     /**
-     * This message is sent by the server went something went wrong with the creation of the game
+     * Constructor for FailedCreationMessage
      * @param nickname is the name of the active client
      */
     public FailedCreationMessage(String nickname) {

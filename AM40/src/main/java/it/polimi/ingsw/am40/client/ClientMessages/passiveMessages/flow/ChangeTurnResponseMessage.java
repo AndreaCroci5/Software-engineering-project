@@ -9,6 +9,9 @@ import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.*;
 import it.polimi.ingsw.am40.client.network.States.passiveStates.*;
 
+/**
+ * This message is sent by the server, and it says that the active client is changed
+ */
 public class ChangeTurnResponseMessage extends Message {
 
     /**
@@ -17,7 +20,7 @@ public class ChangeTurnResponseMessage extends Message {
     private final String clientNickname;
 
     /**
-     * This message is sent by the server, and it says that the active client is changed
+     * Constructor for the ChangeTurnResponseMessage
      * @param clientNickname is the name of the new active client
      */
     public ChangeTurnResponseMessage(String clientNickname) {

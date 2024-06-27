@@ -4,11 +4,13 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.SetUpState;
 
-
+/**
+ * This message is sent by the server when something went wrong when joining a match
+ */
 public class FailedGameIDMessage extends Message {
 
     /**
-     * This message is sent by the server when something went wrong when joining a match
+     * Constructor for the FailedGameIDMessage
      * @param nickname is the name of the active client
      */
     public FailedGameIDMessage(String nickname) {

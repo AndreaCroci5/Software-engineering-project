@@ -6,6 +6,9 @@ import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveTokenChoice
 
 import java.util.List;
 
+/**
+ * This message contains the list of the color of the possible tokens that the client can choose
+ */
 public class TokenInfoMessage extends Message {
 
     /**
@@ -19,7 +22,7 @@ public class TokenInfoMessage extends Message {
     private final List<String> tokens;
 
     /**
-     * This message contains the list of the color of the possible tokens that the client can choose
+     * Constructor for the TokenInfoMessage
      * @param clientNickname is the name of the active client
      * @param tokens is the list of the color of the possible tokens that the client can choose
      */

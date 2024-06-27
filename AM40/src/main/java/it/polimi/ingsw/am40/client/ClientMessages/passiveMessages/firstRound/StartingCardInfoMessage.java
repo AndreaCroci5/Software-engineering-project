@@ -4,6 +4,9 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ActiveStartingCardChoiceState;
 
+/**
+ * This message is used to give the client his starting card
+ */
 public class StartingCardInfoMessage extends Message {
 
     /**
@@ -17,9 +20,9 @@ public class StartingCardInfoMessage extends Message {
     private final int StartingCardID;
 
     /**
-     * This message is used to give the client his starting card
-     * @param startingCardID is the ID of the starting card of the client
+     * Constructor for the startingCardInfoMessage
      * @param clientNickname is the name of the active client
+     * @param startingCardID is the ID of the starting card of the client
      */
     public StartingCardInfoMessage(String clientNickname, int startingCardID) {
         super("STARTING_CARD_INFO",clientNickname);
@@ -28,7 +31,7 @@ public class StartingCardInfoMessage extends Message {
     }
 
     /**
-     * It shows the client his starting card and it asks if he wants to place front or back
+     * It shows the client his starting card, and it asks if he wants to place front or back
      * It sets the next state of the client state machine
      * @param context is the context of the client with his view and his network communication protocol
      */

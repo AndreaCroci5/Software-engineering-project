@@ -7,6 +7,9 @@ import it.polimi.ingsw.am40.client.network.States.passiveStates.PassivePlacingSt
 
 import java.util.List;
 
+/**
+ * This message is sent by the server and tells the order of the players
+ */
 public class DecidePlayerOrderResponse extends Message {
 
     /**
@@ -20,7 +23,7 @@ public class DecidePlayerOrderResponse extends Message {
     private final List<String> playersOrder;
 
     /**
-     * This message is sent by the server and tells the order of the players
+     * Constructor for the DecidePlayerOrderResponse
      * @param clientNickname is the name of the active client
      * @param playersOrder is the order of the players
      */

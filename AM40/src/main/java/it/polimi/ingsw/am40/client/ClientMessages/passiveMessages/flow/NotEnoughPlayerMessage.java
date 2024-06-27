@@ -3,10 +3,13 @@ package it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.flow;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.network.Client;
 
+/**
+ * This message is used to tell the player that the game is not starting, and he has to wait other players
+ */
 public class NotEnoughPlayerMessage extends Message {
 
     /**
-     * This message is used to tell the player that the game is not starting and he has to wait other players
+     * Constructor for the NotEnoughPlayerMessage
      * @param nickname is the name of the active client
      */
     public NotEnoughPlayerMessage(String nickname) {

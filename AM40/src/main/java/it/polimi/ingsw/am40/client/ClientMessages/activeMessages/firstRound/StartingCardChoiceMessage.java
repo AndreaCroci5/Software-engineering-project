@@ -4,8 +4,14 @@ import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.firstRound.StartingCardChoiceData;
 
+/**
+ * This message contains the face that the client choose in order to place his starting card
+ */
 public class StartingCardChoiceMessage extends Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String clientNickname;
 
     /**
@@ -14,7 +20,8 @@ public class StartingCardChoiceMessage extends Message {
     private final String face;
 
     /**
-     * This message contains the face that the client choose in order to place his starting card
+     * Constructor for StartingCardChoiceMessage
+     * @param nickname is the name of the active client
      * @param face is the face that the client choose in order to play his starting card
      */
     public StartingCardChoiceMessage(String nickname,String face) {

@@ -5,6 +5,9 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.ReadyToPla
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.States.activeStates.ReadyToPlayState;
 
+/**
+ * This message is sent by the server, and it's an ack that he had created a new game
+ */
 public class CreateResponseMessage extends Message {
 
     /**
@@ -17,17 +20,26 @@ public class CreateResponseMessage extends Message {
      */
     private final int NumOfFinalPlayer;
 
+    /**
+     * Getter for clientNickname
+     * @return the nickname of the client
+     */
     public String getClientNickname() {
         return clientNickname;
     }
 
+    /**
+     * Getter for numOfFinalPlayer
+     * @return the number of the final players
+     */
     public int getNumOfFinalPlayer() {
         return NumOfFinalPlayer;
     }
 
     /**
-     * This message is sent by the server, and it's an ack that he had created a new game
+     * Constructor for the CreateResponseMessage
      * @param clientNickname is the name of the active client
+     * @param numOfFinalPlayer is the number of the player that are going to be in the game
      */
     public CreateResponseMessage(String clientNickname,int numOfFinalPlayer) {
         super("POSITIVE_CREATE",clientNickname);
