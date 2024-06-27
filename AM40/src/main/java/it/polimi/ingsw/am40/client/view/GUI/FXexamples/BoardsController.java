@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.SimpleTimeZone;
 
 public class BoardsController extends GeneralController {
 
@@ -45,6 +44,8 @@ public class BoardsController extends GeneralController {
     private InGameController primaryController;
 
     private Map<String, String> playersAndTokens;
+
+    private String firstPlayer;
 
     @FXML
     private GridPane billBoard;
@@ -86,9 +87,10 @@ public class BoardsController extends GeneralController {
     }
 
     //METHODS
-    public void sceneSetup (InGameController primaryController, Map<String, String> playersAndTokens) {
+    public void sceneSetup (InGameController primaryController, Map<String, String> playersAndTokens, String firstPlayer) {
         this.primaryController = primaryController;
         this.playersAndTokens = playersAndTokens;
+        this.firstPlayer = firstPlayer;
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         ArrayList<String> playersNames = new ArrayList<>();
         ArrayList<String> tokens = new ArrayList<>();
@@ -151,6 +153,21 @@ public class BoardsController extends GeneralController {
             this.cardPlacer(cardToDraw, s.getCoordinates());
             gridShown.getChildren().add(cardToDraw);
         }
+        //TOKEN
+        ImageView tokenImgView = new ImageView();
+        this.tokenOnCard(tokenImgView);
+        tokenImgView.setImage(new Image(getClass().getResourceAsStream(fetcher.findTokenResource(this.playersAndTokens.get(nickname)))));
+        gridShown.getChildren().add(tokenImgView);
+
+
+        if (nickname.equalsIgnoreCase(this.firstPlayer)) {
+            //BLACK TOKEN
+            ImageView blackTokenImgView = new ImageView();
+            this.blackTokenOnCard(blackTokenImgView);
+            blackTokenImgView.setImage(new Image(getClass().getResourceAsStream(fetcher.findTokenResource("black"))));
+            gridShown.getChildren().add(blackTokenImgView);
+        }
+
         this.cardGrid.getChildren().add(gridShown);
 
 
@@ -185,5 +202,18 @@ public class BoardsController extends GeneralController {
 
         this.cardGrid.getChildren().add(cardImgView);
 
+    }
+
+    private void tokenOnCard(ImageView tokenImgView) {
+        tokenImgView.setFitHeight(20);
+        tokenImgView.setFitWidth(20);
+        tokenImgView.setTranslateX(25);
+    }
+
+    private void blackTokenOnCard(ImageView blackTokenImgView) {
+        blackTokenImgView.setFitHeight(20);
+        blackTokenImgView.setFitWidth(20);
+        blackTokenImgView.setTranslateY(-20);
+        blackTokenImgView.setTranslateX(25);
     }
 }

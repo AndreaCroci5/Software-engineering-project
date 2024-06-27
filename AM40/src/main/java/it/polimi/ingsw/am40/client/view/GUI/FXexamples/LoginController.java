@@ -68,7 +68,7 @@ public class LoginController extends GeneralController {
      */
     @FXML
     private Button joinButton;
-    //FIXME change name in textField
+
     @FXML
     private TextField usernameField;
 
@@ -83,6 +83,12 @@ public class LoginController extends GeneralController {
      */
     @FXML
     private Button sendButton;
+
+    @FXML
+    private Label wrongUsername;
+
+    @FXML
+    private Label parsingError;
 
     /**
      * Reference to a Label put on the top of the scene in order to notify the Client what happened on Server, regarding
@@ -206,34 +212,41 @@ public class LoginController extends GeneralController {
      */
     private void selectSizeOfParty() {
         //Size parsing from the TextField
-        int sizeParsed = Integer.parseInt(usernameField.getText());
-        //TODO add parse exception
+        int sizeParsed;
+        try {
+            sizeParsed = Integer.parseInt(this.usernameField.getText());
 
-        String ipAddress = null;
-        int port = -1;
-        ClientNetworkRMIManager rmi = null;
-        ClientNetworkTCPManager tcp = null;
-        switch(this.client.getNetworkManager().getUsedProtocol()){
-            case TCP:
-                tcp = (ClientNetworkTCPManager) this.client.getNetworkManager();
-                ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
-                port = tcp.getSocket().getLocalPort(); //FIXME
-                this.client.getNetworkManager().send(new CreateRequestMessage(this.username,sizeParsed, ipAddress, port, null));
-                break;
-            case RMI:
-                rmi = (ClientNetworkRMIManager) this.client.getNetworkManager();
-                try {
-                    InetAddress localhost = InetAddress.getLocalHost();
-                    ipAddress = localhost.getHostAddress();
-                } catch (UnknownHostException e1) {
-                    System.out.println("Error with the IP address");
-                    throw new RuntimeException(e1);
-                }
-                this.client.getNetworkManager().send(new CreateRequestMessage(this.username, sizeParsed, ipAddress, port, ((ClientNetworkRMIManager) this.client.getNetworkManager()).getSkeleton()));
-                break;
-            default:
-                System.out.println("Error with the network manager protocol getting");
-                throw new RuntimeException();
+            if (sizeParsed<2 || sizeParsed > 5) throw new NumberFormatException();
+
+            this.parsingError.setVisible(false);
+            String ipAddress = null;
+            int port = -1;
+            ClientNetworkRMIManager rmi = null;
+            ClientNetworkTCPManager tcp = null;
+            switch(this.client.getNetworkManager().getUsedProtocol()){
+                case TCP:
+                    tcp = (ClientNetworkTCPManager) this.client.getNetworkManager();
+                    ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
+                    port = tcp.getSocket().getLocalPort(); //FIXME
+                    this.client.getNetworkManager().send(new CreateRequestMessage(this.username,sizeParsed, ipAddress, port, null));
+                    break;
+                case RMI:
+                    rmi = (ClientNetworkRMIManager) this.client.getNetworkManager();
+                    try {
+                        InetAddress localhost = InetAddress.getLocalHost();
+                        ipAddress = localhost.getHostAddress();
+                    } catch (UnknownHostException e1) {
+                        System.out.println("Error with the IP address");
+                        throw new RuntimeException(e1);
+                    }
+                    this.client.getNetworkManager().send(new CreateRequestMessage(this.username, sizeParsed, ipAddress, port, ((ClientNetworkRMIManager) this.client.getNetworkManager()).getSkeleton()));
+                    break;
+                default:
+                    System.out.println("Error with the network manager protocol getting");
+                    throw new RuntimeException();
+            }
+        } catch (NumberFormatException e) {
+            this.parsingError.setVisible(true);
         }
     }
 
@@ -243,11 +256,20 @@ public class LoginController extends GeneralController {
      * the available GameIDs by the method displayAllGameIDs
      */
     public void gameIDChoice() {
-        int gameIDChoice = Integer.parseInt(this.usernameField.getText());
-        //TODO add parse exception
+        int gameIDChoice;
+        try {
+            gameIDChoice = Integer.parseInt(this.usernameField.getText());
 
-        //Send the gameIDChoice
-        this.client.getNetworkManager().send(new GameIdChoiceMessage(this.username, gameIDChoice));
+            this.parsingError.setVisible(false);
+
+            //Send the gameIDChoice
+            this.client.getNetworkManager().send(new GameIdChoiceMessage(this.username, gameIDChoice));
+        } catch (NumberFormatException e) {
+            this.parsingError.setVisible(true);
+        }
+
+
+
 
     }
 
@@ -261,6 +283,7 @@ public class LoginController extends GeneralController {
      */
     @Override
     public void waitingForPlayersEvent(int playersRequired) {
+        this.wrongUsername.setVisible(false);
 
         Pane paneToOperate = (Pane) this.root;
         this.eventsNotificator = new Label("Waiting for " + playersRequired + " more players");
@@ -282,6 +305,7 @@ public class LoginController extends GeneralController {
      */
     @Override
     public void displayAllGameIDs(String gameIDsNotification) {
+        this.wrongUsername.setVisible(false);
 
         Label gameIDs = new Label(gameIDsNotification);
         this.labelGameIDsDecorator(gameIDs);
@@ -329,6 +353,10 @@ public class LoginController extends GeneralController {
     }
 
 
+    @Override
+    public void failedGameID() {
+        this.parsingError.setVisible(true);
+    }
 
 
     //Decorator methods

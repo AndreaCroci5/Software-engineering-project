@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO PRIMARY finish placing and make draw and buttons correct disable in the setup
 //TODO add JAVADOC
 public class InGameController extends GeneralController {
     //ATTRIBUTES
@@ -68,6 +67,8 @@ public class InGameController extends GeneralController {
     private String token;
 
     Map<String, String> playersNameAndToken;
+
+    String firstPlayer;
 
     @FXML
     private Group cardPlacedInGrid;
@@ -196,7 +197,7 @@ public class InGameController extends GeneralController {
         boardsController.setScene(s);
         boardsController.setRoot(root);
 
-        boardsController.sceneSetup(this, this.playersNameAndToken);
+        boardsController.sceneSetup(this, this.playersNameAndToken, this.firstPlayer);
 
 
         this.stage.setScene(s);
@@ -495,10 +496,12 @@ public class InGameController extends GeneralController {
             playerLabel.setId(namesInOrder.get(i));
             playerLabel.setText(namesInOrder.get(i));
         }
+        this.firstPlayer = namesInOrder.getFirst();
         this.rearrangeTokenOnBillBoard();
         this.globalEventLabel.setText(namesInOrder.getFirst() + " is playing...");
         this.turnEventLabel.setText(namesInOrder.getFirst() + "'s turn");
         this.boardsButton.setDisable(false);
+        this.cardGridUpdate();
     }
 
 
@@ -753,6 +756,15 @@ public class InGameController extends GeneralController {
         this.tokenOnCard(tokenImgView);
         tokenImgView.setImage(new Image(getClass().getResourceAsStream(fetcher.findTokenResource(this.token))));
         this.cardPlacedInGrid.getChildren().add(tokenImgView);
+
+        //BLACK TOKEN
+        Label firstPlayer = (Label) this.playersTab.getChildren().getFirst();
+        if (this.client.getNickname().equalsIgnoreCase(firstPlayer.getText())) {
+            ImageView blackTokenImgView = new ImageView();
+            this.blackTokenOnCard(blackTokenImgView);
+            blackTokenImgView.setImage(new Image(getClass().getResourceAsStream(fetcher.findTokenResource("black"))));
+            this.cardPlacedInGrid.getChildren().add(blackTokenImgView);
+        }
         this.cardGrid.getChildren().add(this.cardPlacedInGrid);
     }
 
@@ -947,5 +959,36 @@ public class InGameController extends GeneralController {
         tokenImgView.setFitHeight(20);
         tokenImgView.setFitWidth(20);
         tokenImgView.setTranslateX(25);
+    }
+
+    private void blackTokenOnCard(ImageView blackTokenImgView) {
+        blackTokenImgView.setFitHeight(20);
+        blackTokenImgView.setFitWidth(20);
+        blackTokenImgView.setTranslateY(-20);
+        blackTokenImgView.setTranslateX(25);
+    }
+
+    @Override
+    public void lastRounds (String nickname) {
+        this.globalEventLabel.setText(nickname + " triggered the last rounds condition");
+    }
+
+    @Override
+    public void endGame(List<String> winners) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/endgame.fxml"));
+        this.root = fxmlLoader.load();
+
+        this.scene = new Scene(root);
+        EndGameController endgameController = fxmlLoader.getController();
+        endgameController.setClient(this.client);
+        HelloApplication.controller = endgameController;
+        this.stage.setScene(this.scene);
+
+        endgameController.setStage(this.stage);
+        endgameController.setScene(this.scene);
+        endgameController.setRoot(this.root);
+        endgameController.sceneSetup(winners);
+
+        this.stage.show();
     }
 }

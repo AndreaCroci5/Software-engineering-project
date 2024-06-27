@@ -7,6 +7,7 @@ import it.polimi.ingsw.am40.client.view.ViewManager;
 import it.polimi.ingsw.am40.server.model.CardElements;
 import javafx.application.Platform;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -170,12 +171,18 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayLastRoundMessage(String clientNickname) {
-
+        Platform.runLater( () -> HelloApplication.controller.lastRounds(clientNickname));
     }
 
     @Override
     public void displayEndGame(List<String> winners) {
-
+        Platform.runLater( () -> {
+            try {
+                HelloApplication.controller.endGame(winners);
+            } catch (IOException e) {
+                System.out.println("The file loading went wrong");
+            }
+        });
     }
 
     @Override
@@ -292,7 +299,7 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void showFailedGameID() {
-
+        Platform.runLater( () -> HelloApplication.controller.failedGameID());
     }
 
     /**

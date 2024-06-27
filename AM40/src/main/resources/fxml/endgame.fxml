@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1030.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am40.client.view.GUI.FXexamples.EndGameController">
+    <children>
+        <ImageView fitWidth="1030.0" pickOnBounds="true" preserveRatio="true" translateY="-20.0">
+            <image>
+                <Image url="@../images/backgrounds/setup.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="quitButton" layoutX="402.0" layoutY="312.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#quit" prefHeight="50.0" prefWidth="127.0" styleClass="backButton" stylesheets="@../css/boards.css" text="Quit" translateX="20.0" translateY="20.0">
+            <font>
+                <Font name="Papyrus" size="15.0" />
+            </font></Button>
+      <Label fx:id="primaryEvent" layoutX="179.0" layoutY="92.0" prefHeight="73.0" prefWidth="612.0" style="-fx-background-color: white;">
+         <font>
+            <Font name="Papyrus" size="20.0" />
+         </font>
+      </Label>
+    </children>
+</Pane>

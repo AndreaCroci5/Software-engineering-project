@@ -1,12 +1,13 @@
 package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
 
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO Change this class into an interface and javadoc
+//TODO javadoc
 
 public class GeneralController {
     //LOGIN METHODS
@@ -14,6 +15,10 @@ public class GeneralController {
     }
 
     public void displayAllGameIDs(String gameIDsNotification) {
+
+    }
+
+    public void failedGameID() {
 
     }
 
@@ -64,7 +69,6 @@ public class GeneralController {
 
     }
 
-    //FIXME add also in boards
     public void positivePlacing () {
 
     }
@@ -86,6 +90,14 @@ public class GeneralController {
     }
 
     public void passivePlacingResult (String nickname) {
+
+    }
+
+    public void lastRounds (String nickname) {
+
+    }
+
+    public void endGame(List<String> winners) throws IOException {
 
     }
 }
