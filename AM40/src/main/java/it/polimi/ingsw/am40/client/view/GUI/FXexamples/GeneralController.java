@@ -22,6 +22,10 @@ public class GeneralController {
 
     }
 
+    public void noActiveParties() {
+
+    }
+
     public void startingGame(ArrayList<String> nicknames, List<Integer> resource, List<Integer> golden, List<Integer> aim) throws IOException {
     }
 

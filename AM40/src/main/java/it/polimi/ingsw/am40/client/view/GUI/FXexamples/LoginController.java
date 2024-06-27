@@ -142,42 +142,47 @@ public class LoginController extends GeneralController {
     public void join(ActionEvent e) {
         //Gets the username written by the Client in the TextField
         this.username = this.usernameField.getText();
-        this.client.setNickname(this.username);
+        System.out.println(this.username);
+        System.out.println(client.getNickname());
         this.usernameField.clear();
 
-        //Disables the unnecessary Buttons
-        this.createButton.setDisable(true);
-        this.joinButton.setDisable(true);
+        if (this.username.equalsIgnoreCase(this.client.getNetworkManager().getHostName())) {
+            this.client.setNickname(this.client.getNetworkManager().getHostName());
+            this.wrongUsername.setVisible(false);
+            //Disables the unnecessary Buttons
+            this.createButton.setDisable(true);
+            this.joinButton.setDisable(true);
 
 
-        String ipAddress = null;
-        int port = -1;
-        ClientNetworkRMIManager rmi = null;
-        ClientNetworkTCPManager tcp = null;
-        switch(this.client.getNetworkManager().getUsedProtocol()){
-            case TCP:
-                tcp = (ClientNetworkTCPManager) this.client.getNetworkManager();
-                ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
-                port = tcp.getSocket().getLocalPort(); //FIXME
-                this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port, null));
-                break;
-            case RMI:
-                rmi = (ClientNetworkRMIManager) this.client.getNetworkManager();
-                try {
-                    InetAddress localhost = InetAddress.getLocalHost();
-                    ipAddress = localhost.getHostAddress();
-                } catch (UnknownHostException e1) {
-                    System.out.println("Error with the IP address");
-                    throw new RuntimeException(e1);
-                }
-                this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port, ((ClientNetworkRMIManager) this.client.getNetworkManager()).getSkeleton()));
-                break;
-            default:
-                System.out.println("Error with the network manager protocol getting");
-                throw new RuntimeException();
+            String ipAddress = null;
+            int port = -1;
+            ClientNetworkRMIManager rmi = null;
+            ClientNetworkTCPManager tcp = null;
+            switch(this.client.getNetworkManager().getUsedProtocol()){
+                case TCP:
+                    tcp = (ClientNetworkTCPManager) this.client.getNetworkManager();
+                    ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
+                    port = tcp.getSocket().getLocalPort(); //FIXME
+                    this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port, null));
+                    break;
+                case RMI:
+                    rmi = (ClientNetworkRMIManager) this.client.getNetworkManager();
+                    try {
+                        InetAddress localhost = InetAddress.getLocalHost();
+                        ipAddress = localhost.getHostAddress();
+                    } catch (UnknownHostException e1) {
+                        System.out.println("Error with the IP address");
+                        throw new RuntimeException(e1);
+                    }
+                    this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port, ((ClientNetworkRMIManager) this.client.getNetworkManager()).getSkeleton()));
+                    break;
+                default:
+                    System.out.println("Error with the network manager protocol getting");
+                    throw new RuntimeException();
+            }
+        } else {
+            this.wrongUsername.setVisible(true);
         }
-
-        ;
     }
 
 
@@ -189,22 +194,27 @@ public class LoginController extends GeneralController {
     public void create(ActionEvent e) {
         //Gets the username written by the Client in the TextField
         this.username = usernameField.getText();
-        this.client.setNickname(this.username);
-
-        //Ask the Client the desired party size
-        this.info.setText("Insert the party size: ");
-        this.info.setLayoutX(this.info.getLayoutX()-90);
-
-        //Disables the unnecessary Buttons
-        this.createButton.setDisable(true);
-        this.joinButton.setDisable(true);
         this.usernameField.clear();
+        if (this.username.equalsIgnoreCase(this.client.getNetworkManager().getHostName())) {
+            this.client.setNickname(this.client.getNetworkManager().getHostName());
+            //Ask the Client the desired party size
+            this.wrongUsername.setVisible(false);
+            this.info.setText("Insert the party size: ");
+            this.info.setLayoutX(this.info.getLayoutX()-90);
 
-        //Activate the sendButton onActionEvent
-        this.sendButton.setOnAction(event -> {
-            this.selectSizeOfParty();
-        });
-        this.sendButton.setVisible(true);
+            //Disables the unnecessary Buttons
+            this.createButton.setDisable(true);
+            this.joinButton.setDisable(true);
+            this.usernameField.clear();
+
+            //Activate the sendButton onActionEvent
+            this.sendButton.setOnAction(event -> {
+                this.selectSizeOfParty();
+            });
+            this.sendButton.setVisible(true);
+        } else {
+            this.wrongUsername.setVisible(true);
+        }
     }
 
     /**
@@ -358,6 +368,17 @@ public class LoginController extends GeneralController {
         this.parsingError.setVisible(true);
     }
 
+    @Override
+    public void noActiveParties() {
+        this.wrongUsername.setVisible(false);
+
+        Label gameIDs = new Label("No parties available!");
+        this.labelGameIDsDecorator(gameIDs);
+        this.createButton.setDisable(false);
+        this.joinButton.setDisable(false);
+        Pane paneToOperate =  (Pane) this.root;
+        paneToOperate.getChildren().add(gameIDs);
+    }
 
     //Decorator methods
     private void labelDecorator (Label l) {

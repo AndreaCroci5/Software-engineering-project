@@ -129,6 +129,9 @@ public class InGameController extends GeneralController {
     @FXML
     private StackPane cardGrid;
 
+    @FXML
+    private Button quitButton;
+
 
 
     //GETTER AND SETTER
@@ -172,6 +175,11 @@ public class InGameController extends GeneralController {
 
     @FXML
     public void chat() {
+
+    }
+
+    @FXML
+    public void quit (ActionEvent e) {
 
     }
 

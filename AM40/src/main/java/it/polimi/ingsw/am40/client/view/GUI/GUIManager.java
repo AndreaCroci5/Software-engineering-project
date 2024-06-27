@@ -294,7 +294,7 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void showNoActiveParties() {
-
+        Platform.runLater( () -> HelloApplication.controller.noActiveParties());
     }
 
     @Override
@@ -507,6 +507,12 @@ public class GUIManager implements ViewManager {
 
     @Override
     public void displayInterruptedGame() {
-        //todo
+        Platform.runLater( () -> {
+            try {
+                HelloApplication.controller.endGame(new ArrayList<String>());
+            } catch (IOException e) {
+                System.out.println("Error in loading the file");
+            }
+        });
     }
 }

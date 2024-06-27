@@ -132,6 +132,11 @@
             <Font name="Papyrus" size="13.0" />
          </font>
       </Button>
+      <Button id="boardsButton" fx:id="quitButton" layoutX="240.0" layoutY="165.0" mnemonicParsing="false" onAction="#quit" prefHeight="40.0" prefWidth="50.0" styleClass="boardsButton" stylesheets="@../css/setup.css" text="quit">
+         <font>
+            <Font name="Papyrus" size="10.0" />
+         </font>
+      </Button>
       <Button id="fateButton" fx:id="faceButton" layoutX="280.0" layoutY="510.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#face" prefHeight="40.0" prefWidth="50.0" styleClass="faceButton" stylesheets="@../css/setup.css" text="Face">
          <font>
             <Font name="Papyrus" size="12.0" />
