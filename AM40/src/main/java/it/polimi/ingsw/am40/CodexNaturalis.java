@@ -21,19 +21,24 @@ public class CodexNaturalis {
             System.err.println("Only numbers are accepted. Exiting...");
             System.exit(1);
         }
-        //FIXME!!!!!!!!
-        String[] argsServer = new String[3];
-        argsServer[0] = "6053";
-        argsServer[1] = "1099";
-        argsServer[2] = "pippo";
-        String[] argsClient = new String[4];
-        argsClient[0] = "6053";
-        argsClient[1] = "1099";
-        argsClient[2] = "pippo";
-        argsClient[3] = "127.0.0.1";
+
+
         switch (selection) {
-            case 0 -> CodexNaturalisServer.main(argsServer);
-            case 1 -> CodexNaturalisClient.main(argsClient);
+            case 0 -> {;
+                String[] argsServer = new String[3];
+                argsServer[0] = args[0];
+                argsServer[1] = args[1];
+                argsServer[2] = args[2];
+                CodexNaturalisServer.main(argsServer);
+            }
+            case 1 -> {
+                String[] argsClient = new String[4];
+                argsClient[0] = args[0];
+                argsClient[1] = args[1];
+                argsClient[2] = args[2];
+                argsClient[3] = args[3];
+                CodexNaturalisClient.main(argsClient);
+            }
             default -> {
                 System.err.println("Wrong selection. Exiting...");
                 try {
