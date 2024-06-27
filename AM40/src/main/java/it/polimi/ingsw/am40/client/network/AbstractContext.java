@@ -1,7 +1,7 @@
 package it.polimi.ingsw.am40.client.network;
 
 /**
- * AbstractContext interface ensures the implementation of a method to set the state of a FSM of a State Pattern
+ * AbstractContext interface ensures the implementation of a method to set the state of an FSM of a State Pattern
  */
 public interface AbstractContext {
 

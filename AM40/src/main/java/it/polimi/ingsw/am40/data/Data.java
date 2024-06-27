@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.active.firstRound.*;
 import it.polimi.ingsw.am40.data.active.flow.*;
 import it.polimi.ingsw.am40.data.active.round.DrawData;
@@ -13,6 +14,9 @@ import it.polimi.ingsw.am40.data.passive.firstRound.*;
 import it.polimi.ingsw.am40.data.passive.flow.*;
 import it.polimi.ingsw.am40.data.passive.round.*;
 import it.polimi.ingsw.am40.server.actions.Action;
+import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
+
+import java.io.Serializable;
 
 //TODO JAVADOC in the subclasses and add nicknames in passive Data
 //FIXME CHECK if all json types and annotations are correct and put final all attributes if needed in subclasses,
@@ -81,7 +85,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
         @JsonSubTypes.Type(value = EndGameData.class, name = "PING")
 
 })
-public abstract class Data {
+public abstract class Data implements Serializable {
 
     //ATTRIBUTES
     /**
@@ -164,5 +168,16 @@ public abstract class Data {
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
+
+
+
+    //RMI METHOD
+
+    /**
+     * Method which calls the right RMI interface method for each data (with override)
+     * @param skeleton the client remote interface. Null if data active
+     * @param stub the server remote interface. Null if data passive
+     */
+    public synchronized void doRMI(RemoteInterfaceClient skeleton, RemoteInterfaceServer stub){}
 
 }

@@ -497,4 +497,9 @@ public class GUIManager implements ViewManager {
 
         Platform.runLater( () -> HelloApplication.controller.passiveDraw(resource, golden, aim));
     }
+
+    @Override
+    public void displayInterruptedGame() {
+        //todo
+    }
 }

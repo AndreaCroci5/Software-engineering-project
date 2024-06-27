@@ -5,8 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
 import it.polimi.ingsw.am40.client.ClientMessages.passiveMessages.firstRound.PositiveTokenColorMessage;
+import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.actions.Action;
+import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
+
+import java.rmi.RemoteException;
 
 @JsonTypeName("POSITIVE_TOKEN_COLOR")
 public class PositiveTokenColorData extends Data {
@@ -42,5 +46,19 @@ public class PositiveTokenColorData extends Data {
 
     public Message onClient() {
         return new PositiveTokenColorMessage(this.getNickname(), this.color);
+    }
+
+    /**
+     * Method which calls the right RMI interface method for each data (with override)
+     * @param skeleton the client remote interface. Null if data active
+     * @param stub the server remote interface. Null if data passive
+     */
+    @Override
+    public void doRMI(RemoteInterfaceClient skeleton, RemoteInterfaceServer stub){
+        try {
+            skeleton.positiveTokenColorPassiveFirstRound(this);
+        } catch (RemoteException e) {
+            System.out.println("RMI call went wrong! message: " + e);
+        }
     }
 }

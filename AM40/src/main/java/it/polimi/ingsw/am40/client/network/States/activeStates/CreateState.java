@@ -3,7 +3,11 @@ package it.polimi.ingsw.am40.client.network.States.activeStates;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.CreateRequestMessage;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.ClientNetworkTCPManager;
+import it.polimi.ingsw.am40.client.network.RMI.ClientNetworkRMIManager;
 import it.polimi.ingsw.am40.client.network.State;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class CreateState implements State {
 
@@ -24,19 +28,58 @@ public class CreateState implements State {
     @Override
     public void checkInput(Client context, String input) {
 
-        ClientNetworkTCPManager tcp = (ClientNetworkTCPManager) context.getNetworkManager(); //FIXME
-        String ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
-        int port = tcp.getSocket().getLocalPort(); //FIXME
-        try {
-            Integer.parseInt(input);
-            if (Integer.parseInt(input) == 2 || Integer.parseInt(input) == 3 || Integer.parseInt(input) == 4) {
-                context.getNetworkManager().send(new CreateRequestMessage(context.getNickname(),Integer.parseInt(input),ipAddress,port));
-            }
-            else {
-                System.out.println(">Players must be 2,3 or 4");
-            }
-        }catch (NumberFormatException e) {
-            System.out.println(">Input must be a number ");
+        String ipAddress = null;
+        int port = -1;
+        ClientNetworkRMIManager rmi = null;
+        ClientNetworkTCPManager tcp = null;
+        switch(context.getNetworkManager().getUsedProtocol()){
+            case TCP:
+                tcp = (ClientNetworkTCPManager) context.getNetworkManager();
+                ipAddress = tcp.getSocket().getLocalAddress().getHostAddress();
+                port = tcp.getSocket().getLocalPort();
+
+                try {
+                    Integer.parseInt(input);
+                    if (Integer.parseInt(input) == 2 || Integer.parseInt(input) == 3 || Integer.parseInt(input) == 4) {
+                        context.getNetworkManager().send(new CreateRequestMessage(context.getNickname(),Integer.parseInt(input),ipAddress,port,null));
+                    }
+                    else {
+                        System.out.println(">Players must be 2,3 or 4");
+                    }
+                }catch (NumberFormatException e) {
+                    System.out.println(">Input must be a number ");
+                }
+                break;
+            case RMI:
+                rmi = (ClientNetworkRMIManager) context.getNetworkManager();
+                try {
+                    InetAddress localhost = InetAddress.getLocalHost();
+                    ipAddress = localhost.getHostAddress();
+                } catch (UnknownHostException e) {
+                    System.out.println("Error with the IP address");
+                    throw new RuntimeException(e);
+                }
+
+                try {
+                    Integer.parseInt(input);
+                    if (Integer.parseInt(input) == 2 || Integer.parseInt(input) == 3 || Integer.parseInt(input) == 4) {
+                        context.getNetworkManager().send(new CreateRequestMessage(context.getNickname(),Integer.parseInt(input),ipAddress,port,rmi.getSkeleton()));
+                    }
+                    else {
+                        System.out.println(">Players must be 2,3 or 4");
+                    }
+                }catch (NumberFormatException e) {
+                    System.out.println(">Input must be a number ");
+                }
+                break;
+
+
+            default:
+                System.out.println("Error with the network manager protocol getting");
+                throw new RuntimeException();
         }
+
+
+
     }
 }

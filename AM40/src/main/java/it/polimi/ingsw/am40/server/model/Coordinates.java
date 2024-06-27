@@ -3,6 +3,8 @@ package it.polimi.ingsw.am40.server.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * The Coordinates class defines the position of the cards in the grid in the private board, which also allow the player
  * to know where he can place the next card.
@@ -14,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 
 
-public class Coordinates {
+public class Coordinates implements Serializable {
 
     //ATTRIBUTE
 

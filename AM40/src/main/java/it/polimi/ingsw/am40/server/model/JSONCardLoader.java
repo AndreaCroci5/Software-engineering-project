@@ -227,7 +227,7 @@ public class JSONCardLoader {
             case "ObjectScoreType":
                 scoreType = new ObjectScoreType();
                 objectScoreTypeElement = (CardElements) cardObj.get("ObjectScoreType");
-                break;
+                return new GoldResourceCard(Math.toIntExact(cardID), cardElement, frontEdgeResources, Math.toIntExact(scorePoints), requires, scoreType, objectScoreTypeElement);
             case "CoverageScoreType":
                 scoreType = new CoverageScoreType();
                 break;

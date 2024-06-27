@@ -3,11 +3,10 @@ package it.polimi.ingsw.am40.server.network.virtual_view;
 
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
-import it.polimi.ingsw.am40.data.passive.flow.GameIDResultData;
+import it.polimi.ingsw.am40.data.InterruptedGameData;
 import it.polimi.ingsw.am40.server.ActionListener;
 import it.polimi.ingsw.am40.server.ActionPoster;
 import it.polimi.ingsw.am40.server.actions.Action;
-import it.polimi.ingsw.am40.server.actions.active.firstRound.InitializationAction;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
 import it.polimi.ingsw.am40.server.network.RMI.ServerNetworkRMIManager;
 import it.polimi.ingsw.am40.server.network.TCP.ServerNetworkTCPManager;
@@ -47,10 +46,13 @@ public class VVServer implements ActionPoster, ActionListener  {
      */
     private final List<NetworkClient> orphanClients;
 
+    /**
+     * Boolean flag which indicates if the server is running
+     */
     public boolean serverOn;
 
     /**
-     * Attribute introduced to avoid that a great number of clients are connected in the same time
+     * Attribute introduced to monitor the active client number
      */
     public static int activeConnections = 0;
 
@@ -70,7 +72,7 @@ public class VVServer implements ActionPoster, ActionListener  {
      */
     public VVServer() {
         this.concreteNetworkManagers = new ArrayList<>();
-        //FIXME A+S concrete net managers to add to the client in the creation for polymorphism
+
         this.concreteNetworkManagers.add(new ServerNetworkRMIManager(this));
         this.concreteNetworkManagers.add(new ServerNetworkTCPManager(this));
 
@@ -252,6 +254,11 @@ public class VVServer implements ActionPoster, ActionListener  {
         return result;
     }
 
+    /**
+     * Getter to know if a client is already in a party
+     * @param client the network client to search
+     * @return true if it's already logged, false otherwise
+     */
     public boolean isAClientLoggedInAParty(NetworkClient client){
 
         NetworkClient result;
@@ -269,14 +276,26 @@ public class VVServer implements ActionPoster, ActionListener  {
     }
 
 
+
+
     //SETTER METHODS
 
+    /**
+     * Setter for online attribute (set true == online) of a specific client
+     * @param client the client to set online
+     * @throws NonExistentClientException if the client doesn't exist
+     */
     public void setClientOnline(NetworkClient client) throws NonExistentClientException {
         if(this.isAClientLoggedInAParty(client)){
             this.getClientByID(client.getClientID()).setOnline(true);
         }
     }
 
+    /**
+     * Setter for online attribute (set false == offline) of a specific client
+     * @param client the client to set offline
+     * @throws NonExistentClientException if the client doesn't exist
+     */
     public void setClientOffline(NetworkClient client) throws NonExistentClientException {
         if(this.isAClientLoggedInAParty(client)){
             this.getClientByID(client.getClientID()).setOnline(true);
@@ -346,7 +365,7 @@ public class VVServer implements ActionPoster, ActionListener  {
     //"CREATION" METHODS
 
     /**
-     * Method to create a new party
+     * Method to create a generic new party
      * @param totalNumOfClients to set the total number of clients expected for this lobby.
      *                         Once reached, a new game will start
      * @return the PartyID
@@ -357,10 +376,22 @@ public class VVServer implements ActionPoster, ActionListener  {
         return p.getPartyID();
     }
 
-    public int createNewParty(int totalNumOfClients, NetworkClient creator) throws ClientAlreadyLoggedException, NonExistentPartyException, NonExistentClientException {
+    /**
+     * Method to create a new party with more specific information
+     * @param totalNumOfClients the total number of clients of the party
+     * @param creator the client which is the creator of the party
+     * @return the new party partyID
+     * @throws ClientAlreadyLoggedException if the creator is already logged in another party
+     * @throws NonExistentClientException if the creator doesn't exist
+     */
+    public int createNewParty(int totalNumOfClients, NetworkClient creator) throws ClientAlreadyLoggedException, NonExistentClientException {
         NetworkParty p;
         this.activeParties.add(p = new NetworkParty(totalNumOfClients));
-        this.logClientInAParty(p.getPartyID(), creator.getClientID());
+        try {
+            this.logClientInAParty(p.getPartyID(), creator.getClientID());
+        } catch (NonExistentPartyException e) {
+            System.out.println("Problem with the creation of a party");
+        }
         return p.getPartyID();
     }
 
@@ -368,15 +399,15 @@ public class VVServer implements ActionPoster, ActionListener  {
      * Method to create a new client and to add it in the orphan list
      * @return the ClientID
      */
-    public int createNewOrphanClient(Protocol protocol, Socket socket, RemoteInterfaceClient remoteInterface){
+    public synchronized int createNewOrphanClient(Protocol protocol, Socket socket, RemoteInterfaceClient remoteInterface){
         NetworkClient c = new NetworkClient(protocol, socket, remoteInterface, this.concreteNetworkManagers);
         this.orphanClients.add(c);
         return c.getClientID();
     }
 
 
-    //LOG IN AND LOG OUT METHODS
 
+    //LOG IN AND LOG OUT METHODS
 
     /**
      * Method to add a new client to a party.
@@ -411,20 +442,41 @@ public class VVServer implements ActionPoster, ActionListener  {
 
     }
 
+    /**
+     * This method break up a party
+     * @param partyID the party to break up
+     * @param deleterClient the client which has disconnected at first
+     */
+    public void breakUpAParty(int partyID, NetworkClient deleterClient) {
+        try {
+            NetworkParty p = this.getPartyByID(partyID);
+            for(NetworkClient c : p.getClients()){
+                if(c != deleterClient){
+                    this.sendOnNetworkUnicast(c.getClientID(), new InterruptedGameData(c.getUsername()));
+                }
+            }
+        } catch (NonExistentPartyException e) {
+            System.out.println("The party doesn't exist");
+            throw new RuntimeException(e);
+        }
+    }
+
+    //fixme deloggare
+
 
     //INIT METHOD
 
     /**
-     * This method call the initCommunication() method on the Network Managers
-     * //fixme doc
-     * @param portTCP     the port of the server
-     * @param portRMI
+     * This method call the initCommunication() method on the Network Managers and sets hostName and port on the managers.
+     * It also allows to turn off the server application through user input
+     * @param portTCP   the port of the server for RMI
+     * @param portRMI   the port of the server for RMI
      * @param hostName the name of the server
      */
     public void initServer(int portTCP, int portRMI, String hostName) {
 
         for (NetworkManagerServer nm : this.concreteNetworkManagers) {
-            nm.setHostName(hostName);//fixme * ridondanza
+            nm.setHostName(hostName);
             switch(nm.getUsedProtocol()){
                 case RMI -> nm.setPort(portRMI);
                 case TCP -> nm.setPort(portTCP);
@@ -434,8 +486,8 @@ public class VVServer implements ActionPoster, ActionListener  {
             }
             nm.initCommunication();
             //nm.initPing();
+            //fixme 230624S ping
         }
-
 
         this.serverOn = true;
         String input;
@@ -471,8 +523,12 @@ public class VVServer implements ActionPoster, ActionListener  {
         System.exit(0);
 
     }
-    //fixme A+S sistemo roba switch networkManager
 
+    /**
+     * Method to send a data to a specific player
+     * @param playerID (clientID) the ID number of a player
+     * @param data the data packet to send (using jackson encapsulation)
+     */
     public void sendOnNetworkUnicast(int playerID, Data data){
 
         NetworkClient c;
@@ -491,6 +547,11 @@ public class VVServer implements ActionPoster, ActionListener  {
         }
     }
 
+    /**
+     * Method to send data to all the players in a specific party
+     * @param partyID the party in which to send the message
+     * @param data the data to send (jackson)
+     */
     public void sendOnNetworkBroadcastInAParty(int partyID, Data data){
 
         NetworkParty p ;
@@ -505,6 +566,11 @@ public class VVServer implements ActionPoster, ActionListener  {
         }
     }
 
+    /**
+     * Method to send a data to a defined group of players
+     * @param recipients the list of the clientIDs
+     * @param data the data to send
+     */
     public void sendOnNetworkMulticast(List<Integer> recipients, Data data){
         for (Integer i : recipients) {
             try {
@@ -518,6 +584,13 @@ public class VVServer implements ActionPoster, ActionListener  {
 
     }
 
+    /**
+     * Method to send in a network two different message in the same party at the same time
+     * @param partyID the party in which to send the data
+     * @param activePlayerID the player which will receive the active data
+     * @param activeData the active data to send to the active player
+     * @param passiveData the passive data to send to the others
+     */
     public void sendOnNetworkOneActiveOtherPassive(int partyID, int activePlayerID, Data activeData, Data passiveData){
 
         NetworkParty p;
@@ -536,4 +609,6 @@ public class VVServer implements ActionPoster, ActionListener  {
         this.sendOnNetworkUnicast(activePlayerID, activeData);
 
     }
+
+
 }

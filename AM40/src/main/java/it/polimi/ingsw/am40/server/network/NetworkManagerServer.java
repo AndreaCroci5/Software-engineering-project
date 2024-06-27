@@ -79,6 +79,7 @@ public interface NetworkManagerServer {
     void disconnectedClientNotification(NetworkClient client) throws IOException;
 
     void removeClientNotification();//fixme
+
     /**
      * Method to send to a specific client a network message
      * @param message the message to send

@@ -110,4 +110,6 @@ public interface ViewManager extends ConcreteContext {
     void displayNegativePlacing();
 
     void displayPassiveDrawResult(String clientNickname);
+
+    void displayInterruptedGame();
 }

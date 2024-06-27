@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow;
 
 import it.polimi.ingsw.am40.client.ClientMessages.Message;
+import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.flow.CreateRequestData;
 
@@ -17,17 +18,20 @@ public class CreateRequestMessage extends Message {
 
     private final int port;
 
+    private final RemoteInterfaceClient skeleton;
+
     /**
      * Constructor for the CreateMessage
      * This message is the request of the client of creating a new game
      * @param numOfPlayer it's the number of player that the client wants in the new game he created
      */
-    public CreateRequestMessage(String nickname, int numOfPlayer, String ipAddress, int port) {
+    public CreateRequestMessage(String nickname, int numOfPlayer, String ipAddress, int port, RemoteInterfaceClient skeleton) {
         super("CREATE_GAME", nickname);
         this.clientNickname = nickname;
         this.numOfPlayer = numOfPlayer;
         this.IpAddress = ipAddress;
         this.port = port;
+        this.skeleton = skeleton;
     }
 
     /**
@@ -36,8 +40,9 @@ public class CreateRequestMessage extends Message {
      * @return the data that is going to the network
      */
     public Data messageToData() {
-        return new CreateRequestData(this.clientNickname,this.numOfPlayer,this.IpAddress,this.port);
+        return new CreateRequestData(this.clientNickname,this.numOfPlayer,this.IpAddress,this.port,this.skeleton);
     }
+
 
 }
 

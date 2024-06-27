@@ -4,11 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
-import it.polimi.ingsw.am40.data.PingData;
 import it.polimi.ingsw.am40.data.active.flow.CreateRequestData;
 import it.polimi.ingsw.am40.data.active.flow.JoinRequestData;
-import it.polimi.ingsw.am40.data.passive.flow.CreateResultData;
-import it.polimi.ingsw.am40.server.actions.active.setup.GameIDChoiceAction;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
 import it.polimi.ingsw.am40.server.network.virtual_view.*;
 
@@ -68,7 +65,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     //GETTER METHODS
 
     /**
-     * Getter for hostName.
+     * Getter for hostName
      * @return the host name of the server
      */
     @Override
@@ -77,7 +74,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     }
 
     /**
-     * Getter for usedProtocl
+     * Getter for usedProtocol
      * @return the used network protocol (in this case TCP)
      */
     @Override
@@ -157,8 +154,31 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
                             PrintWriter out = nc.getStreams().getOut();
                             Scanner in = nc.getStreams().getIn();
 
-                            Data pingPacket = new PingData();
-                            this.sendSerializedMessage(pingPacket, nc);
+
+                            if(nc.getSocket().isClosed() || !in.hasNextLine()){
+                                try {
+                                    this.disconnectedClientNotification(nc);
+                                    break;
+                                } catch (IOException e) {
+                                    System.out.println("Problem with disconnection");
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+                            out.print("\n");
+                            out.flush();
+                            if(out.checkError()){
+                                try {
+                                    this.disconnectedClientNotification(nc);
+                                    break;
+                                } catch (IOException e) {
+                                    System.out.println("Problem with disconnection");
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+                            //Data pingPacket = new PingData();
+                            //this.sendSerializedMessage(pingPacket, nc);
                             //fixme * problema che potrei ricevere altro
                             //fixme A+S ping with data + set the streams at reconnect
                             System.out.println("ping sent");
@@ -176,7 +196,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
                 }
 
                 try {
-                    Thread.sleep(2000L);
+                    Thread.sleep(3000L);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -263,17 +283,24 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         }
     }
 
+    /**
+     * Method to send to a specific client a network message
+     *
+     * @param message the message to send
+     * @param client  the recipient
+     */
     @Override
     public  void sendSerializedMessage(Data message, NetworkClient client){
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String json = ""; //fixme A+S
+        String json = "";
         try {
             json = objectMapper.writeValueAsString(message);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
         client.getStreams().getOut().println(json);
         client.getStreams().getOut().flush();
         //fixme A+S rimuovere message e end*/
@@ -305,11 +332,11 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
                     // Delegate client handling to ClientHandler
 
-                    //fixme * meccanismo di sessione con hostname
-
                     int clientID = this.newConnectedClientNotification(clientSocket, null);
 
                     ClientHandlerTCP clientHandler = new ClientHandlerTCP(this, clientID);
+
+                    this.mainServerClass.getClientByID(clientID).setClientHandler(clientHandler);
 
                     executor.submit(clientHandler);
 
@@ -320,6 +347,9 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
                     e.printStackTrace();
                     break;
                     //throw new RuntimeException(e);
+                } catch (NonExistentClientException e) {
+                    System.out.println("The client doesn't exist");
+                    throw new RuntimeException(e);
                 }
             }
 
@@ -348,9 +378,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         VVServer.activeConnections++;
         System.out.println("Accepted TCP client");
         System.out.println(VVServer.activeConnections + " clients are logged now");
-        //fixme bind socket e gestione riconnessione client con nickname
 
-        //fixme per fine partita devo fare in modo che si sciolga il party
         return clientID;
     }
 
@@ -368,14 +396,14 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     @Override
     public  void disconnectedClientNotification(NetworkClient client) throws IOException {
 
-        if(client != null && client.isOnline()){
+       /* if(client != null && client.isOnline()){
             try {
                 this.mainServerClass.getOrphanClientByID(client.getClientID());
                 VVServer.activeConnections--;
                 System.out.println("1 client has definitely disconnected from TCP");
 
                client.setOnline(false);
-                System.out.println(VVServer.activeConnections + " clients are logged with TCP now");
+                System.out.println(VVServer.activeConnections + " clients are logged now");
                  client.getSocket().close();
             } catch (NonExistentClientException e) {
                 try {
@@ -391,9 +419,31 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
                 }
             }
 
+        }*/
+
+        for(NetworkClient c : this.mainServerClass.getAllClients()){
+            if(c.getClientID() == client.getClientID()){
+                VVServer.activeConnections--;
+                System.out.println("1 client has definitely disconnected from TCP");
+
+                for(NetworkParty p : this.getMainServerClass().getActiveParties()){
+                    if(p.getClients().contains(c)){
+                        this.mainServerClass.breakUpAParty(p.getPartyID(), c);
+                    }
+                }
+                c.setClientHandler(null);
+                System.out.println(VVServer.activeConnections + " clients are logged now");
+                client.getSocket().close();
+
+            }
         }
-        //fixme chiusura clienthandler
+
     }
+
+    /**
+     * Method used for closing the client handler
+     */
+
 
     @Override
     public void removeClientNotification() {

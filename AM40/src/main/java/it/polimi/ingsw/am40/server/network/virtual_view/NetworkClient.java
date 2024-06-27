@@ -2,6 +2,7 @@ package it.polimi.ingsw.am40.server.network.virtual_view;
 
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
+import it.polimi.ingsw.am40.server.network.TCP.ClientHandlerTCP;
 import it.polimi.ingsw.am40.server.network.TCP.Streams;
 
 import java.net.Socket;
@@ -30,6 +31,9 @@ public class NetworkClient {
      */
     private final Socket socket;
 
+    /**
+     * Remote interface for RMI (if unnecessary, put null)
+     */
     private RemoteInterfaceClient remoteInterface;
 
     /**
@@ -62,9 +66,20 @@ public class NetworkClient {
      */
     private static final Object lock = new Object();
 
+    /**
+     * Streams used for TCP communications
+     */
     private Streams streams;
 
+    /**
+     * Manager for this client
+     */
     private NetworkManagerServer manager;
+
+    /**
+     * Personal client handler for tcp
+     */
+    private ClientHandlerTCP clienthandler;
 
 
 
@@ -82,8 +97,14 @@ public class NetworkClient {
     public NetworkClient(Protocol protocol, Socket socket, RemoteInterfaceClient remoteInterface, List<NetworkManagerServer> managerContainer) {
         //More than one thread could access to this block of code, but each client must have a different ID
         switch (protocol){
-            case TCP -> this.manager = managerContainer.get(1);
-            case RMI -> this.manager = managerContainer.get(0);
+            case TCP -> {
+                this.manager = managerContainer.get(1);
+                break;
+            }
+            case RMI -> {
+                this.manager = managerContainer.get(0);
+                break;
+            }
             case null, default -> throw new RuntimeException();
         }
         synchronized (lock) {
@@ -94,7 +115,7 @@ public class NetworkClient {
         this.remoteInterface = remoteInterface;
         this.socket = socket;
         this.online = true;
-        this.username = null;
+        this.username = " ";
         this.creator = false;
         this.active = false;
     }
@@ -160,17 +181,39 @@ public class NetworkClient {
         return active;
     }
 
+    /**
+     * Getter for the remote interface for RMI
+     * @return the interface as reference
+     */
     public RemoteInterfaceClient getRemoteInterface() {
         return remoteInterface;
     }
 
+    /**
+     * Getter for the manager class
+     * @return the manager as reference
+     */
     public NetworkManagerServer getManager() {
         return manager;
     }
 
+    /**
+     * Getter for the streams for TCP
+     * @return the streams for this client
+     */
     public Streams getStreams() {
         return streams;
     }
+
+    /**
+     * Getter for the clientHandlerTCP for this client
+     * @return the client handler instance as reference
+     */
+    public ClientHandlerTCP getClientHandler() {
+        return clienthandler;
+    }
+
+
 
     //SETTER METHODS
 
@@ -206,21 +249,35 @@ public class NetworkClient {
         this.username = username;
     }
 
-
-
+    /**
+     *  Setter for streams
+     * @param streams the streams for this client
+     */
     public void setStreams(Streams streams) {
         this.streams = streams;
     }
 
-
-
+    /**
+     * Setter for manager
+     * @param manager the manager class reference
+     */
     public void setManager(NetworkManagerServer manager) {
         this.manager = manager;
     }
 
-
-
+    /**
+     * Setter for the remote interface for this client
+     * @param remoteInterface the remote interface for RMI
+     */
     public void setRemoteInterface(RemoteInterfaceClient remoteInterface) {
         this.remoteInterface = remoteInterface;
+    }
+
+    /**
+     * Setter for the client handler
+     * @param clienthandler the client handler for tcp
+     */
+    public void setClientHandler(ClientHandlerTCP clienthandler) {
+        this.clienthandler = clienthandler;
     }
 }

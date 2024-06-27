@@ -611,7 +611,10 @@ public class TUIManager implements ViewManager {
         System.out.println(">Wait for him to finish ");
     }
 
-
+    @Override
+    public void displayInterruptedGame() {
+        System.out.println("GAME HAS BEEN INTERRUPTED BY THE DISCONNECTION OF ANOTHER PLAYER!");
+    }
 
 
 
@@ -844,6 +847,7 @@ public class TUIManager implements ViewManager {
         }
     }
 
+
     private String CardElementsToString(String cardElement) {
         if (  cardElement.equalsIgnoreCase("animal")) {
             return "🐺";
@@ -899,5 +903,7 @@ public class TUIManager implements ViewManager {
         System.out.println("|     |");
         System.out.println(" ----- ");
     }
+
+
 
 }

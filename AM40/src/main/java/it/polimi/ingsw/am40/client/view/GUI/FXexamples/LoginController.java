@@ -5,6 +5,7 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.GameIdChoi
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.JoinRequestMessage;
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.network.ClientNetworkTCPManager;
+import it.polimi.ingsw.am40.client.network.RMI.ClientNetworkRMIManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,11 +143,35 @@ public class LoginController extends GeneralController {
         this.createButton.setDisable(true);
         this.joinButton.setDisable(true);
 
-        //Send the Join request
-        ClientNetworkTCPManager net = (ClientNetworkTCPManager) this.client.getNetworkManager();
-        String ipAddress = net.getSocket().getLocalAddress().getHostAddress();
-        int port = net.getSocket().getLocalPort();
-        this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port));
+
+        String ipAddress = null;
+        int port = -1;
+        ClientNetworkRMIManager rmi = null;
+        ClientNetworkTCPManager tcp = null;
+        switch(this.client.getNetworkManager().getUsedProtocol()){
+            case TCP:
+                tcp = (ClientNetworkTCPManager) this.client.getNetworkManager();
+                ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
+                port = tcp.getSocket().getLocalPort(); //FIXME
+                this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port, null));
+                break;
+            case RMI:
+                rmi = (ClientNetworkRMIManager) this.client.getNetworkManager();
+                try {
+                    InetAddress localhost = InetAddress.getLocalHost();
+                    ipAddress = localhost.getHostAddress();
+                } catch (UnknownHostException e1) {
+                    System.out.println("Error with the IP address");
+                    throw new RuntimeException(e1);
+                }
+                this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port, ((ClientNetworkRMIManager) this.client.getNetworkManager()).getSkeleton()));
+                break;
+            default:
+                System.out.println("Error with the network manager protocol getting");
+                throw new RuntimeException();
+        }
+
+        ;
     }
 
 
@@ -182,11 +209,32 @@ public class LoginController extends GeneralController {
         int sizeParsed = Integer.parseInt(usernameField.getText());
         //TODO add parse exception
 
-        //Send the CreateRequest
-        ClientNetworkTCPManager net = (ClientNetworkTCPManager) this.client.getNetworkManager();
-        String ipAddress = net.getSocket().getLocalAddress().getHostAddress();
-        int port = net.getSocket().getLocalPort();
-        this.client.getNetworkManager().send(new CreateRequestMessage(this.username, sizeParsed, ipAddress, port));
+        String ipAddress = null;
+        int port = -1;
+        ClientNetworkRMIManager rmi = null;
+        ClientNetworkTCPManager tcp = null;
+        switch(this.client.getNetworkManager().getUsedProtocol()){
+            case TCP:
+                tcp = (ClientNetworkTCPManager) this.client.getNetworkManager();
+                ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
+                port = tcp.getSocket().getLocalPort(); //FIXME
+                this.client.getNetworkManager().send(new CreateRequestMessage(this.username,sizeParsed, ipAddress, port, null));
+                break;
+            case RMI:
+                rmi = (ClientNetworkRMIManager) this.client.getNetworkManager();
+                try {
+                    InetAddress localhost = InetAddress.getLocalHost();
+                    ipAddress = localhost.getHostAddress();
+                } catch (UnknownHostException e1) {
+                    System.out.println("Error with the IP address");
+                    throw new RuntimeException(e1);
+                }
+                this.client.getNetworkManager().send(new CreateRequestMessage(this.username, sizeParsed, ipAddress, port, ((ClientNetworkRMIManager) this.client.getNetworkManager()).getSkeleton()));
+                break;
+            default:
+                System.out.println("Error with the network manager protocol getting");
+                throw new RuntimeException();
+        }
     }
 
 

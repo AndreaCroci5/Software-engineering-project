@@ -230,7 +230,7 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
      */
     @Override
     public void sendSerializedMessage(Data message, NetworkClient client) {
-
+        message.doRMI(client.getRemoteInterface(), null);
     }
 
 

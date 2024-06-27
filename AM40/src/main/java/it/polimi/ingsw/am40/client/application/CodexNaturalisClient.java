@@ -2,7 +2,6 @@ package it.polimi.ingsw.am40.client.application;
 
 import it.polimi.ingsw.am40.client.UserInputReader;
 import it.polimi.ingsw.am40.client.network.Client;
-import it.polimi.ingsw.am40.client.network.States.activeStates.SetUpState;
 import it.polimi.ingsw.am40.client.network.States.activeStates.UsernameChoiceState;
 import it.polimi.ingsw.am40.server.application.InvalidArgsPrefsException;
 import it.polimi.ingsw.am40.server.application.InvalidJSONPrefsException;
@@ -127,18 +126,20 @@ public class CodexNaturalisClient {
         }while (retry2);
 
 
-        //launching the application
+        //Launching the application with the right parameters
         client.initApplication(portPrefTCP, portPrefRMI, hostPref, serverPref, network, view);
-
-        // set the first state of the client FSM
         client.setInputReader(new UserInputReader(client));
-        // Creating a new thread to constantly listen for input
+
+        //Creating a new thread to constantly listen for input
         Thread reallyImportantThread = new Thread(client.getInputReader());
         reallyImportantThread.start();
+
+        //Set the first state of the client FSM
         client.setState(new UsernameChoiceState());
         client.getCurrentState().execute(client);
 
     }
+
 
 
     //AUXILIARY CHECK METHODS
@@ -211,16 +212,19 @@ public class CodexNaturalisClient {
             String hostName = (String) prefs.get("hostnameClient");
             String serverAddress = (String) prefs.get("serverAddress");
 
+            //Nullity check
             if(portTCP == null || portRMI == null || hostName == null || serverAddress == null){
                 System.out.println("Loading from JSON file failed");
                 throw new InvalidJSONPrefsException();
             }
 
+            //Validity check of parameters
             if(!checkPort(Integer.parseInt(portTCP.toString())) || !checkPort(Integer.parseInt(portRMI.toString())) || !checkHostName(hostName) || !checkServerAddress(serverAddress)){
                 System.out.println("Loading from JSON file failed");
                 throw new InvalidJSONPrefsException();
             }
 
+            //Creating the list with the read parameters
             List<Object> result = new ArrayList<>();
             result.add(Integer.parseInt(portTCP));
             result.add(Integer.parseInt(portRMI));
@@ -240,31 +244,35 @@ public class CodexNaturalisClient {
 
     /**
      * Method to parse prefs from main args
-     * @return a list of obj (0 - port as Integer, 1 - hostName as String, 2 - server IP address)
+     * @return a list of obj (0 - portTCP as Integer, 1 - portRMI as Integer, 2 - hostName as String, 3 - server IP address)
      * @throws InvalidArgsPrefsException if one or both the parameters are invalid, or if the number
-     *                                     of args is != 3
+     *                                     of args is != 4
      */
     private List<Object> parsingArgsPrefs(String[] args) throws InvalidArgsPrefsException{
         if(args.length == 4) {
-            //Taking port
+
+            //Taking ports
             int portPrefTCP = Integer.parseInt(args[0]);
             int portPrefRMI = Integer.parseInt(args[1]);
 
-            //Taking host name
+            //Taking host name and server address
             String hostPref = args[2];
             String serverPref = args[3];
 
+            //Nullity and validity checks
             if(hostPref == null || serverPref == null || !(checkPort(portPrefTCP) && checkPort(portPrefRMI) && checkHostName(hostPref) && checkServerAddress(serverPref))){
                 System.out.println("Loading from args failed");
                 throw new InvalidArgsPrefsException();
             }
 
+            //Creating the result list with the right parameters
             List<Object> result = new ArrayList<>();
             result.add(portPrefTCP);
             result.add(portPrefRMI);
             result.add(hostPref);
             result.add(serverPref);
             System.out.println("Loading from args succeed");
+
             return result;
 
         } else {
@@ -272,6 +280,7 @@ public class CodexNaturalisClient {
             throw new InvalidArgsPrefsException();
         }
     }
+
 
 
     //AUXILIARY ASKING-PARAMETERS METHODS
@@ -283,8 +292,8 @@ public class CodexNaturalisClient {
      * @throws IllegalValueException if the input is wrong
      */
     private String askParamNetwork(Scanner in) throws IllegalValueException{
-        // Asking the user which network protocol he wants
 
+        // Asking the user which network protocol he wants
         System.out.print("Insert network protocol param (accepted: 'TCP' or 'RMI') : ");
         String networkPref = in.nextLine();
 
@@ -307,8 +316,8 @@ public class CodexNaturalisClient {
      * @throws IllegalValueException if the input is wrong
      */
     private String askParamView(Scanner in) throws IllegalValueException{
-        // Asking the user which view system he wants
 
+        // Asking the user which view system he wants
         System.out.print("Insert view system param (accepted: 'TUI' or 'GUI') : ");
         String networkPref = in.nextLine();
 
@@ -316,7 +325,7 @@ public class CodexNaturalisClient {
         switch (networkPref.toLowerCase()){
             case "tui":
                 break;
-            case "gui": //fixme link with the gui
+            case "gui":
             break;
             default: throw new IllegalValueException();
         }
