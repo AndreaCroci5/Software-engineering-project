@@ -34,8 +34,6 @@ public class InitializationAction extends Action {
     public void doAction(ActionAgent agent){
         Game gameContext = (Game) agent;
         //New Game Creation
-        //TODO card load is missing somewhere, now added in startGame method but game never get set the VVServer as listener
-        // so we need to pass it as an attribute of this Action (RESOLVED, only discuss)
         gameContext.startGame(this.players);
         gameContext.addListener(this.gameListener, gameContext.getListeners());
 
@@ -50,7 +48,6 @@ public class InitializationAction extends Action {
         Map<String, ArrayList<Integer>> commonboard = new HashMap<>();
         //ResourceCards
         ArrayList<Integer> resourceIDs = new ArrayList<>();
-        //FIXME Possible CommonBoard static problem
         resourceIDs.add(CommonBoard.plateResourceCard[0].getCardID());
         resourceIDs.add(CommonBoard.plateResourceCard[1].getCardID());
         resourceIDs.add(gameContext.getCommonBoard().getResourceDeck().peekFirstCard());

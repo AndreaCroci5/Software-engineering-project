@@ -37,8 +37,7 @@ public class DrawAction extends Action {
     public void doAction(ActionAgent agent){
         Game gameContext = (Game) agent;
 
-        //TODO make exceptions --> Negative Draw response and plate and deck emptiness
-        try{
+        try {
 
             //Draw
             gameContext.draw(this.choice, this.selection);

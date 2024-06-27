@@ -314,7 +314,6 @@ public class Game implements ActionPoster {
         this.players.getFirst().setCurrentlyPlaying(true);
     }
 
-    //FIXME FINISH DRAW EXC with plate emptiness check and deck emptiness from draw and make throw a repeat draw exception
     /**
      * This method perform a draw
      * Values of choice and selection comes from the controller, and they're checked there
@@ -324,43 +323,50 @@ public class Game implements ActionPoster {
     public void draw(int choice, int selection) throws RepeatDrawException {
         ResourceCard temp = null;
 
-        switch(choice) {
-            case 0 -> {
-                switch (selection) {
-                    case 0, 1 -> {
-                        temp = commonBoard.pickFromResourcePlate(selection);
-                        commonBoard.addCardToResourcePlate(selection);
-                    }
-                    case 2 -> {
-                        temp = commonBoard.getResourceDeck().pickFromTop();
-                    }
-                    default -> {
-                        throw new RepeatDrawException();
-                    }
-                }
-            }
-            case 1 -> {
-                switch (selection) {
-                    case 0, 1 -> {
-                        temp = commonBoard.pickFromGoldenPlate(selection);
-                        commonBoard.addCardToGoldenPlate(selection);
-                    }
-                    case 2 -> {
-                        temp = commonBoard.getGoldenResourceDeck().pickFromTop();
-                    }
-                    default -> {
-                        throw new RepeatDrawException();
+        try {
+            switch(choice) {
+                case 0 -> {
+                    switch (selection) {
+                        case 0, 1 -> {
+                            temp = commonBoard.pickFromResourcePlate(selection);
+                            commonBoard.addCardToResourcePlate(selection);
+                        }
+                        case 2 -> {
+                            temp = commonBoard.getResourceDeck().pickFromTop();
+                        }
+                        default -> {
+                            throw new RepeatDrawException();
+                        }
                     }
                 }
+                case 1 -> {
+                    switch (selection) {
+                        case 0, 1 -> {
+                            temp = commonBoard.pickFromGoldenPlate(selection);
+                            commonBoard.addCardToGoldenPlate(selection);
+                        }
+                        case 2 -> {
+                            temp = commonBoard.getGoldenResourceDeck().pickFromTop();
+                        }
+                        default -> {
+                            throw new RepeatDrawException();
+                        }
+                    }
+                }
+                default -> {
+                    throw new RepeatDrawException();
+                }
             }
-            default -> {
-                throw new RepeatDrawException();
+
+            if (temp == null) throw new RepeatDrawException();
+
+            for (Player player : players) {
+                if (player.isCurrentlyPlaying()) {
+                    player.getPrivateBoard().addCardToHand(temp);
+                }
             }
-        }
-        for (Player player : players) {
-            if (player.isCurrentlyPlaying()) {
-                player.getPrivateBoard().addCardToHand(temp);
-            }
+        } catch (Exception e) {
+            throw new RepeatDrawException();
         }
     }
 

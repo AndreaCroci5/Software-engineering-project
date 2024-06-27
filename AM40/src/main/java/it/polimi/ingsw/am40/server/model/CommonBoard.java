@@ -182,8 +182,7 @@ public class CommonBoard {
     public GoldResourceCard pickFromGoldenPlate(int selection) {
         return plateGoldenResourceCard[selection];
     }
-    //TODO Add the pickFromTop() part in a else block in the addCardToPlate methods below because the emptiness check
-    // is useless otherwise
+
     /**
      * This method replace the card drawn from the plate with the first card of the resource deck
      * If the deck is empty it set null at the position to be replaced
@@ -193,8 +192,9 @@ public class CommonBoard {
     public void addCardToResourcePlate(int selection) {
         if (resourceDeck.isEmpty()) {
             plateResourceCard[selection] = null;
+        } else {
+            plateResourceCard[selection] = resourceDeck.pickFromTop();
         }
-        plateResourceCard[selection] = resourceDeck.pickFromTop();
     }
 
     /**
