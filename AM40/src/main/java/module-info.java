@@ -7,6 +7,7 @@ module it.polimi.ingsw.am40 {
     requires java.rmi;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
+    requires java.logging;
 
     opens it.polimi.ingsw.am40 to javafx.fxml;
     exports it.polimi.ingsw.am40.server.model;

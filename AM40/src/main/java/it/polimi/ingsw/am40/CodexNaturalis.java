@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class CodexNaturalis {
     public static void main(String[] args) {
-        //TODO add clearscreen
+        CodexNaturalisClient.clearScreen();
         System.out.println("Welcome to Codex Naturalis! What type of instance do you want to launch?");
         System.out.println("0 - Server");
         System.out.println("1 - Client");
@@ -35,7 +35,7 @@ public class CodexNaturalis {
                 System.err.println("Wrong selection. Exiting...");
                 try {
                     Thread.sleep(10000);
-                    //TODO add clearscreen
+                    CodexNaturalisClient.clearScreen();
                 } catch (Exception e) {
                     System.exit(1);
                 }

@@ -16,6 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
@@ -29,6 +31,12 @@ public class CodexNaturalisClient {
      * The path of the file JSON with the preferences
      */
     private static String sourcePrefsFile="ClientPrefs.json";
+
+
+    /**
+     * The logger of the class
+     */
+    private static final Logger logger = Logger.getLogger(CodexNaturalisClient.class.getName());
 
 
 
@@ -139,6 +147,19 @@ public class CodexNaturalisClient {
 
     }
 
+    public static void clearScreen() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else
+                Runtime.getRuntime().exec("clear");
+        } catch (IOException | InterruptedException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
 
     //AUXILIARY CHECK METHODS
