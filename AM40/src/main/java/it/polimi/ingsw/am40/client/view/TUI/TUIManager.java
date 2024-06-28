@@ -20,8 +20,15 @@ public class TUIManager implements ViewManager {
 
     //ATTRIBUTES
 
+    /**
+     * Reference to th client
+     */
     private Client client;
 
+    /**
+     * Constructor for the TUIManger
+     * @param client is the client on which I create the new TUIManager
+     */
     public TUIManager(Client client) {
         this.client = client;
     }
@@ -57,13 +64,7 @@ public class TUIManager implements ViewManager {
     // Initialisation
 
     /**
-     * Displays the initialization message and handles the user input
-     * to either join an existing game or create a new game
-     * If the user chooses to join a game, it returns a JoinMessage
-     * If the user chooses to create a new game
-     * it prompts the user for the number of players and returns a CreateMessage
-     * with the specified number of player.
-     *
+     * Asks for the username
      */
     @Override
     public void displayInitialisation() {
@@ -73,17 +74,27 @@ public class TUIManager implements ViewManager {
 
     }
 
+    /**
+     * Asks if the client want to join or create a game
+     */
     @Override
     public void displaySetUp() {
         System.out.println(">Do you want to join an existing game or create a new game (join/create) ");
     }
 
+    /**
+     * Asks information about the creation
+     */
     @Override
     public void displayCreate() {
         System.out.println(">How many players do you want in your game?");
         System.out.println(">Options are: (2,3,4)");
     }
 
+    /**
+     * Shows all gameIDs of the available games
+     * @param gamesIDs are all the available games
+     */
     @Override
     public void displayAllGameIds(Map<Integer, ArrayList<Integer>> gamesIDs) {
         System.out.println("\n");
@@ -100,6 +111,11 @@ public class TUIManager implements ViewManager {
 
     // First Round
 
+    /**
+     * Displays the starting game screen with player nicknames and the common board
+     * @param nicknames    the list of player nicknames
+     * @param commonBoard  the list of small cards representing the common board
+     */
     @Override
     public void displayStartingGame(ArrayList<String> nicknames, List<SmallCard> commonBoard) {
         System.out.println("\n");
@@ -115,6 +131,10 @@ public class TUIManager implements ViewManager {
     }
 
 
+    /**
+     * Shows the information of the starting card
+     * @param startingCardID is the ID of the starting card
+     */
     @Override
     public void displayStartingCardInfo(int startingCardID) {
         System.out.println("\n");
@@ -129,6 +149,9 @@ public class TUIManager implements ViewManager {
         System.out.println(">To see the symbols legend write: (legend) ");
     }
 
+    /**
+     * Asks on which face the client wants to place the starting card
+     */
     @Override
     public void askStartingFace() {
         System.out.println(">You need to choose on which face you want to place the card");
@@ -136,6 +159,12 @@ public class TUIManager implements ViewManager {
         System.out.println(">Choose the starting card face: (front/back)");
     }
 
+    /**
+     * Show the result of the starting card placement at all the passive clients
+     * @param nickname is the name of the active player
+     * @param startingCardID is the ID of the starting card
+     * @param cardFace is the face on which the client place his starting card
+     */
     @Override
    public void showPassiveStartingCard(String nickname,int startingCardID,String cardFace) {
         System.out.println("\n");
@@ -148,6 +177,10 @@ public class TUIManager implements ViewManager {
         System.out.println(">And he placed it in his " + cardFace + " face");
    }
 
+    /**
+     * Displays the possible tokens that can be chosen by the client
+     * @param tokens the list of possible tokens
+     */
     @Override
     public void displayPossibleTokens(List<String> tokens) {
         System.out.println("\n");
@@ -158,6 +191,10 @@ public class TUIManager implements ViewManager {
     }
 
 
+    /**
+     * Displays the 3 cards in the hand of the client
+     * @param myHand the list of small cards in the player's hand
+     */
     @Override
     public void displayDealCardState(List<SmallCard> myHand) {
         System.out.println("\n");
@@ -166,6 +203,10 @@ public class TUIManager implements ViewManager {
         System.out.println(">Up here you can see the cards in your hand ");
     }
 
+    /**
+     * Displays the aim cards for the user to choose from
+     * @param aimCardsID the IDs of the aim cards to be displayed
+     */
     @Override
     public void displayAimCardsToChoose(List<Integer> aimCardsID) {
         System.out.println("\n");
@@ -182,12 +223,20 @@ public class TUIManager implements ViewManager {
         System.out.println(">Write the ID of the aim card you want to choose: ");
     }
 
+    /**
+     * Shows the passive aim card result to the passive client
+     * @param nickname the nickname of the active client
+     */
     @Override
     public void showPassiveAimCardResult(String nickname) {
         System.out.println("\n");
         System.out.println(">" + nickname + " chose his aim card ");
     }
 
+    /**
+     * Displays the order of the players and description of the round
+     * @param playerOrder the list of player names in the order of their turn
+     */
     @Override
     public void displayPlayerOrder(List<String> playerOrder) {
         System.out.println("\n");
@@ -211,6 +260,11 @@ public class TUIManager implements ViewManager {
 
     // Round
 
+    /**
+     * Display the placing card choice to the user tha has to choose the card to place
+     * @param myHand  the list of small cards in the user's hand
+     * @param myGrid  the list of small cards in the user's grid
+     */
     @Override
     public void displayPlacingCardChoice(List<SmallCard> myHand, List<SmallCard> myGrid) {
         System.out.println("\n");
@@ -225,6 +279,9 @@ public class TUIManager implements ViewManager {
         System.out.println(">Write the ID of the card you want to place: ");
     }
 
+    /**
+     * Asks the user which corner of the card in his board want to cover
+     */
     @Override
     public void displayPlacingCardToCoverChoice(List<SmallCard> myGrid) {
         System.out.println("\n");
@@ -242,6 +299,9 @@ public class TUIManager implements ViewManager {
         System.out.println(">Write the ID of the card on which you want to cover the corner ");
     }
 
+    /**
+     * How to understand the coordinates in the board
+     */
     private void displayGridExample() {
         System.out.println(">To understand how coordinates work: ");
         System.out.println(">So if you see coordinates that has a +1 on the x of another card, that means they're placed on its bottom right corner");
@@ -250,12 +310,18 @@ public class TUIManager implements ViewManager {
         System.out.println(">So if you see coordinates that has a -1 on the y of another card, that means they're placed on its bottom left corner");
     }
 
+    /**
+     * Asks the user which face he wants to place the card on
+     */
     @Override
     public void displayPlacingFaceChoice() {
         System.out.println(">Now you need to choose the face on which you want to place your card ");
         System.out.println(">Choose (front/back)");
     }
 
+    /**
+     * Asks the user which corner of the card in his board want to cover
+     */
     @Override
     public void displayPlacingCornerCover() {
         System.out.println(">What about the corner you want to cover ");
@@ -267,6 +333,10 @@ public class TUIManager implements ViewManager {
     }
 
 
+    /**
+     * Asks where the user want to draw from
+     * @param commonBoard is the commonBoard of the game
+     */
     @Override
     public void displayDrawChoice(List<SmallCard> commonBoard) {
         System.out.println("\n");
@@ -276,11 +346,19 @@ public class TUIManager implements ViewManager {
         System.out.println(">Options are (ResDeck/ResPlate1/ResPlate2/GoldDeck/GoldPlate1/GoldPlate2)");
     }
 
+    /**
+     * Displays the last round message to the client
+     * @param clientNickname the nickname of the active player
+     */
     @Override
     public void displayLastRoundMessage(String clientNickname) {
         System.out.println(">The player: " + clientNickname + " has reached 20 points");
     }
 
+    /**
+     * Displays the end game banner and the names of the winners
+     * @param winners the list of names of the winners
+     */
     @Override
     public void displayEndGame(List<String> winners) {
         if (winners == null) {
@@ -306,6 +384,9 @@ public class TUIManager implements ViewManager {
 
     // Possible inputs
 
+    /**
+     * Displays the possible inputs available to the user
+     */
     @Override
     public void showPossibleInputs() {
         System.out.println(">These are the inputs you can use in order to see the information you want: ");
@@ -320,6 +401,10 @@ public class TUIManager implements ViewManager {
         System.out.println(">To see other player board write: otherBoard");
     }
 
+    /**
+     * Displays the common board, which consists of a list of small cards
+     * @param commonBoard the list of small cards that make up the common board
+     */
     @Override
     public void displayCommonBoard(List<SmallCard> commonBoard) {
         System.out.println(">The cards in the common board are: ");
@@ -349,6 +434,10 @@ public class TUIManager implements ViewManager {
     }
 
 
+    /**
+     * Displays the score board to the user
+     * @param scoreBoard the map containing player names as keys and scores as values
+     */
     @Override
     public void displayScoreBoard(Map<String,Integer> scoreBoard) {
         System.out.println("Scoreboard: ");
@@ -370,6 +459,10 @@ public class TUIManager implements ViewManager {
         }
     }
 
+    /**
+     * Displays the card in my hand
+     * @param myHand the list of small cards in the player's hand
+     */
     @Override
     public void displayMyHand(List<SmallCard> myHand) {
         System.out.println(">The cards in your hand are: ");
@@ -384,18 +477,31 @@ public class TUIManager implements ViewManager {
         }
     }
 
+    /**
+     * Displays the personal aim card to the user
+     * @param card the small card representing the personal aim card
+     */
     @Override
     public void displayPersonalAimCard(SmallCard card) {
         System.out.println(">Your aim card is: ");
         printAimCard(card);
     }
 
+
+    /**
+     * Displays the personal token of the client
+     * @param token the personal token of the client to be displayed
+     */
     @Override
     public void displayPersonalToken(String token) {
         System.out.println(">You have the " + token + " token");
     }
 
 
+    /**
+     * Displays the list of SmallCards representing the personal grid of the player
+     * @param myGrid the list of SmallCards representing the personal grid of the player
+     */
     @Override
     public void displayPersonalGrid(List<SmallCard> myGrid) {
         System.out.println(">This is your personal grid ");
@@ -417,6 +523,11 @@ public class TUIManager implements ViewManager {
         System.out.println("\n");
     }
 
+    /**
+     * Display the information of a starting card
+     * @param card is the starting card
+     * @param face is the face on which it was placed
+     */
     private void displayStartingCardInfo(SmallCard card, String face) {
         System.out.println(">Here are all the card information: ");
         System.out.println("ID of the card: " + card.getCardID());
@@ -428,6 +539,11 @@ public class TUIManager implements ViewManager {
         }
     }
 
+    /**
+     * Displays the grid of other players to the user
+     * @param othersPlayerGrid a map containing the grid of each other player,
+     *                          where the key is the player's name and the value is a list of SmallCards representing their grid.
+     */
     @Override
     public void displayOtherPlayersGrid(Map<String,ArrayList<SmallCard>> othersPlayerGrid) {
         System.out.println(">These are the personal board of the other players: ");
@@ -437,6 +553,10 @@ public class TUIManager implements ViewManager {
         }
     }
 
+    /**
+     * Print a list of SmallCards
+     * @param myGrid is my personal grid
+     */
     private void printListCard(ArrayList<SmallCard> myGrid) {
         System.out.println(">Here are all the card in his personal board");
         for (SmallCard card : myGrid) {
@@ -457,10 +577,16 @@ public class TUIManager implements ViewManager {
         System.out.println("\n");
     }
 
+    /**
+     * Displays the chat in the user interface
+     */
     public void displayChat() {
         System.out.println("\n>TO BE IMPLEMENTED\n");
     }
 
+    /**
+     * This method displays the legend of the symbols used in the game UI
+     */
     @Override
     public void displaySymbolLegend() {
         System.out.println("\uD83D\uDD8B  : INKWELL");
@@ -481,6 +607,9 @@ public class TUIManager implements ViewManager {
 
     // Positive result and errors
 
+    /**
+     * Displays a message indicating that it is not the turn of the current player
+     */
     @Override
     public void showNotYouTurn() {
         System.out.println(">It's not your turn ");
@@ -488,6 +617,11 @@ public class TUIManager implements ViewManager {
     }
 
 
+    /**
+     * Displays the waiting message for players to join the game
+     * @param numOfActualPlayers The number of players currently joined
+     * @param numOfFinalPlayers  The total number of players needed to start the game
+     */
     @Override
     public void displayWaitingForPlayers(int numOfActualPlayers, int numOfFinalPlayers) {
         System.out.println(">Waiting for " + (numOfFinalPlayers - numOfActualPlayers) + " more players to join...");
@@ -498,38 +632,64 @@ public class TUIManager implements ViewManager {
         System.out.println(">The input you send is not a valid input ");
     }
 
+    /**
+     * Displays a message to the client indicating that there are no active parties to join, and they need to create a new game
+     */
     @Override
     public void showNoActiveParties() {
         System.out.println(">There are no active parties, you must create a new game");
     }
 
+    /**
+     * Displays a message to indicate that joining a game with the given game ID has failed
+     * This method is called when an error occurs during the joining process
+     */
     @Override
     public void showFailedGameID() {
         System.out.println(">Something went wrong while joining the game");
     }
 
+    /**
+     * Displays the result of placing the starting card on the UI
+     * @param cardID The ID of the starting card.
+     * @param cardFace The face on which the client placed the starting card.
+     */
     @Override
     public void displayStartingCardResult(int cardID, String cardFace) {
         System.out.println(">Well done, you chose to place your starting card in his " + cardFace + " face");
     }
 
+    /**
+     * Displays the positive token color for a specific client
+     * @param clientNickname the nickname of the client
+     * @param token the color of the token chosen by the client
+     */
     @Override
     public void showPositiveTokenColor(String clientNickname, String token) {
         System.out.println("\n");
         System.out.println(">" + clientNickname + " chose the " + token + " token");
     }
 
+    /**
+     * Displays the positive aim card choice to the user
+     */
     @Override
     public void displayPositiveAimCardChoice() {
         System.out.println(">Well done, you chose your personal aim card ");
         System.out.println(">Remember to create its pattern in order to gain points at the end of the game");
     }
 
+    /**
+     * Show that the placing went good
+     */
     @Override
     public void displayPositivePlacing() {
         System.out.println(">Well done you placed the card ");
     }
 
+    /**
+     * It shows that all went good with the draw
+     */
     @Override
     public void displayPositiveDraw() {
         System.out.println(">Well done you drawn a card ");
@@ -537,6 +697,10 @@ public class TUIManager implements ViewManager {
         System.out.println(">To show all the information you need write : (inputs) ");
     }
 
+    /**
+     * It shows the elements counter in the user private board
+     * @param elementsCounter is the counter of the elements in the client private board
+     */
     @Override
     public void diplayElementsCounter(Map<CardElements, Integer> elementsCounter) {
 
@@ -547,12 +711,18 @@ public class TUIManager implements ViewManager {
         }
     }
 
+    /**
+     * Show that something went wrong with the draw
+     */
     @Override
     public void displayNegativeDraw() {
         System.out.println("\n");
         System.out.println(">Something went wrong with the draw, please choose another card");
     }
 
+    /**
+     * Show that something went wrong with the placing
+     */
     @Override
     public void displayNegativePlacing() {
         System.out.println("\n");
@@ -562,12 +732,20 @@ public class TUIManager implements ViewManager {
         System.out.println("2- The position where you want to place the card is not a valid position ");
     }
 
+    /**
+     * Show that a player draw a card
+     * @param clientNickname is the name of the active client
+     */
     @Override
     public void displayPassiveDrawResult(String clientNickname) {
         System.out.println("\n");
         System.out.println(">" + clientNickname + " drawn a card");
     }
 
+    /**
+     * Show that another player place a card
+     * @param clientNickname is the name of the active client
+     */
     @Override
     public void displayPassivePlacingResult(String clientNickname) {
         System.out.println("\n");
@@ -582,6 +760,10 @@ public class TUIManager implements ViewManager {
 
     // Passive states
 
+    /**
+     * Displays that another player is placing the starting card
+     * @param clientNickname the nickname of the client active client
+     */
     @Override
     public void showPassiveStartingCardState(String clientNickname) {
         System.out.println("\n");
@@ -589,6 +771,10 @@ public class TUIManager implements ViewManager {
         System.out.println(">Wait for him to finish ");
     }
 
+    /**
+     * Shows that another client is choosing a token
+     * @param clientNickname the nickname of the active client
+     */
     @Override
     public void showPassiveTokenState(String clientNickname) {
         System.out.println("\n");
@@ -596,6 +782,10 @@ public class TUIManager implements ViewManager {
         System.out.println(">Wait for him to finish ");
     }
 
+    /**
+     * Displays that another player is choosing his aim card
+     * @param clientNickname the nickname of the active client
+     */
     @Override
     public void showPassiveAimState(String clientNickname) {
         System.out.println("\n");
@@ -603,6 +793,10 @@ public class TUIManager implements ViewManager {
         System.out.println(">Wait for him to finish ");
     }
 
+    /**
+     * Display that another player is placing
+     * @param clientNickname is the name of the active client
+     */
     @Override
     public void displayPassivePlacingState(String clientNickname) {
         System.out.println("\n");
@@ -610,6 +804,9 @@ public class TUIManager implements ViewManager {
         System.out.println(">Wait for him to finish ");
     }
 
+    /**
+     * Show that the game has been interrupted
+     */
     @Override
     public void displayInterruptedGame() {
         printEndGame();
@@ -639,6 +836,9 @@ public class TUIManager implements ViewManager {
                 "                                                                                                                    \n" );
     }
 
+    /**
+     * Print the endGame banner
+     */
     private void printEndGame() {
         System.out.println("\n" +
                 "███████ ███    ██ ██████       ██████   █████  ███    ███ ███████ \n" +
@@ -650,7 +850,10 @@ public class TUIManager implements ViewManager {
                 "                                                                  \n");
     }
 
-    // **TO FINISH**
+    /**
+     * Print the aim card based on its pattern
+     * @param card is the aim card
+     */
     private void printAimCard(SmallCard card) {
         System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
@@ -738,6 +941,10 @@ public class TUIManager implements ViewManager {
         }
     }
 
+    /**
+     * Print the pixel art of the game
+     * @param fileName is the name of the logo file
+     */
     private void printPixelArt(String fileName){
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -758,6 +965,10 @@ public class TUIManager implements ViewManager {
         }
     }
 
+    /**
+     * Print the front face of a gold card
+     * @param card is the gold card
+     */
     private void printGoldFrontFace(SmallCard card) {
         if (card.getScoreType() == null) {
             System.out.println("Points of the card: " + card.getScorePoints());
@@ -788,11 +999,19 @@ public class TUIManager implements ViewManager {
         printResourceFrontFace(card);
     }
 
+    /**
+     * Print the front face of a resource card
+     * @param card is the resource card
+     */
     private void printResourceFrontFace(SmallCard card) {
         System.out.println("Front of the card: ");
         displayEdgeResources(card.getFrontEdgeResources());
     }
 
+    /**
+     * Print the back face of a resource card
+     * @param card is the resource card
+     */
     private void printResourceBackFace(SmallCard card) {
         System.out.println("Back of the card: ");
         System.out.println("Resource in the back center of the card: " + CardElementsToString(card.getCardElement()));
@@ -803,6 +1022,10 @@ public class TUIManager implements ViewManager {
         displayEdgeResources(edgeResources);
     }
 
+    /**
+     * Show the information of a resource card
+     * @param card is the resource card
+     */
     public void displayResourceCard(SmallCard card) {
         System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
@@ -813,6 +1036,10 @@ public class TUIManager implements ViewManager {
         printResourceBackFace(card);
     }
 
+    /**
+     * Show the information of a resource card based on its face
+     * @param card is the resource card
+     */
     public void displayResourceCard(SmallCard card,String face) {
         System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
@@ -828,6 +1055,10 @@ public class TUIManager implements ViewManager {
     }
 
 
+    /**
+     * Show the information of a gold card
+     * @param card is the gold card
+     */
     public void displayGoldCard(SmallCard card) {
         System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
@@ -837,6 +1068,10 @@ public class TUIManager implements ViewManager {
         printResourceBackFace(card);
     }
 
+    /**
+     * Show the information of a gold card based on its face
+     * @param card is the gold card
+     */
     public void displayGoldCard(SmallCard card,String face) {
         System.out.println(">Description of the card: ");
         System.out.println("The ID of the card is " + card.getCardID());
@@ -851,6 +1086,11 @@ public class TUIManager implements ViewManager {
     }
 
 
+    /**
+     * Map the elements of the card in Unicode symbols
+     * @param cardElement is the element of the card
+     * @return a unicode symbols that represents the element
+     */
     private String CardElementsToString(String cardElement) {
         if (  cardElement.equalsIgnoreCase("animal")) {
             return "🐺";
@@ -879,6 +1119,10 @@ public class TUIManager implements ViewManager {
         return "❌";
     }
 
+    /**
+     * Displays the resources on the edges
+     * @param edgeResources are the resources on the edges
+     */
     private void displayEdgeResources(List<String> edgeResources) {
         String resource1 = CardElementsToString(edgeResources.get(0));
         String resource2 = CardElementsToString(edgeResources.get(1));
@@ -888,6 +1132,10 @@ public class TUIManager implements ViewManager {
         System.out.format("%s_____%s%n|      |%n%s_____%s%n", resource1, resource2, resource3, resource4);
     }
 
+    /**
+     * Show the front face of a starting card
+     * @param card is the starting card
+     */
     private void printStartingFrontFace(SmallCard card) {
         System.out.println("Front face of the card:");
         List<String> startingResources = card.getStartingResource().stream().map(this::CardElementsToString).collect(Collectors.toList());
@@ -896,11 +1144,18 @@ public class TUIManager implements ViewManager {
         displayEdgeResources(card.getFrontEdgeResources());
     }
 
+    /**
+     * Show the back face of a starting card
+     * @param card is the starting card
+     */
     private void printStartingBackFace(SmallCard card) {
         System.out.println("Back of the card: ");
         displayEdgeResources(card.getBackEdgeResources());
     }
 
+    /**
+     * Show the aim back card
+     */
     private void printAimBackCard() {
         System.out.println(" _____ ");
         System.out.println("|     |");
