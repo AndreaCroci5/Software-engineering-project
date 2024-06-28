@@ -25,6 +25,9 @@ public class BoardsController extends GeneralController {
 
     //ATTRIBUTES
 
+    /**
+     * Reference to the Client information
+     */
     private Client client;
 
     /**
@@ -36,20 +39,39 @@ public class BoardsController extends GeneralController {
      * Reference to the current scene
      */
     private Scene scene;
+
     /**
      * Reference to the Parent root of the current scene
      */
     private Parent root;
 
+    /**
+     * Reference to the controller of the main Scene of the Game
+     */
     private InGameController primaryController;
 
+    /**
+     * Reference to a Map that keeps saved as key the name of a player and as value the respective token chosen
+     */
     private Map<String, String> playersAndTokens;
 
+    /**
+     * Name of the firstPlayer, in order to assign correctly the black token
+     */
     private String firstPlayer;
 
+    //FXML ATTRIBUTES
+
+    /**
+     * Reference to the GridPane int the top-right corner containing names and ImageViews for the tokens
+     * associated to the players Label
+     */
     @FXML
     private GridPane billBoard;
 
+    /**
+     * Reference to the StackPane containing the current cardGrid visualized (it changes, based on the player chosen)
+     */
     @FXML
     private StackPane cardGrid;
 
@@ -87,10 +109,18 @@ public class BoardsController extends GeneralController {
     }
 
     //METHODS
+
+    /**
+     * This method sets up the scene
+     * @param primaryController is the reference to the controller of the main Scene of the Game
+     * @param playersAndTokens is the reference to a Map that keeps saved as key the name of a player and as value the respective token chosen
+     * @param firstPlayer is the name of the firstPlayer, in order to assign correctly the black token
+     */
     public void sceneSetup (InGameController primaryController, Map<String, String> playersAndTokens, String firstPlayer) {
         this.primaryController = primaryController;
         this.playersAndTokens = playersAndTokens;
         this.firstPlayer = firstPlayer;
+
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         ArrayList<String> playersNames = new ArrayList<>();
         ArrayList<String> tokens = new ArrayList<>();
@@ -112,7 +142,7 @@ public class BoardsController extends GeneralController {
         }
 
 
-        //Player nickname addition
+        //Token addition
         for (int i = 0; i < playersAndTokens.keySet().size(); i++) {
             Node n = this.billBoard.getChildren().get(i+4);
             ImageView tokenImgView = (ImageView) n;
@@ -122,17 +152,28 @@ public class BoardsController extends GeneralController {
 
     }
 
-
+    /**
+     * This method is called when the Client clicks on the backButton and brings the player back to the main scene
+     * @param e is the mouseclick on the backButton
+     */
     @FXML
     public void back(ActionEvent e) {
         this.stage.setScene(this.primaryController.getScene());
     }
 
+    /**
+     * In case a Client decides to see his personal cardGrid by clicking his name he will be brought back to the main scene
+     * @param e is the mouseclick on the Label containing the name of the Client
+     */
     public void showPersonalBoardOnClick(MouseEvent e) {
         this.stage.setScene(this.primaryController.getScene());
     }
 
 
+    /**
+     * This method enables the feature of visualizing a player's cardGrid by clicking on his label in the billBoard
+     * @param e
+     */
     public void showBoardOnClick(MouseEvent e) {
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         Label nameLabel = (Label) e.getSource();
@@ -153,6 +194,7 @@ public class BoardsController extends GeneralController {
             this.cardPlacer(cardToDraw, s.getCoordinates());
             gridShown.getChildren().add(cardToDraw);
         }
+
         //TOKEN
         ImageView tokenImgView = new ImageView();
         this.tokenOnCard(tokenImgView);
@@ -173,7 +215,11 @@ public class BoardsController extends GeneralController {
 
     }
 
-
+    /**
+     * This method places a Card in the cardGrid by rotating the Axis of the Coordinates used for the Game to the JavaFX StackPaneCoordinates
+     * @param cardImgView is the reference to the ImageViewContaining the card to place
+     * @param coords is the reference to desired coordinates to place the card
+     */
     private void cardPlacer(ImageView cardImgView, Coordinates coords) {
 
         int x = coords.getX();
@@ -204,12 +250,20 @@ public class BoardsController extends GeneralController {
 
     }
 
+    /**
+     * Decorator method that resizes a token to be placed on the StartingCard as requirements
+     * @param tokenImgView is the ImageView to resize
+     */
     private void tokenOnCard(ImageView tokenImgView) {
         tokenImgView.setFitHeight(20);
         tokenImgView.setFitWidth(20);
         tokenImgView.setTranslateX(25);
     }
 
+    /**
+     * Decorator method that resizes the black Token to be placed on the StartingCard as requirements
+     * @param blackTokenImgView is the ImageView to resize
+     */
     private void blackTokenOnCard(ImageView blackTokenImgView) {
         blackTokenImgView.setFitHeight(20);
         blackTokenImgView.setFitWidth(20);

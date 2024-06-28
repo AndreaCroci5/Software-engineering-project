@@ -13,7 +13,9 @@ import java.util.List;
 
 public class EndGameController extends GeneralController{
     //ATTRIBUTES
-
+    /**
+     * Reference to the Client information
+     */
     private Client client;
 
     /**
@@ -31,6 +33,10 @@ public class EndGameController extends GeneralController{
     private Parent root;
 
     //FXML ATTRIBUTES
+
+    /**
+     * Reference to the Label showing the event that has occurred
+     */
     @FXML
     private Label primaryEvent;
 
@@ -68,8 +74,12 @@ public class EndGameController extends GeneralController{
     }
 
 
+    /**
+     * Setup of the scene: in case winner is empty or null, the Game has been shutdown by the Server; in other cases
+     * the winner or the winners will be printed on screen
+     * @param winners is the Arraylist containing the winners, or not containing anything (carrying the information of forced game end)
+     */
     public void sceneSetup (List<String> winners) {
-        //fixme check winners == null
         if (winners.isEmpty() || winners == null) {
             this.primaryEvent.setText("The server has interrupted the game...");
         } else if (winners.size() == 1) {
@@ -85,6 +95,10 @@ public class EndGameController extends GeneralController{
         }
     }
 
+    /**
+     * This method closes the Application when clicked
+     * @param e is the mouse click on the quitButton
+     */
     @FXML
     public void quit (ActionEvent e) {
         Platform.exit();

@@ -40,6 +40,13 @@ public class LoginController extends GeneralController {
      */
     private String username;
 
+
+    /**
+     * Reference to a Label put on the top of the scene in order to notify the Client what happened on Server, regarding
+     * the party chosen
+     */
+    private Label eventsNotificator;
+
     /**
      * Reference to the current Stage
      */
@@ -68,6 +75,9 @@ public class LoginController extends GeneralController {
     @FXML
     private Button joinButton;
 
+    /**
+     * FXML reference to the TextField in the center of the screen
+     */
     @FXML
     private TextField usernameField;
 
@@ -83,17 +93,18 @@ public class LoginController extends GeneralController {
     @FXML
     private Button sendButton;
 
+    /**
+     * FXML reference to the label indicating wrong username typed
+     */
     @FXML
     private Label wrongUsername;
 
+    /**
+     * FXML reference to the label indicating an error during the parsing of an integer for the size of party to create
+     * or for the gameID to join
+     */
     @FXML
     private Label parsingError;
-
-    /**
-     * Reference to a Label put on the top of the scene in order to notify the Client what happened on Server, regarding
-     * the party chosen
-     */
-    private Label eventsNotificator;
 
 
     //Getter and Setter
@@ -134,18 +145,19 @@ public class LoginController extends GeneralController {
     //EVENT METHODS
 
     /**
-     * This method is used when a Player wants to Join a party
+     * This method is used when a Player wants to Join a party.
+     * Then, it proceeds to send a JoinRequest to the Server
      * @param e is the mouse click on the joinButton
      */
     @FXML
     public void join(ActionEvent e) {
+        //Set invisible a possible label shown during errors occurred before
         this.parsingError.setVisible(false);
         //Gets the username written by the Client in the TextField
         this.username = this.usernameField.getText();
-        System.out.println(this.username);
-        System.out.println(client.getNickname());
         this.usernameField.clear();
 
+        //Check if username is the same as the one in login
         if (this.username.equals(this.client.getNetworkManager().getHostName())) {
             this.client.setNickname(this.client.getNetworkManager().getHostName());
             this.wrongUsername.setVisible(false);
@@ -153,7 +165,7 @@ public class LoginController extends GeneralController {
             this.createButton.setDisable(true);
             this.joinButton.setDisable(true);
 
-
+            //Creates the Data to send based on the protocol
             String ipAddress = null;
             int port = -1;
             ClientNetworkRMIManager rmi = null;
@@ -161,8 +173,8 @@ public class LoginController extends GeneralController {
             switch(this.client.getNetworkManager().getUsedProtocol()){
                 case TCP:
                     tcp = (ClientNetworkTCPManager) this.client.getNetworkManager();
-                    ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
-                    port = tcp.getSocket().getLocalPort(); //FIXME
+                    ipAddress = tcp.getSocket().getLocalAddress().getHostAddress();
+                    port = tcp.getSocket().getLocalPort();
                     this.client.getNetworkManager().send(new JoinRequestMessage(this.username, ipAddress, port, null));
                     break;
                 case RMI:
@@ -187,7 +199,8 @@ public class LoginController extends GeneralController {
 
 
     /**
-     * This method is used when a Player wants to create a party
+     * This method is used when a Player wants to create a party.
+     * Then, the scene changes in order to insert the size of the party
      * @param e is the mouse click on the createButton
      */
     @FXML
@@ -195,6 +208,8 @@ public class LoginController extends GeneralController {
         //Gets the username written by the Client in the TextField
         this.username = usernameField.getText();
         this.usernameField.clear();
+
+        //Check if username is the same as the one in login
         if (this.username.equals(this.client.getNetworkManager().getHostName())) {
             this.client.setNickname(this.client.getNetworkManager().getHostName());
             //Ask the Client the desired party size
@@ -218,7 +233,9 @@ public class LoginController extends GeneralController {
     }
 
     /**
-     * This method is assigned as onActionEvent for the sendButton after a Client clicks the createButton
+     * This method is assigned as onActionEvent for the sendButton after a Client clicks the createButton.
+     * Then, it sends the size of a party to the Server through a CreateRequest.
+     * If the Client writes a size that isn't acceptable he will be notified
      */
     private void selectSizeOfParty() {
         //Size parsing from the TextField
@@ -229,6 +246,8 @@ public class LoginController extends GeneralController {
             if (sizeParsed<2 || sizeParsed > 4) throw new NumberFormatException();
 
             this.parsingError.setVisible(false);
+
+            //Creates the Data to send based on the protocol
             String ipAddress = null;
             int port = -1;
             ClientNetworkRMIManager rmi = null;
@@ -236,8 +255,8 @@ public class LoginController extends GeneralController {
             switch(this.client.getNetworkManager().getUsedProtocol()){
                 case TCP:
                     tcp = (ClientNetworkTCPManager) this.client.getNetworkManager();
-                    ipAddress = tcp.getSocket().getLocalAddress().getHostAddress(); //FIXME
-                    port = tcp.getSocket().getLocalPort(); //FIXME
+                    ipAddress = tcp.getSocket().getLocalAddress().getHostAddress();
+                    port = tcp.getSocket().getLocalPort();
                     this.client.getNetworkManager().send(new CreateRequestMessage(this.username,sizeParsed, ipAddress, port, null));
                     break;
                 case RMI:
@@ -263,7 +282,9 @@ public class LoginController extends GeneralController {
 
     /**
      * This method is assigned as onActionEvent for the sendButton after a Client receives from the net the list of
-     * the available GameIDs by the method displayAllGameIDs
+     * the available GameIDs by the method displayAllGameIDs.
+     * Then it takes the ID and sends it to the server.
+     * If the Client writes a size that isn't a number he will be notified
      */
     public void gameIDChoice() {
         int gameIDChoice;
@@ -334,8 +355,8 @@ public class LoginController extends GeneralController {
 
     /**
      * This method is called by the GUIManger through override, when the party reaches the required size and through the net arrives at the Client a GameInitData
-     * that triggers a StartingGameMessage
-     *
+     * that triggers a StartingGameMessage.
+     * Then, it proceeds to switch scene to the Game scene
      * @param nicknames are the nicknames chosen by the Players
      * @param resource  is the situation of the ResourceCards in CommonBoard
      * @param golden is the situation of the GoldenResourceCards in CommonBoard
@@ -362,7 +383,10 @@ public class LoginController extends GeneralController {
         this.stage.show();
     }
 
-
+    /**
+     * This method is called by the GUIManger through override, when the Client selects a GameID that isn't available
+     * to be joined, so it reinitialize the scene elements so the Client can choose again
+     */
     @Override
     public void failedGameID() {
         this.parsingError.setVisible(true);
@@ -373,6 +397,11 @@ public class LoginController extends GeneralController {
         this.info.setLayoutX(this.info.getLayoutX()+200);
     }
 
+    /**
+     * This method is called by the GUIManger through override, when the Client wants to join a game and requests
+     * the list of the gameIDs but there are no parties available.
+     * Then, it proceeds to reinitialize the scene elements so the Client can choose again
+     */
     @Override
     public void noActiveParties() {
         this.wrongUsername.setVisible(false);
@@ -386,11 +415,20 @@ public class LoginController extends GeneralController {
     }
 
     //Decorator methods
+
+    /**
+     * This method is a label decorator for the events notificator label
+     * @param l is the label to change
+     */
     private void labelDecorator (Label l) {
         l.setFont(new Font("Papyrus", 20));
         l.setStyle("-fx-text-fill: white;");
     }
 
+    /**
+     * This method is a label decorator for the GameIDs available Label
+     * @param l is the label to change
+     */
     private void labelGameIDsDecorator (Label l) {
         l.setFont(new Font("Papyrus", 13));
         l.setStyle("-fx-background-color: white;\n" +

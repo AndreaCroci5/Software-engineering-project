@@ -34,7 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO add JAVADOC
+/**
+ * This class is the controller of the main Game scene from where the players play the game
+ */
 public class InGameController extends GeneralController {
     //ATTRIBUTES
     /**
@@ -56,24 +58,56 @@ public class InGameController extends GeneralController {
      */
     private Parent root;
 
-
+    /**
+     * Reference to a Group that is displayed in the foreground for the most important event occurring in the scene.
+     * Mostly used during the first round for the setup
+     */
     private Group primaryEvent;
 
+    /**
+     * Reference to a Group that keeps all the tokens sorted inside and represents the token shown on the tab/billboard
+     * in the top right corner of the scene
+     */
     private Group tokenTab;
 
+    /**
+     * Reference to a Group that keeps all the tokens sorted inside and represents the token shown on the scoreboard
+     */
     private Group commonBoardTokens;
 
+    /**
+     * Value of the card chosen to place saved as graphical resource url
+     */
     private String placingChoice;
 
+    /**
+     * Reference to a Group that keeps all the Coordinates prevision sorted inside in order to be easily removed after
+     * the placing decision
+     */
     private Group placingCoordinatesPrevisions;
+
+    /**
+     * Color of the token selected by the Client
+     */
     private String token;
 
+    /**
+     * Reference to a Map that keeps saved as key the name of a player and as value the respective token chosen
+     */
     Map<String, String> playersNameAndToken;
 
+    /**
+     * The name of firstPlayer that has the right to play its turn
+     */
     String firstPlayer;
 
+    /**
+     * Reference to a Group that keep all the cards shown on a grid sorted inside, in order to manage all the children
+     * elements with ease
+     */
     @FXML
     private Group cardPlacedInGrid;
+
 
     //ATTRIBUTES FXML
     /**
@@ -113,27 +147,45 @@ public class InGameController extends GeneralController {
     private ImageView aimCard;
 
     /**
-     * Reference to the Label located in the
+     * Reference to the Label located in the top centre of the Scene that notifies the primary event that is happening
      */
     @FXML
     private Label globalEventLabel;
 
+    /**
+     * Reference to the Label located in the top centre of the Scene that notifies in which turn the players are currently in
+     */
     @FXML
     private Label turnEventLabel;
 
+    /**
+     * Reference to the scoreBoard Pane located in the top left corner of the scene, from where the global scores are
+     * shown
+     */
     @FXML
     private Pane scoreBoard;
 
+    /**
+     * Reference to the button that allows the Client to see the other players cardGrid situation
+     */
     @FXML
     private Button boardsButton;
 
-
+    /**
+     * Reference to the StackPane containing the Client's cardGrid
+     */
     @FXML
     private StackPane cardGrid;
 
+    /**
+     * Reference to the quitButton that allows the Client to quit the Game
+     */
     @FXML
     private Button quitButton;
 
+    /**
+     * Reference to the Label that is shown when the final rounds condition is triggered
+     */
     @FXML
     private Label finalRounds;
 
@@ -177,17 +229,27 @@ public class InGameController extends GeneralController {
 
     //EVENT METHODS
 
+    //FXML INJECTION
 
     @FXML
     public void chat() {
 
     }
 
+    /**
+     * This method is used when a player wants to quit and clicks on the quitButton
+     * @param e is the mouseClick on the quitButton
+     * @throws IOException in case of an input exception
+     */
     @FXML
     public void quit (ActionEvent e) throws IOException {
         this.client.getNetworkManager().send(new ClientDisconnectedMessage(this.client.getNickname()));
     }
 
+    /**
+     * This method is used when a player wants to flip the face of the cards in his handDeck
+     * @param e is the mouseClick on the faceButton
+     */
     @FXML
     public void face(ActionEvent e) {
         if (this.cardFaceShown) this.cardFaceShown = false;
@@ -195,6 +257,10 @@ public class InGameController extends GeneralController {
         this.updateHandDeck(this.getIDsFromHandDeck());
     }
 
+    /**
+     * This method is used when a player wants to see the other players cardGrid situation
+     * @throws IOException is the exception thrown in case of an error in loading the fxml file
+     */
     @FXML
     public void boards() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/boards.fxml"));
@@ -216,6 +282,8 @@ public class InGameController extends GeneralController {
         this.stage.show();
     }
 
+    //EVENT METHODS
+    //FIRST ROUND
 
     /**
      * This method is called when the Game is starting in order to load the first graphical components
@@ -224,7 +292,7 @@ public class InGameController extends GeneralController {
      * @param golden is a reference to a List containing the IDs of CommonBoard GoldenResourceCards
      * @param aim is a reference to a List containing the IDs of CommonBoard AimCards
      */
-    public void startingSetup(ArrayList<String> nicknames,  List<Integer> resource, List<Integer> golden, List<Integer> aim) {
+    public void startingSetup (ArrayList<String> nicknames,  List<Integer> resource, List<Integer> golden, List<Integer> aim) {
         //PlayersTAB Update
         for (int i = 0; i < nicknames.size(); i++) {
             Label playerLabel =(Label) this.playersTab.getChildren().get(i);
@@ -237,7 +305,7 @@ public class InGameController extends GeneralController {
         this.deactivateCommonBoard();
         //Deactivate the FaceButton
         this.faceButton.setDisable(true);
-        //
+        //Deactivate the boardsButton
         this.boardsButton.setDisable(true);
         //Initialize the primaryEventGroup
         this.primaryEvent = new Group();
@@ -252,7 +320,11 @@ public class InGameController extends GeneralController {
         paneToOperate.getChildren().add(this.commonBoardTokens);
     }
 
-
+    /**
+     * This method is called when a player selects the face on which he wants to play the StartingCard previously
+     * displayed on screen and sends the result to the server
+     * @param e is the mouseClick on the StartingCard face Imageview
+     */
     public void startingCardSelection (MouseEvent e) {
         this.globalEventLabel.setText("");
         ImageView panel = (ImageView) e.getSource();
@@ -268,12 +340,15 @@ public class InGameController extends GeneralController {
         this.client.getNetworkManager().send(new StartingCardChoiceMessage(client.getNickname(), cardFace));
     }
 
-
+    /**
+     * This method is called when a player selects the color of his Token previously displayed on screen
+     * and sends the result to the server
+     * @param e is the mouseClick on the token Imageview
+     */
     public void tokenSelection (MouseEvent e) {
         this.globalEventLabel.setText("");
         ImageView panel = (ImageView) e.getSource();
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
-        //FIXME for, make it for each by putting the tokens in the last node
         String color = fetcher.tokenFromURL(panel.getId());
         this.token = color;
         //TOKEN
@@ -290,7 +365,11 @@ public class InGameController extends GeneralController {
     }
 
 
-
+    /**
+     * This method is called when a player selects which AimCard he wants to keep from the two AimCards previously displayed
+     * and sends the result to the server
+     * @param e is the mouseClick on the AimCard face Imageview
+     */
     public void aimCardSelection (MouseEvent e) {
         this.globalEventLabel.setText("");
         ImageView panel = (ImageView) e.getSource();
@@ -311,8 +390,16 @@ public class InGameController extends GeneralController {
 
 
     //NET METHODS
+    //FIRST ROUND
+
+    /**
+     * This method is called by override from the GUI manager after the net notifies the client with the information regarding
+     * his StartingCard.
+     * This method proceed to show the StartingCard faces and assigns the respective onClick event behaviour to the imageView shown
+     * @param cardID is the ID of the StartingCard
+     */
     @Override
-    public void startingCardInfo(int cardID) {
+    public void startingCardInfo (int cardID) {
         this.globalEventLabel.setText("Choose a StartingCard");
 
         Pane paneToOperate = (Pane) this.root;
@@ -326,15 +413,17 @@ public class InGameController extends GeneralController {
         startingCardFront.setFitWidth(110);
         startingCardFront.setX(350);
         startingCardFront.setY(150);
+
         ImageView startingCardBack = new ImageView(backCard);
         startingCardBack.setFitHeight(73);
         startingCardBack.setFitWidth(110);
         startingCardBack.setX(570);
         startingCardBack.setY(150);
+
         startingCardBack.setId(fetcher.findCardResource(cardID, "BACK"));
         startingCardFront.setId(fetcher.findCardResource(cardID, "FRONT"));
-        startingCardFront.setOnMouseClicked(this::startingCardSelection);
 
+        startingCardFront.setOnMouseClicked(this::startingCardSelection);
         startingCardBack.setOnMouseClicked(this::startingCardSelection);
 
         this.primaryEvent.getChildren().add(this.eventRectangleCreator());
@@ -344,16 +433,24 @@ public class InGameController extends GeneralController {
         paneToOperate.getChildren().add(this.primaryEvent);
     }
 
-
+    /**
+     * This method is called by the GUI manager through override when another player is choosing his StartingCard
+     * @param nickname is the nickname of the player that is choosing his StartingCard
+     */
     @Override
     public void showPassiveStartingCard (String nickname) {
         this.globalEventLabel.setText(nickname + " is choosing his Starting Card");
     }
 
 
-
+    /**
+     * This method is called through override from the GUI manager after the net notifies the client with the information regarding
+     * the colors available for the Token.
+     * This method proceeds to show the Tokens remaining and assigns the respective onClick event behaviour to the imageView shown
+     * @param tokens are the remaining colors
+     */
     @Override
-    public void tokenInfo(List<String> tokens) {
+    public void tokenInfo (List<String> tokens) {
         this.globalEventLabel.setText("Choose a Token");
         Pane paneToOperate = (Pane) this.root;
         this.primaryEvent = new Group();
@@ -376,11 +473,22 @@ public class InGameController extends GeneralController {
 
     }
 
+    /**
+     * This method is called by the GUI manager through override when another player is choosing his Token
+     * @param nickname is the nickname of the player that is choosing his Token
+     */
     @Override
     public void showPassiveToken (String nickname) {
         this.globalEventLabel.setText(nickname + " is choosing his Token");
     }
 
+    /**
+     * This method is called by the GUI manager through override when the Server confirms the color selection of the token
+     * made by a Player, including the Client
+     * @param clientNickname is the name of the Player that has just chosen the Token
+     * @param token is the color of the Token
+     */
+    @Override
     public void acceptedToken (String clientNickname, String token) {
         this.globalEventLabel.setText("");
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
@@ -399,6 +507,7 @@ public class InGameController extends GeneralController {
         Image colorImg = new Image(getClass().getResourceAsStream(fetcher.findTokenResource(token)));
         billBoardToken.setImage(colorImg);
         billBoardToken.setId(clientNickname);
+
         this.playersNameAndToken.put(clientNickname, token);
         this.tokenTab.getChildren().add(billBoardToken);
 
@@ -417,7 +526,11 @@ public class InGameController extends GeneralController {
         tokenLocation.getChildren().add(scoreBoardToken);
     }
 
-
+    /**
+     * This method is called by the GUI manager through override when the Server responds to the dealCards request from
+     * the client with the information of the cards that the client got
+     * @param handDeckIDs is a reference to an ArrayList containing the ID of the cards in the Client handDeck
+     */
     @Override
     public void dealCards (ArrayList<Integer> handDeckIDs) {
         this.globalEventLabel.setText("Cards dealing");
@@ -461,8 +574,14 @@ public class InGameController extends GeneralController {
     }
 
 
+    /**
+     * This method is called by override from the GUI manager after the net notifies the client with the information regarding
+     * his AimCards.
+     * This method proceeds to show the two AimCards on screen and assigns the respective onClick event behaviour to the imageView shown
+     * @param aimIDs is a reference to a List containing the IDs of the AimCards
+     */
     @Override
-    public void aimCardsInfo(List<Integer> aimIDs) {
+    public void aimCardsInfo (List<Integer> aimIDs) {
         this.globalEventLabel.setText("Choose an AimCard");
         this.primaryEvent = new Group();
         Pane paneToOperate = (Pane) this.root;
@@ -475,16 +594,17 @@ public class InGameController extends GeneralController {
         aimCard1.setFitWidth(110);
         aimCard1.setX(350);
         aimCard1.setY(150);
+
         ImageView aimCard2 = new ImageView(aimImg2);
         aimCard2.setFitHeight(73);
         aimCard2.setFitWidth(110);
         aimCard2.setX(570);
         aimCard2.setY(150);
+
         aimCard1.setId(fetcher.findCardResource(aimIDs.getFirst(), "FRONT"));
         aimCard2.setId(fetcher.findCardResource(aimIDs.getLast(), "FRONT"));
 
         aimCard1.setOnMouseClicked(this::aimCardSelection);
-
         aimCard2.setOnMouseClicked(this::aimCardSelection);
 
         this.primaryEvent.getChildren().add(this.eventRectangleCreator());
@@ -493,68 +613,52 @@ public class InGameController extends GeneralController {
         paneToOperate.getChildren().add(this.primaryEvent);
     }
 
-
+    /**
+     * This method is called by the GUI manager through override when another player is choosing his AimCard
+     * @param nickname is the nickname of the player that is choosing his AimCard
+     */
     @Override
     public void showPassiveAimCard (String nickname) {
         this.globalEventLabel.setText(nickname + " is choosing his AimCard");
     }
 
+    /**
+     * This method is called by override from the GUI manager after the net notifies the clients with the information regarding
+     * the new playersOrder ongoing for the rest of the Game
+     * @param namesInOrder is a reference to a List containing the names of the player sorted by their turn's right to play
+     */
     @Override
-    public void playersOrder(List<String> namesInOrder) {
+    public void playersOrder (List<String> namesInOrder) {
         for (int i = 0; i < namesInOrder.size(); i++) {
             Label playerLabel = (Label) this.playersTab.getChildren().get(i);
             playerLabel.setId(namesInOrder.get(i));
             playerLabel.setText(namesInOrder.get(i));
         }
         this.firstPlayer = namesInOrder.getFirst();
+
         this.rearrangeTokenOnBillBoard();
+
         this.globalEventLabel.setText(namesInOrder.getFirst() + " is playing...");
         this.turnEventLabel.setText(namesInOrder.getFirst() + "'s turn");
+
         this.boardsButton.setDisable(false);
+
         this.cardGridUpdate();
     }
 
 
-
+    //EVENT METHODS
     //ROUND
 
-    @Override
-    public void placing (List<Integer> myHand, List<SmallCard> myGrid) {
-        this.globalEventLabel.setText("Select a Card to place from your hand");
-        this.turnEventLabel.setText(client.getNickname() + "'s turn");
-        this.updateHandDeck(myHand);
-        for (Node n : this.handDeck.getChildren()) {
-            ImageView card = (ImageView) n;
-            card.setDisable(false);
-        }
-    }
-
-    @Override
-    public void positivePlacing () {
-        this.cardGridUpdate();
-
-        //FIXME ADD NULL CARD WHEN UPGRADE HERE
-        /*
-        List<Integer> handDeck = new ArrayList<>();
-        for (SmallCard sC : this.client.getSmallModel().getMyHand()) {
-            handDeck.add(sC.getCardID());
-        }
-
-        this.updateHandDeck(handDeck);
-
-         */
-        this.updateScoreBoard(this.client.getNickname());
-        this.disableHandDeck();
-        this.activateCommonBoard();
-        this.globalEventLabel.setText("Draw a Card");
-    }
-
+    /**
+     * This method is called when the Client chooses what card he wants to place, the scene draws the possible coordinates
+     * @param e is the click on the Card Imageview in handDeck
+     */
     private void placingCardSelection (MouseEvent e) {
         this.globalEventLabel.setText("Select the Coordinates");
         ImageView panel = (ImageView) e.getSource();
 
         this.placingChoice = panel.getId();
-        System.out.println("Placing selection " + this.placingChoice);
 
         this.disableHandDeck();
 
@@ -567,16 +671,24 @@ public class InGameController extends GeneralController {
             int x = coordinates.getX();
             int y = coordinates.getY();
             coordsPrevision = new Label("(" + x + "," + y + ")");
+
             this.coordinatePrevisionDecorator(coordsPrevision);
             this.coordinatesPrevisionsLocation(coordsPrevision, coordinates);
+
             coordsPrevision.setOnMouseClicked(this::coordinatesSelection);
+
             this.placingCoordinatesPrevisions.getChildren().add(coordsPrevision);
         }
 
         this.cardGrid.getChildren().add(this.placingCoordinatesPrevisions);
     }
 
-
+    /**
+     * This method is called when the Client decides where to place the card chosen in his on handDeck by clicking
+     * one of the Coordinates previsions.
+     * This method, then, proceeds to notify the server
+     * @param e is the click on the Coordinates Label in cardGrid
+     */
     private void coordinatesSelection (MouseEvent e) {
         Label coordsChosenLabel = (Label) e.getSource();
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
@@ -586,6 +698,7 @@ public class InGameController extends GeneralController {
             ImageView card = (ImageView) this.handDeck.getChildren().get(i);
             if (this.placingChoice.equals(card.getId())) handCardChoice = i;
         }
+
         Coordinates coordsChosen = fetcher.coordinatesFromString(coordsChosenLabel.getText());
         String cardFace = fetcher.faceFromURL(this.placingChoice);
 
@@ -594,7 +707,100 @@ public class InGameController extends GeneralController {
         this.client.getNetworkManager().send(new PlacingMessage(client.getNickname(), handCardChoice, coordsChosen,cardFace));
     }
 
+    /**
+     * This method is called when the Client chooses what Card draw from the CommonBoard and then proceeds to notify the Server
+     * @param e is the click on the Card Imageview in CommonBoard
+     */
+    private void drawSelection (MouseEvent e) {
+        ImageView cardSelected = (ImageView) e.getSource();
 
+        String url = cardSelected.getId();
+
+        String choice = this.choiceDrawSelector(url);
+        int selection = this.selectionDrawSelector(url);
+
+        this.deactivateCommonBoard();
+
+        this.client.getNetworkManager().send(new DrawMessage(client.getNickname(), choice, selection));
+
+    }
+
+    //NET METHODS
+    //ROUND
+
+    /**
+     * This method is called by the GUI manager through override when the Client has the right to place a card on the grid.
+     * It enables the placing functions on the handDeck
+     * @param myHand is a reference to a List containing the card IDs of the Client handDeck
+     * @param myGrid is a reference to a List containing the cards in the Client cardGrid
+     */
+    @Override
+    public void placing (List<Integer> myHand, List<SmallCard> myGrid) {
+        this.globalEventLabel.setText("Select a Card to place from your hand");
+        this.turnEventLabel.setText(client.getNickname() + "'s turn");
+        this.updateHandDeck(myHand);
+        for (Node n : this.handDeck.getChildren()) {
+            ImageView card = (ImageView) n;
+            card.setDisable(false);
+        }
+    }
+
+    /**
+     * This method is called by the GUI manager through override when the Client placing has got a positive feedback by
+     * the server.
+     * Then, it proceeds to enable the draw function for the CommonBoard
+     */
+    @Override
+    public void positivePlacing () {
+        this.cardGridUpdate();
+
+        this.updateScoreBoard(this.client.getNickname());
+        this.disableHandDeck();
+        this.activateCommonBoard();
+        this.globalEventLabel.setText("Draw a Card");
+    }
+
+    /**
+     * This method is called by the GUI manager through override when the Client placing has got a negative feedback by
+     * the server.
+     * Then, it proceeds to enable again the placing feature from the Client handDeck
+     */
+    @Override
+    public void negativePlacing() {
+        this.globalEventLabel.setText("Something went wrong during the placing... Try again");
+        for (Node n : this.handDeck.getChildren()) {
+            ImageView card = (ImageView) n;
+            card.setDisable(false);
+        }
+    }
+
+    /**
+     * This method is called by the GUI manager through override when another player is placing a card
+     * @param nickname is the nickname of the player that is active in the current turn
+     */
+    @Override
+    public void passivePlacingState(String nickname) {
+        this.globalEventLabel.setText(nickname + " is playing...");
+        this.turnEventLabel.setText(nickname + "'s turn");
+    }
+
+    /**
+     * This method is called by the GUI manager through override when another player has placed a card.
+     * Then, it proceeds to refresh the score of everyone on the scoreboard to check differences
+     * @param nickname is the nickname of the player that is active in the current turn
+     */
+    @Override
+    public void passivePlacingResult (String nickname) {
+        this.updateScoreBoard(nickname);
+    }
+
+    /**
+     * This method is called by the GUI manager through override when a draw has given a positive feedback from the server.
+     * Then, it proceeds to refresh the CommonBoard and the handDeck
+     * @param resource is the reference to a List containing the resource deck and plate cards IDs
+     * @param golden is the reference to a List containing the golden deck and plate cards IDs
+     * @param aim is the reference to a List containing the aim deck and plate cards IDs
+     */
     @Override
     public void positiveDraw (List<Integer> resource, List<Integer> golden, List<Integer> aim) {
         this.updateCommonBoard(resource, golden, aim);
@@ -605,39 +811,71 @@ public class InGameController extends GeneralController {
         this.updateHandDeck(handDeck);
     }
 
+    /**
+     * This method is called by the GUI manager through override when another player has made a draw.
+     * Then, it proceeds to refresh the CommonBoard
+     * @param resource is the reference to a List containing the resource deck and plate cards IDs
+     * @param golden is the reference to a List containing the golden deck and plate cards IDs
+     * @param aim is the reference to a List containing the aim deck and plate cards IDs
+     */
     @Override
     public void passiveDraw(List<Integer> resource, List<Integer> golden, List<Integer> aim) {
         this.updateCommonBoard(resource, golden, aim);
     }
 
-    @Override
-    public void negativePlacing() {
-        this.globalEventLabel.setText("Something went wrong during the placing... Try again");
-        for (Node n : this.handDeck.getChildren()) {
-            ImageView card = (ImageView) n;
-            card.setDisable(false);
-        }
-    }
-
+    /**
+     * This method is called by the GUI manager through override when a draw has given a negative feedback from the server.
+     * Then, it proceeds to enable again the CommonBoard draw feature in the Cards ImageView
+     */
     @Override
     public void negativeDraw() {
         activateCommonBoard();
     }
 
+
+    /**
+     * This method is called by the GUI manager through override when the lastRounds condition is triggered.
+     * It proceeds to show a special label on the screen as a marker of the event
+     * @param nickname is the name of the client that triggered the lastRounds condition
+     */
     @Override
-    public void passivePlacingState(String nickname) {
-        this.globalEventLabel.setText(nickname + " is playing...");
-        this.turnEventLabel.setText(nickname + "'s turn");
+    public void lastRounds (String nickname) {
+        this.finalRounds.setVisible(true);
     }
 
+    /**
+     * This method is called by the GUI manager through override when the endgame is reached, so the lastRounds ended.
+     * It proceeds to switch scene and announce the winners
+     * @param winners is a reference to the List containing the names of the winners
+     * @throws IOException in case the endgame.fxml is not correctly loaded
+     */
     @Override
-    public void passivePlacingResult (String nickname) {
-        this.updateScoreBoard(nickname);
+    public void endGame(List<String> winners) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/endgame.fxml"));
+        this.root = fxmlLoader.load();
+
+        this.scene = new Scene(root);
+        EndGameController endgameController = fxmlLoader.getController();
+        endgameController.setClient(this.client);
+        HelloApplication.controller = endgameController;
+        this.stage.setScene(this.scene);
+
+        endgameController.setStage(this.stage);
+        endgameController.setScene(this.scene);
+        endgameController.setRoot(this.root);
+        endgameController.sceneSetup(winners);
+
+        this.stage.show();
     }
-    //Utility methods
 
+    //UTILITY METHODS
 
-    //FIXME remove all these fetchers initialization
+    /**
+     * This method updates the CommonBoard on the GUI when invoked
+     * @param resource is the reference to a List containing the resource deck and plate cards IDs
+     * @param golden is the reference to a List containing the golden deck and plate cards IDs
+     * @param aim is the reference to a List containing the aim deck and plate cards IDs
+     */
     @Override
     public void updateCommonBoard( List<Integer> resource, List<Integer> golden, List<Integer> aim) {
         //Resource
@@ -689,7 +927,10 @@ public class InGameController extends GeneralController {
         }
     }
 
-
+    /**
+     * This method updates the handDeck on the GUI when invoked
+     * @param handDeckIDs is a reference to a List containing the card IDs of the Client handDeck
+     */
     public void updateHandDeck (List<Integer> handDeckIDs) {
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
         if (handDeckIDs.size()>2) {
@@ -721,7 +962,10 @@ public class InGameController extends GeneralController {
         }
     }
 
-
+    /**
+     * This method creates an Arraylist of cardIDs referring to the IDs on the handDeck
+     * @return an Arraylist of cardIDs referring to the IDs on the handDeck
+     */
     private ArrayList<Integer> getIDsFromHandDeck() {
         ArrayList<Integer> handDeckIDs = new ArrayList<>();
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
@@ -732,6 +976,11 @@ public class InGameController extends GeneralController {
         return handDeckIDs;
     }
 
+    /**
+     * This method creates a rectangle responsible to catch the eye during the first round and to give a background
+     * to the primary events (StartingCard, Token and AimCard selection)
+     * @return a decorated Rectangle
+     */
     private Rectangle eventRectangleCreator() {
         Rectangle r = new Rectangle(389,200, Paint.valueOf("white"));
         r.setLayoutX(319);
@@ -739,6 +988,10 @@ public class InGameController extends GeneralController {
         return r;
     }
 
+    /**
+     * This method, when invoked, changes the order of the token in the billboard as a consequence of the DecidePlayerOrder
+     * event in the Game
+     */
     private void rearrangeTokenOnBillBoard () {
         for (Node n: this.tokenTab.getChildren()) {
             ImageView tokenImgView = (ImageView) n;
@@ -752,8 +1005,22 @@ public class InGameController extends GeneralController {
         }
     }
 
+    /**
+     * This method, when invoked, disables the placing feature for the handDeck cards
+     */
+    private void disableHandDeck() {
+        for (Node n : this.handDeck.getChildren()) {
+            ImageView handCard = (ImageView) n;
+            handCard.setDisable(true);
+        }
+    }
+
+    /**
+     * This method redraws the personal cardGrid when invoked
+     */
     private void cardGridUpdate() {
-            this.cardGrid.getChildren().removeLast();
+        //CardGrid
+        this.cardGrid.getChildren().removeLast();
         List<SmallCard> cardGrid = new ArrayList<>(this.client.getSmallModel().getMyGrid());
         this.cardPlacedInGrid = new Group();
         GraphicResourceFetcher fetcher = new GraphicResourceFetcher();
@@ -762,7 +1029,6 @@ public class InGameController extends GeneralController {
             cardToDraw.setFitWidth(72);
             cardToDraw.setFitHeight(48);
             Image cardImg = new Image(getClass().getResourceAsStream(fetcher.findCardResource(s.getCardID(), s.getFace())));
-            System.out.println(fetcher.findCardResource(s.getCardID(), s.getFace()));
                 cardToDraw.setImage(cardImg);
             this.placeCard(cardToDraw, s.getCoordinates());
         }
@@ -783,7 +1049,9 @@ public class InGameController extends GeneralController {
         this.cardGrid.getChildren().add(this.cardPlacedInGrid);
     }
 
-
+    /**
+     * This method, when invoked, set the commonBoard draw feature for the ImageViews
+     */
     private void setCommonBoardActions() {
         for (int i = 0; i < 6; i++) {
             ImageView card = (ImageView) this.commonBoard.getChildren().get(i);
@@ -792,21 +1060,9 @@ public class InGameController extends GeneralController {
         }
     }
 
-
-    private void drawSelection(MouseEvent e) {
-        ImageView cardSelected = (ImageView) e.getSource();
-
-        String url = cardSelected.getId();
-
-        String choice = this.choiceDrawSelector(url);
-        int selection = this.selectionDrawSelector(url);
-
-        this.deactivateCommonBoard();
-
-        this.client.getNetworkManager().send(new DrawMessage(client.getNickname(), choice, selection));
-
-    }
-
+    /**
+     * This method, when invoked, enables the commonBoard draw feature for the ImageViews
+     */
     private void activateCommonBoard() {
         for (int i = 0; i < 6; i++) {
             ImageView card = (ImageView) this.commonBoard.getChildren().get(i);
@@ -814,6 +1070,9 @@ public class InGameController extends GeneralController {
         }
     }
 
+    /**
+     * This method, when invoked, disables the commonBoard draw feature for the ImageViews
+     */
     private void deactivateCommonBoard() {
         for (int i = 0; i < 6; i++) {
             ImageView card = (ImageView) this.commonBoard.getChildren().get(i);
@@ -821,8 +1080,14 @@ public class InGameController extends GeneralController {
         }
     }
 
+    /**
+     * This method creates a String by confronting the commonBoard Children IDs with the url to catch
+     * from which type of cards is the Client making the draw: resource or golden.
+     * Then it proceeds to format the result to the draw message choice String
+     * @param url is the ID of the Card in the commonBoard on which we want to check
+     * @return "res" or "gold" depending on where the Client has drawn the Card
+     */
     private String choiceDrawSelector(String url) {
-        System.out.println(url);
         int choice = -1;
         for (int i=0; i<6; i++) {
             if (url.equals(this.commonBoard.getChildren().get(i).getId()))
@@ -833,13 +1098,17 @@ public class InGameController extends GeneralController {
         } else if (choice>=3 && choice<6) {
             return "gold";
         } else {
-            //FIXME this serves as a checker
             return null;
         }
     }
 
+    /** This method creates an int by confronting the commonBoard Children IDs with the url to catch
+     * from which position is the Client making the draw: Deck (2), Plate(0), Plate(1)
+     * Then it proceeds to format the result to the draw message choice String
+     * @param url is the ID of the Card in the commonBoard on which we want to check
+     * @return the position of the Card in the CommonBoard that the client is drawing
+     */
     private int selectionDrawSelector(String url) {
-        System.out.println(url);
         int choice = -1;
         for (int i=0; i<6; i++) {
             if (url.equals(this.commonBoard.getChildren().get(i).getId()))
@@ -851,10 +1120,14 @@ public class InGameController extends GeneralController {
             return 0;
         } else if (choice == 2 || choice == 5) {
             return 1;
-        } else return -44; //FIXME to remove
+        } else return -44;
     }
 
-
+    /**
+     * This method places a Card in the cardGrid by rotating the Axis of the Coordinates used for the Game to the JavaFX StackPaneCoordinates
+     * @param cardImgView is the reference to the ImageViewContaining the card to place
+     * @param coords is the reference to desired coordinates to place the card
+     */
     private void placeCard(ImageView cardImgView, Coordinates coords) {
 
         int x = coords.getX();
@@ -862,9 +1135,9 @@ public class InGameController extends GeneralController {
 
         double xPrime = x * Math.cos(Math.toRadians(45)) + y * Math.sin(Math.toRadians(45));
         double yPrime = x * Math.sin(Math.toRadians(45)) - y * Math.cos(Math.toRadians(45));
-        System.out.println(x +" "+ y +" --> "+ xPrime + " " + yPrime);
         double xTranslation = 0.0;
         double yTranslation = 0.0;
+
         if (xPrime>0) {
             xTranslation += 81.57 *xPrime;
             yTranslation += 20.0;
@@ -886,7 +1159,10 @@ public class InGameController extends GeneralController {
 
     }
 
-
+    /**
+     * This method updates the ScoreBoard by moving the Tokens in the correct place linked to one Player's score
+     * @param nickname is the nickname of the player that triggered the update
+     */
     public void updateScoreBoard (String nickname) {
         int score = this.client.getSmallModel().getScoreBoard().get(nickname);
         ImageView scoreBoardToken;
@@ -917,29 +1193,12 @@ public class InGameController extends GeneralController {
         }
     }
 
-    private void tokenScoreBoardDecorator (Pane p, ImageView tokenImgView) {
-        if (p.getChildren().size() > 0) {
-            ImageView lastToken = (ImageView) p.getChildren().getLast();
-            tokenImgView.setX(lastToken.getX() + 5);
-        } else {
-            tokenImgView.setX(-3);
-        }
-        tokenImgView.setFitHeight(20);
-        tokenImgView.setFitWidth(20);
-    }
-
-    private void disableHandDeck() {
-        for (Node n : this.handDeck.getChildren()) {
-            ImageView handCard = (ImageView) n;
-            handCard.setDisable(true);
-        }
-    }
-
-    //Decorators
-    private void coordinatePrevisionDecorator (Label coordsLabel) {
-        coordsLabel.setStyle("-fx-text-fill: black; -fx-background-color: yellow");
-    }
-
+    /**
+     * This method sets the layout of a coordinatePrevision label in the cardGrid by rotating the Axis of the
+     * Coordinates used for the Game to the JavaFX StackPaneCoordinates
+     * @param coordsLabel is the label to position
+     * @param coordinates are the coordinates of the prevision
+     */
     private void coordinatesPrevisionsLocation (Label coordsLabel, Coordinates coordinates) {
         int x = coordinates.getX();
         int y = coordinates.getY();
@@ -948,8 +1207,9 @@ public class InGameController extends GeneralController {
         double yPrime = x * Math.sin(Math.toRadians(45)) - y * Math.cos(Math.toRadians(45));
         double xTranslation = 0.0;
         double yTranslation = 0.0;
+
         if (xPrime>0) {
-             xTranslation = 30 + 50*xPrime;
+            xTranslation = 30 + 50*xPrime;
         } else if (xPrime<0){
             xTranslation = -40 + 50*xPrime;
         }
@@ -963,45 +1223,56 @@ public class InGameController extends GeneralController {
         coordsLabel.setTranslateY(yTranslation);
     }
 
+    //DECORATORS
+
+    /**
+     * This method takes an ImageView containing a token and resizes it to be shown on the scoreBoard.
+     * It also sets the X coordinate on the screen to avoid a 100% overlapping
+     * @param p is a reference to the pane where the token will be placed and is used to check if there are other tokens in that position
+     * @param tokenImgView is the token to add in the Pane
+     */
+    private void tokenScoreBoardDecorator (Pane p, ImageView tokenImgView) {
+        if (p.getChildren().size() > 0) {
+            ImageView lastToken = (ImageView) p.getChildren().getLast();
+            tokenImgView.setX(lastToken.getX() + 5);
+        } else {
+            tokenImgView.setX(-3);
+        }
+        tokenImgView.setFitHeight(20);
+        tokenImgView.setFitWidth(20);
+    }
+
+    private void coordinatePrevisionDecorator (Label coordsLabel) {
+        coordsLabel.setStyle("-fx-text-fill: black; -fx-background-color: yellow");
+    }
+
+    /**
+     * Decorator method that resizes a StartingCard
+     * @param startingCard is the ImageView to resize
+     */
     private void startingCardDecorator (ImageView startingCard) {
         startingCard.setFitWidth(72);
         startingCard.setFitHeight(48);
     }
 
+    /**
+     * Decorator method that resizes a token to be placed on the StartingCard as requirements
+     * @param tokenImgView is the ImageView to resize
+     */
     private void tokenOnCard(ImageView tokenImgView) {
         tokenImgView.setFitHeight(20);
         tokenImgView.setFitWidth(20);
         tokenImgView.setTranslateX(25);
     }
 
+    /**
+     * Decorator method that resizes the black Token to be placed on the StartingCard as requirements
+     * @param blackTokenImgView is the ImageView to resize
+     */
     private void blackTokenOnCard(ImageView blackTokenImgView) {
         blackTokenImgView.setFitHeight(20);
         blackTokenImgView.setFitWidth(20);
         blackTokenImgView.setTranslateY(-20);
         blackTokenImgView.setTranslateX(25);
-    }
-
-    @Override
-    public void lastRounds (String nickname) {
-        this.finalRounds.setVisible(true);
-    }
-
-    @Override
-    public void endGame(List<String> winners) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/endgame.fxml"));
-        this.root = fxmlLoader.load();
-
-        this.scene = new Scene(root);
-        EndGameController endgameController = fxmlLoader.getController();
-        endgameController.setClient(this.client);
-        HelloApplication.controller = endgameController;
-        this.stage.setScene(this.scene);
-
-        endgameController.setStage(this.stage);
-        endgameController.setScene(this.scene);
-        endgameController.setRoot(this.root);
-        endgameController.sceneSetup(winners);
-
-        this.stage.show();
     }
 }

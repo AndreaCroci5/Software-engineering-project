@@ -55,10 +55,18 @@ public class HelloApplication extends Application {
         this.launch();
     }
 
+    /**
+     * Getter for the client
+     * @return a reference for the client
+     */
     public Client getClient() {
         return client;
     }
 
+    /**
+     * Setter for client
+     * @param client to set
+     */
     public void setClient(Client client) {
         this.client = client;
     }

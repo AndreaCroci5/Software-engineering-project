@@ -82,6 +82,11 @@ public class GraphicResourceFetcher {
         }
     }
 
+    /**
+     * This method extracts the Coordinates from a String given in input with this format (x, y)
+     * @param text is the string containing the coordinates in this format (x,y)
+     * @return the respective Coordinates
+     */
     public Coordinates coordinatesFromString (String text) {
         String cleanedInput = text.replaceAll("[()]", "");
         String[] values = cleanedInput.split(",");
