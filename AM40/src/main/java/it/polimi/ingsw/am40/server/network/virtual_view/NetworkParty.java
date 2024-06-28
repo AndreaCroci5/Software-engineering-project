@@ -45,7 +45,7 @@ public class NetworkParty {
     /**
      * Object to avoid deadlock
      */
-    private static final Object lock = new Object();
+    private static final Object lock = new Object(); //FIXME IMPORTANTE
 
 
 

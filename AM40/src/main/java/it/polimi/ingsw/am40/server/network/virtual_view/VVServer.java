@@ -469,7 +469,19 @@ public class VVServer implements ActionPoster, ActionListener  {
         }
     }
 
+    /*
+    public void delogParty(int partyID){
+        NetworkParty p = null;
+        try {
+            p = this.getPartyByID(partyID);
+        } catch (NonExistentPartyException e) {
+            System.out.println("Party doesn't exist");
+            throw new RuntimeException(e);
+        }
 
+
+
+    }*/
 
 
     //INIT METHOD

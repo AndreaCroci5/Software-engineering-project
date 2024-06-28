@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.HostNameData;
-import it.polimi.ingsw.am40.data.active.flow.CreateRequestData;
-import it.polimi.ingsw.am40.data.active.flow.JoinRequestData;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
 import it.polimi.ingsw.am40.server.network.virtual_view.*;
 
@@ -355,10 +353,14 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
         }
     }
 
-
+    /**
+     * Method to notify the serverVV that a client has connected
+     * @param clientSocket the socket of the client
+     * @param remoteInterface the rmi interface of the client
+     * @return the new clientID
+     */
     @Override
-    public  int newConnectedClientNotification(Socket clientSocket, RemoteInterfaceClient remoteInterface){
-
+    public int newConnectedClientNotification(Socket clientSocket, RemoteInterfaceClient remoteInterface){
 
         int clientID = this.mainServerClass.createNewOrphanClient(Protocol.TCP, clientSocket, null);
         try {
@@ -438,8 +440,9 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
     }
 
+
     /**
-     * Method used for closing the client handler
+     * Method to remove a client definitively
      */
     @Override
     public void removeClientNotification() {

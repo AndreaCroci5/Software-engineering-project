@@ -3,10 +3,7 @@ package it.polimi.ingsw.am40.server.network.RMI;
 import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.network.NetworkManagerServer;
-import it.polimi.ingsw.am40.server.network.virtual_view.NetworkClient;
-import it.polimi.ingsw.am40.server.network.virtual_view.NonExistentClientException;
-import it.polimi.ingsw.am40.server.network.virtual_view.Protocol;
-import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
+import it.polimi.ingsw.am40.server.network.virtual_view.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -159,7 +156,17 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
         Thread pingThreadRMI = new Thread(() -> {
             while(true){
                 for (NetworkClient c: this.mainServerClass.getAllRMIClients()) {
-
+                    try {
+                        c.getRemoteInterface().pingClient();
+                        System.out.println("ping");
+                    } catch (RemoteException e) {
+                        try {
+                            this.disconnectedClientNotification(c);
+                        } catch (IOException ex) {
+                            System.out.println("Problems with the disconnection");
+                            throw new RuntimeException(ex);
+                        }
+                    }
                 }
                 try {
                     Thread.sleep(3000);
@@ -209,12 +216,24 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
     /**
      * Method to notify the VVServer of a client disconnection
      *
-     * @param client
-     * @throws IOException
+     * @param client the client to disconnect
+     * @throws IOException if the disconnection has problems
      */
     @Override
     public void disconnectedClientNotification(NetworkClient client) throws IOException {
+        for(NetworkClient c : this.mainServerClass.getAllClients()){
+            if(c.getClientID() == client.getClientID()){
+                VVServer.activeConnections--;
+                System.out.println("1 client has definitely disconnected from RMI");
 
+                for(NetworkParty p : this.getMainServerClass().getActiveParties()){
+                    if(p.getClients().contains(c)){
+                        this.mainServerClass.breakUpAParty(p.getPartyID(), c);
+                    }
+                }
+                System.out.println(VVServer.activeConnections + " clients are logged now");
+            }
+        }
     }
 
     @Override

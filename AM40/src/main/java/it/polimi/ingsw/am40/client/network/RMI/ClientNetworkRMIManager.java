@@ -138,12 +138,14 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
     }
 
     /**
-     * Getter for the client remote interface
-     * @return the remote interface of the client
+     * Getter for the client skeleton
+     * @return the client skeleton as reference
      */
     public RemoteInterfaceClient getSkeleton() {
         return skeleton;
     }
+
+
 
     //SETTER METHODS
 
@@ -174,6 +176,10 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
         this.serverAddress = serverAddress;
     }
 
+    /**
+     * Setter for the ID
+     * @param identifier the clientID
+     */
     public void setIdentifier(Integer identifier) {
         this.identifier = identifier;
     }
@@ -277,9 +283,8 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
 
 
     /**
-     * Send method for RMI
-     * Calls messageToData in which he calls directly the method on the server stub
-     * @param message is the message of the client
+     *This method sends message on the network
+     * @param message the message to send
      */
     @Override
     public void send(Message message) {

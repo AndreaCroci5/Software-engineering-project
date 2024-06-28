@@ -73,15 +73,15 @@ public interface NetworkManagerServer {
 
     /**
      * Method to notify the VVServer of a client disconnection
-     * @param client
-     * @throws IOException
+     * @param client the client to disconnect
+     * @throws IOException if the disconnection fails
      */
     void disconnectedClientNotification(NetworkClient client) throws IOException;
 
     /**
-     * Method to remove a Client
+     * Method to notify the VVServer that a client has definitively ended the connection with the server
      */
-    void removeClientNotification();
+    void removeClientNotification();//fixme
 
     /**
      * Method to send to a specific client a network message
