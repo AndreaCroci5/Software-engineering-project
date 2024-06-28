@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
+package it.polimi.ingsw.am40.client.view.GUI.FXGUI;
 
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.CreateRequestMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.flow.GameIdChoiceMessage;
@@ -372,7 +372,7 @@ public class LoginController extends GeneralController {
         this.scene = new Scene(root);
         InGameController inGameController = fxmlLoader.getController();
         inGameController.setClient(this.client);
-        HelloApplication.controller = inGameController;
+        GUIApplication.controller = inGameController;
         this.stage.setScene(this.scene);
 
         inGameController.setStage(this.stage);

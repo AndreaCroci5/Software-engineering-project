@@ -12,7 +12,7 @@ module it.polimi.ingsw.am40 {
     opens it.polimi.ingsw.am40 to javafx.fxml;
     exports it.polimi.ingsw.am40.server.model;
     exports it.polimi.ingsw.am40.server.controller;
-    exports it.polimi.ingsw.am40.client.view.GUI.FXexamples;
+    exports it.polimi.ingsw.am40.client.view.GUI.FXGUI;
     exports it.polimi.ingsw.am40.server.exceptions.model;
     exports it.polimi.ingsw.am40.data;
     exports it.polimi.ingsw.am40.data.active.flow;
@@ -22,7 +22,7 @@ module it.polimi.ingsw.am40 {
     exports it.polimi.ingsw.am40.data.passive.round;
     exports it.polimi.ingsw.am40.data.passive.firstRound;
     exports it.polimi.ingsw.am40.client.smallModel;
-    opens it.polimi.ingsw.am40.client.view.GUI.FXexamples to javafx.fxml;
+    opens it.polimi.ingsw.am40.client.view.GUI.FXGUI to javafx.fxml;
     opens it.polimi.ingsw.am40.server to javafx.fxml;
     exports it.polimi.ingsw.am40.client.view.GUI;
     opens it.polimi.ingsw.am40.client.view.GUI to javafx.fxml;

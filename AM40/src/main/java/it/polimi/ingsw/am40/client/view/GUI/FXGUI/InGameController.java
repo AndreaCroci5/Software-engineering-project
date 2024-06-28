@@ -1,7 +1,6 @@
-package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
+package it.polimi.ingsw.am40.client.view.GUI.FXGUI;
 
 import it.polimi.ingsw.am40.client.ClientMessages.ClientDisconnectedMessage;
-import it.polimi.ingsw.am40.client.ClientMessages.InterruptedGameMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.AimCardChoiceMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.StartingCardChoiceMessage;
 import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.firstRound.TokenChoiceMessage;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.am40.client.ClientMessages.activeMessages.round.PlacingMe
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
 import it.polimi.ingsw.am40.server.model.Coordinates;
-import it.polimi.ingsw.am40.server.model.Token;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -857,7 +855,7 @@ public class InGameController extends GeneralController {
         this.scene = new Scene(root);
         EndGameController endgameController = fxmlLoader.getController();
         endgameController.setClient(this.client);
-        HelloApplication.controller = endgameController;
+        GUIApplication.controller = endgameController;
         this.stage.setScene(this.scene);
 
         endgameController.setStage(this.stage);

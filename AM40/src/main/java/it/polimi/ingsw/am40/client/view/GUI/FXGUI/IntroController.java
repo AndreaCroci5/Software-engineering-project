@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
+package it.polimi.ingsw.am40.client.view.GUI.FXGUI;
 
 import it.polimi.ingsw.am40.client.network.Client;
 import javafx.application.Platform;
@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * This class is the controller of the intro scene
  */
-public class HelloController extends GeneralController {
+public class IntroController extends GeneralController {
     //ATTRIBUTES
     /**
      * Reference to the Client information
@@ -72,7 +72,7 @@ public class HelloController extends GeneralController {
         loginController.setClient(this.client);
 
         //Set the new loginController to the general controller
-        HelloApplication.controller = loginController;
+        GUIApplication.controller = loginController;
 
         //Scene change
         this.stage.setScene(this.scene);

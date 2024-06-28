@@ -2,7 +2,7 @@ package it.polimi.ingsw.am40.client.view.GUI;
 
 import it.polimi.ingsw.am40.client.network.Client;
 import it.polimi.ingsw.am40.client.smallModel.SmallCard;
-import it.polimi.ingsw.am40.client.view.GUI.FXexamples.HelloApplication;
+import it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication;
 import it.polimi.ingsw.am40.client.view.ViewManager;
 import it.polimi.ingsw.am40.server.model.CardElements;
 import javafx.application.Platform;
@@ -22,7 +22,7 @@ public class GUIManager implements ViewManager {
     /**
      * Reference to the Application that starts the software in GUI
      */
-    HelloApplication GUIApplication;
+    it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication GUIApplication;
 
     /**
      * Reference to the Client information
@@ -46,8 +46,8 @@ public class GUIManager implements ViewManager {
     @Override
     public void initView() {
         try {
-            this.GUIApplication = new HelloApplication();
-            HelloApplication.client = this.client;
+            this.GUIApplication = new GUIApplication();
+            it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.client = this.client;
             this.GUIApplication.startGUI();
         } catch (Exception e) {
             System.out.println(e);
@@ -99,7 +99,7 @@ public class GUIManager implements ViewManager {
         }
         final String finalGameIDs = gameIDsNotification;
 
-        Platform.runLater( () -> HelloApplication.controller.displayAllGameIDs(finalGameIDs));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.displayAllGameIDs(finalGameIDs));
     }
 
     /**
@@ -109,7 +109,7 @@ public class GUIManager implements ViewManager {
     @Override
     public void displayStartingCardInfo(int startingCardID) {
         final int cardID = startingCardID;
-        Platform.runLater( () -> HelloApplication.controller.startingCardInfo(cardID));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.startingCardInfo(cardID));
     }
 
     @Override
@@ -120,7 +120,7 @@ public class GUIManager implements ViewManager {
     @Override
     public void showPassiveStartingCard(String nickname, int startingCardID, String cardFace) {
         final String currentPlayer = nickname;
-        Platform.runLater( () -> HelloApplication.controller.showPassiveStartingCard(currentPlayer));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.showPassiveStartingCard(currentPlayer));
     }
 
     /**
@@ -130,7 +130,7 @@ public class GUIManager implements ViewManager {
     @Override
     public void displayPossibleTokens(List<String> tokens) {
         final List<String> colors = tokens;
-        Platform.runLater( () -> HelloApplication.controller.tokenInfo(colors));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.tokenInfo(colors));
 
     }
 
@@ -144,7 +144,7 @@ public class GUIManager implements ViewManager {
         final String nickname = clientNickname;
         final String color = token;
 
-        Platform.runLater( () -> HelloApplication.controller.acceptedToken(nickname, color));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.acceptedToken(nickname, color));
     }
 
     /**
@@ -155,7 +155,7 @@ public class GUIManager implements ViewManager {
     @Override
     public void displayAimCardsToChoose(List<Integer> aimCardsID) {
         final List<Integer> aimIDs = aimCardsID;
-        Platform.runLater( () -> HelloApplication.controller.aimCardsInfo(aimIDs));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.aimCardsInfo(aimIDs));
 
     }
 
@@ -171,7 +171,7 @@ public class GUIManager implements ViewManager {
     @Override
     public void displayPlayerOrder(List<String> playerOrder) {
         final List<String> namesInOrder = playerOrder;
-        Platform.runLater( () -> HelloApplication.controller.playersOrder(namesInOrder));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.playersOrder(namesInOrder));
     }
 
     /**
@@ -187,7 +187,7 @@ public class GUIManager implements ViewManager {
         }
         final List<SmallCard> cardGrid = myGrid;
 
-        Platform.runLater( () -> HelloApplication.controller.placing(handDeck, cardGrid));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.placing(handDeck, cardGrid));
     }
 
     /**
@@ -196,7 +196,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayLastRoundMessage(String clientNickname) {
-        Platform.runLater( () -> HelloApplication.controller.lastRounds(clientNickname));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.lastRounds(clientNickname));
     }
 
     /**
@@ -207,7 +207,7 @@ public class GUIManager implements ViewManager {
     public void displayEndGame(List<String> winners) {
         Platform.runLater( () -> {
             try {
-                HelloApplication.controller.endGame(winners);
+                it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.endGame(winners);
             } catch (IOException e) {
                 System.out.println("The file loading went wrong");
             }
@@ -248,7 +248,7 @@ public class GUIManager implements ViewManager {
 
         Platform.runLater( () -> {
             try {
-                HelloApplication.controller.updateCommonBoard(resource, golden, aim);
+                it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.updateCommonBoard(resource, golden, aim);
             } catch (Exception e) {
                 System.out.println("Error in loading the fxml file");
                 System.out.println(e.getMessage());
@@ -313,7 +313,7 @@ public class GUIManager implements ViewManager {
     @Override
     public void displayWaitingForPlayers(int numOfActualPlayers, int NumOfFinalPlayers) {
         final int playersRequired = NumOfFinalPlayers - numOfActualPlayers;
-        Platform.runLater( () -> HelloApplication.controller.waitingForPlayersEvent(playersRequired));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.waitingForPlayersEvent(playersRequired));
     }
 
     @Override
@@ -326,7 +326,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void showNoActiveParties() {
-        Platform.runLater( () -> HelloApplication.controller.noActiveParties());
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.noActiveParties());
     }
 
     /**
@@ -334,7 +334,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void showFailedGameID() {
-        Platform.runLater( () -> HelloApplication.controller.failedGameID());
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.failedGameID());
     }
 
     /**
@@ -371,7 +371,7 @@ public class GUIManager implements ViewManager {
 
         Platform.runLater( () -> {
             try {
-                HelloApplication.controller.startingGame(finalNicknames, resource, golden, aim);
+                it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.startingGame(finalNicknames, resource, golden, aim);
             } catch (Exception e) {
                 System.out.println("Error in loading the fxml file");
                 System.out.println(e.getMessage());
@@ -388,7 +388,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void showPassiveAimState(String clientNickname) {
-        Platform.runLater( () -> HelloApplication.controller.showPassiveAimCard(clientNickname));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.showPassiveAimCard(clientNickname));
 
     }
 
@@ -398,7 +398,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void showPassiveStartingCardState(String clientNickname) {
-        Platform.runLater( () -> HelloApplication.controller.showPassiveStartingCard(clientNickname));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.showPassiveStartingCard(clientNickname));
 
     }
 
@@ -408,7 +408,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void showPassiveTokenState(String clientNickname) {
-        Platform.runLater( () -> HelloApplication.controller.showPassiveToken(clientNickname));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.showPassiveToken(clientNickname));
     }
 
     @Override
@@ -430,7 +430,7 @@ public class GUIManager implements ViewManager {
 
         Platform.runLater( () -> {
             try {
-                HelloApplication.controller.dealCards(handDeck);
+                it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.dealCards(handDeck);
             } catch (Exception e) {
                 System.out.println("Error in loading the fxml file");
                 System.out.println(e.getMessage());
@@ -454,7 +454,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayPassivePlacingState(String clientNickname) {
-        Platform.runLater( () -> HelloApplication.controller.passivePlacingState(clientNickname));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.passivePlacingState(clientNickname));
     }
 
     @Override
@@ -477,7 +477,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayPositivePlacing() {
-        Platform.runLater( () -> HelloApplication.controller.positivePlacing());
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.positivePlacing());
 
     }
 
@@ -487,7 +487,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayPassivePlacingResult(String clientNickname) {
-        Platform.runLater( () -> HelloApplication.controller.passivePlacingResult(clientNickname));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.passivePlacingResult(clientNickname));
     }
 
     @Override
@@ -523,7 +523,7 @@ public class GUIManager implements ViewManager {
         aim.addFirst(slider);
 
 
-        Platform.runLater( () -> HelloApplication.controller.positiveDraw(resource, golden, aim));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.positiveDraw(resource, golden, aim));
     }
 
     @Override
@@ -536,7 +536,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayNegativeDraw() {
-        Platform.runLater( () -> HelloApplication.controller.negativeDraw());
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.negativeDraw());
     }
 
     /**
@@ -544,7 +544,7 @@ public class GUIManager implements ViewManager {
      */
     @Override
     public void displayNegativePlacing() {
-        Platform.runLater( () -> HelloApplication.controller.negativePlacing());
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.negativePlacing());
     }
 
     /**
@@ -577,7 +577,7 @@ public class GUIManager implements ViewManager {
         aim.addFirst(slider);
 
 
-        Platform.runLater( () -> HelloApplication.controller.passiveDraw(resource, golden, aim));
+        Platform.runLater( () -> it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.passiveDraw(resource, golden, aim));
     }
 
     /**
@@ -587,7 +587,7 @@ public class GUIManager implements ViewManager {
     public void displayInterruptedGame() {
         Platform.runLater( () -> {
             try {
-                HelloApplication.controller.endGame(new ArrayList<String>());
+                it.polimi.ingsw.am40.client.view.GUI.FXGUI.GUIApplication.controller.endGame(new ArrayList<String>());
             } catch (IOException e) {
                 System.out.println("Error in loading the file");
             }

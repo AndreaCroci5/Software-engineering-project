@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
+package it.polimi.ingsw.am40.client.view.GUI.FXGUI;
 
 import it.polimi.ingsw.am40.client.network.Client;
 import javafx.application.Platform;

@@ -1,7 +1,6 @@
-package it.polimi.ingsw.am40.client.view.GUI.FXexamples;
+package it.polimi.ingsw.am40.client.view.GUI.FXGUI;
 
 import it.polimi.ingsw.am40.client.network.Client;
-import it.polimi.ingsw.am40.client.view.GUI.GUIManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +12,7 @@ import java.io.IOException;
 /**
  * This class represent the launch site for the GUI Application
  */
-public class HelloApplication extends Application {
+public class GUIApplication extends Application {
     //ATTRIBUTES
     /**
      * Static reference to the Client that has started the GUI
@@ -36,11 +35,11 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Client tmp = client;
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/fxml/intro.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUIApplication.class.getResource("/fxml/intro.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         Scene scene = new Scene(root);
-        HelloController introController = (HelloController) fxmlLoader.getController();
-        HelloApplication.controller = introController;
+        IntroController introController = (IntroController) fxmlLoader.getController();
+        GUIApplication.controller = introController;
         introController.setClient(tmp);
         stage.setResizable(false);
         stage.setTitle("Codex Naturalis");
