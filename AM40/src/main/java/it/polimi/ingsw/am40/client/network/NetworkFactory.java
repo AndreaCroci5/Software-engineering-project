@@ -8,6 +8,9 @@ import it.polimi.ingsw.am40.client.network.RMI.ClientNetworkRMIManager;
  */
 public class NetworkFactory {
 
+    /**
+     * Constructor fo the networkFactory
+     */
     public NetworkFactory() {
     }
 

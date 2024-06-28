@@ -137,6 +137,10 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
         return identifier;
     }
 
+    /**
+     * Getter for the client remote interface
+     * @return the remote interface of the client
+     */
     public RemoteInterfaceClient getSkeleton() {
         return skeleton;
     }
@@ -273,8 +277,9 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
 
 
     /**
-     *
-     * @param message
+     * Send method for RMI
+     * Calls messageToData in which he calls directly the method on the server stub
+     * @param message is the message of the client
      */
     @Override
     public void send(Message message) {
@@ -284,7 +289,6 @@ public class ClientNetworkRMIManager implements NetworkManagerClient {
 
     /**
      * Method used to send a serialized message on the network
-     *
      * @param message the message to send
      */
     @Override

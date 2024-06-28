@@ -71,10 +71,9 @@ public interface NetworkManagerClient extends ConcreteContext {
     Protocol getUsedProtocol();
 
     /**
-     *
-     * @param message
+     * Method of interface that is used to call the different send on RMI or TCP
+     * @param message is the internal message of the client
      */
-    //fixme 190624S
     void send(Message message);
 
     /**

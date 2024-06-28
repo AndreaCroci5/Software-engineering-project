@@ -25,7 +25,6 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
      */
     private final Client client;
 
-//fixme hostname on client (rmi too)
     /**
      * Host name for the client
      */
@@ -246,7 +245,6 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
                 this.runListeningLogic();
             } catch (NetworkServerCutOffException e) {
                 try {
-                    //fixme IMPORTANT
                     System.out.println("Trying to close the connection (Server cut off)...");
                     this.closeCommunication();
                 } catch (NetworkProblemException ex) {
@@ -312,7 +310,12 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
     }
 
 
-    // **TO FIX**
+    /**
+     * Send implementation for TCP
+     * Transform message to the data that is going on the network
+     * Call send serialised message to send the data on the network
+     * @param message is the internal message of the client
+     */
     @Override
     public void send(Message message) {
         Data data = message.messageToData();
@@ -345,14 +348,12 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
             //If the response is null it means that the server has interrupted the connection
             if (response == null) {
                 System.out.println("Server closed the connection");
-                throw new NetworkServerCutOffException();//fixme il client entra in mod offline
+                throw new NetworkServerCutOffException();
             }
 
             this.handleJSONMessage(response);
         }
     }
-
-    //fixme 210624S
 
     /**
      * Method which sends network messages to the server using JSON serialization
@@ -366,16 +367,16 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
             json = objectMapper.writeValueAsString(message);
         } catch (JsonProcessingException e) {
             System.out.println("Something went wrong with the json mapping!");
-            throw new RuntimeException(e);//fixme 240624S
+            throw new RuntimeException(e);
         }
         this.streams.getOut().println(json);
     }
 
     /**
      * Method to handle the json message incoming from the network
-     * @param json
+     * @param json is the json string
      */
-    private void handleJSONMessage(String json){//fixme
+    private void handleJSONMessage(String json){
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Data myObject = objectMapper.readValue(json, Data.class);
@@ -383,7 +384,7 @@ public class ClientNetworkTCPManager implements NetworkManagerClient{
             client.handleMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
-        } //fixme azione
+        }
     }
 
 }

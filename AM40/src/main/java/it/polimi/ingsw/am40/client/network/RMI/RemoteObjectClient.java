@@ -73,7 +73,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass info about the aim card in the first round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -85,7 +85,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass the result for an aim card in the first round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -97,7 +97,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass the result for a deal card in the first round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -109,7 +109,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass the player order in the first round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -121,7 +121,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method for token handling in the first round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -133,7 +133,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass info about a starting card in the first round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -145,7 +145,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass the result of an action on starting card in the first round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -157,7 +157,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass info about the token in the first round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -169,7 +169,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass the info about the change turn through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -181,7 +181,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to create the result through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -193,7 +193,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to communicate a creation failure through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -205,7 +205,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to communicate a GameID parameter error through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -217,7 +217,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to communicate the result for gameID through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -229,7 +229,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to pass the result of the game initialization through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -241,7 +241,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to communicate the response of a join through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -253,7 +253,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to get info about the last rounds through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -265,7 +265,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to communicate that there aren't active parties through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -277,7 +277,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to communicate that there aren't enough players through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -289,7 +289,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method to handle the end game phase during a round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -301,7 +301,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method for the draw update during a round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -313,7 +313,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method for the placing update during a round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -325,7 +325,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method for repeating the draw during a round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override
@@ -337,7 +337,7 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method for repeating the placing during a round through actions with RMI calls
      *
-     * @param d
+     * @param d is the data
      * @throws RemoteException (standard RMI calls exception)
      */
     @Override

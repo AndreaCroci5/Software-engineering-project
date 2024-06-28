@@ -269,7 +269,7 @@ public class Client implements AbstractContext{
      */
     private void takeInputFromUser(){
 
-        Scanner scanner = new Scanner(System.in); //fixme this line of code could be cause of error with stdin
+        Scanner scanner = new Scanner(System.in);
         String input = null;
         boolean retry = true;
 
