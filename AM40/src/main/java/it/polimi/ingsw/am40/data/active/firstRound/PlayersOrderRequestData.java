@@ -12,7 +12,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
-
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge form DecidePlayerOrderRequestMessage on the Client to the PlayersOrderRequestAction on Server
+ */
 @JsonTypeName("PLAYERS_ORDER_REQUEST")
 public class PlayersOrderRequestData extends Data {
     //CONSTRUCTOR
@@ -24,7 +27,11 @@ public class PlayersOrderRequestData extends Data {
 
 
     //PUBLIC METHODS
-
+    /**
+     * Override of the method onServer that returns the related PlayersOrderRequestAction on the Server
+     * @return a PlayersOrderRequestAction
+     */
+    @Override
     public Action onServer(){
         return new PlayersOrderRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }

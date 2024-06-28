@@ -12,7 +12,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
-//FIXME Rename by adding request between cards and data in class name A+N
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge form DealCardsRequestMessage on the Client to the DealCardsRequestAction on Server
+ */
 @JsonTypeName("CARDS_DEAL")
 public class DealCardsData extends Data {
 
@@ -26,7 +29,11 @@ public class DealCardsData extends Data {
 
     //PUBLIC METHODS
 
-
+    /**
+     * Override of the method onServer that returns the related DealCardsRequestAction on the Server
+     * @return a DealCardsRequestAction
+     */
+    @Override
     public Action onServer(){
         return new DealCardsRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }

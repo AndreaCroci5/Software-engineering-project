@@ -12,6 +12,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from ChangeTurnRequestMessage on the Client to the ChangeTurnRequestAction on Server
+ */
 @JsonTypeName("CHANGE_TURN")
 public class ChangeTurnRequestData extends Data {
     //CONSTRUCTOR
@@ -25,6 +29,11 @@ public class ChangeTurnRequestData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * Override of the method onServer that returns the related ChangeTurnRequestAction on the Server
+     * @return a ChangeTurnRequestAction
+     */
+    @Override
     public Action onServer(){
         return new ChangeTurnRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }

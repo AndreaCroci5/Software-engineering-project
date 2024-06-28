@@ -13,9 +13,16 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from TokenChoiceMessage on the Client to the TokenChoiceAction on Server
+ */
 @JsonTypeName("TOKEN_SELECTION")
 public class TokenChoiceData extends Data {
 
+    /**
+     * Color of the token chosen
+     */
     private String token;
 
     //CONSTRUCTOR
@@ -39,6 +46,11 @@ public class TokenChoiceData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * Override of the method onServer that returns the related TokenChoiceAction on the Server
+     * @return a TokenChoiceAction
+     */
+    @Override
     public Action onServer(){
         Color color = Color.valueOf(this.token.toUpperCase());
         return new TokenChoiceAction(this.getNickname(), this.getGameID(), this.getPlayerID(), color);

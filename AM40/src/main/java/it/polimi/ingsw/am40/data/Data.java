@@ -18,13 +18,8 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.io.Serializable;
 
-//TODO JAVADOC in the subclasses and add nicknames in passive Data
-//FIXME CHECK if all json types and annotations are correct and put final all attributes if needed in subclasses,
-// WARNING playerID and GameId must not be put final because they change because once the Data arrives on Server it needs a Set
-// of these attributes from VVserver or net interface
-
 /**
- * This class contains the information that will be carried by being sent on the network as a TCP message.
+ * This class contains the information that will be carried by being sent on the network.
  * This class is also the bridge to the specular MVC mechanism in both Client and Server that is handled by the
  * Messages and the Actions respectively
  */
@@ -105,19 +100,28 @@ public abstract class Data implements Serializable {
     private String nickname;
 
     //Attributes used to orientate on the server, not useful for the Data itself, only for the Action creation
+    /**
+     * ID of the Party/Game
+     */
     private int gameID;
+
+    /**
+     * ID of the Client
+     */
     private int playerID;
 
 
     //CONSTRUCTOR
 
-    //Logic constructor for subclasses
-
-    //Json Constructor
     public Data(){
 
     }
 
+    /**
+     * Json constructor for the parsing with Jackson
+     * @param description is the particular description of the Data
+     * @param nickname is the Client that created the Data
+     */
     @JsonCreator
     public Data(@JsonProperty ("description") String description,
                 @JsonProperty ("nickname") String nickname) {

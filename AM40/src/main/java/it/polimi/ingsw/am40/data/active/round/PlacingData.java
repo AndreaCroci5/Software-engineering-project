@@ -14,6 +14,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from PlacingMessage on the Client to the PlacingAction on Server
+ */
 @JsonTypeName("PLACING")
 public class PlacingData extends Data {
     //ATTRIBUTES for the Execution
@@ -63,6 +67,11 @@ public class PlacingData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * Override of the method onServer that returns the related PlacingAction on the Server
+     * @return a PlacingAction
+     */
+    @Override
     public Action onServer(){
         return new PlacingAction(this.getNickname(), this.getGameID(), this.getPlayerID(), this.choice, this.coordsToPlace, CardFace.valueOf(this.face.toUpperCase()));
     }

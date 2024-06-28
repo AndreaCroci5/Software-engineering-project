@@ -13,8 +13,8 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 import java.rmi.RemoteException;
 
 /**
- * This class contains the information that will be carried by being sent on the network as a TCP message.
- * This class is also the bridge to the AimCardChoiceAction on Server and AimCardMessage on the Client
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from the AimCardMessage on the Client to the AimCardChoiceAction on Server and
  */
 @JsonTypeName("AIM_CARD_SELECTION")
 public class AimCardChoiceData extends Data {
@@ -57,6 +57,7 @@ public class AimCardChoiceData extends Data {
      * Override of the method onServer that returns the related AimCardChoiceAction on the Server
      * @return an AimCardChoiceAction
      */
+    @Override
     public Action onServer(){
         return new AimCardChoiceAction(this.getNickname(),this.getGameID(), this.getPlayerID(), this.aimCardChosenID);
     }

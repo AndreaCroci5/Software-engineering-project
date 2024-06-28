@@ -12,6 +12,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from StartingCardRequestMessage on the Client to the StartingCardRequestAction on Server
+ */
 @JsonTypeName("STARTING_CARD_REQUEST")
 public class StartingCardRequestData extends Data {
 
@@ -25,6 +29,11 @@ public class StartingCardRequestData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * Override of the method onServer that returns the related StartingCardRequestAction on the Server
+     * @return a StartingCardRequestAction
+     */
+    @Override
     public Action onServer(){
         return new StartingCardRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }

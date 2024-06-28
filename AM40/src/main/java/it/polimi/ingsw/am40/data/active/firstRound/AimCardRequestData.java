@@ -11,6 +11,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from AimRequestMessage on the Client to the AimCardRequestAction on Server
+ */
 @JsonTypeName("AIM_CARD_REQUEST")
 public class AimCardRequestData extends Data {
 
@@ -22,6 +26,11 @@ public class AimCardRequestData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * Override of the method onServer that returns the related AimCardRequestAction on the Server
+     * @return an AimCardRequestAction
+     */
+    @Override
     public Action onServer() {
         return new AimCardRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());
     }

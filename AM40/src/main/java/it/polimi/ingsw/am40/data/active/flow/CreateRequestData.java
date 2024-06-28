@@ -11,16 +11,33 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from CreateRequestMessage on the Client to the CreateRequestAction on Server
+ */
 @JsonTypeName("CREATE_GAME")
 public class CreateRequestData extends Data {
 
+    /**
+     * Number representing the party size chosen by the Client (it has to be between 2 and 4)
+     */
     private  int numOfPlayers;
 
+    /**
+     * Ip address of the Client referring to the Socket
+     */
     private String ipAddress;
 
+    /**
+     * Port of the Client referring to the Socket
+     */
     private int port;
 
+    /**
+     * Remote Interface referring to RMI
+     */
     private RemoteInterfaceClient skeleton;
+
 
     public int getNumOfPlayers() {
         return numOfPlayers;
@@ -68,6 +85,10 @@ public class CreateRequestData extends Data {
         this.skeleton = skeleton;
     }
 
+    /**
+     * Override of the method onServer that returns the related CreateRequestAction on the Server
+     * @return a CreateRequestAction
+     */
     @Override
     public Action onServer(){
         return new CreateRequestAction(this.getNickname(),this.getGameID(), this.getPlayerID(), this.numOfPlayers);

@@ -11,13 +11,26 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from JoinRequestMessage on the Client to the JoinRequestAction on Server
+ */
 @JsonTypeName("JOIN_GAME")
 public class JoinRequestData extends Data {
 
+    /**
+     * Ip address of the Client referring to the Socket
+     */
     private String ipAddress;
 
+    /**
+     * Port of the Client referring to the Socket
+     */
     private int port;
 
+    /**
+     * Remote Interface referring to RMI
+     */
     private RemoteInterfaceClient skeleton;
 
     public JoinRequestData(String nickname) {
@@ -60,6 +73,10 @@ public class JoinRequestData extends Data {
         return skeleton;
     }
 
+    /**
+     * Override of the method onServer that returns the related JoinRequestAction on the Server
+     * @return a JoinRequestAction
+     */
     @Override
     public Action onServer(){
         return new JoinRequestAction(this.getNickname(), this.getGameID(), this.getPlayerID());

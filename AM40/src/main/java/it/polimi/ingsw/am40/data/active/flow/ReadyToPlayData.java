@@ -11,6 +11,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from ReadyToPlayMessage on the Client to the ReadyToPlayAction on Server
+ */
 @JsonTypeName("READY_TO_PLAY")
 public class ReadyToPlayData extends Data {
 
@@ -21,6 +25,10 @@ public class ReadyToPlayData extends Data {
         super("READY_TO_PLAY", nickname);
     }
 
+    /**
+     * Override of the method onServer that returns the related ReadyToPlayAction on the Server
+     * @return a ReadyToPlayAction
+     */
     @Override
     public Action onServer() {
         return new ReadyToPlayAction(getDescription(), getNickname(), getGameID(), getPlayerID());

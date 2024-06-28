@@ -11,6 +11,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from TokenRequestMessage on the Client to the TokenRequestAction on Server
+ */
 @JsonTypeName("TOKEN_REQUEST")
 public class TokenRequestData extends Data {
 
@@ -23,6 +27,11 @@ public class TokenRequestData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * Override of the method onServer that returns the related TokenRequestAction on the Server
+     * @return a TokenRequestAction
+     */
+    @Override
     public Action onServer() {
         return new TokenRequestAction(this.getNickname(), this.getGameID(),this.getPlayerID());
     }

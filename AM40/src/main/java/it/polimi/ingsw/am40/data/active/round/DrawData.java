@@ -12,6 +12,10 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from DrawMessage on the Client to the DrawAction on Server
+ */
 @JsonTypeName("DRAW")
 public class DrawData extends Data {
     //ATTRIBUTES
@@ -49,6 +53,11 @@ public class DrawData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * Override of the method onServer that returns the related DrawAction on the Server
+     * @return a DrawAction
+     */
+    @Override
     public Action onServer(){
         //String parse to an Integer
         int source;

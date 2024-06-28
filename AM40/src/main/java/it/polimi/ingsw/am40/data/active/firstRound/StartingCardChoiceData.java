@@ -13,10 +13,17 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from StartingCardChoiceMessage on the Client to the StartingCardChoiceAction on Server
+ */
 @JsonTypeName("STARTING_CARD_CHOICE")
 public class StartingCardChoiceData extends Data {
     //ATTRIBUTES
-    private  String face;
+    /**
+     * Face of the StartingCard chosen by the Player
+     */
+    private String face;
 
     //CONSTRUCTOR
 
@@ -37,6 +44,11 @@ public class StartingCardChoiceData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * Override of the method onServer that returns the related StartingCardChoiceAction on the Server
+     * @return a StartingCardChoiceAction
+     */
+    @Override
     public Action onServer(){
         return new StartingCardChoiceAction(this.getNickname(), this.getGameID(), this.getPlayerID(), CardFace.valueOf(this.face.toUpperCase()));
     }

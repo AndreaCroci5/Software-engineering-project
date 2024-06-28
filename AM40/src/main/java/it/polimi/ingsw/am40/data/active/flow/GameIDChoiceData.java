@@ -11,10 +11,18 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class contains the information that will be carried by being sent on the network.
+ * This class is also the bridge from GameIDChoiceMessage on the Client to the GameIDChoiceAction on Server
+ */
 @JsonTypeName("GAME_ID_CHOICE")
 public class GameIDChoiceData extends Data {
 
+    /**
+     * ID of the party/game chosen to be joined by the Client
+     */
     private int gameIDChoice;
+
 
     public int getGameIDChoice() {
         return gameIDChoice;
@@ -31,6 +39,10 @@ public class GameIDChoiceData extends Data {
         this.gameIDChoice = gameIDChoice;
     }
 
+    /**
+     * Override of the method onServer that returns the related GameIDChoiceAction on the Server
+     * @return a GameIDChoiceAction
+     */
     @Override
     public Action onServer(){
         return new GameIDChoiceAction(this.getNickname(), this.getGameID(), this.getPlayerID(), this.gameIDChoice);
