@@ -21,6 +21,57 @@ public class ResourceCardBlackBoxTest {
 
 
     /**
+     * Method testConstructorWithoutScorePoints tests the constructor of the ResourceCard class without scorePoints,
+     * checking if the cardID, cardElement, frontEdgeResources, edgeCoverage, coordinates, cardFace and objectScoreTypeElement
+     * are correctly set
+     */
+
+    @Test
+    public void testConstructorWithoutScorePoints(){
+        int cardID = 1;
+        CardElements cardElement = CardElements.PLANT;
+        List<CardElements> frontEdgeResources = new ArrayList<>();
+
+        ResourceCard resourceCard = new ResourceCard(cardID, cardElement, frontEdgeResources);
+
+        assertEquals(cardID, resourceCard.getCardID());
+        assertEquals(cardElement, resourceCard.getCardElement());
+        assertEquals(frontEdgeResources, resourceCard.getFrontEdgeResources());
+        assertFalse(resourceCard.getEdgeCoverage().contains(EdgeState.FREE) || resourceCard.getEdgeCoverage().contains(EdgeState.HIDDEN));
+        assertEquals(new Coordinates(0, 0), resourceCard.getCoordinates());
+        assertEquals(CardFace.BACK, resourceCard.getCardFace());
+        assertEquals(CardElements.NONE, resourceCard.getObjectScoreTypeElement());
+
+    }
+
+
+
+    /**
+     * Method testConstructorWithScorePoints tests the constructor of the ResourceCard class with scorePoints,
+     * checking if the cardID, cardElement, frontEdgeResources, scorePoints, edgeCoverage, coordinates, cardFace and objectScoreTypeElement
+     * are correctly set
+     */
+
+    @Test
+    public void testConstructorWithScorePoints(){
+        int cardID = 2;
+        CardElements cardElement = CardElements.ANIMAL;
+        List<CardElements> frontEdgeResources = new ArrayList<>();
+        int scorePoints = 5;
+
+        ResourceCard resourceCard = new ResourceCard(cardID, cardElement, frontEdgeResources, scorePoints);
+
+        assertEquals(cardID, resourceCard.getCardID());
+        assertEquals(cardElement, resourceCard.getCardElement());
+        assertEquals(frontEdgeResources, resourceCard.getFrontEdgeResources());
+        assertFalse(resourceCard.getEdgeCoverage().contains(EdgeState.FREE) || resourceCard.getEdgeCoverage().contains(EdgeState.HIDDEN));
+        assertEquals(new Coordinates(0, 0), resourceCard.getCoordinates());
+        assertEquals(CardFace.BACK, resourceCard.getCardFace());
+        assertEquals(CardElements.NONE, resourceCard.getObjectScoreTypeElement());
+    }
+
+
+    /**
      * Method testCountCardElements test that the method countCardElements
      * returns the correct number of CardElements
      */
