@@ -2,6 +2,7 @@ module it.polimi.ingsw.am40 {
     requires javafx.controls;
     requires javafx.fxml;
 
+    requires org.junit.jupiter.api;
     requires org.controlsfx.controls;
     requires json.simple;
     requires java.rmi;

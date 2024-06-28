@@ -360,7 +360,6 @@ public class RemoteObjectClient extends UnicastRemoteObject implements RemoteInt
     /**
      * Method for re-asking the client his name
      * @param d is the data
-     * @throws RemoteException (standard RMI calls exception)
      */
     @Override
     public void FailedHostNamePassiveFlow(Data d) {
