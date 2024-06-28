@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am40.server.actions;
 
 import it.polimi.ingsw.am40.server.actions.active.firstRound.AimCardRequestAction;
-import it.polimi.ingsw.am40.server.model.Game;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +14,8 @@ public class AimCardRequestActionBlackBoxTest {
 
 
     /**
-     *
+     * Test the constructor of the AimCardRequestAction class,
+     * verifying that the object is correctly created and that the attributes are correctly set
      */
     @Test
     public void testConstructor() {
