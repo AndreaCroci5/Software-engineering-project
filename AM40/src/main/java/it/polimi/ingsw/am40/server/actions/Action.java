@@ -2,10 +2,7 @@ package it.polimi.ingsw.am40.server.actions;
 
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.server.ActionAgent;
-//TODO choose where to put the nickname, constructor if every Action has it, set method if i make a lookup on the Server
-// UPDATE wait the next commits because probably the nickname will be given directly by the Data so i have to put
-// a nickname declaration here and put in the class constructor
-// FIXME the dataCreator in every subclass and add the VVServer part and add the Nickname part
+
 /**
  * Action abstract class defines messages which are used in a listeners-posters system between Model, View and Controller
  */
@@ -18,7 +15,9 @@ public abstract class Action {
      */
     private final String description;
 
-    //TODO javadoc
+    /**
+     * Nickname of the Player that made the Action
+     */
     private final String nickname;
 
     /**
@@ -38,8 +37,11 @@ public abstract class Action {
     //CONSTRUCTOR
 
     /**
-     * Constructor for action
+     * Constructor for Action
      * @param description the description of the action
+     * @param nickname is the name of the Client that triggered this Action
+     * @param gameID is the ID of the party from where the Client that triggered this Action belongs
+     * @param playerID is the ID the Client that triggered this Action
      */
     public Action(String description, String nickname, int gameID, int playerID){
         this.gameID = gameID;
@@ -80,10 +82,18 @@ public abstract class Action {
         return playerID;
     }
 
+    /**
+     * Getter for gameID
+     * @param gameID is the ID of the party/game that the Player belongs to
+     */
     public void setGameID(int gameID) {
         this.gameID = gameID;
     }
 
+    /**
+     * Setter for playerID
+     * @param playerID is the ID of the player as int
+     */
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
@@ -98,6 +108,10 @@ public abstract class Action {
 
     }
 
+    /**
+     * Method that creates the respective Data, here is displayed just as an interface method
+     * @return the Data related to the Action
+     */
     public Data dataCreator() {
         return null;
     }

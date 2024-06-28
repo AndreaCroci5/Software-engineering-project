@@ -26,9 +26,6 @@ public class PlacingAction extends Action {
 
 
     //CONSTRUCTOR
-    /**
-     * Constructor for PLACING action
-     */
     public PlacingAction(String nickname, int gameID, int playerID, int choice, Coordinates coordsToPlace, CardFace face ){
         super("PLACING", nickname, gameID, playerID);
         this.choice = choice;

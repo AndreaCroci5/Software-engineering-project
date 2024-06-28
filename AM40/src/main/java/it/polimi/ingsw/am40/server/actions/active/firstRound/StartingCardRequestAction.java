@@ -6,19 +6,19 @@ import it.polimi.ingsw.am40.server.actions.passive.firstRound.StartingCardInfoAc
 import it.polimi.ingsw.am40.server.model.Game;
 import it.polimi.ingsw.am40.server.model.PrivateBoard;
 
+/**
+ * This class represents the Action made by the Server when a Player asks for information about the startingCards that he has
+ * to choose in his turn
+ */
 public class StartingCardRequestAction extends Action {
-    //ATTRIBUTES
 
     //CONSTRUCTOR
-    /**
-     * Constructor for StartingCardRequestAction
-     */
     public StartingCardRequestAction(String nickname, int gameID, int playerID){
         super("STARTING_CARD_REQUEST", nickname, gameID, playerID);
     }
 
     /**
-     * Override of doAction for the StartingCard assignment
+     * Override of doAction for the StartingCard request
      * @param agent is the Game in which we perform the Action
      */
     @Override

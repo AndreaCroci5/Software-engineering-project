@@ -7,12 +7,13 @@ import it.polimi.ingsw.am40.server.model.Game;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the Action made by the Server when the Players have chosen their AimCard and, as the rules say,
+ * the turn order needs a shuffle
+ */
 public class PlayersOrderRequestAction extends Action {
 
     //CONSTRUCTOR
-    /**
-     * Constructor for PlayersOrderRequestAction
-     */
     public PlayersOrderRequestAction(String nickname, int gameID, int playerID){
         super("PLAYERS_ORDER_REQUEST", nickname, gameID, playerID);
     }

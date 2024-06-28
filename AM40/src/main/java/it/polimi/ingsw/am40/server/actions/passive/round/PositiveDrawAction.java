@@ -27,6 +27,7 @@ public class PositiveDrawAction extends Action {
     /** ID of the new Card on the top of the Deck*/
     private final int cardOnTopOfDeck;
 
+    //CONSTRUCTOR
     public PositiveDrawAction(String nickname, int gameID, int playerID, int cardDrawnID, int cardReplacedID, int replacePosition, int cardOnTopOfDeck) {
         super("POSITIVE_DRAW", nickname, gameID, playerID);
         this.cardDrawnID = cardDrawnID;
@@ -36,12 +37,20 @@ public class PositiveDrawAction extends Action {
     }
 
 
+    /**
+     * Override of doAction for Positive Draw
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
+     */
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
         v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return a PositiveDrawData
+     */
     public Data dataCreator() {
         return new PositiveDrawData(this.getNickname(), this.cardDrawnID, this.cardReplacedID, this.replacePosition, this.cardOnTopOfDeck);
     }

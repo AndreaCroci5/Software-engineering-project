@@ -16,9 +16,6 @@ public class AimCardChoiceAction extends Action {
     private final int choice;
 
     //CONSTRUCTOR
-    /**
-     * Constructor for AimCardChoiceAction
-     */
     public AimCardChoiceAction(String nickname, int gameID, int playerID, int choice){
         super("AIM_CARD_SELECTION", nickname, gameID, playerID);
         this.choice = choice;

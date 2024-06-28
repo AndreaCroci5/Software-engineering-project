@@ -13,19 +13,24 @@ import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
  */
 public class LastRoundsInfoAction extends Action {
     //CONSTRUCTOR
-    /**
-     * Constructor for Last Rounds Information response when Endgame phase is triggered
-     */
     public LastRoundsInfoAction(String nickname, int gameID, int playerID){
         super("LAST_ROUNDS", nickname, gameID, playerID);
     }
 
+    /**
+     * Override of doAction Last Rounds info transport
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
+     */
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
         v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return a LastRoundsInfoData
+     */
     public Data dataCreator() {
         return  new LastRoundsInfoData(this.getNickname());
     }

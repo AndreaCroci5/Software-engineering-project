@@ -10,16 +10,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents the Action made by the Server when a Party reaches the desired amount of players selected by
+ * the Client that created the Party
+ */
 public class InitializationAction extends Action {
     //ATTRIBUTES
+    /**
+     * Reference to an ArrayList containing the names of the Players according to the first round order
+     */
     private ArrayList<String> players;
 
+    /**
+     * Reference to the VVServer main server class responsible for listening to the model (Game).
+     * This attribute has to be set when the Game is initialized
+     */
     private VVServer gameListener;
 
     //CONSTRUCTOR
-    /**
-     * Constructor for InitializationAction
-     */
     public InitializationAction(String nickname, int gameID, int playerID, ArrayList<String> players, VVServer gameListener){
         super("GAME_INIT", nickname, gameID, playerID);
         this.players = players;

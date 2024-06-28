@@ -7,13 +7,13 @@ import it.polimi.ingsw.am40.server.model.Game;
 
 import java.util.List;
 
+/**
+ * This class represents the Action made by the Server when a Player asks for information on the Token that he has to choose
+ * in the first round as a part of the setup
+ */
 public class TokenRequestAction extends Action {
-    //ATTRIBUTES
 
     //CONSTRUCTOR
-    /**
-     * Constructor for TokenRequestAction
-     */
     public TokenRequestAction(String nickname, int gameID, int playerID){
         super("TOKEN_REQUEST", nickname, gameID, playerID);
     }

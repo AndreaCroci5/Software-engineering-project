@@ -14,9 +14,6 @@ import it.polimi.ingsw.am40.server.model.Game;
 public class AimCardRequestAction extends Action {
 
     //CONSTRUCTOR
-    /**
-     * Constructor for AimCardRequestAction
-     */
     public AimCardRequestAction(String nickname, int gameID, int playerID){
         super("AIM_CARD_REQUEST", nickname, gameID, playerID);
     }

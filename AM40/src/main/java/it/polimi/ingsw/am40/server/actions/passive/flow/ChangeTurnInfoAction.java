@@ -18,22 +18,26 @@ public class ChangeTurnInfoAction extends Action {
     private final String nextActivePlayerNick;
 
     //CONSTRUCTOR
-
-    /**
-     * Constructor for Change Turn Information response
-     */
     public ChangeTurnInfoAction(String nickname, int gameID, int playerID, String nextActivePlayerNick) {
         super("CHANGE_TURN_INFO", nickname, gameID, playerID);
         this.nextActivePlayerNick = nextActivePlayerNick;
     }
 
 
+    /**
+     * Override of doAction for Change Turn info transport
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
+     */
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
         v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return a ChangeTurnInfoData
+     */
     public Data dataCreator() {
         return new ChangeTurnInfoData(this.getNickname(), this.nextActivePlayerNick);
     }

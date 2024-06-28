@@ -14,20 +14,25 @@ import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 public class RepeatPlacingAction extends Action {
 
     //CONSTRUCTOR
-    /**
-     * Constructor for Negative placing action response
-     */
     public RepeatPlacingAction(String nickname, int gameID, int playerID){
         super("REPEAT_PLACING", nickname, gameID, playerID);
     }
 
 
+    /**
+     * Override of doAction for Negative Placing
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
+     */
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
         v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return a RepeatPlacingData
+     */
     @Override
     public Data dataCreator() {
         return new RepeatPlacingData(this.getNickname());

@@ -33,9 +33,6 @@ public class PositivePlacingAction extends Action {
     private final String cardFace;
 
     //CONSTRUCTOR
-    /**
-     * Constructor for Positive placing action response
-     */
     public PositivePlacingAction(String nickname, int gameID, int playerID, int cardID, Coordinates coordsCardPlaced, String cardFace, int score, Map<CardElements,Integer> elementsCounter, ArrayList<Coordinates> placingCoordinates){
         super("POSITIVE_PLACING", nickname, gameID, playerID);
         this.cardID = cardID;
@@ -47,8 +44,8 @@ public class PositivePlacingAction extends Action {
     }
 
     /**
-     * Override of doAction for the positive response after a placing phase
-     * @param agent is the VirtualView in which we perform the Action
+     * Override of doAction for Positive Placing
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
      */
     @Override
     public void doAction(ActionAgent agent){
@@ -56,6 +53,10 @@ public class PositivePlacingAction extends Action {
         v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return a PositivePlacingData
+     */
     public Data dataCreator() {
         return new PositivePlacingData(this.getNickname(), this.cardID, this.coordsCardPlaced, this.cardFace, this.score, this.elementsCounter, this.placingCoordinates);
     }

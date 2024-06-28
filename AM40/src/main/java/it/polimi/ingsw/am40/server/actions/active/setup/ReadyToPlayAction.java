@@ -10,13 +10,21 @@ import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the Action made by the Server when the respective Data is sent on the network carrying the
+ * information that a Client is ready to play and is waiting for the Game to start
+ */
 public class ReadyToPlayAction extends Action {
 
-
+    //CONSTRUCTOR
     public ReadyToPlayAction(String description, String nickname, int gameID, int playerID) {
         super("READY_TO_PLAY", nickname, gameID, playerID);
     }
 
+    /**
+     * Override of doAction for the Ready To Play notification
+     * @param agent is the VVServer on which the Action operates
+     */
     @Override
     public void doAction(ActionAgent agent) {
         VVServer server = (VVServer) agent;

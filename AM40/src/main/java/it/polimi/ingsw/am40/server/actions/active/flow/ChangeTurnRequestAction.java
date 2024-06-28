@@ -14,15 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represent the Action made by the Server in response a Data sent on the network by the Client that
+ * This class represent the Action made by the Server in response of a Data sent on the network by the Client that
  * has just finished his round and confirms the fact that his round is ended to the model
  */
 public class ChangeTurnRequestAction extends Action {
 
     //CONSTRUCTOR
-    /**
-     * Constructor for ChangeTurnRequestAction
-     */
     public ChangeTurnRequestAction(String nickname, int gameID, int playerID){
         super("CHANGE_TURN", nickname, gameID, playerID);
     }

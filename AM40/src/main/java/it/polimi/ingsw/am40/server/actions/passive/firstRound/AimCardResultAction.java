@@ -17,20 +17,25 @@ public class AimCardResultAction extends Action {
 
 
     //CONSTRUCTOR
-    /**
-     * Constructor for AimCard choice selection response
-     */
     public AimCardResultAction(String nickname, int gameID, int playerID, int aimCardChosenID){
         super("AIM_CARD_SELECTED", nickname, gameID, playerID);
         this.aimCardChosenID = aimCardChosenID;
     }
 
+    /**
+     * Override of doAction for AimCard face choice confirmation
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
+     */
     @Override
     public void doAction(ActionAgent agent){
         VVServer v = (VVServer) agent;
         v.sendOnNetworkBroadcastInAParty(this.getGameID(), this.dataCreator());
     }
 
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return an AimCardResultData
+     */
     @Override
     public Data dataCreator() {
         return new AimCardResultData(this.getNickname(), this.aimCardChosenID);

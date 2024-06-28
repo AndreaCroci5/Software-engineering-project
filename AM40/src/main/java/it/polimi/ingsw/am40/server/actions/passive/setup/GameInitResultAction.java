@@ -9,8 +9,15 @@ import it.polimi.ingsw.am40.server.network.virtual_view.VVServer;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This class serves as a mean to notify to the VirtualView which then will notify the clients by using the Network interface
+ * about the situation on the board when the Game is started
+ */
 public class GameInitResultAction extends Action {
     //ATTRIBUTES
+    /**
+     * This ArrayList contains the nicknames of the Players in a certain Game ordered by their respective Game order
+     */
     private ArrayList<String> nicknames;
 
     /**
@@ -20,17 +27,26 @@ public class GameInitResultAction extends Action {
      */
     private Map<String, ArrayList<Integer>> commonboard;
 
+
     public GameInitResultAction(String nickname, int gameID, int playerID, ArrayList<String> nicknames, Map<String, ArrayList<Integer>> commonboard) {
         super("GAME_INIT_RESULT", nickname, gameID, playerID);
         this.nicknames = nicknames;
         this.commonboard = commonboard;
     }
 
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return a GameInitResultData
+     */
     @Override
     public Data dataCreator() {
         return new GameInitResultData(this.getNickname(),this.nicknames,this.commonboard);
     }
 
+    /**
+     * Override of doAction for Game Init result
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
+     */
     @Override
     public void doAction(ActionAgent agent) {
         VVServer v = (VVServer) agent;

@@ -20,9 +20,6 @@ public class DrawAction extends Action {
 
 
     //CONSTRUCTOR
-    /**
-     * Constructor for DRAW action
-     */
     public DrawAction(String nickname, int gameID, int playerID, int choice, int selection ){
         super("DRAW", nickname, gameID, playerID);
         this.choice = choice;

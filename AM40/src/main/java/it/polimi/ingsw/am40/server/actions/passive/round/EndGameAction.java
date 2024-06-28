@@ -20,9 +20,6 @@ public class EndGameAction extends Action {
     private final List<String> winners;
 
     //CONSTRUCTOR
-    /**
-     * Constructor for EndGameAction
-     */
     public EndGameAction(String nickname, int gameID, int playerID, List<String> winners){
         super("ENDGAME", nickname, gameID, playerID);
         this.winners = winners;
@@ -30,7 +27,7 @@ public class EndGameAction extends Action {
 
     /**
      * Override of doAction for EndGame phase
-     * @param agent
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
      */
     @Override
     public void doAction(ActionAgent agent){
@@ -38,6 +35,10 @@ public class EndGameAction extends Action {
         v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return a EndGameData
+     */
     public Data dataCreator() {
         return new EndGameData(this.getNickname(), this.winners);
     }

@@ -16,9 +16,6 @@ public class TokenChoiceAction extends Action {
     private final Color tokenColor;
 
     //CONSTRUCTOR
-    /**
-     * Constructor for TokenChoiceAction
-     */
     public TokenChoiceAction(String nickname, int gameID, int playerID, Color tokenColor){
         super("TOKEN_SELECTION", nickname, gameID, playerID);
         this.tokenColor = tokenColor;
@@ -39,9 +36,6 @@ public class TokenChoiceAction extends Action {
             String color = tokenColor.toString();
             //Changes Notification
             gameContext.notifyListeners(new PositiveTokenColorAction(this.getNickname(), this.getGameID(), this.getPlayerID(), color),gameContext.getListeners());
-
-
-
 
     }
 }

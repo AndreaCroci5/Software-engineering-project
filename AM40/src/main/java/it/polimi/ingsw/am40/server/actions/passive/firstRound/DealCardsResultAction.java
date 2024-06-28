@@ -26,9 +26,6 @@ public class DealCardsResultAction extends Action {
 
 
     //CONSTRUCTOR
-    /**
-     * Constructor for DealCardsResult Action
-     */
     public DealCardsResultAction(String nickname, int gameID, int playerID, ArrayList<Integer> handDeckIDs, int deckResourceCardID, int deckGoldenCardID){
         super("CARDS_DEAL_RESULT", nickname, gameID, playerID);
         this.handDeckIDs = handDeckIDs;
@@ -38,7 +35,7 @@ public class DealCardsResultAction extends Action {
 
     /**
      * Override of doAction for the DeaCardsResultAction
-     * @param agent is the Game in which we perform the Action
+     * @param agent is the VVServer from which the Action is transformed into a Data and sent
      */
     @Override
     public void doAction(ActionAgent agent){
@@ -46,7 +43,10 @@ public class DealCardsResultAction extends Action {
         v.sendOnNetworkBroadcastInAParty(this.getGameID(), dataCreator());
     }
 
-
+    /**
+     * Override of dataCreator for the creation of the respective result Data
+     * @return a DealCardsResultData
+     */
     public Data dataCreator() {
         return new DealCardsResultData(this.getNickname(), this.handDeckIDs, this.deckResourceCardID, this.deckGoldenCardID);
     }

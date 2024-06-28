@@ -10,15 +10,11 @@ import java.util.ArrayList;
 
 /**
  * This class represent the Action made by the Server after the Token selection phase that gives to a Player his 2
- * ResourceCards and 1 GoldenResourceCard as the rules say
+ * ResourceCards and 1 GoldResourceCard as the rules say
  */
 public class DealCardsRequestAction extends Action {
-    //ATTRIBUTES
 
     //CONSTRUCTOR
-    /**
-     * Constructor for DealCardsRequestAction
-     */
     public DealCardsRequestAction(String nickname,int gameID, int playerID){
         super("CARDS_DEAL", nickname, gameID, playerID);
     }

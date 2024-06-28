@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * This class represent the Action made by the Server in response of an input coming through the network made
- * by the Client that chooses the phase of his StartingCard
+ * by the Client that chooses the face of his StartingCard
  */
 public class StartingCardChoiceAction extends Action{
     //ATTRIBUTES
@@ -21,9 +21,6 @@ public class StartingCardChoiceAction extends Action{
     private final CardFace cardFace;
 
     //CONSTRUCTOR
-    /**
-     * Constructor for StartingCardChoiceAction
-     */
     public StartingCardChoiceAction(String nickname, int gameID, int playerID, CardFace cardFace){
         super("STARTING_CARD_CHOICE", nickname, gameID, playerID);
         this.cardFace = cardFace;
