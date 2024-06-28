@@ -1,6 +1,10 @@
 package it.polimi.ingsw.am40.server.model;
 import java.util.*;
 
+/**
+ * This class represents the deck of the commonBoard
+ * @param <T> could be: resource,gold or aim
+ */
 public class Deck<T> {
 
     /**

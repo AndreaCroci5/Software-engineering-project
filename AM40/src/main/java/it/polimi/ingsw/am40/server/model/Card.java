@@ -7,7 +7,7 @@ package it.polimi.ingsw.am40.server.model;
 
 public abstract class Card {
     /**
-     * Univoke identification number of a card
+     * Univocal identification number of a card
      */
     private final int cardID;
 
@@ -20,6 +20,10 @@ public abstract class Card {
         this.cardID = cardID;
     }
 
+    /**
+     * Getter dor cardID attribute
+     * @return the ID of the card
+     */
     public int getCardID() {
         return this.cardID;
     }

@@ -5,14 +5,29 @@ import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.flow.JoinRequestData;
 
+/**
+ * This message is used to send a join request
+ */
 public class JoinRequestMessage extends Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String clientNickname;
 
+    /**
+     * It's the address of the client
+     */
     private final String IpAddress;
 
+    /**
+     * It's the port of the client
+     */
     private final int port;
 
+    /**
+     * It's the remote interface of the client
+     */
     private final RemoteInterfaceClient skeleton;
 
     /**

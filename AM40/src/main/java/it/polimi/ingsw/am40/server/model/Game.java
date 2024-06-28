@@ -36,6 +36,9 @@ public class Game implements ActionPoster {
      */
     private List<ActionListener> listeners;
 
+    /**
+     * It's a boolean value that tells when we are in the final rounds
+     */
     private boolean end_game;
 
 
@@ -79,10 +82,18 @@ public class Game implements ActionPoster {
         return remainingRounds;
     }
 
+    /**
+     * Getter for endGame attribute
+     * @return true if we are in the final rounds,false otherwise
+     */
     public boolean isEnd_game() {
         return end_game;
     }
 
+    /**
+     * Setter for endGame attribute
+     * @param end_game set the endGame true when we reach the final rounds
+     */
     public void setEnd_game(boolean end_game) {
         this.end_game = end_game;
     }

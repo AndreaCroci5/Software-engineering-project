@@ -14,19 +14,29 @@ import java.io.Serializable;
  * The x-axis grows positive towards the bottom-right corner of a card and the y-axis towards the top-right corner
  *
  */
-
-
 public class Coordinates implements Serializable {
 
     //ATTRIBUTE
 
+    /**
+     * X coordinate
+     */
     private int x;
+
+    /**
+     * Y coordinate
+     */
     private int y;
 
 
     //CONSTRUCTOR METHOD
 
 
+    /**
+     * Constructor for the Coordinates
+     * @param x coordinate
+     * @param y coordinate
+     */
     @JsonCreator
     public Coordinates(@JsonProperty("x") int x,
                        @JsonProperty("y") int y) {
@@ -37,10 +47,18 @@ public class Coordinates implements Serializable {
 
     //GETTER METHODS
 
+    /**
+     * Getter for x coordinate
+     * @return the x coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Getter for y coordinate
+     * @return the y coordinate
+     */
     public int getY() {
         return y;
     }
@@ -48,10 +66,18 @@ public class Coordinates implements Serializable {
 
     //SETTER METHODS
 
+    /**
+     * Setter for x coordinate
+     * @param x sets the x coordinate
+     */
     public void setX(int x){
         this.x = x;
     }
 
+    /**
+     * Setter for the y coordinate
+     * @param y sets the y coordinate
+     */
     public void setY(int y){
         this.y = y;
     }
@@ -74,6 +100,10 @@ public class Coordinates implements Serializable {
 
     }
 
+    /**
+     * Calculates the hash code value for this Coordinates object
+     * @return the hash code value for this object
+     */
     @Override
     public int hashCode() {
         int result = x;

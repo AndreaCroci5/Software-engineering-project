@@ -147,6 +147,9 @@ public class CodexNaturalisClient {
 
     }
 
+    /**
+     * Method to clear the screen on the terminal
+     */
     public static void clearScreen() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {

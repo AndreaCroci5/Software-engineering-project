@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am40.server.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommonBoard {

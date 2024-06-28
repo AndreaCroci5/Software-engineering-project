@@ -282,27 +282,4 @@ public class Player {
         this.startingPlayer = true;
     }
 
-
-    //PRIVATE METHODS
-
-    /*
-    **
-     * Setter for color on Player class, calling the setter on Token class
-     * @param color to set the new game piece color as Color (ENUM)
-     *
-    private void chooseInitialColor(Color color){
-        this.token.setColor(color);
-    }
-
-    private void choosePrivateAim(){
-
-    }
-
-    private void chooseStartingCardFacing(CardFacing cardFacing){
-
-    }
-    */
-    //PUBLIC METHODS
-
-
 }

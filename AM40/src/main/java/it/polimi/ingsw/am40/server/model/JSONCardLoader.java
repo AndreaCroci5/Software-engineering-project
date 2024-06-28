@@ -141,10 +141,6 @@ public class JSONCardLoader {
             } catch (IOException | ParseException ex) {
                 throw new RuntimeException(ex);
             }
-       // } else {
-            //System.err.println("Impossible to find the JSON file!");
-        //}
-       // return null;
     }
 
 
@@ -333,17 +329,6 @@ public class JSONCardLoader {
 
         return new AimCard(Math.toIntExact(cardID), Math.toIntExact(points), checkResources, checker, rotation);
     }
-
-
-    /*
-
-    public static void main(String[] args) {
-        JSONCardLoader loader = new JSONCardLoader();
-        loader.loadCards();
-    }
-
-*/
-
 
 }
 

@@ -92,8 +92,6 @@ public class GoldResourceCard extends ResourceCard{
 
     //PUBLIC METHODS
 
-    //TO BE CHECKED (it can be done with lambda probably)
-
     /**
      * This method checks if the requirements are satisfied
       * @param elementsCounter Map of the actual elements of the player

@@ -5,8 +5,14 @@ import it.polimi.ingsw.am40.client.network.RMI.RemoteInterfaceClient;
 import it.polimi.ingsw.am40.data.Data;
 import it.polimi.ingsw.am40.data.active.flow.CreateRequestData;
 
+/**
+ * Thi message is sent to request a creation of the game
+ */
 public class CreateRequestMessage extends Message {
 
+    /**
+     * It's the name of the active client
+     */
     private final String clientNickname;
 
     /**
@@ -14,10 +20,19 @@ public class CreateRequestMessage extends Message {
      */
     private final int numOfPlayer;
 
+    /**
+     * It's the address of the client
+     */
     private final String IpAddress;
 
+    /**
+     * It's the port of the client
+     */
     private final int port;
 
+    /**
+     * It's the remote interface of the client
+     */
     private final RemoteInterfaceClient skeleton;
 
     /**

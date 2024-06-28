@@ -47,6 +47,16 @@ public class StartingCardResultData extends Data {
     //CONSTRUCTOR
 
     //Logic constructor for subclasses
+
+    /**
+     * Constructor for the startingCardResultData
+     * @param nickname is the name of the active client
+     * @param startingCardID is the ID of the starting card
+     * @param startingCardCoords are the coordinates of the starting card
+     * @param cardFace is the face on which the starting card was placed
+     * @param placingCoordinates are the coordinates where the client can place the next card
+     * @param elementsCounter is the counter of the elements on client's private board
+     */
     public StartingCardResultData(String nickname, int startingCardID, Coordinates startingCardCoords, String cardFace, ArrayList<Coordinates> placingCoordinates, Map<CardElements,Integer> elementsCounter) {
         super("POSITIVE_STARTING_CARD", nickname);
         this.startingCardID = startingCardID;
@@ -56,6 +66,13 @@ public class StartingCardResultData extends Data {
         this.elementsCounter = elementsCounter;
     }
 
+    /**
+     * Constructor for the StartingCardResultData
+     * @param nickname is the name of the active client
+     * @param startingCardID is the ID of the starting card
+     * @param placingCoordinates are the coordinates where the client can place the next card
+     * @param elementsCounter is the counter of the elements on client's private board
+     */
     @JsonCreator
     public StartingCardResultData(@JsonProperty("nickname") String nickname,
                                   @JsonProperty("startingCardID") int startingCardID,
@@ -112,10 +129,18 @@ public class StartingCardResultData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new StartingCardResultMessage(this.getNickname(),this.startingCardID,this.startingCardCoords,this.cardFace,this.placingCoordinates,this.elementsCounter);
     }
