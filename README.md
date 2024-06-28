@@ -14,13 +14,13 @@ Codex Naturalis is a board game made by the italian company Cranio Creation whos
 
 | Functionality              |            Status             |
 |:---------------------------|:-----------------------------:|
-| Basic rules                |             [ ]               |
-| Complete rules             |             [ ]               |
-| Socket                     |             [ ]               |
-| RMI                        |             [ ]               |
-| CLI                        |             [ ]               |
-| GUI                        |             [ ]               |
-| AFs                        |             [ ]               |
+| Basic rules                |             [ Yes ]               |
+| Complete rules             |             [ Yes ]               |
+| Socket                     |             [ Yes ]               |
+| RMI                        |             [ Yes (to fix) ]               |
+| CLI                        |             [ Yes ]               |
+| GUI                        |             [ Yes ]               |
+| AFs                        |             [ Yes (1) ]               |
 
 
 
