@@ -18,6 +18,9 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class RemoteObjectServer extends UnicastRemoteObject implements RemoteInterfaceServer {
 
+    /**
+     * Reference to the ServerNetworkRMIManagaer
+     */
     private ServerNetworkRMIManager manager;
 
 
@@ -53,7 +56,12 @@ public class RemoteObjectServer extends UnicastRemoteObject implements RemoteInt
         return "hello world;";
     }
 
-    //FIXME
+    /**
+     * This method is used to register a Client by associating also the hostname
+     * @param client the remote interface of this client
+     * @param hostname is the hostname of the Client
+     * @return an integer as identifier for the Client
+     */
     @Override
     public Integer registerClient(RemoteInterfaceClient client, String hostname) {
         return this.manager.newConnectedClientNotification(null, client);
@@ -290,9 +298,6 @@ public class RemoteObjectServer extends UnicastRemoteObject implements RemoteInt
         }
         this.manager.getMainServerClass().onEvent(data.onServer());
     }
-
-    //fixme differenza tra newconnection e reconnection
-
 
 
 

@@ -63,7 +63,7 @@ public interface NetworkManagerServer {
      * @param socket the socket of the client
      * @return the ID of the client
      */
-    int newConnectedClientNotification(Socket socket, RemoteInterfaceClient remoteInterface); //fixme use optional
+    int newConnectedClientNotification(Socket socket, RemoteInterfaceClient remoteInterface);
 
     /**
      * Method to notify the VVServer that a client has been reconnected
@@ -78,7 +78,10 @@ public interface NetworkManagerServer {
      */
     void disconnectedClientNotification(NetworkClient client) throws IOException;
 
-    void removeClientNotification();//fixme
+    /**
+     * Method to remove a Client
+     */
+    void removeClientNotification();
 
     /**
      * Method to send to a specific client a network message
@@ -86,5 +89,4 @@ public interface NetworkManagerServer {
      * @param client the recipient
      */
     void sendSerializedMessage(Data message, NetworkClient client);
-//fixme
 }

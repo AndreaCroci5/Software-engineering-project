@@ -143,7 +143,7 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
                 } catch (RemoteException e) {
                     System.out.println("Something went wrong with the RMI server initialization");
                     e.printStackTrace();
-                    throw new RuntimeException(e);//fixme protected jdoc
+                    throw new RuntimeException(e);
                 }
             });
 
@@ -190,9 +190,9 @@ public class ServerNetworkRMIManager implements NetworkManagerServer{
         VVServer.activeConnections++;
         System.out.println("Accepted RMI client");
         System.out.println(VVServer.activeConnections + " clients are logged now");
-        //fixme bind socket e gestione riconnessione client con nickname
 
-        //fixme per fine partita devo fare in modo che si sciolga il party
+
+
         return clientID;
     }
 

@@ -180,8 +180,6 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
 
                             //Data pingPacket = new PingData();
                             //this.sendSerializedMessage(pingPacket, nc);
-                            //fixme * problema che potrei ricevere altro
-                            //fixme A+S ping with data + set the streams at reconnect
                             System.out.println("ping sent");
                             /*if(in.nextLine() != "pong"){
                                 System.out.println("Client doesn't answer to the ping");
@@ -298,10 +296,8 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
             throw new RuntimeException(e);
         }
 
-        System.out.println(">Send serialised message " + json); // FIXME REMOVE
         client.getStreams().getOut().println(json);
         client.getStreams().getOut().flush();
-        //fixme A+S rimuovere message e end*/
     }
 
 
@@ -387,10 +383,14 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
      */
     @Override
     public void reconnectionNotification(String clientName) {
-        //todo
+
     }
 
-
+    /**
+     * This method is used to notify a disconnection
+     * @param client is the client that has disconnected
+     * @throws IOException because of the Input/Output Streams
+     */
     @Override
     public  void disconnectedClientNotification(NetworkClient client) throws IOException {
 
@@ -408,7 +408,7 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
                     NetworkClient cInParty = this.mainServerClass.getClientInAPartyByID(client.getClientID());
                     if(cInParty != null){
                         System.out.println("1 client has temporarily disconnected from TCP");
-                        //fixme action per propagazione a model
+
                         client.setOnline(false);
                         client.getSocket().close();
                     }
@@ -441,11 +441,9 @@ public class ServerNetworkTCPManager implements NetworkManagerServer {
     /**
      * Method used for closing the client handler
      */
-
-
     @Override
     public void removeClientNotification() {
-//todo
+
     }
 }
 

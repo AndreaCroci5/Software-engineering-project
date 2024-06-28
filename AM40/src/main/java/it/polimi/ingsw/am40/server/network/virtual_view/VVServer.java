@@ -229,7 +229,7 @@ public class VVServer implements ActionPoster, ActionListener  {
      * Getter for all the clients connected with RMI
      * @return the list of the NetworkClient connected
      */
-    public List<NetworkClient> getAllRMIClients(){//fixme attenzione alla sincronizzazione su stesso lock
+    public List<NetworkClient> getAllRMIClients(){
         List<NetworkClient> result = null;
         synchronized (orphanClients){
             for (NetworkClient client : this.orphanClients) {
@@ -469,7 +469,7 @@ public class VVServer implements ActionPoster, ActionListener  {
         }
     }
 
-    //fixme deloggare
+
 
 
     //INIT METHOD
@@ -494,7 +494,7 @@ public class VVServer implements ActionPoster, ActionListener  {
             }
             nm.initCommunication();
             //nm.initPing();
-            //fixme 230624S ping
+
         }
 
         this.serverOn = true;

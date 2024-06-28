@@ -143,7 +143,7 @@ public class NetworkParty {
            if (this.currentNumOfClients == 1) {
                client.setCreator(true);
            }
-           this.clients.add(client);//fixme togliere da orphan
+           this.clients.add(client);
 
        }else throw new NonExistentClientException();
     }

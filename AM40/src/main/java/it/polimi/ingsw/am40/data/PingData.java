@@ -6,7 +6,7 @@ import it.polimi.ingsw.am40.server.actions.Action;
 
 @JsonTypeName("PING")
 public class PingData extends Data{
-    //FIXME *
+
     //Json constructor
     public PingData(){
         super("PING", "PING_USER");
