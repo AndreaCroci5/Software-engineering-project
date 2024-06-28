@@ -17,13 +17,31 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
+/**
+ * This message is sent to the client to confirm his choice on the face of the starting card
+ */
 @JsonTypeName("POSITIVE_STARTING_CARD")
 public class StartingCardResultData extends Data {
     //ATTRIBUTES
+    /**
+     * ID of the starting card
+     */
     private int startingCardID;
+    /**
+     * Coordinates of the starting card
+     */
     private Coordinates startingCardCoords;
+    /**
+     * Face of the starting card
+     */
     private String cardFace;
+    /**
+     * Coordinates on which the client can place the next card
+     */
     private ArrayList<Coordinates> placingCoordinates;
+    /**
+     * Counter of the elements in client's private board
+     */
     private Map<CardElements,Integer> elementsCounter;
 
     //CONSTRUCTOR

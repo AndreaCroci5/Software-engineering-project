@@ -13,6 +13,9 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * This data is sent to the client to give him his 3 hand cards
+ */
 @JsonTypeName("CARDS_DEAL_RESULT")
 public class DealCardsResultData extends Data {
     //ATTRIBUTES
@@ -28,6 +31,13 @@ public class DealCardsResultData extends Data {
     //CONSTRUCTOR
 
 
+    /**
+     * Constructor for the DealCardsResultData
+     * @param nickname is the name of the active client
+     * @param handDeckIDs are the IDs of the cards in client's hand
+     * @param deckResourceCardID is the ID of the card on top of the resource deck
+     * @param deckGoldenCardID is the ID of the card on top of the golden deck
+     */
     @JsonCreator
     public DealCardsResultData(@JsonProperty("nickname") String nickname,
                                @JsonProperty("handDeckIDs") ArrayList<Integer> handDeckIDs,
@@ -65,10 +75,19 @@ public class DealCardsResultData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new DealCardsResponseMessage(this.getNickname(),this.handDeckIDs,this.deckResourceCardID,this.deckGoldenCardID);
     }

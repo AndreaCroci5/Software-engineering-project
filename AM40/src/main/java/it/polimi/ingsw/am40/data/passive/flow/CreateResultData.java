@@ -12,13 +12,29 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent to the client to confirm the creation of a new game
+ */
 @JsonTypeName("CREATE_RESULT")
 public class CreateResultData extends Data {
     //ATTRIBUTES
+    /**
+     * It's the number of players that the wants in the game
+     */
     private int numOfPlayers;
+    /**
+     * It's the number of players logged
+     */
     private int playersLogged;
 
     //Json constructor
+
+    /**
+     * Constructor for the CreateResultData
+     * @param nickname is the name of the active client
+     * @param numOfPlayers is the number of players that the wants in the game
+     * @param playersLogged is the number of players logged
+     */
     @JsonCreator
     public CreateResultData(@JsonProperty("nickname") String nickname,
                             @JsonProperty("numOfPlayers") int numOfPlayers,
@@ -47,10 +63,18 @@ public class CreateResultData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new CreateResponseMessage(this.getNickname(),this.numOfPlayers);
     }

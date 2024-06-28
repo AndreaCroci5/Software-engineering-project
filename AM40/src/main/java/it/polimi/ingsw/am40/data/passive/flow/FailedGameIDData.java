@@ -12,10 +12,18 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent when a client tries to join a full match
+ */
 @JsonTypeName("FAILED_GAME_ID")
 public class FailedGameIDData extends Data {
 
     //Json constructor
+
+    /**
+     * Constructor for FailedGameIDData
+     * @param nickname is the name of the active client
+     */
     @JsonCreator
     public FailedGameIDData(@JsonProperty("nickname") String nickname) {
         super("FAILED_GAME_ID", nickname);
@@ -24,10 +32,18 @@ public class FailedGameIDData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new FailedGameIDMessage(this.getNickname());
     }

@@ -13,6 +13,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This data is used to let the client know that the join worked
+ */
 @JsonTypeName("JOIN_RESPONSE")
 public class JoinResponseData extends Data {
     //ATTRIBUTES
@@ -31,6 +34,11 @@ public class JoinResponseData extends Data {
         this.currentParties = currentParties;
     }
 
+    /**
+     * Constructor for JoinResponseData
+     * @param nickname is the name of the active client
+     * @param currentParties reference to the parties
+     */
     @JsonCreator
     public JoinResponseData(@JsonProperty("nickname") String nickname,
                             @JsonProperty("currentParties") Map<Integer, ArrayList<Integer>> currentParties) {
@@ -39,6 +47,10 @@ public class JoinResponseData extends Data {
     }
 
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new JoinResponseMessage(getNickname(), this.currentParties);
     }

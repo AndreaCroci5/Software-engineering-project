@@ -12,6 +12,9 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent to updates the clients after a positive draw
+ */
 @JsonTypeName("POSITIVE_DRAW")
 public class PositiveDrawData extends Data {
     //ATTRIBUTES+
@@ -31,6 +34,14 @@ public class PositiveDrawData extends Data {
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for the PositiveDrawData
+     * @param nickname is the name of the active client
+     * @param cardDrawnID is the ID of the Card drawn
+     * @param cardReplacedID is the ID of the new Card that replaced the CardDrawn
+     * @param replacePosition is attribute that refers to the location from where the Player has drawn a Card
+     * @param cardOnTopOfDeck is the ID of the new Card on the top of the Deck
+     */
     @JsonCreator
     public PositiveDrawData(@JsonProperty("nickname") String nickname,
                             @JsonProperty("cardDrawnID") int cardDrawnID,
@@ -79,10 +90,18 @@ public class PositiveDrawData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new PositiveDrawMessage(this.getNickname(),this.cardDrawnID,this.cardReplacedID,this.replacePosition,this.cardOnTopOfDeck);
     }

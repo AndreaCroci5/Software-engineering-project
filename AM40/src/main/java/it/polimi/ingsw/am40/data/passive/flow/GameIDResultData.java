@@ -11,11 +11,23 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent to confirm the gameID choice
+ */
 @JsonTypeName("GAME_ID_RESULT")
 public class GameIDResultData extends Data {
     //ATTRIBUTES
+    /**
+     * It's the ID of the party
+     */
     private int partyID;
+    /**
+     * It's the number of players logged
+     */
     private int currentNumOfPlayers;
+    /**
+     * It's the number of players at the beginning of the game
+     */
     private int totalNumOfPlayers;
 
     public int getPartyID() {
@@ -42,6 +54,14 @@ public class GameIDResultData extends Data {
         this.totalNumOfPlayers = totalNumOfPlayers;
     }
 
+    /**
+     * Constructor for the GameIDResultData
+     * @param nickname is the name of the active client
+     * @param gameId is the ID of the game
+     * @param partyID is the ID of the party
+     * @param currentNumOfPlayers is the number of players logged
+     * @param totalNumOfPlayers is the number of players at the beginning of the game
+     */
     @JsonCreator
     public GameIDResultData(@JsonProperty("nickname") String nickname,
                             @JsonProperty("game_id") int gameId,
@@ -55,6 +75,10 @@ public class GameIDResultData extends Data {
         this.totalNumOfPlayers = totalNumOfPlayers;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new GameIdResponseMessage(getNickname(), partyID, currentNumOfPlayers, totalNumOfPlayers);
     }

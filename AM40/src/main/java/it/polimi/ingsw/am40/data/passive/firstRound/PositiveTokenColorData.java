@@ -12,6 +12,9 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data confirm the choice of the token made by the client
+ */
 @JsonTypeName("POSITIVE_TOKEN_COLOR")
 public class PositiveTokenColorData extends Data {
     //ATTRIBUTES
@@ -22,6 +25,11 @@ public class PositiveTokenColorData extends Data {
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for the PositiveTokenColorData
+     * @param nickname is the name of the active client
+     * @param color is the color chosen by the client
+     */
     @JsonCreator
     public PositiveTokenColorData(@JsonProperty("nickname") String nickname,
                                   @JsonProperty("color") String color) {
@@ -40,10 +48,18 @@ public class PositiveTokenColorData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new PositiveTokenColorMessage(this.getNickname(), this.color);
     }

@@ -13,13 +13,24 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 import java.rmi.RemoteException;
 import java.util.List;
 
+/**
+ * This data is used to tell the client which are the possible token colors
+ */
 @JsonTypeName("TOKEN_INFO")
 public class TokenInfoData extends Data {
     //ATTRIBUTES
+    /**
+     * These are the colors of the tokens
+     */
     private List<String> colors;
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for TokenInfoData
+     * @param nickname is the name of the active client
+     * @param colors are the colors of the tokens
+     */
     @JsonCreator
     public TokenInfoData(@JsonProperty("nickname") String nickname,
                          @JsonProperty("colors") List<String> colors) {
@@ -38,10 +49,18 @@ public class TokenInfoData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new TokenInfoMessage(this.getNickname(), this.colors);
     }

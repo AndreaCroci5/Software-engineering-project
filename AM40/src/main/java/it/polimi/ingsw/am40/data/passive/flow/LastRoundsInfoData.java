@@ -12,12 +12,19 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent when the game enter the last rounds
+ */
 @JsonTypeName("LAST_ROUNDS")
 public class LastRoundsInfoData extends Data {
     //ATTRIBUTES
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for LastRoundsInfoData
+     * @param nickname is the name of the active client
+     */
     @JsonCreator
     public LastRoundsInfoData(@JsonProperty("nickname") String nickname) {
         super("LAST_ROUNDS", nickname);
@@ -26,10 +33,18 @@ public class LastRoundsInfoData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new LastRoundInfoMessage(this.getNickname());
     }

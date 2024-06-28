@@ -13,9 +13,15 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This data is sent to start the game
+ */
 @JsonTypeName("GAME_INIT_RESULT")
 public class GameInitResultData extends Data {
     //ATTRIBUTES
+    /**
+     * This represents the order of the players
+     */
     private ArrayList<String> nicknames;
 
     /**
@@ -24,6 +30,7 @@ public class GameInitResultData extends Data {
      * indexes: (0) plate first card, (1) plate second card, (2) deck card
      */
     private Map<String, ArrayList<Integer>> commonBoard;
+
 
     public ArrayList<String> getNicknames() {
         return nicknames;
@@ -41,6 +48,12 @@ public class GameInitResultData extends Data {
         this.commonBoard = commonBoard;
     }
 
+    /**
+     * Constructor for GameInitResultData
+     * @param nickname is the name of the active client
+     * @param nicknames represents the order of the player
+     * @param commonBoard is the commonBoard of the game
+     */
     @JsonCreator
     public GameInitResultData(@JsonProperty("nickname") String nickname,
                               @JsonProperty("nicknames") ArrayList<String> nicknames,
@@ -50,6 +63,10 @@ public class GameInitResultData extends Data {
         this.commonBoard = commonBoard;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new StartingGameMessage(this.getNickname(),this.nicknames,this.commonBoard);
     }

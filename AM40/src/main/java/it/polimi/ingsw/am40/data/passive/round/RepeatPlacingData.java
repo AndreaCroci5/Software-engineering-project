@@ -12,12 +12,19 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This message is sent to the client to tell him that something went wrong with the placing
+ */
 @JsonTypeName("REPEAT_PLACING")
 public class RepeatPlacingData extends Data {
     //ATTRIBUTES
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for the RepeatPlacingData
+     * @param nickname is the name of the active client
+     */
     @JsonCreator
     public RepeatPlacingData(@JsonProperty("nickname") String nickname){
         super("REPEAT_PLACING", nickname);
@@ -27,10 +34,18 @@ public class RepeatPlacingData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new RepeatPlacingMessage(this.getNickname());
     }

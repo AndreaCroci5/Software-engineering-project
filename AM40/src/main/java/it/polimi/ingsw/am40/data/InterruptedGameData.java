@@ -11,14 +11,22 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent to the client to interrupt the game
+ */
 @JsonTypeName("INTERRUPTED_GAME")
 public class InterruptedGameData extends Data{
 
 
         //CONSTRUCTOR
 
-        //Json constructor
-        @JsonCreator
+         //Json constructor
+
+    /**
+     * Constructor for the InterruptedGameData
+     * @param nickname is the name of the active client
+     */
+    @JsonCreator
         public InterruptedGameData(@JsonProperty("nickname") String nickname) {
             super("INTERRUPTED_GAME", nickname);
         }
@@ -26,11 +34,19 @@ public class InterruptedGameData extends Data{
 
         //PUBLIC METHODS
 
-        public Action onServer(){
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
+    public Action onServer(){
             return null;
         }
 
-        public Message onClient() {
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
+    public Message onClient() {
             return new InterruptedGameMessage(getNickname());
         }
 

@@ -16,6 +16,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This data is used to updates the clients after a placing
+ */
 @JsonTypeName("POSITIVE_PLACING")
 public class PositivePlacingData extends Data {
     //ATTRIBUTES
@@ -30,12 +33,30 @@ public class PositivePlacingData extends Data {
 
     /** ID of the last Card placed*/
     private int cardID;
+
+    /**
+     * These are the coordinates where the card was placed
+     */
     private Coordinates coordsCardPlaced;
+
+    /**
+     * This is the face on which the card was placed
+     */
     private String cardFace;
 
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for PositivePlacingData
+     * @param nickname is the name of the active client
+     * @param cardID is the ID of the last Card placed
+     * @param coordsCardPlaced are the coordinates where the card was placed
+     * @param cardFace is the face on which the card was placed
+     * @param score is the amount of points that a Player has
+     * @param elementsCounter is the reference to the Map that keeps the amount of every CardElement in the PrivateBoard
+     * @param placingCoordinates is the reference to the ArrayList containing all the future placing legal Coordinates
+     */
     @JsonCreator
     public PositivePlacingData(@JsonProperty("nickname") String nickname,
                                @JsonProperty("cardID") int cardID,
@@ -105,10 +126,18 @@ public class PositivePlacingData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new PositivePlacingMessage(this.getNickname(),this.score,this.elementsCounter,this.placingCoordinates,this.cardID,this.coordsCardPlaced,this.cardFace);
     }

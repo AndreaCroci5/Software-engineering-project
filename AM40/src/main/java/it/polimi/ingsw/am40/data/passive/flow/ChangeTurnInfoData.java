@@ -12,6 +12,9 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent to let the clients knows who is the next player
+ */
 @JsonTypeName("CHANGE_TURN_INFO")
 public class ChangeTurnInfoData extends Data {
     //ATTRIBUTES
@@ -20,7 +23,11 @@ public class ChangeTurnInfoData extends Data {
 
     //CONSTRUCTOR
 
-    //Json constructor
+    /**
+     * Constructor for the ChangeTurnInfoData
+     * @param nickname is the name of the active client
+     * @param nextActivePlayer is the name of the next active client
+     */
     @JsonCreator
     public ChangeTurnInfoData(@JsonProperty("nickname") String nickname,
                               @JsonProperty("nextActivePlayer") String nextActivePlayer) {
@@ -39,10 +46,18 @@ public class ChangeTurnInfoData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new ChangeTurnResponseMessage(this.nextActivePlayer);
     }

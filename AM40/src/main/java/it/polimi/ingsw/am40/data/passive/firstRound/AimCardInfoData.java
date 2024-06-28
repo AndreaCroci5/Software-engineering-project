@@ -13,14 +13,31 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 
+/**
+ * This data is used to send from server to client the information of the aim card
+ * that the client has to choose
+ */
 @JsonTypeName("AIM_CARD_INFO")
 public class AimCardInfoData extends Data {
     //ATTRIBUTES
+    /**
+     * ID of the first aim card
+     */
     private int aimID1;
+
+    /**
+     * ID of the second aim card
+     */
     private int aimID2;
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for the aimCardInfoData
+     * @param nickname is the name of the active client
+     * @param aimID1 is the ID of the first aim card
+     * @param aimID2 is the ID of the second aim card
+     */
     @JsonCreator
     public AimCardInfoData(@JsonProperty("nickname") String nickname,
                            @JsonProperty("aimID1") int aimID1,
@@ -49,10 +66,18 @@ public class AimCardInfoData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new AimCardInfoMessage(getNickname(), Arrays.asList(aimID1, aimID2));
     }

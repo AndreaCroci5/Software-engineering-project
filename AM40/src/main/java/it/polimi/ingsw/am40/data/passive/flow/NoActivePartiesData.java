@@ -11,15 +11,26 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent when a client tries to join a game without any game created
+ */
 @JsonTypeName("NO_ACTIVE_PARTIES")
 public class NoActivePartiesData extends Data {
 
 
+    /**
+     * Constructor for the NoActivePartiesData
+     * @param nickname is the name of the active client
+     */
     @JsonCreator
     public NoActivePartiesData(@JsonProperty("nickname") String nickname) {
         super("NO_ACTIVE_PARTIES", nickname);
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new NoActivePartiesMessage(this.getNickname());
     }

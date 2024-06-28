@@ -10,15 +10,17 @@ import it.polimi.ingsw.am40.client.view.TUI.TUIManager;
  */
 public class ViewFactory {
 
+    /**
+     * Constructor for the ViewFactory
+     */
     public ViewFactory() {
     }
 
     /**
      * Method to create the concrete network manager class according to user preferences
-     *
      * @param graphicInterface A string which define which protocol is used
-     * @param client
-     * @return the reference to the new concrete network manager class (null if something
+     * @param client is the client on which creating the view
+     * @return the reference to the new concrete network manager class (null if something goes wrong)
      */
     public ViewManager createConcreteView(String graphicInterface, Client client) throws ViewFactoryException {
             if(graphicInterface != null){

@@ -11,14 +11,25 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent to tell the client to wait for other players
+ */
 @JsonTypeName("NOT_ENOUGH_PLAYERS")
 public class NotEnoughPlayersData extends Data {
 
+    /**
+     * Constructor for the NotEnoughPlayersData
+     * @param nickname is the name of the active client
+     */
     @JsonCreator
     public NotEnoughPlayersData(@JsonProperty ("nickname") String nickname) {
         super("NOT_ENOUGH_PLAYERS",nickname);
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new NotEnoughPlayerMessage(this.getNickname());
     }

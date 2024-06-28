@@ -13,13 +13,24 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * This data is sent to the client to tell the order of the players in the round
+ */
 @JsonTypeName("PLAYERS_ORDER_INFO")
 public class PlayersOrderInfoData extends Data {
     //ATTRIBUTES
+    /**
+     * Is the order of the players
+     */
     private ArrayList<String> players;
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for the PlayerOrderInfoData
+     * @param nickname is the name of the active client
+     * @param players is the order of players
+     */
     @JsonCreator
     public PlayersOrderInfoData(@JsonProperty("nickname") String nickname,
                                 @JsonProperty("players") ArrayList<String> players) {
@@ -37,10 +48,18 @@ public class PlayersOrderInfoData extends Data {
 
     //PUBLIC METHODS
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new DecidePlayerOrderResponse(this.getNickname(), this.players);
     }

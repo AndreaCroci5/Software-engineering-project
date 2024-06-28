@@ -12,6 +12,9 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * This data is sent to the client to confirm his aim card decision
+ */
 @JsonTypeName("AIM_CARD_SELECTED")
 public class AimCardResultData extends Data {
     //ATTRIBUTES
@@ -20,6 +23,12 @@ public class AimCardResultData extends Data {
 
     //CONSTRUCTOR
 
+
+    /**
+     * Constructor for the aimCardResultData
+     * @param nickname is the name of the active client
+     * @param aimCardChosenID is the ID of the card chosen by the client
+     */
     @JsonCreator
     public AimCardResultData(@JsonProperty("nickname") String nickname,
                              @JsonProperty("aimCardChosenID") int aimCardChosenID) {
@@ -38,10 +47,18 @@ public class AimCardResultData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new AimCardResultMessage(this.getNickname(), this.aimCardChosenID);
     }

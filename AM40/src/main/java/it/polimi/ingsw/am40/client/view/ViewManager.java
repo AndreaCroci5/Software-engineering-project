@@ -20,17 +20,24 @@ public interface ViewManager extends ConcreteContext {
      */
     void initView();
 
+    /**
+     * Setter for the client
+     * @param client sets the client
+     */
     void setClient(Client client);
 
+    /**
+     * Getter for the client
+     * @return a reference to the client
+     */
     Client getClient();
 
-    // initialisation
     void displayInitialisation();
     void displaySetUp();
     void displayCreate();
     void displayAllGameIds(Map<Integer, ArrayList<Integer>> gamesIDs);
 
-    // First round
+
     void displayStartingCardInfo(int startingCardID);
     void askStartingFace();
     void showPassiveStartingCard(String nickname, int startingCardID, String cardFace);
@@ -39,19 +46,16 @@ public interface ViewManager extends ConcreteContext {
     void showPositiveTokenColor(String clientNickname, String token);
 
     void displayAimCardsToChoose(List<Integer> aimCardsID);
-    // The active resul is simply his card in his hand so the method is below in the possible inputs
     void showPassiveAimCardResult(String nickname);
 
     void displayPlayerOrder(List<String> playerOrder);
 
 
-    // Round
     void displayPlacingCardChoice(List<SmallCard> myHand, List<SmallCard> myGrid);
     void displayLastRoundMessage(String clientNickname);
     void displayEndGame(List<String> winners);
 
 
-    // Possible inputs
     void showPossibleInputs();
     void displayCommonBoard(List<SmallCard> commonBoard);
     void displayScoreBoard(Map<String, Integer> scoreBoard);
@@ -63,7 +67,6 @@ public interface ViewManager extends ConcreteContext {
     void displayChat();
     void displaySymbolLegend();
 
-    // OTHER
 
     void showNotYouTurn();
     void displayWaitingForPlayers(int numOfActualPlayers, int NumOfFinalPlayers);

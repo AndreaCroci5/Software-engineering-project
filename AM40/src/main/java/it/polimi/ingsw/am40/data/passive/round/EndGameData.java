@@ -13,6 +13,9 @@ import it.polimi.ingsw.am40.server.network.RMI.RemoteInterfaceServer;
 import java.rmi.RemoteException;
 import java.util.List;
 
+/**
+ * This data is sent at the end of the game
+ */
 @JsonTypeName("ENDGAME")
 public class EndGameData extends Data {
     //ATTRIBUTES
@@ -21,6 +24,11 @@ public class EndGameData extends Data {
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor for EndGameData
+     * @param nickname is the name of the active client
+     * @param winners are the name of the winners
+     */
     @JsonCreator
     public EndGameData(@JsonProperty("nickname") String nickname,
                        @JsonProperty("winners") List<String> winners) {
@@ -39,10 +47,18 @@ public class EndGameData extends Data {
     //PUBLIC METHODS
 
 
+    /**
+     * This method is called once the Data reaches the Server and creates the Action related to the Data sent by polymorphism
+     * @return the corresponding Action on the Server
+     */
     public Action onServer(){
         return null;
     }
 
+    /**
+     * This method is called once the Data reaches the Client and creates the Message related to the Data sent by polymorphism
+     * @return the corresponding Message on the Client
+     */
     public Message onClient() {
         return new EndGameMessage(this.getNickname(), this.winners);
     }
