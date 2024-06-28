@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-//TODO add a lock for startingcard and startingGame if needed
 
 /**
  * The GUIManager is the class which make possible to display the information
@@ -32,6 +31,10 @@ public class GUIManager implements ViewManager {
 
     //CONSTRUCTOR
 
+    /**
+     * Constructor of the GUIManager
+     * @param client is the reference to the client
+     */
     public GUIManager(Client client) {
         this.client = client;
     }
@@ -131,6 +134,11 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is called after a Client receives a PositiveTokenColor response
+     * @param clientNickname the nickname of the client
+     * @param token the color of the token chosen by the client
+     */
     @Override
     public void showPositiveTokenColor(String clientNickname, String token) {
         final String nickname = clientNickname;
@@ -139,7 +147,11 @@ public class GUIManager implements ViewManager {
         Platform.runLater( () -> HelloApplication.controller.acceptedToken(nickname, color));
     }
 
-    //FIXME amiCards typo in aimCards in parameters signature
+    /**
+     * This method is called after a Client sends an AimCardRequest and receives a Server response with the information on the
+     * two AimCards
+     * @param aimCardsID the IDs of the aim cards to be displayed
+     */
     @Override
     public void displayAimCardsToChoose(List<Integer> aimCardsID) {
         final List<Integer> aimIDs = aimCardsID;
@@ -152,12 +164,21 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is called after a Client sends an AimCardRequest and receives the Server response
+     * @param playerOrder the list of player names in the order of their turn
+     */
     @Override
     public void displayPlayerOrder(List<String> playerOrder) {
         final List<String> namesInOrder = playerOrder;
         Platform.runLater( () -> HelloApplication.controller.playersOrder(namesInOrder));
     }
 
+    /**
+     * This method is called when a Player has the right in his turn to place a card
+     * @param myHand  the list of small cards in the user's hand
+     * @param myGrid  the list of small cards in the user's grid
+     */
     @Override
     public void displayPlacingCardChoice(List<SmallCard> myHand, List<SmallCard> myGrid) {
         final ArrayList<Integer> handDeck = new ArrayList<>();
@@ -169,11 +190,19 @@ public class GUIManager implements ViewManager {
         Platform.runLater( () -> HelloApplication.controller.placing(handDeck, cardGrid));
     }
 
+    /**
+     * This method is called when a Player triggers the last rounds condition
+     * @param clientNickname the nickname of the active player
+     */
     @Override
     public void displayLastRoundMessage(String clientNickname) {
         Platform.runLater( () -> HelloApplication.controller.lastRounds(clientNickname));
     }
 
+    /**
+     * This method is called when the Server reaches the end of last rounds condition and calculates the winner
+     * @param winners the list of names of the winners
+     */
     @Override
     public void displayEndGame(List<String> winners) {
         Platform.runLater( () -> {
@@ -199,7 +228,7 @@ public class GUIManager implements ViewManager {
         final List<Integer> resource = new ArrayList<>();
         final List<Integer> golden = new ArrayList<>();
         final List<Integer> aim = new ArrayList<>();
-        //FIXME Check index problems in case
+
         int slider;
         for (int i = 0; i<3; i++) {
             resource.add(commonBoard.get(i).getCardID());
@@ -292,11 +321,17 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is called when a Server notifies a Client that there are no parties available after a join request
+     */
     @Override
     public void showNoActiveParties() {
         Platform.runLater( () -> HelloApplication.controller.noActiveParties());
     }
 
+    /**
+     * This method is called when a Server notifies a Client that the GameID chosen through GameIDChoice isn't available
+     */
     @Override
     public void showFailedGameID() {
         Platform.runLater( () -> HelloApplication.controller.failedGameID());
@@ -314,7 +349,8 @@ public class GUIManager implements ViewManager {
         final List<Integer> resource = new ArrayList<>();
         final List<Integer> golden = new ArrayList<>();
         final List<Integer> aim = new ArrayList<>();
-        //FIXME Check index problems in case
+
+
         int slider;
         for (int i = 0; i<3; i++) {
             resource.add(commonBoard.get(i).getCardID());
@@ -346,21 +382,32 @@ public class GUIManager implements ViewManager {
         });
     }
 
+    /**
+     * This method is called when another player is choosing his AimCard
+     * @param clientNickname the nickname of the active client
+     */
     @Override
     public void showPassiveAimState(String clientNickname) {
         Platform.runLater( () -> HelloApplication.controller.showPassiveAimCard(clientNickname));
 
     }
 
+    /**
+     * This method is called when another player is choosing his StartingCard
+     * @param clientNickname the nickname of the active client
+     */
     @Override
     public void showPassiveStartingCardState(String clientNickname) {
         Platform.runLater( () -> HelloApplication.controller.showPassiveStartingCard(clientNickname));
 
     }
 
+    /**
+     * This method is called when another player is choosing his Token
+     * @param clientNickname the nickname of the active client
+     */
     @Override
     public void showPassiveTokenState(String clientNickname) {
-        //TODO add in the signature the token color
         Platform.runLater( () -> HelloApplication.controller.showPassiveToken(clientNickname));
     }
 
@@ -369,6 +416,10 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is called after the server responds to the Client DealCards request
+     * @param myHand the list of small cards in the player's hand
+     */
     @Override
     public void displayDealCardState(List<SmallCard> myHand) {
         final ArrayList<Integer> handDeck = new ArrayList<>();
@@ -397,6 +448,10 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is called when another player is Placing his card in his turn
+     * @param clientNickname the nickname of the active client
+     */
     @Override
     public void displayPassivePlacingState(String clientNickname) {
         Platform.runLater( () -> HelloApplication.controller.passivePlacingState(clientNickname));
@@ -417,12 +472,19 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is called when a placing has received a PositivePlacing feedback from the Server
+     */
     @Override
     public void displayPositivePlacing() {
         Platform.runLater( () -> HelloApplication.controller.positivePlacing());
 
     }
 
+    /**
+     * This method is called when another player has placed a Card
+     * @param clientNickname the nickname of the active client
+     */
     @Override
     public void displayPassivePlacingResult(String clientNickname) {
         Platform.runLater( () -> HelloApplication.controller.passivePlacingResult(clientNickname));
@@ -433,13 +495,16 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is called when a draw has received a PositiveDraw feedback from the Server
+     */
     @Override
     public void displayPositiveDraw() {
         List<SmallCard> commonBoard = this.client.getSmallModel().getCommonBoard();
         final List<Integer> resource = new ArrayList<>();
         final List<Integer> golden = new ArrayList<>();
         final List<Integer> aim = new ArrayList<>();
-        //FIXME Check index problems in case
+
         int slider;
         for (int i = 0; i<3; i++) {
             resource.add(commonBoard.get(i).getCardID());
@@ -466,23 +531,34 @@ public class GUIManager implements ViewManager {
 
     }
 
+    /**
+     * This method is called when a draw has received a NegativeDraw feedback from the Server
+     */
     @Override
     public void displayNegativeDraw() {
         Platform.runLater( () -> HelloApplication.controller.negativeDraw());
     }
 
+    /**
+     * This method is called when a draw has received a NegativePlacing feedback from the Server
+     */
     @Override
     public void displayNegativePlacing() {
         Platform.runLater( () -> HelloApplication.controller.negativePlacing());
     }
 
+    /**
+     * This method is called when another player has drawn a Card
+     * @param clientNickname the nickname of the active client
+     */
     @Override
     public void displayPassiveDrawResult(String clientNickname) {
         List<SmallCard> commonBoard = this.client.getSmallModel().getCommonBoard();
         final List<Integer> resource = new ArrayList<>();
         final List<Integer> golden = new ArrayList<>();
         final List<Integer> aim = new ArrayList<>();
-        //FIXME Check index problems in case
+
+
         int slider;
         for (int i = 0; i<3; i++) {
             resource.add(commonBoard.get(i).getCardID());
@@ -504,6 +580,9 @@ public class GUIManager implements ViewManager {
         Platform.runLater( () -> HelloApplication.controller.passiveDraw(resource, golden, aim));
     }
 
+    /**
+     * This method is called when the Server notifies the Client that the Game has been interrupted
+     */
     @Override
     public void displayInterruptedGame() {
         Platform.runLater( () -> {
